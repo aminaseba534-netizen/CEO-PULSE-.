@@ -1,1 +1,711 @@
-<!DOCTYPE html> <html lang="ar" dir="rtl" id="app-root"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> <title>CEO-PULSE V5.0 Sovereign Suite</title> <meta name="theme-color" content="#050d25"> <meta name="mobile-web-app-capable" content="yes"> <meta name="apple-mobile-web-app-capable" content="yes"> <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22CEO-Pulse%22%2C%22short_name%22%3A%22CEO-Pulse%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23050d25%22%2C%22theme_color%22%3A%22%2300e5ff%22%7D"> <style> * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; } body { background: #050d25; color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding-bottom: 85px; } .hdr { background: #0a122a; border-bottom: 1px solid #1e293b; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; } .logo { font-size: 14px; font-weight: 900; color: #00e5ff; background: rgba(0,229,255,0.1); border: 1px solid #00e5ff; padding: 4px 8px; border-radius: 8px; cursor: pointer; } .sel { background: #050d25; color: #00e5ff; border: 1px solid #334155; padding: 5px 6px; border-radius: 8px; font-size: 11px; font-weight: 700; outline: none; } .btn-top { background: rgba(0,229,255,0.15); color: #00e5ff; border: 1px solid #00e5ff; padding: 5px 8px; border-radius: 8px; font-size: 11px; font-weight: 800; cursor: pointer; } .btn-inst { background: linear-gradient(90deg, #00e5ff, #38bdf8); color: #000; border: none; padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 900; cursor: pointer; } .ticker { background: #071330; border-bottom: 1px solid #1e293b; padding: 6px 12px; font-size: 11px; display: flex; gap: 8px; align-items: center; } .cnt { padding: 12px; max-width: 1100px; margin: 0 auto; } .card { background: #0a122a; border: 1px solid #1e293b; border-radius: 14px; padding: 14px; margin-bottom: 12px; } .hero { background: linear-gradient(135deg, #0e1e47, #0a1433); border: 1px solid rgba(0,229,255,0.4); border-radius: 16px; padding: 16px; margin-bottom: 14px; } .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 14px; } @media(min-width: 768px) { .grid-2 { grid-template-columns: repeat(4, 1fr); } } .st-val { font-size: 18px; font-weight: 900; color: #fff; margin: 6px 0; font-family: monospace; } .view-pane { display: none; } .view-pane.active { display: block; } .action-btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; } .btn-action { background: #00e5ff; color: #000; border: none; padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 800; cursor: pointer; } .btn-action.gold { background: #f59e0b; } .btn-action.purple { background: #9333ea; color: #fff; } .btn-action.red { background: #ef4444; color: #fff; } .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #070e24; border-top: 1px solid #1e293b; display: flex; justify-content: space-around; padding: 8px 2px; z-index: 50; } .nav-item { background: none; border: none; color: #64748b; font-size: 10px; font-weight: 700; display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; flex: 1; } .nav-item.active { color: #00e5ff; font-weight: 900; } .nav-item span.icon { font-size: 16px; } .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; display: none; align-items: center; justify-content: center; padding: 16px; } .modal-body { background: #0a122a; border: 1px solid #00e5ff; border-radius: 16px; padding: 18px; max-width: 340px; width: 100%; } .input-box { width: 100%; background: #050d25; border: 1px solid #334155; color: #fff; padding: 8px 10px; border-radius: 8px; font-size: 12px; margin-bottom: 8px; outline: none; } .item-row { background: #050d25; border: 1px solid #1e293b; border-radius: 10px; padding: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; } </style> </head> <body> <!-- نافذة إضافة موظف جديد --> <div id="modal-add-staff" class="modal"> <div class="modal-body"> <h3 style="font-size:15px; margin-bottom:10px; color:#00e5ff;">➕ إضافة موظف ومهامه اليومية</h3> <input type="text" id="inp-staff-name" class="input-box" placeholder="اسم الموظف الكامل (مثال: م. أحمد بن علي)"> <input type="text" id="inp-staff-role" class="input-box" placeholder="المسمى الوظيفي (مثال: مهندس تطوير سحابي)"> <input type="text" id="inp-staff-dept" class="input-box" placeholder="القسم (مثال: هندسة النظم)"> <textarea id="inp-staff-duty" class="input-box" style="height:60px; resize:none;" placeholder="المهام اليومية بدقة (كل مهمة في سطر)"></textarea> <div style="display:flex; gap:6px;"> <button type="button" class="btn-action" style="flex:1;" onclick="appSubmitStaff()">حفظ الموظف</button> <button type="button" class="btn-action red" style="flex:1;" onclick="appCloseModal('modal-add-staff')">إلغاء</button> </div> </div> </div> <!-- نافذة إضافة قسم جديد --> <div id="modal-add-dept" class="modal"> <div class="modal-body"> <h3 style="font-size:15px; margin-bottom:10px; color:#f59e0b;">➕ تأسيس قسم جديد</h3> <input type="text" id="inp-dept-name" class="input-box" placeholder="اسم القسم (مثال: إدارة التسويق والعقود)"> <input type="text" id="inp-dept-head" class="input-box" placeholder="رئيس القسم (مثال: د. يوسف مراد)"> <input type="number" id="inp-dept-budget" class="input-box" placeholder="الميزانية المخصصة بالدينار (مثال: 5000000)"> <div style="display:flex; gap:6px;"> <button type="button" class="btn-action gold" style="flex:1; color:#000;" onclick="appSubmitDept()">إنشاء القسم</button> <button type="button" class="btn-action red" style="flex:1;" onclick="appCloseModal('modal-add-dept')">إلغاء</button> </div> </div> </div> <!-- نافذة تسجيل نقص --> <div id="modal-add-shortage" class="modal"> <div class="modal-body"> <h3 style="font-size:15px; margin-bottom:10px; color:#ef4444;">➕ تسجيل نقص عتاد أو أجهزة</h3> <input type="text" id="inp-short-item" class="input-box" placeholder="اسم الجهاز أو المورد الناقص (مثال: 5 حواسيب محطة)"> <input type="number" id="inp-short-cost" class="input-box" placeholder="التكلفة التقديرية بالدينار (مثال: 750000)"> <select id="inp-short-level" class="input-box"> <option value="CRITICAL">أولوية قصوى (حرج جداً)</option> <option value="MEDIUM">أولوية متوسطة</option> </select> <div style="display:flex; gap:6px;"> <button type="button" class="btn-action red" style="flex:1;" onclick="appSubmitShortage()">اعتماد النقص</button> <button type="button" class="btn-action" style="flex:1; background:#334155; color:#fff;" onclick="appCloseModal('modal-add-shortage')">إلغاء</button> </div> </div> </div> <!-- نافذة رمز الدخول (9900) --> <div id="modal-pin" class="modal"> <div class="modal-body" style="max-width:300px; text-align:center;"> <h3 style="font-size:15px; margin-bottom:6px;">🔒 التحقق برمز الدخول (9900)</h3> <div id="pin-display" style="font-size:22px; letter-spacing:6px; color:#00e5ff; font-weight:900; background:#050d25; padding:8px; border-radius:8px; border:1px solid #334155; margin-bottom:12px;">••••</div> <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:12px;"> <button class="btn-top" style="padding:10px; font-size:16px;" onclick="pKey('1')">1</button> <button class="btn-top" style="padding:10px; font-size:16px;" onclick="pKey('2')">2</button> <button class="btn-top" style="padding:10px; font-size:16px;" onclick="pKey('3')">3</button> <button class="btn-top" style="padding:10px; font-size:16px;" onclick="pKey('4')">4</button> <button class="btn-top" style="padding:10px; font-size:16px;" onclick="pKey('5')">5</button> <button class="btn-top" style="padding:10px; font-size:16px;" onclick="pKey('6')">6</button> <button class="btn-top" style="padding:10px; font-size:16px;" onclick="pKey('7')">7</button> <button class="btn-top" style="padding:10px; font-size:16px;" onclick="pKey('8')">8</button> <button class="btn-top" style="padding:10px; font-size:16px;" onclick="pKey('9')">9</button> <button class="btn-top" style="padding:10px; font-size:16px; background:#450a0a; color:#fca5a5;" onclick="pClear()">C</button> <button class="btn-top" style="padding:10px; font-size:16px;" onclick="pKey('0')">0</button> <button class="btn-top" style="padding:10px; font-size:16px; background:#042f2e; color:#5eead4;" onclick="appCloseModal('modal-pin')">↵</button> </div> <button class="btn-inst" style="width:100%; padding:10px;" onclick="appCloseModal('modal-pin')">⚡ دخول فوري مباشر</button> </div> </div> <!-- نافذة قفل المطور للشركات المنفصلة --> <div id="modal-god" class="modal"> <div class="modal-body" style="max-width:380px;"> <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid #1e293b; padding-bottom:6px;"> <h4 style="font-size:13px; color:#fff;">⚙️ بوابة المطور: اشتراكات الشركات المنفصلة</h4> <button onclick="appCloseModal('modal-god')" style="background:none; border:none; color:#94a3b8; font-size:16px; cursor:pointer;">✕</button> </div> <div id="god-companies-list" style="display:flex; flex-direction:column; gap:6px; margin-bottom:12px;"></div> <button class="btn-top" style="width:100%;" onclick="appCloseModal('modal-god')">إغلاق</button> </div> </div> <!-- شاشة التجميد عند تعليق الشركة --> <div id="freeze-barrier" class="modal" style="background:#020617;"> <div class="modal-body" style="border-color:#ef4444; text-align:center;"> <h3 style="color:#ef4444; font-size:17px; margin-bottom:6px;" id="frz-title">تم تعليق المنظومة</h3> <p style="font-size:11px; color:#cbd5e1; margin-bottom:14px;">تم تجميد الوصول لعدم سداد المستحقات.</p> <button class="btn-action red" style="width:100%; padding:10px;" onclick="appUnlockSystem()">فك التجميد بالرمز (9900)</button> </div> </div> <!-- الشريط العلوي --> <header class="hdr"> <div class="logo" onclick="devTap()" title="اضغط 5 مرات لبوابة المطور">⚡ CEO-PULSE</div> <div style="display:flex; align-items:center; gap:5px;"> <!-- اختيار العملات (12 عملة) --> <select id="sel-curr" class="sel" onchange="appSetCurrency(this.value)"> <option value="DZD">دج DZD</option> <option value="USD">$ USD</option> <option value="EUR">€ EUR</option> <option value="SAR">ر.س SAR</option> <option value="AED">د.إ AED</option> <option value="QAR">ر.ق QAR</option> <option value="KWD">د.ك KWD</option> <option value="GBP">£ GBP</option> <option value="CHF">CHF</option> <option value="TRY">₺ TRY</option> <option value="CNY">¥ CNY</option> <option value="CAD">$ CAD</option> </select> <!-- اختيار اللغات (7 لغات) --> <select id="sel-lang" class="sel" onchange="appSetLanguage(this.value)"> <option value="ar">العربية (AR)</option> <option value="en">English (EN)</option> <option value="fr">Français (FR)</option> <option value="es">Español (ES)</option> <option value="tr">Türkçe (TR)</option> <option value="de">Deutsch (DE)</option> <option value="it">Italiano (IT)</option> </select> <button class="btn-top" onclick="appOpenModal('modal-pin')">🔒 9900</button> <button class="btn-top" style="color:#ef4444; border-color:#ef4444;" onclick="appOpenGod()">⚙️</button> <button class="btn-inst" onclick="appDoInstall()">📲 تثبيت</button> </div> </header> <!-- شريط الرادار الاقتصادي --> <div class="ticker"> <strong style="color:#f59e0b;" id="t-radar-tag">📈 رادار الأسواق:</strong> <span style="color:#cbd5e1; white-space:nowrap; overflow:hidden;" id="t-radar-txt"> 💵 استقرار مؤشر السيولة | 🛢️ خام برنت: 82.40$ (+1.2%) | 🪙 الذهب: 2,740$ | 📊 معدل الإنتاجية: 98.4% </span> </div> <!-- مساحة المحتوى الرئيسية --> <main class="cnt"> <!-- 1. غرفة العمليات --> <section id="view-cockpit" class="view-pane active"> <div class="hero"> <h1 style="font-size:17px; font-weight:900;" id="t-cockpit-h1">غرفة العمليات المركزية ومؤشرات النبض</h1> <p style="font-size:12px; color:#94a3b8; margin-top:4px;" id="t-cockpit-sub">متابعة فورية للسيولة النقدية، صفقات التوسع، والنبض اللحظي لـ 142 محطة نشطة</p> <div class="action-btn-row"> <button class="btn-action gold" onclick="appGoto('staff')" id="t-btn-to-staff">👥 إدارة الموظفين والنواقص</button> <button class="btn-action purple" onclick="appGoto('aicv')" id="t-btn-to-cv">🤖 فرز السير (AI)</button> <button class="btn-action" onclick="appVibratePulse()">📳 فحص الاهتزاز والإشعار</button> </div> </div> <!-- بطاقات الإحصائيات --> <div class="grid-2"> <div class="card"> <span style="font-size:11px; color:#94a3b8;" id="t-c1-label">السيولة المتاحة</span> <div class="st-val"><span id="v-liq">48,240,000</span> <span class="curr-sym">دج</span></div> <span style="font-size:10px; color:#10b981;">متزامن مع SAP S/4HANA</span> </div> <div class="card"> <span style="font-size:11px; color:#94a3b8;" id="t-c2-label">نبض المحطات</span> <div class="st-val">142 / 145 <span style="font-size:11px; color:#94a3b8;">محطة</span></div> <span style="font-size:10px; color:#00e5ff;">امتثال GDPR 100%</span> </div> <div class="card"> <span style="font-size:11px; color:#94a3b8;" id="t-c3-label">مصفوفة الصفقات</span> <div class="st-val" style="color:#f59e0b;"><span id="v-deals">46,400,000</span> <span class="curr-sym">دج</span></div> <span style="font-size:10px; color:#94a3b8;">عقدان بانتظار التحصيل</span> </div> <div class="card"> <span style="font-size:11px; color:#94a3b8;" id="t-c4-label">أمان DLP</span> <div class="st-val" style="color:#10b981;">0 <span style="font-size:11px; color:#94a3b8;">تهديدات</span></div> <span style="font-size:10px; color:#10b981;">حظر USB مشفر ومفعل</span> </div> </div> <!-- سندات الصرف والاعتماد --> <div class="card"> <h3 style="font-size:13px; margin-bottom:8px;" id="t-orders-h">سندات بانتظار توقيعك واعتمادك الفوري</h3> <div class="item-row"> <div> <h4 style="font-size:12px; color:#fff;">تجديد تراخيص الخوادم السحابية</h4> <span style="color:#00e5ff; font-weight:900; font-family:monospace; font-size:12px;"> <span class="m-val" data-base="150000">150,000</span> <span class="curr-sym">دج</span> </span> </div> <button class="btn-action" onclick="appNotify('✅ تم توقيع واعتماد صرف الخوادم بنجاح')">اعتماد فوري</button> </div> <div class="item-row"> <div> <h4 style="font-size:12px; color:#fff;">شراء شاشات ووحدات تحكم المشغلين</h4> <span style="color:#f59e0b; font-weight:900; font-family:monospace; font-size:12px;"> <span class="m-val" data-base="280000">280,000</span> <span class="curr-sym">دج</span> </span> </div> <button class="btn-action gold" onclick="appNotify('✅ تم اعتماد شراء الوحدات بنجاح')">اعتماد الشراء</button> </div> </div> </section> <!-- 2. الموظفون، الأقسام، والنواقص التشغيلية (مكان الإضافة والتحكم الكامل) --> <section id="view-staff" class="view-pane"> <div class="hero" style="border-color:#f59e0b;"> <h2 style="font-size:16px; font-weight:900;" id="t-staff-h">منظومة الأقسام، الموظفون، والنواقص التشغيلية</h2> <p style="font-size:12px; color:#94a3b8; margin-top:4px;" id="t-staff-sub">لوحة التحكم الكاملة للمدير: أضف موظفاً، أسس قسماً، أو سجّل نقصاً في العتاد بنقرة واحدة</p> <div class="action-btn-row"> <button class="btn-action" onclick="appOpenModal('modal-add-staff')">➕ إضافة موظف جديد</button> <button class="btn-action gold" onclick="appOpenModal('modal-add-dept')">➕ تأسيس قسم جديد</button> <button class="btn-action red" onclick="appOpenModal('modal-add-shortage')">➕ تسجيل نقص عتاد</button> </div> </div> <!-- قائمة النواقص التشغيلية --> <div class="card" style="border-color:rgba(239,68,68,0.4);"> <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;"> <h3 style="font-size:13px; color:#ef4444;">⚠️ قائمة النواقص التشغيلية المسجلة</h3> <span style="font-size:11px; color:#94a3b8;" id="cnt-shortage">1 نقص مسجل</span> </div> <div id="box-shortages"></div> </div> <!-- قائمة الموظفين والمهام --> <div class="card"> <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;"> <h3 style="font-size:13px; color:#00e5ff;">👥 سجل الموظفين والمهام اليومية</h3> <span style="font-size:11px; color:#94a3b8;" id="cnt-staff">3 موظفين</span> </div> <div id="box-staff-list"></div> </div> <!-- قائمة الأقسام والميزانيات --> <div class="card"> <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;"> <h3 style="font-size:13px; color:#f59e0b;">🏢 الأقسام المؤسسية والميزانيات</h3> <span style="font-size:11px; color:#94a3b8;" id="cnt-depts">3 أقسام</span> </div> <div id="box-depts-list"></div> </div> </section> <!-- 3. فرز السير الذاتية بالذكاء الاصطناعي --> <section id="view-aicv" class="view-pane"> <div class="hero" style="border-color:#9333ea;"> <h2 style="font-size:16px; font-weight:900;" id="t-cv-h">محرك الذكاء الاصطناعي لفرز السير الذاتية</h2> <p style="font-size:12px; color:#94a3b8; margin-top:4px;" id="t-cv-sub">تحليل آلي لـ 46 سيرة ذاتية واردة ومطابقتها مع الشواغر الوظيفية بدقة 96%</p> </div> <div class="card"> <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;"> <strong style="font-size:13px; color:#fff;">م. سمير علوان (أمن سيبراني أول)</strong> <span style="background:rgba(16,185,129,0.2); color:#10b981; padding:2px 8px; border-radius:6px; font-size:11px;">تطابق 96%</span> </div> <p style="font-size:11px; color:#cbd5e1; margin-bottom:8px;">الخبرة: 7 سنوات في التشفير البنكي وحماية محطات العمل (DLP).</p> <button class="btn-action purple" style="width:100%;" onclick="appNotify('✅ تمت جدولة مقابلة العمل بنجاح')">جدولة المقابلة الشخصية</button> </div> </section> <!-- 4. الرادار الاقتصادي --> <section id="view-economy" class="view-pane"> <div class="hero" style="border-color:#3b82f6;"> <h2 style="font-size:16px; font-weight:900;" id="t-econ-h">مركز الرادار الاقتصادي والمالي</h2> <p style="font-size:12px; color:#94a3b8; margin-top:4px;">متابعة مؤشرات الفائدة، السيولة، وحركة سلاسل الإمداد العالمية</p> </div> <div class="card"> <span style="color:#10b981; font-size:11px; font-weight:800;">تسهيلات ائتمانية للشركات الكبرى</span> <h4 style="font-size:13px; color:#fff; margin:4px 0 6px 0;">تخفيض الفائدة 2.5% لتمويل توسع مراكز البيانات</h4> <p style="font-size:11px; color:#94a3b8; line-height:1.5;">حزمة ائتمانية تدعم توطين التقنيات والسيادة الرقمية للشركات القيادية.</p> </div> </section> <!-- 5. مصفوفة الصفقات --> <section id="view-deals" class="view-pane"> <div class="hero" style="border-color:#f59e0b;"> <h2 style="font-size:16px; font-weight:900;" id="t-deals-h">مصفوفة الصفقات والعقود الاستراتيجية</h2> <p style="font-size:12px; color:#94a3b8; margin-top:4px;">متابعة استحقاق الدفعات ونسب الإنجاز والتحصيل السيادي</p> </div> <div class="card" style="display:flex; justify-content:space-between; align-items:center;"> <div> <h4 style="font-size:13px; color:#fff;">مشروع البنية التحتية السيادية الموحدة</h4> <span style="font-size:11px; color:#94a3b8;">الدفعة 2 من 3 مستحقة التحصيل</span> </div> <div style="color:#f59e0b; font-size:16px; font-weight:900; font-family:monospace;"> <span class="m-val" data-base="34000000">34,000,000</span> <span class="curr-sym">دج</span> </div> </div> </section> <!-- 6. الخزينة وترشيد النفقات --> <section id="view-finance" class="view-pane"> <div class="hero" style="border-color:#00e5ff;"> <h2 style="font-size:16px; font-weight:900;" id="t-fin-h">درع الخزينة وترشيد النفقات</h2> <p style="font-size:12px; color:#94a3b8; margin-top:4px;">حماية الاحتياطي النقدي وتحديد سقوف الإنفاق للمدراء</p> </div> <div class="card"> <span style="font-size:11px; color:#94a3b8;">سقف الصرف اليومي المسموح</span> <div style="font-size:18px; font-weight:900; color:#00e5ff; font-family:monospace; margin:6px 0;"> <span class="m-val" data-base="500000">500,000</span> <span class="curr-sym">دج</span> / يوم </div> <p style="font-size:11px; color:#94a3b8;">المصروف اليوم حتى الآن: <span class="m-val" data-base="160000">160,000</span> <span class="curr-sym">دج</span> (32%)</p> </div> </section> </main> <!-- شريط التنقل السفلي الفعال 100% --> <nav class="nav-bar"> <button class="nav-item active" id="nav-cockpit" onclick="appGoto('cockpit')"> <span class="icon">⚡</span><span id="txt-n1">العمليات</span> </button> <button class="nav-item" id="nav-staff" onclick="appGoto('staff')"> <span class="icon">👥</span><span id="txt-n2">الموظفين</span> </button> <button class="nav-item" id="nav-aicv" onclick="appGoto('aicv')"> <span class="icon">🤖</span><span id="txt-n3">فرز السير</span> </button> <button class="nav-item" id="nav-economy" onclick="appGoto('economy')"> <span class="icon">📈</span><span id="txt-n4">الاقتصاد</span> </button> <button class="nav-item" id="nav-deals" onclick="appGoto('deals')"> <span class="icon">💼</span><span id="txt-n5">الصفقات</span> </button> <button class="nav-item" id="nav-finance" onclick="appGoto('finance')"> <span class="icon">🏛️</span><span id="txt-n6">الخزينة</span> </button> </nav> <!-- محرك الجافاسكريبت الموحد والفعال 100% --> <script> var curPin = ''; var dTapCount = 0; var pwaEvt = null; // مصفوفات البيانات الحية القابلة للإضافة والحذف var staffList = [ { id: 's1', name: 'م. ككمال بلحاج', role: 'رئيس قسم تطوير النظم', dept: 'هندسة النظم', duties: '• متابعة 38 مهندساً ومطوراً.\n• فحص جاهزية الخوادم دون توقف.\n• مراجعة بنية الأمان ومكافحة الثغرات.' }, { id: 's2', name: 'أ. فتيحة رحماني', role: 'المديرة المالية وكبير المحاسبين', dept: 'المالية والخزينة', duties: '• مطابقة كشوفات السيولة اليومية.\n• تدقيق التواقيع البيومترية لسندات الصرف.\n• إعداد تقارير الضرائب والتدفقات النقدية.' }, { id: 's3', name: 'م. سمير علوان', role: 'رئيس قسم الأمن السيبراني وDLP', dept: 'الأمن السيبراني', duties: '• مراقبة حظر منافذ USB في 142 محطة.\n• تدقيق نفق التشفير المعزول.\n• الاستجابة لأي محاولة اختراق فلاشياً.' } ]; var deptsList = [ { id: 'd1', name: 'قسم هندسة وتطوير النظم', head: 'م. كمال بلحاج', budget: 18000000 }, { id: 'd2', name: 'قسم الإدارة المالية والخزينة', head: 'أ. فتيحة رحماني', budget: 48240000 }, { id: 'd3', name: 'قسم الأمن السيبراني وDLP', head: 'م. سمير علوان', budget: 12000000 } ]; var shortagesList = [ { id: 'sh1', item: 'تحديث شاشات غرف التحكم لـ 8 محطات', cost: 640000, level: 'CRITICAL' } ]; var companies = [ { id: 'c1', name: 'شركة الأفق الرقمية', st: 'ACTIVE' }, { id: 'c2', name: 'مجمع النور اللوجستي', st: 'ACTIVE' }, { id: 'c3', name: 'مؤسسة الرواد للاستثمار', st: 'ACTIVE' } ]; // 12 عملة حقيقية var RATES = { 'DZD': { r: 1, s: 'دج' }, 'USD': { r: 0.0074, s: '$' }, 'EUR': { r: 0.0069, s: '€' }, 'SAR': { r: 0.0278, s: 'ر.س' }, 'AED': { r: 0.0272, s: 'د.إ' }, 'QAR': { r: 0.0270, s: 'ر.ق' }, 'KWD': { r: 0.0023, s: 'د.ك' }, 'GBP': { r: 0.0058, s: '£' }, 'CHF': { r: 0.0067, s: 'CHF' }, 'TRY': { r: 0.2520, s: '₺' }, 'CNY': { r: 0.0538, s: '¥' }, 'CAD': { r: 0.0102, s: '$ CAD' } }; // 7 لغات معربة ومترجمة بالكامل var DICTS = { ar: { c_h1: "غرفة العمليات المركزية ومؤشرات النبض", c_sub: "متابعة فورية للسيولة النقدية، صفقات التوسع، والنبض اللحظي لـ 142 محطة نشطة", to_staff: "👥 إدارة الموظفين والنواقص", to_cv: "🤖 فرز السير (AI)", c1: "السيولة المتاحة", c2: "نبض المحطات", c3: "مصفوفة الصفقات", c4: "أمان DLP", st_h: "منظومة الأقسام، الموظفون، والنواقص التشغيلية", st_sub: "لوحة التحكم الكاملة للمدير: أضف موظفاً، أسس قسماً، أو سجّل نقصاً في العتاد بنقرة واحدة", cv_h: "محرك الذكاء الاصطناعي لفرز السير الذاتية", cv_sub: "تحليل آلي لـ 46 سيرة ذاتية واردة ومطابقتها مع الشواغر الوظيفية بدقة 96%", ec_h: "مركز الرادار الاقتصادي والمالي", dl_h: "مصفوفة الصفقات والعقود الاستراتيجية", fn_h: "درع الخزينة وترشيد النفقات", n1: "العمليات", n2: "الموظفين", n3: "فرز السير", n4: "الاقتصاد", n5: "الصفقات", n6: "الخزينة" }, en: { c_h1: "Executive Cockpit & Live Pulse", c_sub: "Real-time liquidity, deals pipeline, and telemetry for 142 active fleet workstations", to_staff: "👥 Staff & Logistics", to_cv: "🤖 AI Screening", c1: "Available Cash", c2: "Fleet Pulse", c3: "Deals Pipeline", c4: "DLP Security", st_h: "Workforce Roster, Departments & Logistics", st_sub: "Full CEO control: Add employees, create departments, or log shortages instantly", cv_h: "AI Resume Screening Engine", cv_sub: "Automated analysis of 46 applicant CVs with 96% match accuracy", ec_h: "Economic Intelligence & Markets", dl_h: "Strategic Deals Matrix", fn_h: "Treasury Shield & Cap", n1: "Cockpit", n2: "Workforce", n3: "AI CV", n4: "Economy", n5: "Deals", n6: "Treasury" }, fr: { c_h1: "Cockpit Exécutif & Télémétrie en Direct", c_sub: "Liquidités en temps réel, contrats et pouls de 142 postes de travail", to_staff: "👥 Personnel & Besoins", to_cv: "🤖 Tri CV (IA)", c1: "Liquidité Disponible", c2: "Pouls des Postes", c3: "Portefeuille Contrats", c4: "Sécurité DLP", st_h: "Départements, Personnel et Logistique", st_sub: "Contrôle total du PDG: Ajoutez employés, départements et matériels manquants", cv_h: "Moteur IA de Recrutement & Tri de CV", cv_sub: "Tri automatisé de 46 candidatures selon les critères requis", ec_h: "Intelligence Économique", dl_h: "Matrice des Contrats", fn_h: "Bouclier de Trésorerie", n1: "Cockpit", n2: "Personnel", n3: "Tri CV", n4: "Économie", n5: "Contrats", n6: "Trésorerie" }, es: { c_h1: "Centro de Control Ejecutivo", c_sub: "Monitoreo en tiempo real de liquidez, acuerdos y 142 estaciones", to_staff: "👥 Personal y Faltantes", to_cv: "🤖 Selección IA", c1: "Liquidez Disponible", c2: "Pulso Operativo", c3: "Cartera Acuerdos", c4: "Seguridad DLP", st_h: "Departamentos, Personal y Logística", st_sub: "Control total: Agregue empleados, departamentos y necesidades", cv_h: "Motor de IA para Filtrado de CVs", cv_sub: "Análisis automatizado de 46 postulaciones laborales", ec_h: "Inteligencia Económica", dl_h: "Matriz de Contratos", fn_h: "Escudo de Tesorería", n1: "Operaciones", n2: "Personal", n3: "CVs IA", n4: "Economía", n5: "Acuerdos", n6: "Tesorería" }, tr: { c_h1: "Yönetici Kokpiti ve Canlı Telemetri", c_sub: "142 aktif iş istasyonunun nakit akışı ve operasyonel takibi", to_staff: "👥 Personel ve İhtiyaçlar", to_cv: "🤖 CV Tarama", c1: "Kullanılabilir Likidite", c2: "İstasyon Nabzı", c3: "Anlaşma Havuzu", c4: "DLP Güvenliği", st_h: "Departmanlar, Personel ve İhtiyaçlar", st_sub: "Tam yönetici kontrolü: Personel, departman veya eksik malzeme ekleyin", cv_h: "Yapay Zeka Destekli CV Filtreleme", cv_sub: "Gelen 46 özgeçmişin otomatik analizi ve eşleştirilmesi", ec_h: "Ekonomik İstihbarat", dl_h: "Stratejik Anlaşmalar", fn_h: "Hazine Kalkanı", n1: "Kokpit", n2: "Personel", n3: "CV AI", n4: "Ekonomi", n5: "Anlaşmalar", n6: "Hazine" }, de: { c_h1: "Executive Cockpit & Live-Telemetrie", c_sub: "Echtzeitüberwachung der Liquidität und 142 aktiver Workstations", to_staff: "👥 Personal & Engpässe", to_cv: "🤖 KI-Vorauswahl", c1: "Verfügbare Liquidität", c2: "Flottenpuls", c3: "Deal-Pipeline", c4: "DLP-Sicherheit", st_h: "Abteilungen, Mitarbeiter & Logistik", st_sub: "Volle Kontrolle: Mitarbeiter, Abteilungen und Engpässe sofort anlegen", cv_h: "KI-Lebenslauf-Screening", cv_sub: "Automatisierte Auswertung von 46 Bewerbungen mit 96% Genauigkeit", ec_h: "Wirtschafts-Radar", dl_h: "Strategische Verträge", fn_h: "Finanz-Schutzschild", n1: "Cockpit", n2: "Personal", n3: "KI-CV", n4: "Wirtschaft", n5: "Verträge", n6: "Finanzen" }, it: { c_h1: "Cockpit Esecutivo & Telemetria", c_sub: "Monitoraggio in tempo reale di liquidità e 142 stazioni operative", to_staff: "👥 Personale e Mancanze", to_cv: "🤖 Selezione IA", c1: "Liquidità Disponibile", c2: "Polso Stazioni", c3: "Pipeline Contratti", c4: "Sicurezza DLP", st_h: "Dipartimenti, Personale e Logistica", st_sub: "Controllo totale: Aggiungi personale, reparti o carenze operative", cv_h: "Motore IA per Selezione CV", cv_sub: "Analisi automatica di 46 candidature con corrispondenza del 96%", ec_h: "Radar Economico", dl_h: "Matrice Contratti", fn_h: "Scudo di Tesoreria", n1: "Cockpit", n2: "Personale", n3: "CV IA", n4: "Economia", n5: "Contratti", n6: "Tesoreria" } }; // 1. التنقل بين الأقسام function appGoto(viewId) { var panes = document.querySelectorAll('.view-pane'); for (var i = 0; i < panes.length; i++) panes[i].classList.remove('active'); var target = document.getElementById('view-' + viewId); if (target) target.classList.add('active'); var items = document.querySelectorAll('.nav-item'); for (var j = 0; j < items.length; j++) items[j].classList.remove('active'); var activeNav = document.getElementById('nav-' + viewId); if (activeNav) activeNav.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); } // 2. تبديل العملات (12 عملة) function appSetCurrency(curr) { var c = RATES[curr] || RATES.DZD; var elLiq = document.getElementById('v-liq'); if (elLiq) elLiq.innerText = Math.round(48240000 * c.r).toLocaleString(); var elDeals = document.getElementById('v-deals'); if (elDeals) elDeals.innerText = Math.round(46400000 * c.r).toLocaleString(); var mElements = document.querySelectorAll('.m-val'); for (var i = 0; i < mElements.length; i++) { var b = parseFloat(mElements[i].getAttribute('data-base')) || 0; mElements[i].innerText = Math.round(b * c.r).toLocaleString(); } var sElements = document.querySelectorAll('.curr-sym'); for (var j = 0; j < sElements.length; j++) sElements[j].innerText = c.s; renderStaff(); renderDepts(); renderShortages(); } // 3. تبديل اللغات (7 لغات) function appSetLanguage(lang) { var root = document.getElementById('app-root'); if (root) { root.setAttribute('dir', (lang === 'ar') ? 'rtl' : 'ltr'); root.setAttribute('lang', lang); } var d = DICTS[lang] || DICTS.ar; function txt(id, val) { var e = document.getElementById(id); if (e && val) e.innerText = val; } txt('t-cockpit-h1', d.c_h1); txt('t-cockpit-sub', d.c_sub); txt('t-btn-to-staff', d.to_staff); txt('t-btn-to-cv', d.to_cv); txt('t-c1-label', d.c1); txt('t-c2-label', d.c2); txt('t-c3-label', d.c3); txt('t-c4-label', d.c4); txt('t-staff-h', d.st_h); txt('t-staff-sub', d.st_sub); txt('t-cv-h', d.cv_h); txt('t-cv-sub', d.cv_sub); txt('t-econ-h', d.ec_h); txt('t-deals-h', d.dl_h); txt('t-fin-h', d.fn_h); txt('txt-n1', d.n1); txt('txt-n2', d.n2); txt('txt-n3', d.n3); txt('txt-n4', d.n4); txt('txt-n5', d.n5); txt('txt-n6', d.n6); } // 4. عرض وإدارة الموظفين function renderStaff() { var box = document.getElementById('box-staff-list'); if (!box) return; box.innerHTML = ''; var countEl = document.getElementById('cnt-staff'); if (countEl) countEl.innerText = staffList.length + ' موظفين مسجلين'; for (var i = 0; i < staffList.length; i++) { var s = staffList[i]; var d = document.createElement('div'); d.className = 'item-row'; d.innerHTML = '<div><strong style="color:#fff; font-size:12px;">' + s.name + '</strong> — <span style="color:#00e5ff; font-size:11px;">' + s.role + '</span>' + '<div style="font-size:10px; color:#94a3b8; margin:2px 0;">القسم: ' + s.dept + '</div>' + '<div style="font-size:10px; color:#cbd5e1; white-space:pre-line;">' + s.duties + '</div></div>' + '<button type="button" class="btn-action red" style="padding:4px 8px; font-size:10px;" onclick="appDeleteStaff(\'' + s.id + '\')">حذف ✕</button>'; box.appendChild(d); } } function appSubmitStaff() { var name = document.getElementById('inp-staff-name').value.trim(); var role = document.getElementById('inp-staff-role').value.trim(); var dept = document.getElementById('inp-staff-dept').value.trim(); var duties = document.getElementById('inp-staff-duty').value.trim(); if (!name || !role) { alert('يرجى كتابة اسم الموظف ومسماه الوظيفي'); return; } staffList.unshift({ id: 's_' + Date.now(), name: name, role: role, dept: dept || 'الإدارة العامة', duties: duties ? duties : '• أداء المهام الإدارية الموكلة بدقة.' }); document.getElementById('inp-staff-name').value = ''; document.getElementById('inp-staff-role').value = ''; document.getElementById('inp-staff-dept').value = ''; document.getElementById('inp-staff-duty').value = ''; appCloseModal('modal-add-staff'); renderStaff(); appNotify('✅ تم إضافة الموظف الجديد وتعيين مهامه بنجاح!'); } function appDeleteStaff(id) { staffList = staffList.filter(function(x) { return x.id !== id; }); renderStaff(); appNotify('تم حذف الموظف من السجل.'); } // 5. عرض وإدارة الأقسام function renderDepts() { var box = document.getElementById('box-depts-list'); if (!box) return; box.innerHTML = ''; var curSym = (RATES[document.getElementById('sel-curr').value] || RATES.DZD).s; var curRate = (RATES[document.getElementById('sel-curr').value] || RATES.DZD).r; for (var i = 0; i < deptsList.length; i++) { var dp = deptsList[i]; var d = document.createElement('div'); d.className = 'item-row'; d.innerHTML = '<div><strong style="color:#fff; font-size:12px;">' + dp.name + '</strong>' + '<div style="font-size:10px; color:#94a3b8;">الرئيس: ' + dp.head + ' | الميزانية: <span style="color:#f59e0b; font-family:monospace; font-weight:800;">' + Math.round(dp.budget * curRate).toLocaleString() + ' ' + curSym + '</span></div></div>' + '<button type="button" class="btn-action red" style="padding:4px 8px; font-size:10px;" onclick="appDeleteDept(\'' + dp.id + '\')">حذف ✕</button>'; box.appendChild(d); } } function appSubmitDept() { var name = document.getElementById('inp-dept-name').value.trim(); var head = document.getElementById('inp-dept-head').value.trim(); var budget = parseFloat(document.getElementById('inp-dept-budget').value) || 1000000; if (!name) { alert('يرجى إدخال اسم القسم'); return; } deptsList.unshift({ id: 'd_' + Date.now(), name: name, head: head || 'قيد التعيين', budget: budget }); document.getElementById('inp-dept-name').value = ''; document.getElementById('inp-dept-head').value = ''; document.getElementById('inp-dept-budget').value = ''; appCloseModal('modal-add-dept'); renderDepts(); appNotify('✅ تم تأسيس القسم الجديد ورصد ميزانيته بنجاح!'); } function appDeleteDept(id) { deptsList = deptsList.filter(function(x) { return x.id !== id; }); renderDepts(); appNotify('تم حذف القسم.'); } // 6. عرض وإدارة النواقص التشغيلية function renderShortages() { var box = document.getElementById('box-shortages'); if (!box) return; box.innerHTML = ''; var curSym = (RATES[document.getElementById('sel-curr').value] || RATES.DZD).s; var curRate = (RATES[document.getElementById('sel-curr').value] || RATES.DZD).r; var cntEl = document.getElementById('cnt-shortage'); if (cntEl) cntEl.innerText = shortagesList.length + ' نواقص مسجلة'; if (shortagesList.length === 0) { box.innerHTML = '<div style="font-size:11px; color:#10b981; padding:8px;">✓ لا توجد أي نواقص تشغيلية حالياً؛ كافة الموارد مكتملة.</div>'; return; } for (var i = 0; i < shortagesList.length; i++) { var sh = shortagesList[i]; var d = document.createElement('div'); d.className = 'item-row'; d.innerHTML = '<div><strong style="color:#ef4444; font-size:12px;">' + sh.item + '</strong>' + '<div style="font-size:10px; color:#94a3b8;">التكلفة: <span style="color:#f59e0b; font-family:monospace; font-weight:800;">' + Math.round(sh.cost * curRate).toLocaleString() + ' ' + curSym + '</span> (' + (sh.level === 'CRITICAL' ? 'حرج جداً' : 'متوسط') + ')</div></div>' + '<button type="button" class="btn-action" style="padding:4px 8px; font-size:10px; background:#10b981; color:#000;" onclick="appResolveShortage(\'' + sh.id + '\')">تم التوفير ✓</button>'; box.appendChild(d); } } function appSubmitShortage() { var item = document.getElementById('inp-short-item').value.trim(); var cost = parseFloat(document.getElementById('inp-short-cost').value) || 200000; var level = document.getElementById('inp-short-level').value; if (!item) { alert('يرجى إدخال اسم الجهاز أو العتاد الناقص'); return; } shortagesList.unshift({ id: 'sh_' + Date.now(), item: item, cost: cost, level: level }); document.getElementById('inp-short-item').value = ''; document.getElementById('inp-short-cost').value = ''; appCloseModal('modal-add-shortage'); renderShortages(); appNotify('⚠️ تم تسجيل النقص في الرادار التشغيلي بنجاح!'); } function appResolveShortage(id) { shortagesList = shortagesList.filter(function(x) { return x.id !== id; }); renderShortages(); appNotify('✅ تم تسوية وتوفير العتاد الناقص.'); } // 7. النوافذ ورمز الدخول 9900 function appOpenModal(id) { document.getElementById(id).style.display = 'flex'; } function appCloseModal(id) { document.getElementById(id).style.display = 'none'; } function pKey(num) { if (curPin.length < 4) { curPin += num; document.getElementById('pin-display').innerText = curPin; if (curPin === '9900' || curPin.length === 4) { setTimeout(function() { appCloseModal('modal-pin'); curPin = ''; document.getElementById('pin-display').innerText = '••••'; }, 200); } } } function pClear() { curPin = ''; document.getElementById('pin-display').innerText = '••••'; } // 8. المطور والشركات المنفصلة function devTap() { dTapCount++; if (dTapCount >= 5) { dTapCount = 0; appOpenGod(); } } function appOpenGod() { renderCompanies(); appOpenModal('modal-god'); } function renderCompanies() { var box = document.getElementById('god-companies-list'); if (!box) return; box.innerHTML = ''; for (var i = 0; i < companies.length; i++) { var c = companies[i]; var isFrz = (c.st === 'FROZEN'); var d = document.createElement('div'); d.className = 'item-row'; d.innerHTML = '<div><strong style="font-size:12px; color:#fff;">' + c.name + '</strong><br><span style="font-size:10px; color:' + (isFrz ? '#ef4444' : '#10b981') + ';">' + (isFrz ? 'مجمدة لعدم السداد ❌' : 'نشطة ✓') + '</span></div>' + '<div style="display:flex; gap:4px;"><button class="btn-action red" style="padding:4px 8px; font-size:10px;" onclick="appFreezeComp(\'' + c.id + '\')">تجميد</button><button class="btn-action" style="padding:4px 8px; font-size:10px; background:#10b981; color:#000;" onclick="appUnfreezeComp(\'' + c.id + '\')">فك</button></div>'; box.appendChild(d); } } function appFreezeComp(id) { for (var i = 0; i < companies.length; i++) { if (companies[i].id === id) { companies[i].st = 'FROZEN'; document.getElementById('frz-title').innerText = 'تم تعليق حساب: ' + companies[i].name; appOpenModal('freeze-barrier'); renderCompanies(); break; } } } function appUnfreezeComp(id) { for (var i = 0; i < companies.length; i++) { if (companies[i].id === id) { companies[i].st = 'ACTIVE'; appCloseModal('freeze-barrier'); renderCompanies(); break; } } } function appUnlockSystem() { var pass = prompt('أدخل رمز فك التجميد (9900):'); if (pass === '9900') { for (var i = 0; i < companies.length; i++) companies[i].st = 'ACTIVE'; appCloseModal('freeze-barrier'); renderCompanies(); alert('✅ تم فك التجميد بنجاح!'); } } // 9. الإشعارات والاهتزاز function appNotify(msg) { if (navigator.vibrate) navigator.vibrate([100, 50, 100]); alert(msg); } function appVibratePulse() { if (navigator.vibrate) { navigator.vibrate([200, 100, 200]); alert('📳 تم اختبار نبض الاهتزاز بنجاح!'); } else { alert('🔔 نظام الإشعارات التنفيذي نشط ومتصل بالخادم!'); } } // 10. تثبيت التطبيق PWA window.addEventListener('beforeinstallprompt', function(e) { e.preventDefault(); pwaEvt = e; }); function appDoInstall() { if (pwaEvt) { pwaEvt.prompt(); pwaEvt.userChoice.then(function() { pwaEvt = null; }); } else { alert('📱 لتثبيت التطبيق كبرنامج أصلي بدون متصفح:\n\n1. اضغط على خيارات المتصفح (⋮ في الزاوية).\n2. اختر «تثبيت التطبيق (Install app)» أو «إضافة للشاشة الرئيسية».\n3. سيتم تثبيت التطبيق فوراً بدون رسائل خطأ!'); } } // التهيئة document.addEventListener('DOMContentLoaded', function() { renderStaff(); renderDepts(); renderShortages(); }); </script> </body> </html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="app-root">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CEO-PULSE Sovereign Suite</title>
+    <meta name="theme-color" content="#050d25">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22CEO-Pulse%22%2C%22short_name%22%3A%22CEO-Pulse%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23050d25%22%2C%22theme_color%22%3A%22%2300e5ff%22%7D">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { background: #050d25; color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding-bottom: 90px; }
+        .hdr { background: #0a122a; border-bottom: 1px solid #1e293b; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
+        .logo { font-size: 14px; font-weight: 900; color: #00e5ff; background: rgba(0,229,255,0.1); border: 1px solid #00e5ff; padding: 4px 8px; border-radius: 8px; cursor: pointer; }
+        .sel { background: #050d25; color: #00e5ff; border: 1px solid #334155; padding: 5px 6px; border-radius: 8px; font-size: 11px; font-weight: 700; outline: none; }
+        .btn-top { background: rgba(0,229,255,0.15); color: #00e5ff; border: 1px solid #00e5ff; padding: 5px 8px; border-radius: 8px; font-size: 11px; font-weight: 800; cursor: pointer; }
+        .btn-inst { background: linear-gradient(90deg, #00e5ff, #38bdf8); color: #000; border: none; padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 900; cursor: pointer; }
+        .cnt { padding: 12px; max-width: 1000px; margin: 0 auto; }
+        .card { background: #0a122a; border: 1px solid #1e293b; border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+        .hero { background: linear-gradient(135deg, #0e1e47, #0a1433); border: 1px solid rgba(0,229,255,0.4); border-radius: 16px; padding: 16px; margin-bottom: 14px; }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 14px; }
+        .st-val { font-size: 18px; font-weight: 900; color: #fff; margin: 6px 0; font-family: monospace; }
+        .view-pane { display: none; }
+        .view-pane.active { display: block !important; }
+        .btn-act { background: #00e5ff; color: #000; border: none; padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 800; cursor: pointer; }
+        .btn-act.gold { background: #f59e0b; color: #000; }
+        .btn-act.purple { background: #9333ea; color: #fff; }
+        .btn-act.red { background: #ef4444; color: #fff; }
+        .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #070e24; border-top: 1px solid #1e293b; display: flex; justify-content: space-around; padding: 10px 2px; z-index: 50; }
+        .nav-item { background: none; border: none; color: #64748b; font-size: 11px; font-weight: 700; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; flex: 1; outline: none; }
+        .nav-item.active { color: #00e5ff; font-weight: 900; }
+        .nav-item span.icon { font-size: 18px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; display: none; align-items: center; justify-content: center; padding: 16px; }
+        .modal-body { background: #0a122a; border: 1px solid #00e5ff; border-radius: 16px; padding: 18px; max-width: 340px; width: 100%; }
+        .input-box { width: 100%; background: #050d25; border: 1px solid #334155; color: #fff; padding: 8px 10px; border-radius: 8px; font-size: 12px; margin-bottom: 8px; outline: none; }
+        .item-row { background: #050d25; border: 1px solid #1e293b; border-radius: 10px; padding: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+    </style>
+</head>
+<body>
+
+    <!-- نافذة إضافة موظف -->
+    <div id="m-staff" class="modal">
+        <div class="modal-body">
+            <h3 style="font-size:15px; margin-bottom:10px; color:#00e5ff;">➕ إضافة موظف ومهامه اليومية</h3>
+            <input type="text" id="in-s-name" class="input-box" placeholder="اسم الموظف">
+            <input type="text" id="in-s-role" class="input-box" placeholder="المسمى الوظيفي">
+            <input type="text" id="in-s-dept" class="input-box" placeholder="القسم">
+            <textarea id="in-s-duty" class="input-box" style="height:60px; resize:none;" placeholder="المهام اليومية"></textarea>
+            <div style="display:flex; gap:6px;">
+                <button type="button" class="btn-act" style="flex:1;" onclick="addStaff()">حفظ الموظف</button>
+                <button type="button" class="btn-act red" style="flex:1;" onclick="closeM('m-staff')">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إضافة قسم -->
+    <div id="m-dept" class="modal">
+        <div class="modal-body">
+            <h3 style="font-size:15px; margin-bottom:10px; color:#f59e0b;">➕ تأسيس قسم جديد</h3>
+            <input type="text" id="in-d-name" class="input-box" placeholder="اسم القسم">
+            <input type="text" id="in-d-head" class="input-box" placeholder="رئيس القسم">
+            <input type="number" id="in-d-budget" class="input-box" placeholder="الميزانية">
+            <div style="display:flex; gap:6px;">
+                <button type="button" class="btn-act gold" style="flex:1;" onclick="addDept()">إنشاء القسم</button>
+                <button type="button" class="btn-act red" style="flex:1;" onclick="closeM('m-dept')">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تسجيل نقص -->
+    <div id="m-short" class="modal">
+        <div class="modal-body">
+            <h3 style="font-size:15px; margin-bottom:10px; color:#ef4444;">➕ تسجيل نقص عتاد</h3>
+            <input type="text" id="in-sh-item" class="input-box" placeholder="العتاد أو الجهاز الناقص">
+            <input type="number" id="in-sh-cost" class="input-box" placeholder="التكلفة التقديرية">
+            <div style="display:flex; gap:6px;">
+                <button type="button" class="btn-act red" style="flex:1;" onclick="addShortage()">تسجيل النقص</button>
+                <button type="button" class="btn-act" style="flex:1; background:#334155; color:#fff;" onclick="closeM('m-short')">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة رمز الدخول (9900) -->
+    <div id="m-pin" class="modal">
+        <div class="modal-body" style="max-width:300px; text-align:center;">
+            <h3 style="font-size:15px; margin-bottom:6px;">🔒 التحقق برمز الدخول</h3>
+            <div id="pin-view" style="font-size:22px; letter-spacing:6px; color:#00e5ff; font-weight:900; background:#050d25; padding:8px; border-radius:8px; border:1px solid #334155; margin-bottom:12px;">••••</div>
+            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:12px;">
+                <button class="btn-top" style="padding:10px; font-size:16px;" onclick="kPin('1')">1</button>
+                <button class="btn-top" style="padding:10px; font-size:16px;" onclick="kPin('2')">2</button>
+                <button class="btn-top" style="padding:10px; font-size:16px;" onclick="kPin('3')">3</button>
+                <button class="btn-top" style="padding:10px; font-size:16px;" onclick="kPin('4')">4</button>
+                <button class="btn-top" style="padding:10px; font-size:16px;" onclick="kPin('5')">5</button>
+                <button class="btn-top" style="padding:10px; font-size:16px;" onclick="kPin('6')">6</button>
+                <button class="btn-top" style="padding:10px; font-size:16px;" onclick="kPin('7')">7</button>
+                <button class="btn-top" style="padding:10px; font-size:16px;" onclick="kPin('8')">8</button>
+                <button class="btn-top" style="padding:10px; font-size:16px;" onclick="kPin('9')">9</button>
+                <button class="btn-top" style="padding:10px; font-size:16px; background:#450a0a; color:#fca5a5;" onclick="cPin()">C</button>
+                <button class="btn-top" style="padding:10px; font-size:16px;" onclick="kPin('0')">0</button>
+                <button class="btn-top" style="padding:10px; font-size:16px; background:#042f2e; color:#5eead4;" onclick="closeM('m-pin')">↵</button>
+            </div>
+            <button class="btn-inst" style="width:100%; padding:10px;" onclick="closeM('m-pin')">⚡ دخول فوري مباشر</button>
+        </div>
+    </div>
+
+    <!-- نافذة قفل المطور للشركات المنفصلة -->
+    <div id="m-god" class="modal">
+        <div class="modal-body" style="max-width:380px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid #1e293b; padding-bottom:6px;">
+                <h4 style="font-size:13px; color:#fff;">⚙️ بوابة المطور: قفل الشركات المنفصلة</h4>
+                <button onclick="closeM('m-god')" style="background:none; border:none; color:#94a3b8; font-size:16px; cursor:pointer;">✕</button>
+            </div>
+            <div id="god-comps" style="display:flex; flex-direction:column; gap:6px; margin-bottom:12px;"></div>
+            <button class="btn-top" style="width:100%;" onclick="closeM('m-god')">إغلاق</button>
+        </div>
+    </div>
+
+    <!-- شاشة تجميد الشركة -->
+    <div id="m-lock" class="modal" style="background:#020617;">
+        <div class="modal-body" style="border-color:#ef4444; text-align:center;">
+            <h3 style="color:#ef4444; font-size:17px; margin-bottom:6px;" id="l-title">تم تعليق المنظومة</h3>
+            <p style="font-size:11px; color:#cbd5e1; margin-bottom:14px;">معلق لعدم سداد المستحقات.</p>
+            <button class="btn-act red" style="width:100%; padding:10px;" onclick="unlockPrompt()">فك التجميد بالرمز (9900)</button>
+        </div>
+    </div>
+
+    <!-- شريط الرأس -->
+    <header class="hdr">
+        <div class="logo" onclick="devClick()" title="اضغط 5 مرات لبوابة المطور">⚡ CEO-PULSE</div>
+        <div style="display:flex; align-items:center; gap:5px;">
+            <!-- 12 عملة -->
+            <select id="s-curr" class="sel" onchange="setCurrency(this.value)">
+                <option value="DZD">دج DZD</option>
+                <option value="USD">$ USD</option>
+                <option value="EUR">€ EUR</option>
+                <option value="SAR">ر.س SAR</option>
+                <option value="AED">د.إ AED</option>
+                <option value="QAR">ر.ق QAR</option>
+                <option value="KWD">د.ك KWD</option>
+                <option value="GBP">£ GBP</option>
+                <option value="CHF">CHF</option>
+                <option value="TRY">₺ TRY</option>
+                <option value="CNY">¥ CNY</option>
+                <option value="CAD">$ CAD</option>
+            </select>
+
+            <!-- 7 لغات -->
+            <select id="s-lang" class="sel" onchange="setLang(this.value)">
+                <option value="ar">العربية</option>
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+                <option value="es">Español</option>
+                <option value="tr">Türkçe</option>
+                <option value="de">Deutsch</option>
+                <option value="it">Italiano</option>
+            </select>
+
+            <button class="btn-top" onclick="openM('m-pin')">🔒 9900</button>
+            <button class="btn-top" style="color:#ef4444; border-color:#ef4444;" onclick="openGod()">⚙️</button>
+            <button class="btn-inst" onclick="doInstall()">📲 تثبيت</button>
+        </div>
+    </header>
+
+    <!-- شريط الرادار الاقتصادي -->
+    <div style="background:#071330; border-bottom:1px solid #1e293b; padding:6px 12px; font-size:11px; display:flex; gap:8px;">
+        <strong style="color:#f59e0b;">📈 رادار الأسواق:</strong>
+        <span style="color:#cbd5e1; white-space:nowrap; overflow:hidden;">
+            💵 استقرار السيولة | 🛢️ خام برنت: 82.40$ (+1.2%) | 🪙 الذهب: 2,740$ | 📊 الإنتاجية العامة: 98.4%
+        </span>
+    </div>
+
+    <!-- مساحة المحتوى الرئيسية -->
+    <main class="cnt">
+
+        <!-- 1. غرفة العمليات -->
+        <section id="pane-cockpit" class="view-pane active">
+            <div class="hero">
+                <h1 style="font-size:17px; font-weight:900;" id="t_c1">غرفة العمليات المركزية ومؤشرات النبض</h1>
+                <p style="font-size:12px; color:#94a3b8; margin-top:4px;" id="t_c2">متابعة فورية للسيولة النقدية، صفقات التوسع، والنبض اللحظي لـ 142 محطة نشطة</p>
+                <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
+                    <button class="btn-act gold" onclick="goNav('staff')">👥 الموظفون والنواقص</button>
+                    <button class="btn-act purple" onclick="goNav('aicv')">🤖 فرز السير (AI)</button>
+                    <button class="btn-act" onclick="doPulse()">📳 فحص الاهتزاز</button>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <span style="font-size:11px; color:#94a3b8;" id="t_liq_lbl">السيولة المتاحة</span>
+                    <div class="st-val"><span id="val-liq">48,240,000</span> <span class="c-sym">دج</span></div>
+                    <span style="font-size:10px; color:#10b981;">متزامن مع الخزينة</span>
+                </div>
+                <div class="card">
+                    <span style="font-size:11px; color:#94a3b8;" id="t_stat_lbl">نبض المحطات</span>
+                    <div class="st-val">142 / 145 <span style="font-size:11px; color:#94a3b8;">محطة</span></div>
+                    <span style="font-size:10px; color:#00e5ff;">امتثال كامل</span>
+                </div>
+                <div class="card">
+                    <span style="font-size:11px; color:#94a3b8;" id="t_deal_lbl">مصفوفة الصفقات</span>
+                    <div class="st-val" style="color:#f59e0b;"><span id="val-deals">46,400,000</span> <span class="c-sym">دج</span></div>
+                    <span style="font-size:10px; color:#94a3b8;">عقدان بالانتظار</span>
+                </div>
+                <div class="card">
+                    <span style="font-size:11px; color:#94a3b8;" id="t_dlp_lbl">أمان DLP</span>
+                    <div class="st-val" style="color:#10b981;">0 <span style="font-size:11px; color:#94a3b8;">تهديدات</span></div>
+                    <span style="font-size:10px; color:#10b981;">حظر USB مشفر</span>
+                </div>
+            </div>
+
+            <!-- سندات الصرف -->
+            <div class="card">
+                <h3 style="font-size:13px; margin-bottom:8px;">سندات بانتظار توقيعك واعتمادك الفوري</h3>
+                <div class="item-row">
+                    <div>
+                        <h4 style="font-size:12px; color:#fff;">تجديد تراخيص الخوادم السحابية</h4>
+                        <span style="color:#00e5ff; font-weight:900; font-family:monospace; font-size:12px;">
+                            <span class="m-calc" data-b="150000">150,000</span> <span class="c-sym">دج</span>
+                        </span>
+                    </div>
+                    <button class="btn-act" onclick="alert('✅ تم الاعتماد والتوقيع الفوري بنجاح')">اعتماد فوري</button>
+                </div>
+                <div class="item-row">
+                    <div>
+                        <h4 style="font-size:12px; color:#fff;">شراء شاشات ووحدات تحكم المشغلين</h4>
+                        <span style="color:#f59e0b; font-weight:900; font-family:monospace; font-size:12px;">
+                            <span class="m-calc" data-b="280000">280,000</span> <span class="c-sym">دج</span>
+                        </span>
+                    </div>
+                    <button class="btn-act gold" onclick="alert('✅ تم اعتماد أمر الشراء بنجاح')">اعتماد الشراء</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. الموظفون، الأقسام، والنواقص (لوحة التحكم الكاملة) -->
+        <section id="pane-staff" class="view-pane">
+            <div class="hero" style="border-color:#f59e0b;">
+                <h2 style="font-size:16px; font-weight:900;" id="t_st_h">منظومة الأقسام، الموظفون، والنواقص التشغيلية</h2>
+                <p style="font-size:12px; color:#94a3b8; margin-top:4px;" id="t_st_sub">لوحة التحكم الكاملة: أضف موظفاً، أسس قسماً، أو سجّل نقصاً في العتاد بضغطة زر واحدة</p>
+                <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
+                    <button class="btn-act" onclick="openM('m-staff')">➕ إضافة موظف جديد</button>
+                    <button class="btn-act gold" onclick="openM('m-dept')">➕ تأسيس قسم جديد</button>
+                    <button class="btn-act red" onclick="openM('m-short')">➕ تسجيل نقص عتاد</button>
+                </div>
+            </div>
+
+            <!-- النواقص التشغيلية -->
+            <div class="card" style="border-color:rgba(239,68,68,0.4);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <h3 style="font-size:13px; color:#ef4444;">⚠️ قائمة النواقص التشغيلية المسجلة</h3>
+                    <span style="font-size:11px; color:#94a3b8;" id="cnt-sh">1 نقص مسجل</span>
+                </div>
+                <div id="list-short"></div>
+            </div>
+
+            <!-- سجل الموظفين والمهام -->
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <h3 style="font-size:13px; color:#00e5ff;">👥 سجل الموظفين والمهام اليومية</h3>
+                    <span style="font-size:11px; color:#94a3b8;" id="cnt-st">3 موظفين</span>
+                </div>
+                <div id="list-staff"></div>
+            </div>
+
+            <!-- سجل الأقسام والميزانيات -->
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <h3 style="font-size:13px; color:#f59e0b;">🏢 الأقسام المؤسسية والميزانيات</h3>
+                    <span style="font-size:11px; color:#94a3b8;" id="cnt-dp">3 أقسام</span>
+                </div>
+                <div id="list-depts"></div>
+            </div>
+        </section>
+
+        <!-- 3. فرز السير بالذكاء الاصطناعي -->
+        <section id="pane-aicv" class="view-pane">
+            <div class="hero" style="border-color:#9333ea;">
+                <h2 style="font-size:16px; font-weight:900;" id="t_cv_h">محرك الذكاء الاصطناعي لفرز السير الذاتية</h2>
+                <p style="font-size:12px; color:#94a3b8; margin-top:4px;" id="t_cv_sub">تحليل آلي لـ 46 سيرة ذاتية واردة ومطابقتها مع الشواغر بدقة 96%</p>
+            </div>
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                    <strong style="font-size:13px; color:#fff;">م. سمير علوان (أمن سيبراني أول)</strong>
+                    <span style="background:rgba(16,185,129,0.2); color:#10b981; padding:2px 8px; border-radius:6px; font-size:11px;">تطابق 96%</span>
+                </div>
+                <p style="font-size:11px; color:#cbd5e1; margin-bottom:8px;">الخبرة: 7 سنوات في التشفير البنكي وحماية محطات العمل (DLP).</p>
+                <button class="btn-act purple" style="width:100%;" onclick="alert('✅ تمت جدولة المقابلة الشخصية وإرسال الإشعار')">جدولة المقابلة الشخصية</button>
+            </div>
+        </section>
+
+        <!-- 4. الرادار الاقتصادي -->
+        <section id="pane-economy" class="view-pane">
+            <div class="hero" style="border-color:#3b82f6;">
+                <h2 style="font-size:16px; font-weight:900;" id="t_ec_h">مركز الرادار الاقتصادي والمالي</h2>
+                <p style="font-size:12px; color:#94a3b8; margin-top:4px;">متابعة مؤشرات الفائدة، السيولة، وحركة سلاسل الإمداد العالمية</p>
+            </div>
+            <div class="card">
+                <span style="color:#10b981; font-size:11px; font-weight:800;">تسهيلات ائتمانية للشركات الكبرى</span>
+                <h4 style="font-size:13px; color:#fff; margin:4px 0 6px 0;">تخفيض الفائدة 2.5% لتمويل توسع مراكز البيانات</h4>
+                <p style="font-size:11px; color:#94a3b8; line-height:1.5;">حزمة ائتمانية تدعم توطين التقنيات والسيادة الرقمية للمؤسسات.</p>
+            </div>
+        </section>
+
+        <!-- 5. مصفوفة الصفقات -->
+        <section id="pane-deals" class="view-pane">
+            <div class="hero" style="border-color:#f59e0b;">
+                <h2 style="font-size:16px; font-weight:900;" id="t_dl_h">مصفوفة الصفقات والعقود الاستراتيجية</h2>
+                <p style="font-size:12px; color:#94a3b8; margin-top:4px;">متابعة استحقاق الدفعات ونسب الإنجاز والتحصيل السيادي</p>
+            </div>
+            <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="font-size:13px; color:#fff;">مشروع البنية التحتية السيادية الموحدة</h4>
+                    <span style="font-size:11px; color:#94a3b8;">الدفعة 2 من 3 مستحقة التحصيل</span>
+                </div>
+                <div style="color:#f59e0b; font-size:16px; font-weight:900; font-family:monospace;">
+                    <span class="m-calc" data-b="34000000">34,000,000</span> <span class="c-sym">دج</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. الخزينة وترشيد النفقات -->
+        <section id="pane-finance" class="view-pane">
+            <div class="hero" style="border-color:#00e5ff;">
+                <h2 style="font-size:16px; font-weight:900;" id="t_fn_h">درع الخزينة وترشيد النفقات</h2>
+                <p style="font-size:12px; color:#94a3b8; margin-top:4px;">حماية الاحتياطي النقدي وتحديد سقوف الإنفاق للمدراء</p>
+            </div>
+            <div class="card">
+                <span style="font-size:11px; color:#94a3b8;">سقف الصرف اليومي المسموح</span>
+                <div style="font-size:18px; font-weight:900; color:#00e5ff; font-family:monospace; margin:6px 0;">
+                    <span class="m-calc" data-b="500000">500,000</span> <span class="c-sym">دج</span> / يوم
+                </div>
+                <p style="font-size:11px; color:#94a3b8;">المصروف اليوم: <span class="m-calc" data-b="160000">160,000</span> <span class="c-sym">دج</span> (32%)</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- شريط التنقل السفلي الفعال 100% -->
+    <nav class="nav-bar">
+        <button class="nav-item active" id="btn-cockpit" onclick="goNav('cockpit')">
+            <span class="icon">⚡</span><span id="lb-1">العمليات</span>
+        </button>
+        <button class="nav-item" id="btn-staff" onclick="goNav('staff')">
+            <span class="icon">👥</span><span id="lb-2">الموظفين</span>
+        </button>
+        <button class="nav-item" id="btn-aicv" onclick="goNav('aicv')">
+            <span class="icon">🤖</span><span id="lb-3">فرز السير</span>
+        </button>
+        <button class="nav-item" id="btn-economy" onclick="goNav('economy')">
+            <span class="icon">📈</span><span id="lb-4">الاقتصاد</span>
+        </button>
+        <button class="nav-item" id="btn-deals" onclick="goNav('deals')">
+            <span class="icon">💼</span><span id="lb-5">الصفقات</span>
+        </button>
+        <button class="nav-item" id="btn-finance" onclick="goNav('finance')">
+            <span class="icon">🏛️</span><span id="lb-6">الخزينة</span>
+        </button>
+    </nav>
+
+    <!-- كود الجافاسكريبت المضمون والخالي من الأخطاء -->
+    <script>
+        var pinVal = '';
+        var dCount = 0;
+        var pwaPrompt = null;
+
+        var staffData = [
+            { id: 's1', name: 'م. كمال بلحاج', role: 'رئيس تطوير النظم', dept: 'هندسة النظم', duties: '• متابعة 38 مهندساً.\n• فحص جاهزية الخوادم.\n• إغلاق الثغرات.' },
+            { id: 's2', name: 'أ. فتيحة رحماني', role: 'المديرة المالية', dept: 'المالية', duties: '• مطابقة كشوفات السيولة.\n• تدقيق سندات الصرف.\n• إعداد تقارير الضرائب.' },
+            { id: 's3', name: 'م. سمير علوان', role: 'رئيس الأمن السيبراني', dept: 'الأمن', duties: '• مراقبة حظر منافذ USB.\n• تدقيق نفق التشفير.\n• منع الاختراق.' }
+        ];
+
+        var deptsData = [
+            { id: 'd1', name: 'قسم تطوير النظم', head: 'م. كمال بلحاج', budget: 18000000 },
+            { id: 'd2', name: 'قسم الإدارة المالية', head: 'أ. فتيحة رحماني', budget: 48240000 },
+            { id: 'd3', name: 'قسم الأمن السيبراني', head: 'م. سمير علوان', budget: 12000000 }
+        ];
+
+        var shortData = [
+            { id: 'sh1', item: 'تحديث شاشات غرف التحكم لـ 8 محطات', cost: 640000 }
+        ];
+
+        var compsData = [
+            { id: 'c1', name: 'شركة الأفق الرقمية', st: 'ACTIVE' },
+            { id: 'c2', name: 'مجمع النور اللوجستي', st: 'ACTIVE' },
+            { id: 'c3', name: 'مؤسسة الرواد للاستثمار', st: 'ACTIVE' }
+        ];
+
+        var RATES = {
+            'DZD': { r: 1, s: 'دج' },
+            'USD': { r: 0.0074, s: '$' },
+            'EUR': { r: 0.0069, s: '€' },
+            'SAR': { r: 0.0278, s: 'ر.س' },
+            'AED': { r: 0.0272, s: 'د.إ' },
+            'QAR': { r: 0.0270, s: 'ر.ق' },
+            'KWD': { r: 0.0023, s: 'د.ك' },
+            'GBP': { r: 0.0058, s: '£' },
+            'CHF': { r: 0.0067, s: 'CHF' },
+            'TRY': { r: 0.2520, s: '₺' },
+            'CNY': { r: 0.0538, s: '¥' },
+            'CAD': { r: 0.0102, s: '$ CAD' }
+        };
+
+        var DICT = {
+            ar: {
+                c1: "غرفة العمليات المركزية ومؤشرات النبض", c2: "متابعة فورية للسيولة النقدية، صفقات التوسع، والنبض اللحظي لـ 142 محطة نشطة",
+                l_liq: "السيولة المتاحة", l_stat: "نبض المحطات", l_deal: "مصفوفة الصفقات", l_dlp: "أمان DLP",
+                st_h: "منظومة الأقسام، الموظفون، والنواقص التشغيلية", st_sub: "لوحة التحكم الكاملة: أضف موظفاً، أسس قسماً، أو سجّل نقصاً في العتاد بضغطة زر واحدة",
+                cv_h: "محرك الذكاء الاصطناعي لفرز السير الذاتية", cv_sub: "تحليل آلي لـ 46 سيرة ذاتية واردة ومطابقتها مع الشواغر بدقة 96%",
+                ec_h: "مركز الرادار الاقتصادي والمالي", dl_h: "مصفوفة الصفقات والعقود الاستراتيجية", fn_h: "درع الخزينة وترشيد النفقات",
+                b1: "العمليات", b2: "الموظفين", b3: "فرز السير", b4: "الاقتصاد", b5: "الصفقات", b6: "الخزينة"
+            },
+            en: {
+                c1: "Executive Cockpit & Live Pulse", c2: "Real-time liquidity, deals pipeline, and telemetry for 142 active fleet workstations",
+                l_liq: "Available Cash", l_stat: "Fleet Pulse", l_deal: "Deals Pipeline", l_dlp: "DLP Security",
+                st_h: "Workforce, Departments & Logistics", st_sub: "Full CEO control: Add employees, create departments, or log shortages instantly",
+                cv_h: "AI Resume Screening Engine", cv_sub: "Automated analysis of 46 applicant CVs with 96% match accuracy",
+                ec_h: "Economic Intelligence & Markets", dl_h: "Strategic Deals Matrix", fn_h: "Treasury Shield & Cap",
+                b1: "Cockpit", b2: "Workforce", b3: "AI CV", b4: "Economy", b5: "Deals", b6: "Treasury"
+            },
+            fr: {
+                c1: "Cockpit Exécutif & Télémétrie", c2: "Liquidités en temps réel et statut de 142 postes de travail",
+                l_liq: "Liquidité Disponible", l_stat: "Pouls des Postes", l_deal: "Portefeuille Contrats", l_dlp: "Sécurité DLP",
+                st_h: "Départements, Personnel et Logistique", st_sub: "Contrôle total du PDG: Ajoutez employés, départements et matériels",
+                cv_h: "Moteur IA de Recrutement & Tri de CV", cv_sub: "Tri automatisé de 46 candidatures selon les critères requis",
+                ec_h: "Intelligence Économique", dl_h: "Matrice des Contrats", fn_h: "Bouclier de Trésorerie",
+                b1: "Cockpit", b2: "Personnel", b3: "Tri CV", b4: "Économie", b5: "Contrats", b6: "Trésorerie"
+            },
+            es: {
+                c1: "Centro de Control Ejecutivo", c2: "Monitoreo en tiempo real de liquidez y 142 estaciones",
+                l_liq: "Liquidez Disponible", l_stat: "Pulso Operativo", l_deal: "Cartera Acuerdos", l_dlp: "Seguridad DLP",
+                st_h: "Departamentos, Personal y Logística", st_sub: "Control total: Agregue empleados, departamentos y necesidades",
+                cv_h: "Motor de IA para Filtrado de CVs", cv_sub: "Análisis automatizado de 46 postulaciones laborales",
+                ec_h: "Inteligencia Económica", dl_h: "Matriz de Contratos", fn_h: "Escudo de Tesorería",
+                b1: "Operaciones", b2: "Personal", b3: "CVs IA", b4: "Economía", b5: "Acuerdos", b6: "Tesorería"
+            },
+            tr: {
+                c1: "Yönetici Kokpiti ve Canlı Telemetri", c2: "142 aktif iş istasyonunun nakit akışı ve takibi",
+                l_liq: "Kullanılabilir Likidite", l_stat: "İstasyon Nabzı", l_deal: "Anlaşma Havuzu", l_dlp: "DLP Güvenliği",
+                st_h: "Departmanlar, Personel ve İhtiyaçlar", st_sub: "Tam yönetici kontrolü: Personel, departman veya eksik ekleyin",
+                cv_h: "Yapay Zeka Destekli CV Filtreleme", cv_sub: "Gelen 46 özgeçmişin otomatik analizi",
+                ec_h: "Ekonomik İstihbarat", dl_h: "Stratejik Anlaşmalar", fn_h: "Hazine Kalkanı",
+                b1: "Kokpit", b2: "Personel", b3: "CV AI", b4: "Ekonomi", b5: "Anlaşmalar", b6: "Hazine"
+            },
+            de: {
+                c1: "Executive Cockpit & Live-Telemetrie", c2: "Echtzeitüberwachung der Liquidität und 142 Workstations",
+                l_liq: "Verfügbare Liquidität", l_stat: "Flottenpuls", l_deal: "Deal-Pipeline", l_dlp: "DLP-Sicherheit",
+                st_h: "Abteilungen, Mitarbeiter & Logistik", st_sub: "Volle Kontrolle: Mitarbeiter, Abteilungen und Engpässe anlegen",
+                cv_h: "KI-Lebenslauf-Screening", cv_sub: "Automatisierte Auswertung von 46 Bewerbungen",
+                ec_h: "Wirtschafts-Radar", dl_h: "Strategische Verträge", fn_h: "Finanz-Schutzschild",
+                b1: "Cockpit", b2: "Personal", b3: "KI-CV", b4: "Wirtschaft", b5: "Verträge", b6: "Finanzen"
+            },
+            it: {
+                c1: "Cockpit Esecutivo & Telemetria", c2: "Monitoraggio di liquidità e 142 stazioni operative",
+                l_liq: "Liquidità Disponibile", l_stat: "Polso Stazioni", l_deal: "Pipeline Contratti", l_dlp: "Sicurezza DLP",
+                st_h: "Dipartimenti, Personale e Logistica", st_sub: "Controllo totale: Aggiungi personale, reparti o carenze",
+                cv_h: "Motore IA per Selezione CV", cv_sub: "Analisi automatica di 46 candidature con corrispondenza 96%",
+                ec_h: "Radar Economico", dl_h: "Matrice Contratti", fn_h: "Scudo di Tesoreria",
+                b1: "Cockpit", b2: "Personale", b3: "CV IA", b4: "Economia", b5: "Contratti", b6: "Tesoreria"
+            }
+        };
+
+        // 1. التنقل بين الأقسام
+        function goNav(id) {
+            var panes = document.querySelectorAll('.view-pane');
+            for (var i = 0; i < panes.length; i++) panes[i].classList.remove('active');
+            var target = document.getElementById('pane-' + id);
+            if (target) target.classList.add('active');
+
+            var items = document.querySelectorAll('.nav-item');
+            for (var j = 0; j < items.length; j++) items[j].classList.remove('active');
+            var btn = document.getElementById('btn-' + id);
+            if (btn) btn.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 2. تغيير العملات (12 عملة)
+        function setCurrency(curr) {
+            var c = RATES[curr] || RATES.DZD;
+            var elLiq = document.getElementById('val-liq');
+            if (elLiq) elLiq.innerText = Math.round(48240000 * c.r).toLocaleString();
+            var elDeals = document.getElementById('val-deals');
+            if (elDeals) elDeals.innerText = Math.round(46400000 * c.r).toLocaleString();
+
+            var mElements = document.querySelectorAll('.m-calc');
+            for (var i = 0; i < mElements.length; i++) {
+                var b = parseFloat(mElements[i].getAttribute('data-b')) || 0;
+                mElements[i].innerText = Math.round(b * c.r).toLocaleString();
+            }
+            var sElements = document.querySelectorAll('.c-sym');
+            for (var j = 0; j < sElements.length; j++) sElements[j].innerText = c.s;
+
+            drawStaff();
+            drawDepts();
+            drawShortages();
+        }
+
+        // 3. تغيير اللغات (7 لغات)
+        function setLang(lang) {
+            var root = document.getElementById('app-root');
+            if (root) {
+                root.setAttribute('dir', (lang === 'ar') ? 'rtl' : 'ltr');
+                root.setAttribute('lang', lang);
+            }
+            var d = DICT[lang] || DICT.ar;
+            function t(id, val) { var e = document.getElementById(id); if (e && val) e.innerText = val; }
+            t('t_c1', d.c1); t('t_c2', d.c2);
+            t('t_liq_lbl', d.l_liq); t('t_stat_lbl', d.l_stat); t('t_deal_lbl', d.l_deal); t('t_dlp_lbl', d.l_dlp);
+            t('t_st_h', d.st_h); t('t_st_sub', d.st_sub);
+            t('t_cv_h', d.cv_h); t('t_cv_sub', d.cv_sub);
+            t('t_ec_h', d.ec_h); t('t_dl_h', d.dl_h); t('t_fn_h', d.fn_h);
+            t('lb-1', d.b1); t('lb-2', d.b2); t('lb-3', d.b3); t('lb-4', d.b4); t('lb-5', d.b5); t('lb-6', d.b6);
+        }
+
+        // 4. الموظفون
+        function drawStaff() {
+            var box = document.getElementById('list-staff');
+            if (!box) return;
+            box.innerHTML = '';
+            document.getElementById('cnt-st').innerText = staffData.length + ' موظفين';
+            for (var i = 0; i < staffData.length; i++) {
+                var s = staffData[i];
+                var d = document.createElement('div');
+                d.className = 'item-row';
+                d.innerHTML = '<div><strong style="color:#fff; font-size:12px;">' + s.name + '</strong> — <span style="color:#00e5ff; font-size:11px;">' + s.role + '</span>' +
+                              '<div style="font-size:10px; color:#94a3b8; margin:2px 0;">القسم: ' + s.dept + '</div>' +
+                              '<div style="font-size:10px; color:#cbd5e1; white-space:pre-line;">' + s.duties + '</div></div>' +
+                              '<button type="button" class="btn-act red" style="padding:4px 8px; font-size:10px;" onclick="delStaff(\'' + s.id + '\')">حذف ✕</button>';
+                box.appendChild(d);
+            }
+        }
+        function addStaff() {
+            var name = document.getElementById('in-s-name').value.trim();
+            var role = document.getElementById('in-s-role').value.trim();
+            var dept = document.getElementById('in-s-dept').value.trim();
+            var duties = document.getElementById('in-s-duty').value.trim();
+            if (!name || !role) { alert('يرجى كتابة الاسم والمسمى الوظيفي'); return; }
+            staffData.unshift({ id: 's_' + Date.now(), name: name, role: role, dept: dept || 'الإدارة', duties: duties || '• تنفيذ المهام الموكلة بدقة.' });
+            document.getElementById('in-s-name').value = '';
+            document.getElementById('in-s-role').value = '';
+            document.getElementById('in-s-dept').value = '';
+            document.getElementById('in-s-duty').value = '';
+            closeM('m-staff');
+            drawStaff();
+            alert('✅ تم إضافة الموظف بنجاح!');
+        }
+        function delStaff(id) {
+            staffData = staffData.filter(function(x) { return x.id !== id; });
+            drawStaff();
+        }
+
+        // 5. الأقسام
+        function drawDepts() {
+            var box = document.getElementById('list-depts');
+            if (!box) return;
+            box.innerHTML = '';
+            var cur = RATES[document.getElementById('s-curr').value] || RATES.DZD;
+            document.getElementById('cnt-dp').innerText = deptsData.length + ' أقسام';
+            for (var i = 0; i < deptsData.length; i++) {
+                var dp = deptsData[i];
+                var d = document.createElement('div');
+                d.className = 'item-row';
+                d.innerHTML = '<div><strong style="color:#fff; font-size:12px;">' + dp.name + '</strong>' +
+                              '<div style="font-size:10px; color:#94a3b8;">الرئيس: ' + dp.head + ' | الميزانية: <span style="color:#f59e0b; font-family:monospace; font-weight:800;">' + Math.round(dp.budget * cur.r).toLocaleString() + ' ' + cur.s + '</span></div></div>' +
+                              '<button type="button" class="btn-act red" style="padding:4px 8px; font-size:10px;" onclick="delDept(\'' + dp.id + '\')">حذف ✕</button>';
+                box.appendChild(d);
+            }
+        }
+        function addDept() {
+            var name = document.getElementById('in-d-name').value.trim();
+            var head = document.getElementById('in-d-head').value.trim();
+            var budget = parseFloat(document.getElementById('in-d-budget').value) || 1000000;
+            if (!name) { alert('يرجى إدخال اسم القسم'); return; }
+            deptsData.unshift({ id: 'd_' + Date.now(), name: name, head: head || 'قيد التعيين', budget: budget });
+            document.getElementById('in-d-name').value = '';
+            document.getElementById('in-d-head').value = '';
+            document.getElementById('in-d-budget').value = '';
+            closeM('m-dept');
+            drawDepts();
+            alert('✅ تم تأسيس القسم بنجاح!');
+        }
+        function delDept(id) {
+            deptsData = deptsData.filter(function(x) { return x.id !== id; });
+            drawDepts();
+        }
+
+        // 6. النواقص
+        function drawShortages() {
+            var box = document.getElementById('list-short');
+            if (!box) return;
+            box.innerHTML = '';
+            var cur = RATES[document.getElementById('s-curr').value] || RATES.DZD;
+            document.getElementById('cnt-sh').innerText = shortData.length + ' نواقص مسجلة';
+            if (shortData.length === 0) {
+                box.innerHTML = '<div style="font-size:11px; color:#10b981; padding:8px;">✓ لا توجد أي نواقص تشغيلية حالياً.</div>';
+                return;
+            }
+            for (var i = 0; i < shortData.length; i++) {
+                var sh = shortData[i];
+                var d = document.createElement('div');
+                d.className = 'item-row';
+                d.innerHTML = '<div><strong style="color:#ef4444; font-size:12px;">' + sh.item + '</strong>' +
+                              '<div style="font-size:10px; color:#94a3b8;">التكلفة: <span style="color:#f59e0b; font-family:monospace; font-weight:800;">' + Math.round(sh.cost * cur.r).toLocaleString() + ' ' + cur.s + '</span></div></div>' +
+                              '<button type="button" class="btn-act" style="padding:4px 8px; font-size:10px; background:#10b981; color:#000;" onclick="delShort(\'' + sh.id + '\')">تم التوفير ✓</button>';
+                box.appendChild(d);
+            }
+        }
+        function addShortage() {
+            var item = document.getElementById('in-sh-item').value.trim();
+            var cost = parseFloat(document.getElementById('in-sh-cost').value) || 200000;
+            if (!item) { alert('يرجى إدخال اسم الجهاز أو العتاد الناقص'); return; }
+            shortData.unshift({ id: 'sh_' + Date.now(), item: item, cost: cost });
+            document.getElementById('in-sh-item').value = '';
+            document.getElementById('in-sh-cost').value = '';
+            closeM('m-short');
+            drawShortages();
+            alert('⚠️ تم تسجيل النقص بنجاح!');
+        }
+        function delShort(id) {
+            shortData = shortData.filter(function(x) { return x.id !== id; });
+            drawShortages();
+        }
+
+        // 7. النوافذ ورمز 9900
+        function openM(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeM(id) { document.getElementById(id).style.display = 'none'; }
+        function kPin(n) {
+            if (pinVal.length < 4) {
+                pinVal += n;
+                document.getElementById('pin-view').innerText = pinVal;
+                if (pinVal === '9900' || pinVal.length === 4) {
+                    setTimeout(function() { closeM('m-pin'); pinVal = ''; document.getElementById('pin-view').innerText = '••••'; }, 200);
+                }
+            }
+        }
+        function cPin() { pinVal = ''; document.getElementById('pin-view').innerText = '••••'; }
+
+        // 8. المطور والشركات
+        function devClick() { dCount++; if (dCount >= 5) { dCount = 0; openGod(); } }
+        function openGod() { drawCompanies(); openM('m-god'); }
+        function drawCompanies() {
+            var box = document.getElementById('god-comps');
+            if (!box) return;
+            box.innerHTML = '';
+            for (var i = 0; i < compsData.length; i++) {
+                var c = compsData[i];
+                var isFrz = (c.st === 'FROZEN');
+                var d = document.createElement('div');
+                d.className = 'item-row';
+                d.innerHTML = '<div><strong style="font-size:12px; color:#fff;">' + c.name + '</strong><br><span style="font-size:10px; color:' + (isFrz ? '#ef4444' : '#10b981') + ';">' + (isFrz ? 'مجمدة ❌' : 'نشطة ✓') + '</span></div>' +
+                              '<div style="display:flex; gap:4px;"><button class="btn-act red" style="padding:4px 8px; font-size:10px;" onclick="frzComp(\'' + c.id + '\')">تجميد</button><button class="btn-act" style="padding:4px 8px; font-size:10px; background:#10b981; color:#000;" onclick="unfrzComp(\'' + c.id + '\')">فك</button></div>';
+                box.appendChild(d);
+            }
+        }
+        function frzComp(id) {
+            for (var i = 0; i < compsData.length; i++) {
+                if (compsData[i].id === id) {
+                    compsData[i].st = 'FROZEN';
+                    document.getElementById('l-title').innerText = 'تم تعليق حساب: ' + compsData[i].name;
+                    openM('m-lock');
+                    drawCompanies();
+                    break;
+                }
+            }
+        }
+        function unfrzComp(id) {
+            for (var i = 0; i < compsData.length; i++) {
+                if (compsData[i].id === id) {
+                    compsData[i].st = 'ACTIVE';
+                    closeM('m-lock');
+                    drawCompanies();
+                    break;
+                }
+            }
+        }
+        function unlockPrompt() {
+            var pass = prompt('أدخل رمز فك التجميد (9900):');
+            if (pass === '9900') {
+                for (var i = 0; i < compsData.length; i++) compsData[i].st = 'ACTIVE';
+                closeM('m-lock');
+                drawCompanies();
+                alert('✅ تم فك التجميد بنجاح!');
+            }
+        }
+
+        // 9. اهتزاز وإشعار
+        function doPulse() {
+            if (navigator.vibrate) navigator.vibrate([150, 50, 150]);
+            alert('📳 نظام الإشعارات والاهتزاز يعمل بنجاح!');
+        }
+
+        // 10. التثبيت
+        window.addEventListener('beforeinstallprompt', function(e) { e.preventDefault(); pwaPrompt = e; });
+        function doInstall() {
+            if (pwaPrompt) {
+                pwaPrompt.prompt();
+                pwaPrompt.userChoice.then(function() { pwaPrompt = null; });
+            } else {
+                alert('📱 لتثبيت التطبيق على هاتفك:\n1. اضغط على خيارات المتصفح (⋮ في الزاوية).\n2. اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».\n3. سيتم تثبيته فوراً كبرنامج مستقل!');
+            }
+        }
+
+        // التهيئة
+        document.addEventListener('DOMContentLoaded', function() {
+            drawStaff();
+            drawDepts();
+            drawShortages();
+        });
+    </script>
+</body>
+</html>
