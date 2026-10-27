@@ -1,1 +1,439 @@
-<!DOCTYPE html> <html lang="ar" dir="rtl" id="app-root"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"> <title>CEO-PULSE Sovereign Suite</title> <!-- إعدادات شاشة التطبيق الكاملة وإلغاء أشرطة قوقل والمتصفح --> <meta name="theme-color" content="#050d25"> <meta name="mobile-web-app-capable" content="yes"> <meta name="apple-mobile-web-app-capable" content="yes"> <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <meta name="apple-mobile-web-app-title" content="CEO-Pulse"> <meta name="application-name" content="CEO-Pulse"> <style> * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; } body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Cairo", sans-serif; background-color: #050d25; color: #f1f5f9; user-select: none; -webkit-user-select: none; overflow-x: hidden; padding-bottom: 80px; } .header-bar { background-color: #0a122a; border-bottom: 1px solid #1e293b; position: sticky; top: 0; z-index: 50; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; } .brand-box { display: flex; align-items: center; gap: 8px; cursor: pointer; } .brand-logo { width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(135deg, #00e5ff, #2563eb); color: #000; font-weight: 900; font-size: 13px; display: flex; align-items: center; justify-content: center; } .brand-title { font-weight: 900; font-size: 15px; color: #fff; } .brand-ver { font-size: 9px; background: rgba(0,229,255,0.15); color: #00e5ff; border: 1px solid rgba(0,229,255,0.3); padding: 1px 4px; border-radius: 4px; } .top-ctrls { display: flex; align-items: center; gap: 6px; } select.ctrl-select { background-color: #050d25; color: #00e5ff; border: 1px solid #334155; border-radius: 8px; padding: 5px 8px; font-size: 11px; font-weight: 700; outline: none; cursor: pointer; } .btn-action { background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.3); color: #00e5ff; border-radius: 8px; padding: 5px 8px; font-size: 11px; font-weight: 700; cursor: pointer; } .btn-install { background: linear-gradient(90deg, #00e5ff, #38bdf8); color: #000; font-weight: 900; border: none; border-radius: 8px; padding: 6px 10px; font-size: 11px; cursor: pointer; } .ticker-bar { background: linear-gradient(90deg, #071330, #0a1f4d); border-bottom: 1px solid #1e293b; padding: 6px 12px; display: flex; align-items: center; gap: 8px; font-size: 11px; } .ticker-tag { color: #f59e0b; font-weight: 800; white-space: nowrap; } .main-container { max-width: 1200px; margin: 0 auto; padding: 14px; } /* شاشات وأقسام العرض */ .section-pane { display: none; } .section-pane.active { display: block; animation: viewFade 0.18s ease-out; } @keyframes viewFade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } } .banner-card { background: linear-gradient(135deg, #0e1e47, #0a1433); border: 1px solid rgba(0,229,255,0.3); border-radius: 18px; padding: 16px; margin-bottom: 16px; } .banner-title { font-size: 17px; font-weight: 900; color: #fff; margin-bottom: 4px; } .banner-desc { font-size: 12px; color: #94a3b8; line-height: 1.5; } .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; } @media(min-width: 768px) { .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 14px; } } .stat-card { background-color: #0a122a; border: 1px solid #1e293b; border-radius: 14px; padding: 12px; } .stat-label { font-size: 11px; color: #94a3b8; } .stat-value { font-size: 18px; font-weight: 900; color: #fff; margin: 6px 0; font-family: monospace; } .stat-sub { font-size: 10px; color: #10b981; } .dept-card { background-color: #0a122a; border: 1px solid #1e293b; border-radius: 16px; padding: 14px; margin-bottom: 12px; } .dept-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; } .avatar-box { width: 36px; height: 36px; border-radius: 10px; background: rgba(0,229,255,0.15); color: #00e5ff; font-weight: 800; font-size: 12px; display: flex; align-items: center; justify-content: center; } .duty-box { background-color: #050d25; border: 1px solid #1e293b; border-radius: 10px; padding: 10px; font-size: 11px; color: #cbd5e1; line-height: 1.6; margin-bottom: 8px; } /* شريط التنقل السفلي للهواتف */ .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background-color: #070e24; border-top: 1px solid #1e293b; display: flex; justify-content: space-around; padding: 8px 4px; z-index: 50; } .nav-item-btn { background: none; border: none; color: #64748b; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10px; font-weight: 700; cursor: pointer; flex: 1; } .nav-item-btn.active { color: #00e5ff; transform: scale(1.05); } .nav-item-btn .icon { font-size: 16px; } /* نوافذ القفل والمودال */ .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 100; padding: 16px; } .modal-box { background-color: #0a122a; border: 1px solid #00e5ff; border-radius: 20px; padding: 20px; max-width: 320px; width: 100%; text-align: center; } .keypad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; } .key-btn { background-color: #0f172a; border: 1px solid #334155; color: #fff; font-size: 16px; font-weight: 800; padding: 10px; border-radius: 10px; cursor: pointer; } </style> </head> <body> <!-- ================= نافذة رمز الدخول (9900) ================= --> <div id="pin-modal" class="modal-overlay"> <div class="modal-box"> <h3 style="font-size: 16px; font-weight: 900; color: #fff; margin-bottom: 4px;" id="txt-auth-title">التحقق والرمز السيادي</h3> <p style="font-size: 11px; color: #94a3b8; margin-bottom: 12px;" id="txt-auth-sub">الرمز الافتراضي: 9900</p> <div style="background:#050d25; border:1px solid #334155; border-radius:10px; padding:8px; margin-bottom:12px; font-size:16px; letter-spacing:4px; color:#00e5ff; font-weight:900;" id="pin-display"> •••• </div> <div class="keypad-grid"> <button type="button" class="key-btn" onclick="appEnterDigit('1')">1</button> <button type="button" class="key-btn" onclick="appEnterDigit('2')">2</button> <button type="button" class="key-btn" onclick="appEnterDigit('3')">3</button> <button type="button" class="key-btn" onclick="appEnterDigit('4')">4</button> <button type="button" class="key-btn" onclick="appEnterDigit('5')">5</button> <button type="button" class="key-btn" onclick="appEnterDigit('6')">6</button> <button type="button" class="key-btn" onclick="appEnterDigit('7')">7</button> <button type="button" class="key-btn" onclick="appEnterDigit('8')">8</button> <button type="button" class="key-btn" onclick="appEnterDigit('9')">9</button> <button type="button" class="key-btn" style="background:#450a0a; color:#fca5a5;" onclick="appClearPin()">C</button> <button type="button" class="key-btn" onclick="appEnterDigit('0')">0</button> <button type="button" class="key-btn" style="background:#042f2e; color:#5eead4;" onclick="appClosePinModal()">↵</button> </div> <button type="button" class="btn-install" style="width: 100%; padding: 10px;" onclick="appClosePinModal()" id="txt-auth-bypass"> ⚡ دخول فوري مباشر </button> </div> </div> <!-- ================= نافذة تحكم المطور وتجميد الشركات ================= --> <div id="god-modal" class="modal-overlay"> <div class="modal-box" style="max-width: 400px; text-align: right;"> <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid #1e293b; padding-bottom:6px;"> <h3 style="font-size:13px; font-weight:900; color:#fff;">⚡ بوابة المطور: اشتراكات الشركات المنفصلة</h3> <button type="button" onclick="document.getElementById('god-modal').style.display='none'" style="background:none; border:none; color:#94a3b8; font-size:16px; cursor:pointer;">✕</button> </div> <div id="companies-container" style="display:flex; flex-direction:column; gap:8px; margin-bottom:12px;"></div> <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px;"> <span style="color:#94a3b8;">كود الفك: <strong style="color:#00e5ff;">9900</strong></span> <button type="button" class="btn-action" onclick="document.getElementById('god-modal').style.display='none'">إغلاق</button> </div> </div> </div> <!-- نافذة قفل الشركة المحددة لعدم السداد --> <div id="freeze-screen" class="modal-overlay" style="background:#020617;"> <div class="modal-box" style="border-color:#ef4444;"> <h3 style="color:#ef4444; font-size:18px; font-weight:900; margin-bottom:8px;" id="frozen-company-title">تم تعليق المنظومة</h3> <p style="font-size:12px; color:#cbd5e1; margin-bottom:16px;" id="frozen-company-desc">تم تجميد الوصول لعدم سداد المستحقات.</p> <button type="button" class="btn-action" style="width:100%; padding:10px;" onclick="appPromptUnlock()"> فك التجميد بالرمز (9900) </button> </div> </div> <!-- ================= الشريط العلوي ================= --> <header class="header-bar"> <div class="brand-box" onclick="appHandleDevClick()" title="اضغط 5 مرات لفتح بوابة المطور"> <div class="brand-logo">CP</div> <div> <span class="brand-title">CEO-PULSE</span> <span class="brand-ver">V4.5</span> </div> </div> <div class="top-ctrls"> <!-- قائمة العملات --> <select id="currency-select" class="ctrl-select" onchange="appSetCurrency(this.value)"> <option value="DZD">دج DZD</option> <option value="USD">$ USD</option> <option value="EUR">€ EUR</option> <option value="SAR">ر.س SAR</option> <option value="AED">د.إ AED</option> </select> <!-- قائمة اللغات --> <select id="language-select" class="ctrl-select" onchange="appSetLanguage(this.value)"> <option value="ar">العربية</option> <option value="en">English</option> <option value="fr">Français</option> <option value="es">Español</option> <option value="tr">Türkçe</option> </select> <!-- زر القفل 9900 --> <button type="button" class="btn-action" onclick="appOpenPinModal()">🔒 9900</button> <!-- زر بوابة المطور --> <button type="button" class="btn-action" style="color:#f43f5e; border-color:rgba(244,63,94,0.3);" onclick="appOpenGodModal()">⚙️</button> <!-- زر التثبيت المباشر --> <button type="button" class="btn-install" onclick="appInstallPwa()">📲 تثبيت</button> </div> </header> <!-- شريط الرادار الاقتصادي --> <div class="ticker-bar"> <span class="ticker-tag" id="txt-ticker-label">📈 رادار الأسواق:</span> <marquee behavior="scroll" direction="right" style="color:#cbd5e1; font-size:11px;" id="txt-ticker-content"> 💵 استقرار مؤشر السيولة البنكية | 🛢️ خام برنت: 82.40$ للبرميل (+1.2%) | 🪙 الذهب: 2,160$ للأونصة | 🏦 تسهيلات تمويل الشركات الكبرى | 📊 مؤشر الإنتاجية: 96.4% </marquee> </div> <!-- ================= مساحة العرض الرئيسية ================= --> <main class="main-container"> <!-- قسم 1: غرفة العمليات المركزية --> <section id="view-cockpit" class="section-pane active"> <div class="banner-card"> <h1 class="banner-title" id="txt-cockpit-title">غرفة العمليات المركزية ومؤشرات النبض</h1> <p class="banner-desc" id="txt-cockpit-desc">متابعة فورية للسيولة النقدية، صفقات التوسع، والنبض اللحظي لـ 142 محطة عمل نشطة</p> <div style="display:flex; gap:8px; margin-top:12px;"> <button type="button" class="btn-install" style="background:#f59e0b; color:#000;" onclick="appNavigate('departments')" id="txt-btn-quick-depts"> 👥 بطاقات الموظفين (142) </button> <button type="button" class="btn-action" style="background:#9333ea; color:#fff; border:none;" onclick="appNavigate('ai-cv')" id="txt-btn-quick-cv"> 🤖 فرز السير (AI) </button> </div> </div> <!-- بطاقات المؤشرات المالية والتشغيلية --> <div class="stats-grid"> <div class="stat-card"> <span class="stat-label" id="txt-card-liq-label">السيولة المتاحة</span> <div class="stat-value"> <span id="val-liquidity">48,240,000</span> <span class="curr-symbol">دج</span> </div> <p class="stat-sub">متزامن مع SAP S/4HANA</p> </div> <div class="stat-card"> <span class="stat-label" id="txt-card-pulse-label">نبض المحطات</span> <div class="stat-value"> 142 / 145 <span style="font-size:11px; color:#94a3b8;">محطة</span> </div> <p class="stat-sub" style="color:#00e5ff;">امتثال GDPR 100%</p> </div> <div class="stat-card"> <span class="stat-label" id="txt-card-deals-label">مصفوفة الصفقات</span> <div class="stat-value" style="color:#f59e0b;"> <span id="val-deals">46,400,000</span> <span class="curr-symbol">دج</span> </div> <p class="stat-sub" style="color:#94a3b8;">عقدان بانتظار التحصيل</p> </div> <div class="stat-card"> <span class="stat-label" id="txt-card-sec-label">أمان المحطات وDLP</span> <div class="stat-value" style="color:#10b981;"> 0 <span style="font-size:11px; color:#94a3b8;">اختراقات</span> </div> <p class="stat-sub">حظر وسائط USB مفعل</p> </div> </div> <!-- سندات الاعتماد المالي الفوري --> <div class="stat-card" style="margin-top:10px;"> <h3 style="font-size:13px; font-weight:800; color:#fff; margin-bottom:10px;" id="txt-pending-sign">سندات بانتظار توقيعك واعتمادك الفوري</h3> <div style="display:flex; justify-content:space-between; align-items:center; background:#050d25; padding:10px; border-radius:12px; margin-bottom:8px; border:1px solid #1e293b;"> <div> <h4 style="font-size:12px; color:#fff; font-weight:700;" id="txt-order-1">تجديد تراخيص الخوادم السحابية</h4> <span style="font-size:12px; color:#00e5ff; font-weight:900; font-family:monospace;"> <span class="money-val" data-base="150000">150,000</span> <span class="curr-symbol">دج</span> </span> </div> <button type="button" class="btn-install" onclick="alert('✅ تم اعتماد سند صرف الخوادم السحابية بنجاح')">اعتماد فوري</button> </div> <div style="display:flex; justify-content:space-between; align-items:center; background:#050d25; padding:10px; border-radius:12px; border:1px solid #1e293b;"> <div> <h4 style="font-size:12px; color:#fff; font-weight:700;" id="txt-order-2">شراء شاشات وخوادم البرمجيات</h4> <span style="font-size:12px; color:#f59e0b; font-weight:900; font-family:monospace;"> <span class="money-val" data-base="280000">280,000</span> <span class="curr-symbol">دج</span> </span> </div> <button type="button" class="btn-install" style="background:#f59e0b;" onclick="alert('✅ تم اعتماد توفير العتاد التشغيلي')">اعتماد الشراء</button> </div> </div> </section> <!-- قسم 2: الأقسام والموظفون والمهام التفصيلية --> <section id="view-departments" class="section-pane"> <div class="banner-card" style="border-color:rgba(245,158,11,0.4);"> <h2 class="banner-title" id="txt-depts-head">أقسام المؤسسة، الموظفون، وتفاصيل مهام كل موظف</h2> <p class="banner-desc" id="txt-depts-sub">دليل شامل يوضح دور ومسؤوليات كل موظف اليومية بدقة لضمان الانضباط التام وراحة المدير</p> </div> <!-- موظف 1 --> <div class="dept-card"> <div class="dept-header"> <div class="avatar-box">ك.ب</div> <div> <h4 style="font-size:13px; font-weight:800; color:#fff;">م. كمال بلحاج</h4> <p style="font-size:11px; color:#00e5ff;">رئيس قسم هندسة وتطوير النظم</p> </div> </div> <div class="duty-box"> <p style="font-weight:800; color:#fff; margin-bottom:4px;">📌 المهام والمسؤوليات اليومية:</p> <p>• إدارة ومتابعة 38 مهندساً ومطوراً في المنظومة.</p> <p>• فحص جاهزية الخوادم وتحديثات البرمجيات دون توقف.</p> <p>• مراجعة بنية الأمان ومكافحة الثغرات.</p> </div> <div style="display:flex; justify-content:space-between; font-size:10px; color:#94a3b8;"> <span>المحطة: <strong>WS-DEV-001</strong></span> <span style="color:#10b981; font-weight:800;">حاضر (98%)</span> </div> </div> <!-- موظف 2 --> <div class="dept-card"> <div class="dept-header"> <div class="avatar-box" style="background:rgba(16,185,129,0.15); color:#10b981;">ف.ر</div> <div> <h4 style="font-size:13px; font-weight:800; color:#fff;">أ. فتيحة رحماني</h4> <p style="font-size:11px; color:#10b981;">المديرة المالية وكبير المحاسبين</p> </div> </div> <div class="duty-box"> <p style="font-weight:800; color:#fff; margin-bottom:4px;">📌 المهام والمسؤوليات اليومية:</p> <p>• مطابقة كشوفات السيولة البنكية اليومية (48.24M دج).</p> <p>• تدقيق التواقيع البيومترية لسندات الصرف والمشتريات.</p> <p>• إعداد تقارير الضرائب والتدفقات النقدية الدورية.</p> </div> <div style="display:flex; justify-content:space-between; font-size:10px; color:#94a3b8;"> <span>المحطة: <strong>WS-FIN-014</strong></span> <span style="color:#10b981; font-weight:800;">حاضر (100%)</span> </div> </div> <!-- موظف 3 --> <div class="dept-card"> <div class="dept-header"> <div class="avatar-box" style="background:rgba(239,68,68,0.15); color:#ef4444;">س.ع</div> <div> <h4 style="font-size:13px; font-weight:800; color:#fff;">م. سمير علوان</h4> <p style="font-size:11px; color:#ef4444;">رئيس قسم الأمن السيبراني وDLP</p> </div> </div> <div class="duty-box"> <p style="font-weight:800; color:#fff; margin-bottom:4px;">📌 المهام والمسؤوليات اليومية:</p> <p>• مراقبة حظر منافذ USB في كافة محطات العمل (142 محطة).</p> <p>• تدقيق نفق التشفير المعزول وحماية النسخ الاحتياطية.</p> <p>• الاستجابة الفورية لأي محاولة اختراق أو تسريب بيانات.</p> </div> <div style="display:flex; justify-content:space-between; font-size:10px; color:#94a3b8;"> <span>المحطة: <strong>WS-SEC-007</strong></span> <span style="color:#10b981; font-weight:800;">حاضر (99%)</span> </div> </div> </section> <!-- قسم 3: فرز السير الذاتية بالذكاء الاصطناعي --> <section id="view-ai-cv" class="section-pane"> <div class="banner-card" style="border-color:rgba(147,51,234,0.4);"> <h2 class="banner-title" id="txt-aicv-head">محرك الذكاء الاصطناعي لفرز السير الذاتية</h2> <p class="banner-desc" id="txt-aicv-sub">فرز آلي ذكي لـ 46 سيرة ذاتية واردة ومطابقتها مع الشواغر وتصنيف المرشحين</p> </div> <div class="dept-card"> <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;"> <div> <h4 style="font-size:13px; font-weight:800; color:#fff;">م. سمير علوان</h4> <p style="font-size:11px; color:#94a3b8;">مهندس أمن سيبراني أول (SOC)</p> </div> <span style="background:rgba(16,185,129,0.2); color:#10b981; padding:2px 8px; border-radius:6px; font-size:10px; font-weight:800;">96% تطابق</span> </div> <p style="font-size:11px; color:#cbd5e1; margin-bottom:10px;">الخبرة: 7 سنوات في حماية الأنظمة المصرفية والسيادية والتشفير.</p> <button type="button" class="btn-install" style="background:#9333ea; width:100%; color:#fff;" onclick="alert('✅ تمت جدولة المقابلة وإشعار المرشح بنجاح')"> جدولة المقابلة الشخصية </button> </div> </section> <!-- قسم 4: الرادار الاقتصادي --> <section id="view-economy" class="section-pane"> <div class="banner-card" style="border-color:rgba(59,130,246,0.4);"> <h2 class="banner-title" id="txt-econ-head">مركز الرادار الاقتصادي وأسواق المال</h2> <p class="banner-desc" id="txt-econ-sub">رصد لحظي لمؤشرات الفائدة، السيولة، وحركة سلاسل الإمداد العالمية</p> </div> <div class="dept-card"> <span style="color:#10b981; font-size:10px; font-weight:800;">سيولة وتسهيلات</span> <h4 style="font-size:13px; font-weight:800; color:#fff; margin:4px 0 6px 0;">إقرار تيسيرات ائتمانية بنكية جديدة للشركات الكبرى</h4> <p style="font-size:11px; color:#94a3b8; line-height:1.5;">تخفيض الفائدة 2.5% لتمويل توسع مراكز البيانات والخدمات اللوجستية السيادية.</p> </div> </section> <!-- قسم 5: الصفقات --> <section id="view-deals" class="section-pane"> <div class="banner-card" style="border-color:rgba(245,158,11,0.4);"> <h2 class="banner-title" id="txt-deals-head">مصفوفة الصفقات والعقود الاستراتيجية</h2> <p class="banner-desc" id="txt-deals-sub">متابعة دقيقة لاستحقاقات الدفعات ونسب التنفيذ والتحصيل السيادي</p> </div> <div class="dept-card" style="display:flex; justify-content:space-between; align-items:center;"> <div> <h4 style="font-size:13px; font-weight:800; color:#fff;">مشروع البنية التحتية السيادية الموحدة</h4> <p style="font-size:11px; color:#94a3b8;">الدفعة 2 من 3 مستحقة التحصيل</p> </div> <div style="color:#f59e0b; font-size:15px; font-weight:900; font-family:monospace;"> <span class="money-val" data-base="34000000">34,000,000</span> <span class="curr-symbol">دج</span> </div> </div> </section> <!-- قسم 6: الخزينة --> <section id="view-finance" class="section-pane"> <div class="banner-card"> <h2 class="banner-title" id="txt-fin-head">درع الخزينة وحظر الصرف الطارئ</h2> <p class="banner-desc" id="txt-fin-sub">حماية الاحتياطي النقدي وضبط سقوف الصرف للمدراء التنفيذيين</p> </div> <div class="dept-card"> <span style="font-size:11px; color:#94a3b8;">سقف الصرف اليومي المسموح للإدارات</span> <div style="font-size:18px; font-weight:900; color:#00e5ff; font-family:monospace; margin:6px 0;"> <span class="money-val" data-base="500000">500,000</span> <span class="curr-symbol">دج</span> / يوم </div> <p style="font-size:11px; color:#94a3b8;">المصروف اليوم حتى الآن: <span class="money-val" data-base="160000">160,000</span> <span class="curr-symbol">دج</span> (32%)</p> </div> </section> </main> <!-- ================= شريط التنقل السفلي للهواتف ================= --> <nav class="bottom-nav"> <button type="button" class="nav-item-btn active" id="tab-cockpit" onclick="appNavigate('cockpit')"> <span class="icon">⚡</span> <span id="tab-txt-cockpit">العمليات</span> </button> <button type="button" class="nav-item-btn" id="tab-departments" onclick="appNavigate('departments')"> <span class="icon">👥</span> <span id="tab-txt-depts">الموظفين</span> </button> <button type="button" class="nav-item-btn" id="tab-ai-cv" onclick="appNavigate('ai-cv')"> <span class="icon">🤖</span> <span id="tab-txt-aicv">فرز السير</span> </button> <button type="button" class="nav-item-btn" id="tab-economy" onclick="appNavigate('economy')"> <span class="icon">📈</span> <span id="tab-txt-econ">الاقتصاد</span> </button> <button type="button" class="nav-item-btn" id="tab-deals" onclick="appNavigate('deals')"> <span class="icon">💼</span> <span id="tab-txt-deals">الصفقات</span> </button> <button type="button" class="nav-item-btn" id="tab-finance" onclick="appNavigate('finance')"> <span class="icon">🏛️</span> <span id="tab-txt-fin">الخزينة</span> </button> </nav> <!-- ================= محرك الجافاسكريبت الموحد والفعال 100% ================= --> <script> // متغيرات الحالة الأساسية var currentPin = ''; var devClicks = 0; var pwaEvent = null; var companiesList = [ { id: 'c1', name: 'شركة الأفق للحلول الرقمية', status: 'ACTIVE' }, { id: 'c2', name: 'مجمع النور للصناعات واللوجستيات', status: 'ACTIVE' }, { id: 'c3', name: 'مؤسسة الرواد للاستثمار والتجارة', status: 'ACTIVE' } ]; var CURRENCIES = { 'DZD': { rate: 1, sym: 'دج' }, 'USD': { rate: 0.0074, sym: '$' }, 'EUR': { rate: 0.0069, sym: '€' }, 'SAR': { rate: 0.0278, sym: 'ر.س' }, 'AED': { rate: 0.0272, sym: 'د.إ' } }; var TRANSLATIONS = { ar: { ticker_label: "📈 رادار الأسواق:", cockpit_title: "غرفة العمليات المركزية ومؤشرات النبض", cockpit_desc: "متابعة فورية للسيولة النقدية، صفقات التوسع، والنبض اللحظي لـ 142 محطة عمل نشطة", btn_quick_depts: "👥 بطاقات الموظفين (142)", btn_quick_cv: "🤖 فرز السير (AI)", card_liq_label: "السيولة المتاحة", card_pulse_label: "نبض المحطات", card_deals_label: "مصفوفة الصفقات", card_sec_label: "أمان المحطات وDLP", depts_head: "أقسام المؤسسة، الموظفون، وتفاصيل مهام كل موظف", depts_sub: "دليل شامل يوضح دور ومسؤوليات كل موظف اليومية بدقة لضمان الانضباط التام وراحة المدير", aicv_head: "محرك الذكاء الاصطناعي لفرز السير الذاتية", aicv_sub: "فرز آلي ذكي لـ 46 سيرة ذاتية واردة ومطابقتها مع الشواغر وتصنيف المرشحين", econ_head: "مركز الرادار الاقتصادي وأسواق المال", econ_sub: "رصد لحظي لمؤشرات الفائدة، السيولة، وحركة سلاسل الإمداد العالمية", deals_head: "مصفوفة الصفقات والعقود الاستراتيجية", deals_sub: "متابعة دقيقة لاستحقاقات الدفعات ونسب التنفيذ والتحصيل السيادي", fin_head: "درع الخزينة وحظر الصرف الطارئ", fin_sub: "حماية الاحتياطي النقدي وضبط سقوف الصرف للمدراء التنفيذيين", tab_cockpit: "العمليات", tab_depts: "الموظفين", tab_aicv: "فرز السير", tab_econ: "الاقتصاد", tab_deals: "الصفقات", tab_fin: "الخزينة" }, en: { ticker_label: "📈 Markets Radar:", cockpit_title: "Executive Cockpit & Live Telemetry", cockpit_desc: "Real-time surveillance of corporate cash, expansion deals, and 142 active fleet workstations", btn_quick_depts: "👥 Staff Roster (142)", btn_quick_cv: "🤖 AI CV Screening", card_liq_label: "Available Liquidity", card_pulse_label: "Fleet Pulse", card_deals_label: "Deals Pipeline", card_sec_label: "Fleet DLP Security", depts_head: "Departments, Workforce Roster & Daily Duties", depts_sub: "Detailed breakdown of each employee's exact responsibilities for total CEO clarity", aicv_head: "AI Talent Acquisition & CV Screening Engine", aicv_sub: "Automated analysis of 46 resumes matched against corporate job vacancies", econ_head: "Economic Intelligence & Markets Hub", econ_sub: "Real-time monitoring of interest rates, treasury liquidity, and commodity pricing", deals_head: "Strategic Deals & Contracts Matrix", deals_sub: "Strict tracking of milestone payments, delivery ratios, and sovereign settlement", fin_head: "Treasury Shield & Emergency Expense Lock", fin_sub: "Protecting corporate liquidity and enforcing spending caps for managers", tab_cockpit: "Cockpit", tab_depts: "Workforce", tab_aicv: "AI CV", tab_econ: "Economy", tab_deals: "Deals", tab_fin: "Treasury" }, fr: { ticker_label: "📈 Radar des Marchés:", cockpit_title: "Cockpit Exécutif & Télémétrie en Direct", cockpit_desc: "Surveillance en temps réel de la liquidité, des contrats et de 142 postes de travail", btn_quick_depts: "👥 Personnel (142)", btn_quick_cv: "🤖 Tri CV (IA)", card_liq_label: "Liquidité Disponible", card_pulse_label: "Pouls des Postes", card_deals_label: "Portefeuille Contrats", card_sec_label: "Sécurité DLP", depts_head: "Départements, Employés et Missions Quotidiennes", depts_sub: "Description détaillée des responsabilités exactes de chaque employé", aicv_head: "Moteur IA de Recrutement & Tri de CV", aicv_sub: "Tri automatisé de 46 candidatures selon les critères requis", econ_head: "Intelligence Économique & Marchés Financiers", econ_sub: "Surveillance des taux, de la liquidité et des matières premières", deals_head: "Matrice des Contrats Stratégiques", deals_sub: "Suivi rigoureux des paiements et de l'exécution", fin_head: "Bouclier de Trésorerie & Plafonds", fin_sub: "Protection des réserves financières et contrôle des dépenses", tab_cockpit: "Cockpit", tab_depts: "Personnel", tab_aicv: "Tri CV", tab_econ: "Économie", tab_deals: "Contrats", tab_fin: "Trésorerie" }, es: { ticker_label: "📈 Radar de Mercados:", cockpit_title: "Centro de Control Ejecutivo", cockpit_desc: "Monitoreo en tiempo real de liquidez, acuerdos comerciales y 142 estaciones", btn_quick_depts: "👥 Empleados (142)", btn_quick_cv: "🤖 Filtrado CV (IA)", card_liq_label: "Liquidez Disponible", card_pulse_label: "Pulso Operativo", card_deals_label: "Cartera de Acuerdos", card_sec_label: "Seguridad DLP", depts_head: "Departamentos, Personal y Tareas Diarias", depts_sub: "Detalle completo de las responsabilidades de cada empleado", aicv_head: "Motor de IA para Selección de CVs", aicv_sub: "Análisis automatizado de 46 postulaciones laborales", econ_head: "Inteligencia Económica y Mercados", econ_sub: "Monitoreo de liquidez e indicadores financieros", deals_head: "Matriz de Contratos Estratégicos", deals_sub: "Seguimiento estricto de cobros y entregas", fin_head: "Escudo de Tesorería y Control", fin_sub: "Protección de reservas y límites de gasto diario", tab_cockpit: "Operaciones", tab_depts: "Personal", tab_aicv: "CVs IA", tab_econ: "Economía", tab_deals: "Acuerdos", tab_fin: "Tesorería" }, tr: { ticker_label: "📈 Piyasa Radarı:", cockpit_title: "Yönetici Kokpiti ve Canlı Telemetri", cockpit_desc: "Nakit akışı, stratejik anlaşmalar ve 142 iş istasyonunun anlık takibi", btn_quick_depts: "👥 Personel (142)", btn_quick_cv: "🤖 CV Tarama (AI)", card_liq_label: "Kullanılabilir Likidite", card_pulse_label: "İstasyon Nabzı", card_deals_label: "Anlaşma Havuzu", card_sec_label: "DLP Güvenliği", depts_head: "Departmanlar, Personel ve Günlük Görevler", depts_sub: "Her personelin günlük görev ve sorumluluk rehberi", aicv_head: "Yapay Zeka Destekli CV Filtreleme", aicv_sub: "Gelen 46 özgeçmişin otomatik analizi ve eşleştirilmesi", econ_head: "Ekonomik İstihbarat ve Piyasalar", econ_sub: "Piyasa faiz oranları ve likidite gözetimi", deals_head: "Stratejik Anlaşmalar Matrisi", deals_sub: "Hakediş ödemeleri ve yürütme oranlarının takibi", fin_head: "Hazine Kalkanı ve Harcama Kilidi", fin_sub: "Nakit rezervlerinin korunması ve bütçe sınırları", tab_cockpit: "Kokpit", tab_depts: "Personel", tab_aicv: "CV AI", tab_econ: "Ekonomi", tab_deals: "Anlaşmalar", tab_fin: "Hazine" } }; // 1. وظيفة التنقل الفوري بين الأقسام function appNavigate(viewId) { var panes = document.querySelectorAll('.section-pane'); for (var i = 0; i < panes.length; i++) { panes[i].classList.remove('active'); } var target = document.getElementById('view-' + viewId); if (target) target.classList.add('active'); var tabs = document.querySelectorAll('.nav-item-btn'); for (var j = 0; j < tabs.length; j++) { tabs[j].classList.remove('active'); } var activeTab = document.getElementById('tab-' + viewId); if (activeTab) activeTab.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); } // 2. وظيفة تبديل العملات الفورية function appSetCurrency(curr) { var data = CURRENCIES[curr] || CURRENCIES.DZD; var factor = data.rate; var symbol = data.sym; var elLiq = document.getElementById('val-liquidity'); if (elLiq) elLiq.innerText = Math.round(48240000 * factor).toLocaleString(); var elDeals = document.getElementById('val-deals'); if (elDeals) elDeals.innerText = Math.round(46400000 * factor).toLocaleString(); var moneyElements = document.querySelectorAll('.money-val'); for (var i = 0; i < moneyElements.length; i++) { var base = parseFloat(moneyElements[i].getAttribute('data-base')) || 0; moneyElements[i].innerText = Math.round(base * factor).toLocaleString(); } var symElements = document.querySelectorAll('.curr-symbol'); for (var j = 0; j < symElements.length; j++) { symElements[j].innerText = symbol; } } // 3. وظيفة تبديل اللغات الفورية function appSetLanguage(lang) { var root = document.getElementById('app-root'); if (root) { root.setAttribute('dir', (lang === 'ar') ? 'rtl' : 'ltr'); root.setAttribute('lang', lang); } var t = TRANSLATIONS[lang] || TRANSLATIONS.ar; function setText(id, val) { var el = document.getElementById(id); if (el && val) el.innerText = val; } setText('txt-ticker-label', t.ticker_label); setText('txt-cockpit-title', t.cockpit_title); setText('txt-cockpit-desc', t.cockpit_desc); setText('txt-btn-quick-depts', t.btn_quick_depts); setText('txt-btn-quick-cv', t.btn_quick_cv); setText('txt-card-liq-label', t.card_liq_label); setText('txt-card-pulse-label', t.card_pulse_label); setText('txt-card-deals-label', t.card_deals_label); setText('txt-card-sec-label', t.card_sec_label); setText('txt-depts-head', t.depts_head); setText('txt-depts-sub', t.depts_sub); setText('txt-aicv-head', t.aicv_head); setText('txt-aicv-sub', t.aicv_sub); setText('txt-econ-head', t.econ_head); setText('txt-econ-sub', t.econ_sub); setText('txt-deals-head', t.deals_head); setText('txt-deals-sub', t.deals_sub); setText('txt-fin-head', t.fin_head); setText('txt-fin-sub', t.fin_sub); setText('tab-txt-cockpit', t.tab_cockpit); setText('tab-txt-depts', t.tab_depts); setText('tab-txt-aicv', t.tab_aicv); setText('tab-txt-econ', t.tab_econ); setText('tab-txt-deals', t.tab_deals); setText('tab-txt-fin', t.tab_fin); } // 4. إدارة رمز الدخول 9900 function appOpenPinModal() { currentPin = ''; document.getElementById('pin-display').innerText = '••••'; document.getElementById('pin-modal').style.display = 'flex'; } function appClosePinModal() { document.getElementById('pin-modal').style.display = 'none'; } function appEnterDigit(d) { if (currentPin.length < 4) { currentPin += d; document.getElementById('pin-display').innerText = currentPin; if (currentPin === '9900' || currentPin.length === 4) { setTimeout(appClosePinModal, 200); } } } function appClearPin() { currentPin = ''; document.getElementById('pin-display').innerText = '••••'; } // 5. إدارة بوابة المطور والشركات المنفصلة function appHandleDevClick() { devClicks++; if (devClicks >= 5) { devClicks = 0; appOpenGodModal(); } } function appOpenGodModal() { renderCompaniesList(); document.getElementById('god-modal').style.display = 'flex'; } function renderCompaniesList() { var box = document.getElementById('companies-container'); if (!box) return; box.innerHTML = ''; for (var i = 0; i < companiesList.length; i++) { var comp = companiesList[i]; var isFrozen = (comp.status === 'FROZEN'); var d = document.createElement('div'); d.style.cssText = 'background:#050d25; border:1px solid #1e293b; padding:8px 12px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;'; d.innerHTML = '<div><strong style="font-size:12px; color:#fff;">' + comp.name + '</strong><br><span style="font-size:10px; color:' + (isFrozen ? '#f43f5e' : '#10b981') + ';">' + (isFrozen ? 'مجمدة لعدم السداد ❌' : 'نشطة ✓') + '</span></div>' + '<div style="display:flex; gap:4px;"><button type="button" class="btn-action" style="color:#f43f5e;" onclick="appFreezeCompany(\'' + comp.id + '\')">تجميد</button><button type="button" class="btn-action" style="color:#10b981;" onclick="appUnfreezeCompany(\'' + comp.id + '\')">فك</button></div>'; box.appendChild(d); } } function appFreezeCompany(id) { for (var i = 0; i < companiesList.length; i++) { if (companiesList[i].id === id) { companiesList[i].status = 'FROZEN'; document.getElementById('frozen-company-title').innerText = 'تم تعليق حساب: ' + companiesList[i].name; document.getElementById('freeze-screen').style.display = 'flex'; renderCompaniesList(); break; } } } function appUnfreezeCompany(id) { for (var i = 0; i < companiesList.length; i++) { if (companiesList[i].id === id) { companiesList[i].status = 'ACTIVE'; document.getElementById('freeze-screen').style.display = 'none'; renderCompaniesList(); break; } } } function appPromptUnlock() { var pass = prompt('أدخل رمز فك التجميد (9900):'); if (pass === '9900') { for (var i = 0; i < companiesList.length; i++) { companiesList[i].status = 'ACTIVE'; } document.getElementById('freeze-screen').style.display = 'none'; renderCompaniesList(); alert('✅ تم فك التجميد واستعادة كافة الصلاحيات بنجاح!'); } } // 6. تثبيت التطبيق PWA window.addEventListener('beforeinstallprompt', function(e) { e.preventDefault(); pwaEvent = e; }); function appInstallPwa() { if (pwaEvent) { pwaEvent.prompt(); pwaEvent.userChoice.then(function() { pwaEvent = null; }); } else { alert('📱 لتثبيت التطبيق كبرنامج مستقل بدون أي أشرطة لجوجل:\n\n1. اضغط على خيارات المتصفح (⋮ في الزاوية).\n2. اختر «تثبيت التطبيق (Install app)» أو «إضافة إلى الشاشة الرئيسية».\n3. سيتم تنزيل التطبيق فوراً ويفتح بشاشة كاملة وبدون أشرطة!'); } } // تهيئة فورية document.addEventListener('DOMContentLoaded', function() { renderCompaniesList(); }); </script> </body> </html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CEO-Pulse Sovereign</title>
+    <meta name="theme-color" content="#050d25">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { background: #050d25; color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding-bottom: 90px; }
+        .hdr { background: #0a122a; border-bottom: 1px solid #1e293b; padding: 12px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
+        .logo { font-size: 15px; font-weight: 900; color: #00e5ff; background: rgba(0,229,255,0.1); border: 1px solid #00e5ff; padding: 4px 8px; border-radius: 8px; cursor: pointer; }
+        .sel { background: #050d25; color: #00e5ff; border: 1px solid #334155; padding: 6px; border-radius: 8px; font-size: 11px; font-weight: 700; }
+        .btn { background: #00e5ff; color: #000; border: none; padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 800; cursor: pointer; }
+        .btn-pin { background: rgba(0,229,255,0.15); color: #00e5ff; border: 1px solid #00e5ff; padding: 6px 8px; border-radius: 8px; font-size: 11px; cursor: pointer; }
+        .cnt { padding: 14px; max-width: 1000px; margin: 0 auto; }
+        .box { background: #0a122a; border: 1px solid #1e293b; border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+        .pane { display: none; }
+        .pane.on { display: block; }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
+        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: #070e24; border-top: 1px solid #1e293b; display: flex; justify-content: space-around; padding: 10px 4px; z-index: 50; }
+        .nav-btn { background: none; border: none; color: #64748b; font-size: 11px; font-weight: 700; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; flex: 1; }
+        .nav-btn.on { color: #00e5ff; font-weight: 900; }
+        .nav-btn span.i { font-size: 18px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; display: none; align-items: center; justify-content: center; padding: 16px; }
+        .m-box { background: #0a122a; border: 1px solid #00e5ff; border-radius: 18px; padding: 20px; max-width: 300px; width: 100%; text-align: center; }
+        .k-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0; }
+        .k-btn { background: #0f172a; border: 1px solid #334155; color: #fff; font-size: 16px; font-weight: 800; padding: 12px; border-radius: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <!-- نافذة رمز الدخول (9900) -->
+    <div id="pinModal" class="modal">
+        <div class="m-box">
+            <h3 style="font-size:16px; margin-bottom:4px;" id="l_pinTitle">التحقق برمز الدخول</h3>
+            <p style="font-size:11px; color:#94a3b8; margin-bottom:12px;">أدخل الرمز السيادي (9900)</p>
+            <div id="pinBox" style="font-size:20px; letter-spacing:6px; color:#00e5ff; font-weight:900; background:#050d25; padding:8px; border-radius:8px; border:1px solid #334155;">••••</div>
+            <div class="k-grid">
+                <button class="k-btn" onclick="pDigit('1')">1</button>
+                <button class="k-btn" onclick="pDigit('2')">2</button>
+                <button class="k-btn" onclick="pDigit('3')">3</button>
+                <button class="k-btn" onclick="pDigit('4')">4</button>
+                <button class="k-btn" onclick="pDigit('5')">5</button>
+                <button class="k-btn" onclick="pDigit('6')">6</button>
+                <button class="k-btn" onclick="pDigit('7')">7</button>
+                <button class="k-btn" onclick="pDigit('8')">8</button>
+                <button class="k-btn" onclick="pDigit('9')">9</button>
+                <button class="k-btn" style="background:#450a0a; color:#fca5a5;" onclick="pClear()">C</button>
+                <button class="k-btn" onclick="pDigit('0')">0</button>
+                <button class="k-btn" style="background:#042f2e; color:#5eead4;" onclick="pClose()">↵</button>
+            </div>
+            <button class="btn" style="width:100%; padding:10px;" onclick="pClose()" id="l_pinBypass">دخول مباشر</button>
+        </div>
+    </div>
+
+    <!-- نافذة قفل المطور للشركات المنفصلة -->
+    <div id="godModal" class="modal">
+        <div class="m-box" style="max-width:360px; text-align:right;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:12px; border-bottom:1px solid #1e293b; padding-bottom:6px;">
+                <h4 style="font-size:13px; color:#fff;">قفل الشركات المنفصلة</h4>
+                <button onclick="document.getElementById('godModal').style.display='none'" style="background:none; border:none; color:#94a3b8; font-size:16px;">✕</button>
+            </div>
+            <div id="compList"></div>
+            <button class="btn-pin" style="width:100%; margin-top:10px;" onclick="document.getElementById('godModal').style.display='none'">إغلاق</button>
+        </div>
+    </div>
+
+    <!-- شاشة تجميد الشركة المعلقة -->
+    <div id="lockScreen" class="modal" style="background:#000;">
+        <div class="m-box" style="border-color:#ef4444;">
+            <h3 style="color:#ef4444; font-size:18px; margin-bottom:8px;" id="lockTitle">تم تجميد حساب الشركة</h3>
+            <p style="font-size:12px; color:#cbd5e1; margin-bottom:16px;">معلق لعدم سداد المستحقات.</p>
+            <button class="btn-pin" style="width:100%; padding:10px;" onclick="unlockPrompt()">فك التجميد بالرمز (9900)</button>
+        </div>
+    </div>
+
+    <!-- الشريط العلوي -->
+    <div class="hdr">
+        <div class="logo" onclick="devClick()" title="اضغط 5 مرات لبوابة المطور">⚡ CEO-PULSE</div>
+        <div style="display:flex; align-items:center; gap:6px;">
+            <!-- اختيار العملة -->
+            <select class="sel" id="cSel" onchange="chgCurr(this.value)">
+                <option value="DZD">دج DZD</option>
+                <option value="USD">$ USD</option>
+                <option value="EUR">€ EUR</option>
+                <option value="SAR">ر.س SAR</option>
+                <option value="AED">د.إ AED</option>
+            </select>
+            <!-- اختيار اللغة -->
+            <select class="sel" id="lSel" onchange="chgLang(this.value)">
+                <option value="ar">العربية</option>
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+                <option value="es">Español</option>
+                <option value="tr">Türkçe</option>
+            </select>
+            <!-- زر الرمز 9900 -->
+            <button class="btn-pin" onclick="pOpen()">🔒 9900</button>
+            <!-- زر المطور -->
+            <button class="btn-pin" style="color:#ef4444; border-color:#ef4444;" onclick="openGod()">⚙️</button>
+            <!-- زر التثبيت -->
+            <button class="btn" onclick="doInstall()">📲 تثبيت</button>
+        </div>
+    </div>
+
+    <div class="cnt">
+        <!-- قسم 1: غرفة العمليات -->
+        <div id="v_cockpit" class="pane on">
+            <div class="box" style="background:linear-gradient(135deg, #0e1e47, #0a1433); border-color:rgba(0,229,255,0.4);">
+                <h2 style="font-size:16px; margin-bottom:4px;" id="l_title">غرفة العمليات المركزية</h2>
+                <p style="font-size:12px; color:#94a3b8;" id="l_sub">المؤشرات اللحظية والسيولة النقدية لـ 142 محطة نشطة</p>
+            </div>
+            <div class="grid">
+                <div class="box">
+                    <span style="font-size:11px; color:#94a3b8;" id="l_c1">السيولة المتاحة</span>
+                    <div style="font-size:18px; font-weight:900; color:#fff; margin:6px 0; font-family:monospace;">
+                        <span id="v_liq">48,240,000</span> <span class="csym">دج</span>
+                    </div>
+                    <span style="font-size:10px; color:#10b981;">متزامن مع الخزينة</span>
+                </div>
+                <div class="box">
+                    <span style="font-size:11px; color:#94a3b8;" id="l_c2">نبض المحطات</span>
+                    <div style="font-size:18px; font-weight:900; color:#fff; margin:6px 0; font-family:monospace;">
+                        142 / 145 <span style="font-size:11px; color:#94a3b8;">محطة</span>
+                    </div>
+                    <span style="font-size:10px; color:#00e5ff;">امتثال GDPR</span>
+                </div>
+                <div class="box">
+                    <span style="font-size:11px; color:#94a3b8;" id="l_c3">مصفوفة الصفقات</span>
+                    <div style="font-size:18px; font-weight:900; color:#f59e0b; margin:6px 0; font-family:monospace;">
+                        <span id="v_deals">46,400,000</span> <span class="csym">دج</span>
+                    </div>
+                    <span style="font-size:10px; color:#94a3b8;">بانتظار التحصيل</span>
+                </div>
+                <div class="box">
+                    <span style="font-size:11px; color:#94a3b8;" id="l_c4">أمان DLP</span>
+                    <div style="font-size:18px; font-weight:900; color:#10b981; margin:6px 0; font-family:monospace;">
+                        0 <span style="font-size:11px; color:#94a3b8;">اختراق</span>
+                    </div>
+                    <span style="font-size:10px; color:#10b981;">حظر USB نشط</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم 2: الموظفون والمهام -->
+        <div id="v_staff" class="pane">
+            <div class="box" style="border-color:#f59e0b;">
+                <h2 style="font-size:16px; margin-bottom:4px;" id="l_stTitle">أقسام المؤسسة والموظفون والمهام</h2>
+                <p style="font-size:12px; color:#94a3b8;" id="l_stSub">تفاصيل مسؤوليات كل موظف اليومية بدقة</p>
+            </div>
+            <div class="box">
+                <h4 style="font-size:13px; color:#00e5ff; margin-bottom:4px;">م. كمال بلحاج — رئيس تطوير النظم</h4>
+                <p style="font-size:11px; color:#cbd5e1; line-height:1.5;">• متابعة 38 مهندساً في تطوير البرمجيات.<br>• تدقيق الخوادم وعدم توقف البنية التحتية.<br>• إغلاق الثغرات الأمنية فلاشياً.</p>
+            </div>
+            <div class="box">
+                <h4 style="font-size:13px; color:#10b981; margin-bottom:4px;">أ. فتيحة رحماني — المديرة المالية</h4>
+                <p style="font-size:11px; color:#cbd5e1; line-height:1.5;">• مطابقة كشوفات السيولة اليومية (48.24M دج).<br>• مراجعة التواقيع البيومترية لسندات الصرف.<br>• إعداد تقارير الضرائب والتدفقات.</p>
+            </div>
+        </div>
+
+        <!-- قسم 3: فرز السير (AI) -->
+        <div id="v_aicv" class="pane">
+            <div class="box" style="border-color:#a855f7;">
+                <h2 style="font-size:16px; margin-bottom:4px;" id="l_cvTitle">فرز السير الذاتية بالذكاء الاصطناعي</h2>
+                <p style="font-size:12px; color:#94a3b8;" id="l_cvSub">تحليل آلي لـ 46 سيرة ذاتية مطابقة للمواصفات</p>
+            </div>
+            <div class="box">
+                <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                    <strong style="font-size:13px;">م. سمير علوان (أمن سيبراني)</strong>
+                    <span style="background:rgba(16,185,129,0.2); color:#10b981; padding:2px 6px; border-radius:4px; font-size:10px;">تطابق 96%</span>
+                </div>
+                <p style="font-size:11px; color:#94a3b8; margin-bottom:8px;">خبرة 7 سنوات في حماية المنظومات البنكية والسيادية.</p>
+                <button class="btn" style="width:100%; background:#a855f7; color:#fff;" onclick="alert('✅ تمت جدولة المقابلة')">جدولة المقابلة</button>
+            </div>
+        </div>
+
+        <!-- قسم 4: الاقتصاد -->
+        <div id="v_econ" class="pane">
+            <div class="box" style="border-color:#3b82f6;">
+                <h2 style="font-size:16px; margin-bottom:4px;" id="l_ecTitle">الرادار الاقتصادي وأسواق المال</h2>
+                <p style="font-size:12px; color:#94a3b8;">رصد الفائدة والسيولة ومؤشرات الطاقة والأسواق</p>
+            </div>
+            <div class="box">
+                <h4 style="font-size:13px; color:#10b981; margin-bottom:4px;">تسهيلات ائتمانية جديدة</h4>
+                <p style="font-size:11px; color:#94a3b8;">تخفيض الفائدة 2.5% لدعم التوسع في مراكز البيانات والتقنيات السيادية.</p>
+            </div>
+        </div>
+
+        <!-- قسم 5: الصفقات -->
+        <div id="v_deals" class="pane">
+            <div class="box" style="border-color:#f59e0b;">
+                <h2 style="font-size:16px; margin-bottom:4px;" id="l_dlTitle">مصفوفة الصفقات والعقود</h2>
+                <p style="font-size:12px; color:#94a3b8;">متابعة الدفعات ونسب الإنجاز والتحصيل</p>
+            </div>
+            <div class="box" style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h4 style="font-size:13px;">عقد البنية التحتية الموحدة</h4>
+                    <span style="font-size:11px; color:#94a3b8;">دفعة 2 من 3 مستحقة التحصيل</span>
+                </div>
+                <div style="color:#f59e0b; font-weight:900; font-family:monospace; font-size:15px;">
+                    <span class="mval" data-b="34000000">34,000,000</span> <span class="csym">دج</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم 6: الخزينة -->
+        <div id="v_fin" class="pane">
+            <div class="box" style="border-color:#00e5ff;">
+                <h2 style="font-size:16px; margin-bottom:4px;" id="l_fnTitle">درع الخزينة وترشيد النفقات</h2>
+                <p style="font-size:12px; color:#94a3b8;">سقوف الصرف اليومية وحماية الاحتياطي النقدي</p>
+            </div>
+            <div class="box">
+                <span style="font-size:11px; color:#94a3b8;">سقف الصرف اليومي للمدراء</span>
+                <div style="color:#00e5ff; font-weight:900; font-size:18px; margin:6px 0; font-family:monospace;">
+                    <span class="mval" data-b="500000">500,000</span> <span class="csym">دج</span> / يوم
+                </div>
+                <p style="font-size:11px; color:#94a3b8;">المصروف اليوم حتى الآن: <span class="mval" data-b="160000">160,000</span> <span class="csym">دج</span> (32%)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- شريط التنقل السفلي المضمون -->
+    <div class="nav">
+        <button class="nav-btn on" id="tb_cockpit" onclick="navTo('cockpit')">
+            <span class="i">⚡</span><span id="b_1">العمليات</span>
+        </button>
+        <button class="nav-btn" id="tb_staff" onclick="navTo('staff')">
+            <span class="i">👥</span><span id="b_2">الموظفين</span>
+        </button>
+        <button class="nav-btn" id="tb_aicv" onclick="navTo('aicv')">
+            <span class="i">🤖</span><span id="b_3">فرز السير</span>
+        </button>
+        <button class="nav-btn" id="tb_econ" onclick="navTo('econ')">
+            <span class="i">📈</span><span id="b_4">الاقتصاد</span>
+        </button>
+        <button class="nav-btn" id="tb_deals" onclick="navTo('deals')">
+            <span class="i">💼</span><span id="b_5">الصفقات</span>
+        </button>
+        <button class="nav-btn" id="tb_fin" onclick="navTo('fin')">
+            <span class="i">🏛️</span><span id="b_6">الخزينة</span>
+        </button>
+    </div>
+
+    <!-- محرك الجافاسكريبت البسيط والمباشر -->
+    <script>
+        var curPin = '';
+        var dClicks = 0;
+        var pwaPrompt = null;
+
+        var comps = [
+            { id: '1', name: 'شركة الأفق الرقمية', st: 'A' },
+            { id: '2', name: 'مجمع النور اللوجستي', st: 'A' },
+            { id: '3', name: 'مؤسسة الرواد للتجارة', st: 'A' }
+        ];
+
+        var CURRS = {
+            'DZD': { r: 1, s: 'دج' },
+            'USD': { r: 0.0074, s: '$' },
+            'EUR': { r: 0.0069, s: '€' },
+            'SAR': { r: 0.0278, s: 'ر.س' },
+            'AED': { r: 0.0272, s: 'د.إ' }
+        };
+
+        var TEXTS = {
+            ar: {
+                title: "غرفة العمليات المركزية", sub: "المؤشرات اللحظية والسيولة النقدية لـ 142 محطة نشطة",
+                c1: "السيولة المتاحة", c2: "نبض المحطات", c3: "مصفوفة الصفقات", c4: "أمان DLP",
+                stTitle: "أقسام المؤسسة والموظفون والمهام", stSub: "تفاصيل مسؤوليات كل موظف اليومية بدقة",
+                cvTitle: "فرز السير الذاتية بالذكاء الاصطناعي", cvSub: "تحليل آلي لـ 46 سيرة ذاتية مطابقة للمواصفات",
+                ecTitle: "الرادار الاقتصادي وأسواق المال", dlTitle: "مصفوفة الصفقات والعقود", fnTitle: "درع الخزينة وترشيد النفقات",
+                b1: "العمليات", b2: "الموظفين", b3: "فرز السير", b4: "الاقتصاد", b5: "الصفقات", b6: "الخزينة",
+                pTitle: "التحقق برمز الدخول", pBypass: "دخول مباشر"
+            },
+            en: {
+                title: "Executive Cockpit", sub: "Live liquidity and telemetry for 142 active fleet workstations",
+                c1: "Available Cash", c2: "Fleet Pulse", c3: "Deals Pipeline", c4: "DLP Security",
+                stTitle: "Departments, Workforce & Daily Duties", stSub: "Exact daily duties and responsibilities breakdown",
+                cvTitle: "AI CV Screening Engine", cvSub: "Automated analysis of 46 resumes for open positions",
+                ecTitle: "Economic Markets Radar", dlTitle: "Strategic Deals Matrix", fnTitle: "Treasury Shield & Cap",
+                b1: "Cockpit", b2: "Workforce", b3: "AI CV", b4: "Economy", b5: "Deals", b6: "Treasury",
+                pTitle: "Sovereign PIN Verification", pBypass: "Instant Entry"
+            },
+            fr: {
+                title: "Cockpit Exécutif", sub: "Liquidités et télémétrie en temps réel de 142 postes actifs",
+                c1: "Liquidité Disponible", c2: "Pouls des Postes", c3: "Portefeuille Contrats", c4: "Sécurité DLP",
+                stTitle: "Départements, Personnel et Missions", stSub: "Détail précis des missions quotidiennes de chaque employé",
+                cvTitle: "Moteur IA de Tri de CV", cvSub: "Tri automatisé de 46 candidatures qualifiées",
+                ecTitle: "Radar Économique & Marchés", dlTitle: "Matrice des Contrats", fnTitle: "Bouclier de Trésorerie",
+                b1: "Cockpit", b2: "Personnel", b3: "Tri CV", b4: "Économie", b5: "Contrats", b6: "Trésorerie",
+                pTitle: "Vérification Code PIN", pBypass: "Accès Direct"
+            },
+            es: {
+                title: "Centro de Control Ejecutivo", sub: "Liquidez y telemetría en tiempo real de 142 estaciones",
+                c1: "Liquidez Disponible", c2: "Pulso Operativo", c3: "Cartera Acuerdos", c4: "Seguridad DLP",
+                stTitle: "Departamentos, Personal y Tareas", stSub: "Detalle completo de las responsabilidades diarias",
+                cvTitle: "Motor de IA para Filtrado de CVs", cvSub: "Análisis automatizado de 46 postulaciones laborales",
+                ecTitle: "Radar Económico y Mercados", dlTitle: "Matriz de Contratos", fnTitle: "Escudo de Tesorería",
+                b1: "Operaciones", b2: "Personal", b3: "CVs IA", b4: "Economía", b5: "Acuerdos", b6: "Tesorería",
+                pTitle: "Verificación de PIN", pBypass: "Entrada Rápida"
+            },
+            tr: {
+                title: "Yönetici Kokpiti", sub: "142 aktif iş istasyonunun anlık likidite ve operasyonel takibi",
+                c1: "Kullanılabilir Likidite", c2: "İstasyon Nabzı", c3: "Anlaşma Havuzu", c4: "DLP Güvenliği",
+                stTitle: "Departmanlar, Personel ve Görevler", stSub: "Her personelin günlük görev ve sorumlulukları",
+                cvTitle: "Yapay Zeka Destekli CV Tarama", cvSub: "Gelen 46 özgeçmişin otomatik analizi",
+                ecTitle: "Ekonomik Piyasa Radarı", dlTitle: "Stratejik Anlaşmalar", fnTitle: "Hazine Kalkanı",
+                b1: "Kokpit", b2: "Personel", b3: "CV AI", b4: "Ekonomi", b5: "Anlaşmalar", b6: "Hazine",
+                pTitle: "PIN Doğrulaması", pBypass: "Hızlı Giriş"
+            }
+        };
+
+        // 1. التنقل بين الأقسام
+        function navTo(id) {
+            var panes = document.querySelectorAll('.pane');
+            for (var i = 0; i < panes.length; i++) panes[i].classList.remove('on');
+            var target = document.getElementById('v_' + id);
+            if (target) target.classList.add('on');
+
+            var b = document.querySelectorAll('.nav-btn');
+            for (var j = 0; j < b.length; j++) b[j].classList.remove('on');
+            var tb = document.getElementById('tb_' + id);
+            if (tb) tb.classList.add('on');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 2. تبديل العملات
+        function chgCurr(c) {
+            var cur = CURRS[c] || CURRS.DZD;
+            document.getElementById('v_liq').innerText = Math.round(48240000 * cur.r).toLocaleString();
+            document.getElementById('v_deals').innerText = Math.round(46400000 * cur.r).toLocaleString();
+            var vals = document.querySelectorAll('.mval');
+            for (var i = 0; i < vals.length; i++) {
+                var b = parseFloat(vals[i].getAttribute('data-b')) || 0;
+                vals[i].innerText = Math.round(b * cur.r).toLocaleString();
+            }
+            var s = document.querySelectorAll('.csym');
+            for (var j = 0; j < s.length; j++) s[j].innerText = cur.s;
+        }
+
+        // 3. تبديل اللغات
+        function chgLang(l) {
+            var app = document.getElementById('app');
+            app.setAttribute('dir', (l === 'ar') ? 'rtl' : 'ltr');
+            app.setAttribute('lang', l);
+            var t = TEXTS[l] || TEXTS.ar;
+
+            function s(id, val) { var e = document.getElementById(id); if (e) e.innerText = val; }
+            s('l_title', t.title); s('l_sub', t.sub);
+            s('l_c1', t.c1); s('l_c2', t.c2); s('l_c3', t.c3); s('l_c4', t.c4);
+            s('l_stTitle', t.stTitle); s('l_stSub', t.stSub);
+            s('l_cvTitle', t.cvTitle); s('l_cvSub', t.cvSub);
+            s('l_ecTitle', t.ecTitle); s('l_dlTitle', t.dlTitle); s('l_fnTitle', t.fnTitle);
+            s('b_1', t.b1); s('b_2', t.b2); s('b_3', t.b3); s('b_4', t.b4); s('b_5', t.b5); s('b_6', t.b6);
+            s('l_pinTitle', t.pTitle); s('l_pinBypass', t.pBypass);
+        }
+
+        // 4. رمز الدخول 9900
+        function pOpen() { curPin = ''; document.getElementById('pinBox').innerText = '••••'; document.getElementById('pinModal').style.display = 'flex'; }
+        function pClose() { document.getElementById('pinModal').style.display = 'none'; }
+        function pDigit(d) {
+            if (curPin.length < 4) {
+                curPin += d;
+                document.getElementById('pinBox').innerText = curPin;
+                if (curPin === '9900' || curPin.length === 4) setTimeout(pClose, 200);
+            }
+        }
+        function pClear() { curPin = ''; document.getElementById('pinBox').innerText = '••••'; }
+
+        // 5. المطور وقفل الشركات المنفصلة
+        function devClick() { dClicks++; if (dClicks >= 5) { dClicks = 0; openGod(); } }
+        function openGod() { renderC(); document.getElementById('godModal').style.display = 'flex'; }
+        function renderC() {
+            var box = document.getElementById('compList');
+            box.innerHTML = '';
+            for (var i = 0; i < comps.length; i++) {
+                var c = comps[i];
+                var f = (c.st === 'F');
+                var d = document.createElement('div');
+                d.style.cssText = 'background:#050d25; border:1px solid #1e293b; padding:8px; border-radius:10px; display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;';
+                d.innerHTML = '<div><strong style="font-size:12px; color:#fff;">' + c.name + '</strong><br><span style="font-size:10px; color:' + (f ? '#ef4444' : '#10b981') + ';">' + (f ? 'مجمدة ❌' : 'نشطة ✓') + '</span></div>' +
+                              '<div style="display:flex; gap:4px;"><button class="btn" style="background:#ef4444; color:#fff; padding:4px 8px;" onclick="freezeComp(\'' + c.id + '\')">تجميد</button><button class="btn" style="background:#10b981; color:#000; padding:4px 8px;" onclick="unfreezeComp(\'' + c.id + '\')">فك</button></div>';
+                box.appendChild(d);
+            }
+        }
+        function freezeComp(id) {
+            for (var i = 0; i < comps.length; i++) {
+                if (comps[i].id === id) {
+                    comps[i].st = 'F';
+                    document.getElementById('lockTitle').innerText = 'تم تجميد: ' + comps[i].name;
+                    document.getElementById('lockScreen').style.display = 'flex';
+                    renderC();
+                    break;
+                }
+            }
+        }
+        function unfreezeComp(id) {
+            for (var i = 0; i < comps.length; i++) {
+                if (comps[i].id === id) {
+                    comps[i].st = 'A';
+                    document.getElementById('lockScreen').style.display = 'none';
+                    renderC();
+                    break;
+                }
+            }
+        }
+        function unlockPrompt() {
+            var code = prompt('أدخل رمز فك التجميد (9900):');
+            if (code === '9900') {
+                for (var i = 0; i < comps.length; i++) comps[i].st = 'A';
+                document.getElementById('lockScreen').style.display = 'none';
+                renderC();
+                alert('✅ تم فك التجميد واستعادة المنظومة بنجاح!');
+            }
+        }
+
+        // 6. تثبيت التطبيق PWA
+        window.addEventListener('beforeinstallprompt', function(e) {
+            e.preventDefault();
+            pwaPrompt = e;
+        });
+        function doInstall() {
+            if (pwaPrompt) {
+                pwaPrompt.prompt();
+                pwaPrompt.userChoice.then(function() { pwaPrompt = null; });
+            } else {
+                alert('📱 لتثبيت التطبيق على هاتفك بدون ظهور قوقل:\n\n1. اضغط على النقاط الثلاث (⋮ في زاوية المتصفح).\n2. اضغط على «تثبيت التطبيق (Install app)» أو «إضافة إلى الشاشة الرئيسية».\n3. سيظهر التطبيق كأيقونة رسمية على شاشتك وبدون أي شريط متصفح!');
+            }
+        }
+
+        // تهيئة
+        document.addEventListener('DOMContentLoaded', function() { renderC(); });
+    </script>
+</body>
+</html>
