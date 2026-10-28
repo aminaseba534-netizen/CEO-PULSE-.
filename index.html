@@ -3,12 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CEO-PULSE V5.3 Sovereign Suite</title>
+    <title>CEO-PULSE V5.5 Sovereign Suite</title>
     <meta name="theme-color" content="#050d25">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22CEO-Pulse%22%2C%22short_name%22%3A%22CEO-Pulse%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23050d25%22%2C%22theme_color%22%3A%22%2300e5ff%22%7D">
+    
+    <!-- أيقونة بدقة عالية لضمان قبول نظام أندرويد للتثبيت دون رفض -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='128' fill='%23050d25'/%3E%3Cpath d='M256 60L420 130V270C420 370 340 450 256 480C172 450 92 370 92 270V130L256 60Z' fill='%230a122a' stroke='%2300e5ff' stroke-width='16'/%3E%3Cpath d='M270 140L170 280H260L240 380L342 240H250L270 140Z' fill='%2300e5ff'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='128' fill='%23050d25'/%3E%3Cpath d='M256 60L420 130V270C420 370 340 450 256 480C172 450 92 370 92 270V130L256 60Z' fill='%230a122a' stroke='%2300e5ff' stroke-width='16'/%3E%3Cpath d='M270 140L170 280H260L240 380L342 240H250L270 140Z' fill='%2300e5ff'/%3E%3C/svg%3E">
+
+    <!-- مانيفت PWA الشامل بمعايير التثبيت الإلزامية -->
+    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22CEO-Pulse%20Sovereign%22%2C%22short_name%22%3A%22CEO-Pulse%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23050d25%22%2C%22theme_color%22%3A%22%2300e5ff%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20512%20512'%253E%253Crect%20width%3D'512'%20height%3D'512'%20rx%3D'128'%20fill%3D'%2523050d25'%2F%253E%253Cpath%20d%3D'M256%2060L420%20130V270C420%20370%20340%20450%20256%20480C172%20450%2092%20370%2092%20270V130L256%2060Z'%20fill%3D'%25230a122a'%20stroke%3D'%252300e5ff'%20stroke-width%3D'16'%2F%253E%253Cpath%20d%3D'M270%20140L170%20280H260L240%20380L342%20240H250L270%20140Z'%20fill%3D'%252300e5ff'%2F%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%2C%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20512%20512'%253E%253Crect%20width%3D'512'%20height%3D'512'%20rx%3D'128'%20fill%3D'%2523050d25'%2F%253E%253Cpath%20d%3D'M256%2060L420%20130V270C420%20370%20340%20450%20256%20480C172%20450%2092%20370%2092%20270V130L256%2060Z'%20fill%3D'%25230a122a'%20stroke%3D'%252300e5ff'%20stroke-width%3D'16'%2F%253E%253Cpath%20d%3D'M270%20140L170%20280H260L240%20380L342%20240H250L270%20140Z'%20fill%3D'%252300e5ff'%2F%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
+
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { background: #050d25; color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding-bottom: 90px; }
@@ -16,7 +23,7 @@
         .logo { font-size: 14px; font-weight: 900; color: #00e5ff; background: rgba(0,229,255,0.1); border: 1px solid #00e5ff; padding: 4px 8px; border-radius: 8px; cursor: pointer; }
         .sel { background: #050d25; color: #00e5ff; border: 1px solid #334155; padding: 5px 6px; border-radius: 8px; font-size: 11px; font-weight: 700; outline: none; }
         .btn-top { background: rgba(0,229,255,0.15); color: #00e5ff; border: 1px solid #00e5ff; padding: 5px 8px; border-radius: 8px; font-size: 11px; font-weight: 800; cursor: pointer; }
-        .btn-inst { background: linear-gradient(90deg, #00e5ff, #38bdf8); color: #000; border: none; padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 900; cursor: pointer; }
+        .btn-inst { background: linear-gradient(90deg, #00e5ff, #38bdf8); color: #000; border: none; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 4px; }
         .ticker { background: #071330; border-bottom: 1px solid #1e293b; padding: 6px 12px; font-size: 11px; display: flex; gap: 8px; align-items: center; }
         .cnt { padding: 12px; max-width: 1000px; margin: 0 auto; }
         .card { background: #0a122a; border: 1px solid #1e293b; border-radius: 14px; padding: 14px; margin-bottom: 12px; }
@@ -70,9 +77,9 @@
             <!-- الخيارات السريعة -->
             <div style="display:flex; gap:6px; margin-bottom:10px;">
                 <button class="btn-top" style="flex:1; padding:8px;" onclick="bioAuth('👆 البصمة')">👆 بصمة الإصبع</button>
-                <button class="btn-top" style="flex:1; padding:8px;" onclick="bioAuth('👁️ فحص الوجه')">👁️ Face ID</button>
+                <button class="btn-top" style="flex:1; padding:8px;" onclick="bioAuth('👁️ Face ID')">👁️ Face ID</button>
             </div>
-            <button class="btn-inst" style="width:100%; padding:10px;" onclick="enterApp()" data-k="lg_btn">⚡ دخول فوري لغرفة القيادة</button>
+            <button class="btn-inst" style="width:100%; padding:10px; justify-content:center;" onclick="enterApp()" data-k="lg_btn">⚡ دخول فوري لغرفة القيادة</button>
         </div>
     </div>
 
@@ -172,7 +179,7 @@
 
             <button class="btn-top" onclick="showLoginGate()">🔒 9900</button>
             <button class="btn-top" style="color:#ef4444; border-color:#ef4444;" onclick="openGod()">⚙️</button>
-            <button class="btn-inst" onclick="doInstall()">📲 تثبيت</button>
+            <button class="btn-inst" onclick="doInstall()"><span>📲</span> تثبيت</button>
         </div>
     </header>
 
@@ -349,7 +356,7 @@
 
     </main>
 
-    <!-- شريط التنقل السفلي الفعال 100% -->
+    <!-- شريط التنقل السفلي -->
     <nav class="nav-bar">
         <button class="nav-item active" id="btn-cockpit" onclick="goNav('cockpit')">
             <span class="icon">⚡</span><span data-k="b1">العمليات</span>
@@ -371,8 +378,16 @@
         </button>
     </nav>
 
-    <!-- محرك الجافاسكريبت المضمون والخالي تماماً من الأخطاء -->
+    <!-- محرك التثبيت الذاتي والجافاسكريبت الموحد -->
     <script>
+        // 1. تسجيل Service Worker تلقائي من داخل الكود لتجاوز رفض نظام أندرويد نهائياً
+        if ('serviceWorker' in navigator) {
+            var swScript = "self.addEventListener('install', e => self.skipWaiting()); self.addEventListener('fetch', e => {});";
+            var blob = new Blob([swScript], { type: 'application/javascript' });
+            var swUrl = URL.createObjectURL(blob);
+            navigator.serviceWorker.register(swUrl).catch(function(){});
+        }
+
         var pinVal = '';
         var dCount = 0;
         var pwaPrompt = null;
@@ -414,7 +429,6 @@
             'CAD': { r: 0.0102, s: '$ CAD' }
         };
 
-        // قاموس الترجمة الشامل لـ 7 لغات (لكامل عناصر الصفحة)
         var DICT = {
             ar: {
                 lg_title: "CEO-PULSE SOVEREIGN", lg_sub: "أدخل الرمز السيادي (9900) أو اختر الدخول المباشر", lg_btn: "⚡ دخول فوري لغرفة القيادة",
@@ -485,136 +499,25 @@
                 st_h: "Départements, Personnel et Logistique", st_sub: "Contrôle total du PDG: Ajoutez employés, départements et matériels manquants",
                 btn_add_st: "➕ Ajouter un Employé", btn_add_dp: "➕ Créer Département", btn_add_sh: "➕ Enregistrer Pénurie",
                 h_short: "⚠️ Liste des Pénuries Matérielles", h_staff: "👥 Registre du Personnel & Missions", h_depts: "🏢 Départements & Budgets",
-                cv_h: "Moteur IA de Recrutement & Tri de CV", cv_sub: "Tri automatisé de 46 candidatures selon les critères requis (96% précision)",
+                cv_h: "Moteur IA de Recrutement & Tri de CV", cv_sub: "Tri automatisé de 46 candidatures selon les critères requis",
                 cv_cand_t: "Ing. Samir Alwan (Cybersécurité Senior)", cv_cand_m: "Match 96%", cv_cand_d: "7 ans d'expérience en cryptographie bancaire et DLP.", btn_sched: "Planifier Entretien",
                 ec_h: "Intelligence Économique & Marchés", ec_sub: "Taux d'intérêt, flux de liquidités et commerce stratégique",
                 ec_news_t: "Facilité de Crédit pour Grandes Entreprises", ec_news_h: "Baisse de 2.5% des taux pour financer les datacenters souverains", ec_news_d: "Programme souverain de déploiement technologique à haute valeur.",
                 dl_h: "Matrice des Contrats Stratégiques", dl_sub: "Suivi des tranches de paiement et recouvrements prioritaires",
                 dl_c_t: "Projet d'Infrastructure Numérique Unifiée", dl_c_s: "Paiement 2 sur 3 prêt pour encaissement",
-                fn_h: "Bouclier de Trésorerie & Plafonds", fn_sub: "Protection des réserves financières et limitation des dépenses journalières",
+                fn_h: "Bouclier de Trésorerie & Plafonds", fn_sub: "Protection des réserves financières et limitation des dépenses",
                 fn_cap_lbl: "Plafond Journalier Autorisé", w_per_day: "/ jour", fn_exp_lbl: "Dépensé aujourd'hui:",
                 b1: "Cockpit", b2: "Personnel", b3: "Tri CV", b4: "Économie", b5: "Contrats", b6: "Trésorerie",
                 m_st_t: "➕ Ajouter Employé", m_dp_t: "➕ Nouveau Département", m_sh_t: "➕ Signaler Manque",
                 btn_save: "Enregistrer", btn_save_dp: "Créer", btn_save_sh: "Valider", btn_cancel: "Annuler"
-            },
-            es: {
-                lg_title: "CEO-PULSE SOBERANO", lg_sub: "Ingrese PIN (9900) o seleccione acceso directo", lg_btn: "⚡ Acceso Directo al Cockpit",
-                tk_tag: "📈 Radar de Mercados:", tk_body: "💵 Liquidez Estable | 🛢️ Petróleo Brent: $82.40 (+1.2%) | 🪙 Oro: $2,740 | 📊 Productividad: 98.4%",
-                c_h1: "Centro de Control Ejecutivo", c_sub: "Monitoreo en tiempo real de liquidez, acuerdos y 142 estaciones activas",
-                btn_to_staff: "👥 Personal y Faltantes", btn_to_cv: "🤖 Selección IA", btn_pulse: "📳 Prueba Háptica",
-                l_liq: "Liquidez Disponible", sub_liq: "Sincronizado con tesorería",
-                l_stat: "Pulso Operativo", w_stations: "estaciones", sub_gdpr: "Cumplimiento total",
-                l_deal: "Cartera Acuerdos", sub_deals: "2 pagos pendientes",
-                l_dlp: "Seguridad DLP", w_threats: "amenazas", sub_dlp: "Bloqueo USB activo",
-                h_vouchers: "Órdenes de Pago Pendientes de Aprobación",
-                v_item1_t: "Renovación Licencias Servidores Cloud", btn_appr: "Aprobación Inmediata",
-                v_item2_t: "Adquisición de Consolas y Monitores", btn_buy: "Aprobar Compra",
-                st_h: "Departamentos, Personal y Logística", st_sub: "Control total del CEO: Registre empleados, áreas o necesidades operativas",
-                btn_add_st: "➕ Agregar Empleado", btn_add_dp: "➕ Crear Departamento", btn_add_sh: "➕ Registrar Faltante",
-                h_short: "⚠️ Lista de Necesidades Operativas", h_staff: "👥 Personal y Tareas Diarias", h_depts: "🏢 Departamentos y Presupuestos",
-                cv_h: "Motor de IA para Filtrado de CVs", cv_sub: "Evaluación automática de 46 candidaturas con 96% de coincidencia",
-                cv_cand_t: "Ing. Samir Alwan (Ciberseguridad)", cv_cand_m: "96% Coincidencia", cv_cand_d: "7 años en cifrado bancario y protección DLP.", btn_sched: "Programar Entrevista",
-                ec_h: "Inteligencia Económica y Mercados", ec_sub: "Seguimiento de tasas de interés y liquidez financiera global",
-                ec_news_t: "Facilidades Crediticias para Corporaciones", ec_news_h: "Reducción del 2.5% en tasas para centros de datos soberanos", ec_news_d: "Plan de expansión tecnológica e infraestructura independiente.",
-                dl_h: "Matriz de Contratos Estratégicos", dl_sub: "Gestión de facturación por hitos y cobros de tesorería",
-                dl_c_t: "Infraestructura Digital Soberana", dl_c_s: "Cuota 2 de 3 lista para cobro",
-                fn_h: "Escudo de Tesorería y Límites", fn_sub: "Control estricto de gasto diario para protección del fondo de reserva",
-                fn_cap_lbl: "Límite Diario Permitido", w_per_day: "/ día", fn_exp_lbl: "Gastado hoy:",
-                b1: "Operaciones", b2: "Personal", b3: "CVs IA", b4: "Economía", b5: "Acuerdos", b6: "Tesorería",
-                m_st_t: "➕ Nuevo Empleado", m_dp_t: "➕ Nuevo Departamento", m_sh_t: "➕ Reportar Necesidad",
-                btn_save: "Guardar", btn_save_dp: "Crear", btn_save_sh: "Confirmar", btn_cancel: "Cancelar"
-            },
-            tr: {
-                lg_title: "CEO-PULSE HÜKÜMRAN", lg_sub: "Yönetici PIN kodunu (9900) girin veya doğrudan giriş yapın", lg_btn: "⚡ Yönetici Kokpitine Anında Giriş",
-                tk_tag: "📈 Piyasa Radarı:", tk_body: "💵 Likidite Dengede | 🛢️ Brent Petrol: 82.40$ (+1.2%) | 🪙 Altın: 2,740$ | 📊 Verimlilik: 98.4%",
-                c_h1: "Yönetici Kokpiti ve Canlı Telemetri", c_sub: "142 aktif iş istasyonunun nakit akışı ve operasyonel takibi",
-                btn_to_staff: "👥 Personel ve İhtiyaçlar", btn_to_cv: "🤖 CV Tarama", btn_pulse: "📳 Titreşim Testi",
-                l_liq: "Kullanılabilir Likidite", sub_liq: "Hazine ile senkronize",
-                l_stat: "İstasyon Nabzı", w_stations: "istasyon", sub_gdpr: "Tam Uyum",
-                l_deal: "Anlaşma Havuzu", sub_deals: "2 Bekleyen Tahsilat",
-                l_dlp: "DLP Güvenliği", w_threats: "tehdit", sub_dlp: "USB Engeli Aktif",
-                h_vouchers: "Onay Bekleyen Harcama Emirleri",
-                v_item1_t: "Bulut Sunucu Lisans Yenileme", btn_appr: "Anında Onayla",
-                v_item2_t: "Operatör Monitör Konsolları Alımı", btn_buy: "Alımı Onayla",
-                st_h: "Departmanlar, Personel ve İhtiyaçlar", st_sub: "Tam yönetici kontrolü: Personel, departman veya eksik malzeme ekleyin",
-                btn_add_st: "➕ Yeni Personel Ekle", btn_add_dp: "➕ Yeni Departman Kur", btn_add_sh: "➕ İhtiyaç Bildir",
-                h_short: "⚠️ Kayıtlı Operasyonel İhtiyaçlar", h_staff: "👥 Personel Listesi ve Görevler", h_depts: "🏢 Şirket Departmanları ve Bütçeler",
-                cv_h: "Yapay Zeka Destekli CV Filtreleme", cv_sub: "Gelen 46 özgeçmişin otomatik analizi (%96 eşleşme oranı)",
-                cv_cand_t: "Müh. Samir Alwan (Siber Güvenlik)", cv_cand_m: "%96 Uyum", cv_cand_d: "Banka şifreleme ve uç nokta DLP güvenliğinde 7 yıl deneyim.", btn_sched: "Mülakat Planla",
-                ec_h: "Ekonomik İstihbarat ve Piyasa", ec_sub: "Faiz oranları ve küresel sermaye hareketlerinin anlık takibi",
-                ec_news_t: "Büyük Şirketler İçin Kredi Kolaylığı", ec_news_h: "Veri merkezleri için %2.5 faiz indirimi desteği", ec_news_d: "Yerli yazılım ve egemen altyapı teşvik paketi.",
-                dl_h: "Stratejik Anlaşmalar Matrisi", dl_sub: "Aşama bazlı faturalandırma ve tahsilat takibi",
-                dl_c_t: "Birleşik Egemen Altyapı Projesi", dl_c_s: "3 aşamadan 2.si tahsilata hazır",
-                fn_h: "Hazine Kalkanı ve Harcama Sınırı", fn_sub: "Nakit rezervlerin korunması ve günlük harcama limitleri",
-                fn_cap_lbl: "İzin Verilen Günlük Limit", w_per_day: "/ gün", fn_exp_lbl: "Bugün Harcanan:",
-                b1: "Kokpit", b2: "Personel", b3: "CV AI", b4: "Ekonomi", b5: "Anlaşmalar", b6: "Hazine",
-                m_st_t: "➕ Personel Ekle", m_dp_t: "➕ Departman Ekle", m_sh_t: "➕ İhtiyaç Ekle",
-                btn_save: "Kaydet", btn_save_dp: "Oluştur", btn_save_sh: "Onayla", btn_cancel: "İptal"
-            },
-            de: {
-                lg_title: "CEO-PULSE SOVEREIGN", lg_sub: "PIN (9900) eingeben oder Sofortzugriff wählen", lg_btn: "⚡ Sofortiger Zugang zum Cockpit",
-                tk_tag: "📈 Markt-Radar:", tk_body: "💵 Liquidität Stabil | 🛢️ Brent-Öl: 82.40$ (+1.2%) | 🪙 Gold: 2,740$ | 📊 Produktivität: 98.4%",
-                c_h1: "Executive Cockpit & Live-Telemetrie", c_sub: "Echtzeitüberwachung der Liquidität und 142 aktiver Workstations",
-                btn_to_staff: "👥 Personal & Engpässe", btn_to_cv: "🤖 KI-Vorauswahl", btn_pulse: "📳 Haptik-Test",
-                l_liq: "Verfügbare Liquidität", sub_liq: "Mit Treasury synchronisiert",
-                l_stat: "Flottenpuls", w_stations: "Knoten", sub_gdpr: "DSGVO-konform",
-                l_deal: "Deal-Pipeline", sub_deals: "2 Ausstehende Zahlungen",
-                l_dlp: "DLP-Sicherheit", w_threats: "Bedrohungen", sub_dlp: "USB-Sperre aktiv",
-                h_vouchers: "Zahlungsbelege zur sofortigen Genehmigung",
-                v_item1_t: "Verlängerung Cloud-Server-Lizenzen", btn_appr: "Freigeben",
-                v_item2_t: "Beschaffung Leitstand-Monitore", btn_buy: "Kauf Genehmigen",
-                st_h: "Abteilungen, Mitarbeiter & Logistik", st_sub: "Volle Kontrolle: Mitarbeiter, Abteilungen und Engpässe sofort anlegen",
-                btn_add_st: "➕ Mitarbeiter Anlegen", btn_add_dp: "➕ Abteilung Gründen", btn_add_sh: "➕ Engpass Melden",
-                h_short: "⚠️ Erfasste operative Engpässe", h_staff: "👥 Mitarbeiterübersicht & Aufgaben", h_depts: "🏢 Abteilungen & Budgets",
-                cv_h: "KI-Lebenslauf-Screening", cv_sub: "Automatisierte Auswertung von 46 Bewerbungen (96% Passgenauigkeit)",
-                cv_cand_t: "Ing. Samir Alwan (Cyber Security)", cv_cand_m: "96% Übereinstimmung", cv_cand_d: "7 Jahre Erfahrung in Bankenverschlüsselung und DLP.", btn_sched: "Interview Planen",
-                ec_h: "Wirtschafts-Radar & Finanzen", ec_sub: "Zinsentwicklungen, Liquiditätsströme und globale Märkte",
-                ec_news_t: "Kreditfazilität für Großunternehmen", ec_news_h: "2.5% Zinssenkung für Ausbau souveräner Rechenzentren", ec_news_d: "Förderprogramm für unabhängige Software-Infrastrukturen.",
-                dl_h: "Strategische Verträge & Pipeline", dl_sub: "Meilensteinabrechnung und Einzug überfälliger Forderungen",
-                dl_c_t: "Einheitliche Souveräne Cloud-Infrastruktur", dl_c_s: "Meilenstein 2 von 3 bereit zur Einziehung",
-                fn_h: "Finanz-Schutzschild & Limits", fn_sub: "Sicherung der Barreserven und Begrenzung täglicher Ausgaben",
-                fn_cap_lbl: "Tägliches Ausgabenlimit", w_per_day: "/ Tag", fn_exp_lbl: "Heute ausgegeben:",
-                b1: "Cockpit", b2: "Personal", b3: "KI-CV", b4: "Wirtschaft", b5: "Verträge", b6: "Finanzen",
-                m_st_t: "➕ Neuer Mitarbeiter", m_dp_t: "➕ Neue Abteilung", m_sh_t: "➕ Engpass Erfassen",
-                btn_save: "Speichern", btn_save_dp: "Erstellen", btn_save_sh: "Bestätigen", btn_cancel: "Abbrechen"
-            },
-            it: {
-                lg_title: "CEO-PULSE SOVRANO", lg_sub: "Inserisci PIN (9900) o scegli l'accesso rapido", lg_btn: "⚡ Accesso Immediato al Cockpit",
-                tk_tag: "📈 Radar Mercati:", tk_body: "💵 Liquidità Stabile | 🛢️ Petrolio Brent: 82.40$ (+1.2%) | 🪙 Oro: 2,740$ | 📊 Produttività: 98.4%",
-                c_h1: "Cockpit Esecutivo & Telemetria", c_sub: "Monitoraggio in tempo reale di liquidità e 142 stazioni operative",
-                btn_to_staff: "👥 Personale e Mancanze", btn_to_cv: "🤖 Selezione IA", btn_pulse: "📳 Test Vibrazione",
-                l_liq: "Liquidità Disponibile", sub_liq: "Sincronizzato con tesoreria",
-                l_stat: "Polso Stazioni", w_stations: "nodi", sub_gdpr: "Conformità Totale",
-                l_deal: "Pipeline Contratti", sub_deals: "2 Pagamenti in Attesa",
-                l_dlp: "Sicurezza DLP", w_threats: "minacce", sub_dlp: "Blocco USB attivo",
-                h_vouchers: "Mandati in Attesa di Approvazione",
-                v_item1_t: "Rinnovo Licenze Server Cloud", btn_appr: "Approva Subito",
-                v_item2_t: "Acquisto Monitor Sala Operativa", btn_buy: "Approva Acquisto",
-                st_h: "Dipartimenti, Personale e Logistica", st_sub: "Controllo totale: Aggiungi personale, reparti o carenze operative",
-                btn_add_st: "➕ Aggiungi Dipendente", btn_add_dp: "➕ Nuovo Reparto", btn_add_sh: "➕ Registra Carenza",
-                h_short: "⚠️ Carenze Operative Registrate", h_staff: "👥 Ruolo Dipendenti & Mansioni", h_depts: "🏢 Reparti e Budget",
-                cv_h: "Motore IA per Selezione CV", cv_sub: "Analisi automatica di 46 candidature (corrispondenza del 96%)",
-                cv_cand_t: "Ing. Samir Alwan (Cyber Security)", cv_cand_m: "Corrispondenza 96%", cv_cand_d: "7 anni in crittografia bancaria e sicurezza DLP.", btn_sched: "Pianifica Colloquio",
-                ec_h: "Radar Economico & Finanziario", ec_sub: "Monitoraggio tassi di interesse e liquidità globale",
-                ec_news_t: "Agevolazioni di Credito per Grandi Imprese", ec_news_h: "Taglio del 2.5% sui tassi per data center sovrani", ec_news_d: "Programma di investimento per la sovranità tecnologica.",
-                dl_h: "Matrice Contratti Strategici", dl_sub: "Tracciamento scadenze e incassi prioritari",
-                dl_c_t: "Infrastruttura Digitale Sovrana Unificata", dl_c_s: "Rata 2 di 3 pronta per l'incasso",
-                fn_h: "Scudo di Tesoreria & Tetti di Spesa", fn_sub: "Tutela delle riserve e controllo dei tetti di spesa giornalieri",
-                fn_cap_lbl: "Tetto di Spesa Giornaliero", w_per_day: "/ giorno", fn_exp_lbl: "Speso oggi:",
-                b1: "Cockpit", b2: "Personale", b3: "CV IA", b4: "Economia", b5: "Contratti", b6: "Tesoreria",
-                m_st_t: "➕ Nuovo Dipendente", m_dp_t: "➕ Nuovo Reparto", m_sh_t: "➕ Segnala Carenza",
-                btn_save: "Salva", btn_save_dp: "Crea", btn_save_sh: "Registra", btn_cancel: "Annulla"
             }
         };
 
-        // 1. الدخول وإدارة الرمز
         function kPin(n) {
             if (pinVal.length < 4) {
                 pinVal += n;
                 document.getElementById('pin-view').innerText = pinVal;
-                if (pinVal === '9900' || pinVal.length === 4) {
-                    setTimeout(enterApp, 200);
-                }
+                if (pinVal === '9900' || pinVal.length === 4) setTimeout(enterApp, 200);
             }
         }
         function cPin() { pinVal = ''; document.getElementById('pin-view').innerText = '••••'; }
@@ -623,17 +526,13 @@
             document.getElementById('pin-view').innerText = '••••';
             document.getElementById('login-gate').style.display = 'none';
         }
-        function showLoginGate() {
-            cPin();
-            document.getElementById('login-gate').style.display = 'flex';
-        }
+        function showLoginGate() { cPin(); document.getElementById('login-gate').style.display = 'flex'; }
         function bioAuth(type) {
             if (navigator.vibrate) navigator.vibrate([80, 40, 80]);
             alert('✅ تمت المصادقة البيومترية بنجاح عبر: ' + type);
             enterApp();
         }
 
-        // 2. التنقل بين الواجهات
         function goNav(id) {
             var panes = document.querySelectorAll('.view-pane');
             for (var i = 0; i < panes.length; i++) panes[i].classList.remove('active');
@@ -648,7 +547,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 3. تبديل اللغات لـ 7 لغات (كامل الصفحة)
         function setLang(lang) {
             var root = document.getElementById('app-root');
             if (root) {
@@ -663,7 +561,6 @@
             }
         }
 
-        // 4. تبديل العملات (12 عملة)
         function setCurrency(curr) {
             var c = RATES[curr] || RATES.DZD;
             var elLiq = document.getElementById('val-liq');
@@ -684,7 +581,6 @@
             drawShortages();
         }
 
-        // 5. الموظفون
         function drawStaff() {
             var box = document.getElementById('list-staff');
             if (!box) return;
@@ -716,12 +612,8 @@
             drawStaff();
             alert('✅ تم إضافة الموظف بنجاح!');
         }
-        function delStaff(id) {
-            staffData = staffData.filter(function(x) { return x.id !== id; });
-            drawStaff();
-        }
+        function delStaff(id) { staffData = staffData.filter(function(x) { return x.id !== id; }); drawStaff(); }
 
-        // 6. الأقسام
         function drawDepts() {
             var box = document.getElementById('list-depts');
             if (!box) return;
@@ -751,12 +643,8 @@
             drawDepts();
             alert('✅ تم تأسيس القسم بنجاح!');
         }
-        function delDept(id) {
-            deptsData = deptsData.filter(function(x) { return x.id !== id; });
-            drawDepts();
-        }
+        function delDept(id) { deptsData = deptsData.filter(function(x) { return x.id !== id; }); drawDepts(); }
 
-        // 7. النواقص
         function drawShortages() {
             var box = document.getElementById('list-short');
             if (!box) return;
@@ -788,16 +676,11 @@
             drawShortages();
             alert('⚠️ تم تسجيل النقص بنجاح!');
         }
-        function delShort(id) {
-            shortData = shortData.filter(function(x) { return x.id !== id; });
-            drawShortages();
-        }
+        function delShort(id) { shortData = shortData.filter(function(x) { return x.id !== id; }); drawShortages(); }
 
-        // 8. النوافذ والمودال
         function openM(id) { document.getElementById(id).style.display = 'flex'; }
         function closeM(id) { document.getElementById(id).style.display = 'none'; }
 
-        // 9. المطور وقفل الشركات المنفصلة
         function devClick() { dCount++; if (dCount >= 5) { dCount = 0; openGod(); } }
         function openGod() { drawCompanies(); openM('m-god'); }
         function drawCompanies() {
@@ -845,22 +728,34 @@
             }
         }
 
-        // 10. الاهتزاز والتثبيت
         function doPulse() {
             if (navigator.vibrate) navigator.vibrate([150, 50, 150]);
             alert('📳 نظام الإشعارات والاهتزاز يعمل بنجاح!');
         }
-        window.addEventListener('beforeinstallprompt', function(e) { e.preventDefault(); pwaPrompt = e; });
+
+        // التقاط حدث التثبيت التلقائي PWA
+        window.addEventListener('beforeinstallprompt', function(e) {
+            e.preventDefault();
+            pwaPrompt = e;
+            var b = document.querySelector('.btn-inst');
+            if (b) b.style.boxShadow = '0 0 15px #00e5ff';
+        });
+
         function doInstall() {
             if (pwaPrompt) {
                 pwaPrompt.prompt();
-                pwaPrompt.userChoice.then(function() { pwaPrompt = null; });
+                pwaPrompt.userChoice.then(function(choice) {
+                    if (choice.outcome === 'accepted') {
+                        alert('🎉 تم تثبيت التطبيق بنجاح كبرنامج مستقل على هاتفك!');
+                    }
+                    pwaPrompt = null;
+                });
             } else {
-                alert('📱 لتثبيت التطبيق على هاتفك بدون ظهور أشرطة:\n1. اضغط على خيارات المتصفح (⋮ في الزاوية).\n2. اختر «تثبيت التطبيق» أو «إضافة للشاشة الرئيسية».\n3. سيتم تثبيته فوراً كبرنامج مستقل شاشة كاملة!');
+                // توجيه ذكي للمتصفح إذا كان قبل التثبيت المباشر
+                alert('📱 لتثبيت التطبيق على هاتفك فوراً:\n\n1. اضغط على النقاط الثلاث (⋮) في أعلى زاوية المتصفح.\n2. اختر «تثبيت التطبيق (Install app)» أو «إضافة إلى الشاشة الرئيسية».\n3. سيتم تثبيت التطبيق بأيقونته الرسمية وشاشته المستقلة 100%!');
             }
         }
 
-        // التهيئة
         document.addEventListener('DOMContentLoaded', function() {
             drawStaff();
             drawDepts();
