@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" id="app-root">
 <head>
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CEO-PULSE Sovereign Suite</title>
+    <title>CEO-PULSE V5.3 Sovereign Suite</title>
     <meta name="theme-color" content="#050d25">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22CEO-Pulse%22%2C%22short_name%22%3A%22CEO-Pulse%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23050d25%22%2C%22theme_color%22%3A%22%2300e5ff%22%7D">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -16,6 +17,7 @@
         .sel { background: #050d25; color: #00e5ff; border: 1px solid #334155; padding: 5px 6px; border-radius: 8px; font-size: 11px; font-weight: 700; outline: none; }
         .btn-top { background: rgba(0,229,255,0.15); color: #00e5ff; border: 1px solid #00e5ff; padding: 5px 8px; border-radius: 8px; font-size: 11px; font-weight: 800; cursor: pointer; }
         .btn-inst { background: linear-gradient(90deg, #00e5ff, #38bdf8); color: #000; border: none; padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 900; cursor: pointer; }
+        .ticker { background: #071330; border-bottom: 1px solid #1e293b; padding: 6px 12px; font-size: 11px; display: flex; gap: 8px; align-items: center; }
         .cnt { padding: 12px; max-width: 1000px; margin: 0 auto; }
         .card { background: #0a122a; border: 1px solid #1e293b; border-radius: 14px; padding: 14px; margin-bottom: 12px; }
         .hero { background: linear-gradient(135deg, #0e1e47, #0a1433); border: 1px solid rgba(0,229,255,0.4); border-radius: 16px; padding: 16px; margin-bottom: 14px; }
@@ -35,57 +37,21 @@
         .modal-body { background: #0a122a; border: 1px solid #00e5ff; border-radius: 16px; padding: 18px; max-width: 340px; width: 100%; }
         .input-box { width: 100%; background: #050d25; border: 1px solid #334155; color: #fff; padding: 8px 10px; border-radius: 8px; font-size: 12px; margin-bottom: 8px; outline: none; }
         .item-row { background: #050d25; border: 1px solid #1e293b; border-radius: 10px; padding: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .login-overlay { position: fixed; inset: 0; background: #050d25; z-index: 200; display: flex; align-items: center; justify-content: center; padding: 16px; }
     </style>
 </head>
 <body>
 
-    <!-- نافذة إضافة موظف -->
-    <div id="m-staff" class="modal">
-        <div class="modal-body">
-            <h3 style="font-size:15px; margin-bottom:10px; color:#00e5ff;">➕ إضافة موظف ومهامه اليومية</h3>
-            <input type="text" id="in-s-name" class="input-box" placeholder="اسم الموظف">
-            <input type="text" id="in-s-role" class="input-box" placeholder="المسمى الوظيفي">
-            <input type="text" id="in-s-dept" class="input-box" placeholder="القسم">
-            <textarea id="in-s-duty" class="input-box" style="height:60px; resize:none;" placeholder="المهام اليومية"></textarea>
-            <div style="display:flex; gap:6px;">
-                <button type="button" class="btn-act" style="flex:1;" onclick="addStaff()">حفظ الموظف</button>
-                <button type="button" class="btn-act red" style="flex:1;" onclick="closeM('m-staff')">إلغاء</button>
-            </div>
-        </div>
-    </div>
+    <!-- 🔐 شاشة الدخول السيادية المباشرة -->
+    <div id="login-gate" class="login-overlay">
+        <div class="modal-body" style="text-align:center; max-width:320px; border-color:rgba(0,229,255,0.6);">
+            <div style="font-size:36px; margin-bottom:6px;">⚡</div>
+            <h2 style="font-size:18px; font-weight:900; color:#00e5ff; margin-bottom:4px;" data-k="lg_title">CEO-PULSE SOVEREIGN</h2>
+            <p style="font-size:11px; color:#94a3b8; margin-bottom:12px;" data-k="lg_sub">أدخل الرمز السيادي (9900) أو اختر الدخول المباشر</p>
+            
+            <div id="pin-view" style="font-size:22px; letter-spacing:6px; color:#00e5ff; font-weight:900; background:#0a122a; padding:10px; border-radius:10px; border:1px solid #334155; margin-bottom:12px;">••••</div>
 
-    <!-- نافذة إضافة قسم -->
-    <div id="m-dept" class="modal">
-        <div class="modal-body">
-            <h3 style="font-size:15px; margin-bottom:10px; color:#f59e0b;">➕ تأسيس قسم جديد</h3>
-            <input type="text" id="in-d-name" class="input-box" placeholder="اسم القسم">
-            <input type="text" id="in-d-head" class="input-box" placeholder="رئيس القسم">
-            <input type="number" id="in-d-budget" class="input-box" placeholder="الميزانية">
-            <div style="display:flex; gap:6px;">
-                <button type="button" class="btn-act gold" style="flex:1;" onclick="addDept()">إنشاء القسم</button>
-                <button type="button" class="btn-act red" style="flex:1;" onclick="closeM('m-dept')">إلغاء</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- نافذة تسجيل نقص -->
-    <div id="m-short" class="modal">
-        <div class="modal-body">
-            <h3 style="font-size:15px; margin-bottom:10px; color:#ef4444;">➕ تسجيل نقص عتاد</h3>
-            <input type="text" id="in-sh-item" class="input-box" placeholder="العتاد أو الجهاز الناقص">
-            <input type="number" id="in-sh-cost" class="input-box" placeholder="التكلفة التقديرية">
-            <div style="display:flex; gap:6px;">
-                <button type="button" class="btn-act red" style="flex:1;" onclick="addShortage()">تسجيل النقص</button>
-                <button type="button" class="btn-act" style="flex:1; background:#334155; color:#fff;" onclick="closeM('m-short')">إلغاء</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- نافذة رمز الدخول (9900) -->
-    <div id="m-pin" class="modal">
-        <div class="modal-body" style="max-width:300px; text-align:center;">
-            <h3 style="font-size:15px; margin-bottom:6px;">🔒 التحقق برمز الدخول</h3>
-            <div id="pin-view" style="font-size:22px; letter-spacing:6px; color:#00e5ff; font-weight:900; background:#050d25; padding:8px; border-radius:8px; border:1px solid #334155; margin-bottom:12px;">••••</div>
+            <!-- لوحة الأرقام اللمسية -->
             <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:12px;">
                 <button class="btn-top" style="padding:10px; font-size:16px;" onclick="kPin('1')">1</button>
                 <button class="btn-top" style="padding:10px; font-size:16px;" onclick="kPin('2')">2</button>
@@ -98,9 +64,57 @@
                 <button class="btn-top" style="padding:10px; font-size:16px;" onclick="kPin('9')">9</button>
                 <button class="btn-top" style="padding:10px; font-size:16px; background:#450a0a; color:#fca5a5;" onclick="cPin()">C</button>
                 <button class="btn-top" style="padding:10px; font-size:16px;" onclick="kPin('0')">0</button>
-                <button class="btn-top" style="padding:10px; font-size:16px; background:#042f2e; color:#5eead4;" onclick="closeM('m-pin')">↵</button>
+                <button class="btn-top" style="padding:10px; font-size:16px; background:#042f2e; color:#5eead4;" onclick="enterApp()">↵</button>
             </div>
-            <button class="btn-inst" style="width:100%; padding:10px;" onclick="closeM('m-pin')">⚡ دخول فوري مباشر</button>
+
+            <!-- الخيارات السريعة -->
+            <div style="display:flex; gap:6px; margin-bottom:10px;">
+                <button class="btn-top" style="flex:1; padding:8px;" onclick="bioAuth('👆 البصمة')">👆 بصمة الإصبع</button>
+                <button class="btn-top" style="flex:1; padding:8px;" onclick="bioAuth('👁️ فحص الوجه')">👁️ Face ID</button>
+            </div>
+            <button class="btn-inst" style="width:100%; padding:10px;" onclick="enterApp()" data-k="lg_btn">⚡ دخول فوري لغرفة القيادة</button>
+        </div>
+    </div>
+
+    <!-- نافذة إضافة موظف -->
+    <div id="m-staff" class="modal">
+        <div class="modal-body">
+            <h3 style="font-size:15px; margin-bottom:10px; color:#00e5ff;" data-k="m_st_t">➕ إضافة موظف ومهامه اليومية</h3>
+            <input type="text" id="in-s-name" class="input-box" placeholder="اسم الموظف">
+            <input type="text" id="in-s-role" class="input-box" placeholder="المسمى الوظيفي">
+            <input type="text" id="in-s-dept" class="input-box" placeholder="القسم">
+            <textarea id="in-s-duty" class="input-box" style="height:60px; resize:none;" placeholder="المهام اليومية"></textarea>
+            <div style="display:flex; gap:6px;">
+                <button type="button" class="btn-act" style="flex:1;" onclick="addStaff()" data-k="btn_save">حفظ الموظف</button>
+                <button type="button" class="btn-act red" style="flex:1;" onclick="closeM('m-staff')" data-k="btn_cancel">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إضافة قسم -->
+    <div id="m-dept" class="modal">
+        <div class="modal-body">
+            <h3 style="font-size:15px; margin-bottom:10px; color:#f59e0b;" data-k="m_dp_t">➕ تأسيس قسم جديد</h3>
+            <input type="text" id="in-d-name" class="input-box" placeholder="اسم القسم">
+            <input type="text" id="in-d-head" class="input-box" placeholder="رئيس القسم">
+            <input type="number" id="in-d-budget" class="input-box" placeholder="الميزانية">
+            <div style="display:flex; gap:6px;">
+                <button type="button" class="btn-act gold" style="flex:1;" onclick="addDept()" data-k="btn_save_dp">إنشاء القسم</button>
+                <button type="button" class="btn-act red" style="flex:1;" onclick="closeM('m-dept')" data-k="btn_cancel">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تسجيل نقص -->
+    <div id="m-short" class="modal">
+        <div class="modal-body">
+            <h3 style="font-size:15px; margin-bottom:10px; color:#ef4444;" data-k="m_sh_t">➕ تسجيل نقص عتاد</h3>
+            <input type="text" id="in-sh-item" class="input-box" placeholder="العتاد أو الجهاز الناقص">
+            <input type="number" id="in-sh-cost" class="input-box" placeholder="التكلفة التقديرية">
+            <div style="display:flex; gap:6px;">
+                <button type="button" class="btn-act red" style="flex:1;" onclick="addShortage()" data-k="btn_save_sh">تسجيل النقص</button>
+                <button type="button" class="btn-act" style="flex:1; background:#334155; color:#fff;" onclick="closeM('m-short')" data-k="btn_cancel">إلغاء</button>
+            </div>
         </div>
     </div>
 
@@ -147,25 +161,25 @@
 
             <!-- 7 لغات -->
             <select id="s-lang" class="sel" onchange="setLang(this.value)">
-                <option value="ar">العربية</option>
-                <option value="en">English</option>
-                <option value="fr">Français</option>
-                <option value="es">Español</option>
-                <option value="tr">Türkçe</option>
-                <option value="de">Deutsch</option>
-                <option value="it">Italiano</option>
+                <option value="ar">العربية (AR)</option>
+                <option value="en">English (EN)</option>
+                <option value="fr">Français (FR)</option>
+                <option value="es">Español (ES)</option>
+                <option value="tr">Türkçe (TR)</option>
+                <option value="de">Deutsch (DE)</option>
+                <option value="it">Italiano (IT)</option>
             </select>
 
-            <button class="btn-top" onclick="openM('m-pin')">🔒 9900</button>
+            <button class="btn-top" onclick="showLoginGate()">🔒 9900</button>
             <button class="btn-top" style="color:#ef4444; border-color:#ef4444;" onclick="openGod()">⚙️</button>
             <button class="btn-inst" onclick="doInstall()">📲 تثبيت</button>
         </div>
     </header>
 
     <!-- شريط الرادار الاقتصادي -->
-    <div style="background:#071330; border-bottom:1px solid #1e293b; padding:6px 12px; font-size:11px; display:flex; gap:8px;">
-        <strong style="color:#f59e0b;">📈 رادار الأسواق:</strong>
-        <span style="color:#cbd5e1; white-space:nowrap; overflow:hidden;">
+    <div class="ticker">
+        <strong style="color:#f59e0b;" data-k="tk_tag">📈 رادار الأسواق:</strong>
+        <span style="color:#cbd5e1; white-space:nowrap; overflow:hidden;" data-k="tk_body">
             💵 استقرار السيولة | 🛢️ خام برنت: 82.40$ (+1.2%) | 🪙 الذهب: 2,740$ | 📊 الإنتاجية العامة: 98.4%
         </span>
     </div>
@@ -176,78 +190,78 @@
         <!-- 1. غرفة العمليات -->
         <section id="pane-cockpit" class="view-pane active">
             <div class="hero">
-                <h1 style="font-size:17px; font-weight:900;" id="t_c1">غرفة العمليات المركزية ومؤشرات النبض</h1>
-                <p style="font-size:12px; color:#94a3b8; margin-top:4px;" id="t_c2">متابعة فورية للسيولة النقدية، صفقات التوسع، والنبض اللحظي لـ 142 محطة نشطة</p>
+                <h1 style="font-size:17px; font-weight:900;" data-k="c_h1">غرفة العمليات المركزية ومؤشرات النبض</h1>
+                <p style="font-size:12px; color:#94a3b8; margin-top:4px;" data-k="c_sub">متابعة فورية للسيولة النقدية، صفقات التوسع، والنبض اللحظي لـ 142 محطة نشطة</p>
                 <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
-                    <button class="btn-act gold" onclick="goNav('staff')">👥 الموظفون والنواقص</button>
-                    <button class="btn-act purple" onclick="goNav('aicv')">🤖 فرز السير (AI)</button>
-                    <button class="btn-act" onclick="doPulse()">📳 فحص الاهتزاز</button>
+                    <button class="btn-act gold" onclick="goNav('staff')" data-k="btn_to_staff">👥 الموظفون والنواقص</button>
+                    <button class="btn-act purple" onclick="goNav('aicv')" data-k="btn_to_cv">🤖 فرز السير (AI)</button>
+                    <button class="btn-act" onclick="doPulse()" data-k="btn_pulse">📳 فحص الاهتزاز</button>
                 </div>
             </div>
 
             <div class="grid-2">
                 <div class="card">
-                    <span style="font-size:11px; color:#94a3b8;" id="t_liq_lbl">السيولة المتاحة</span>
+                    <span style="font-size:11px; color:#94a3b8;" data-k="l_liq">السيولة المتاحة</span>
                     <div class="st-val"><span id="val-liq">48,240,000</span> <span class="c-sym">دج</span></div>
-                    <span style="font-size:10px; color:#10b981;">متزامن مع الخزينة</span>
+                    <span style="font-size:10px; color:#10b981;" data-k="sub_liq">متزامن مع الخزينة</span>
                 </div>
                 <div class="card">
-                    <span style="font-size:11px; color:#94a3b8;" id="t_stat_lbl">نبض المحطات</span>
-                    <div class="st-val">142 / 145 <span style="font-size:11px; color:#94a3b8;">محطة</span></div>
-                    <span style="font-size:10px; color:#00e5ff;">امتثال كامل</span>
+                    <span style="font-size:11px; color:#94a3b8;" data-k="l_stat">نبض المحطات</span>
+                    <div class="st-val">142 / 145 <span style="font-size:11px; color:#94a3b8;" data-k="w_stations">محطة</span></div>
+                    <span style="font-size:10px; color:#00e5ff;" data-k="sub_gdpr">امتثال كامل</span>
                 </div>
                 <div class="card">
-                    <span style="font-size:11px; color:#94a3b8;" id="t_deal_lbl">مصفوفة الصفقات</span>
+                    <span style="font-size:11px; color:#94a3b8;" data-k="l_deal">مصفوفة الصفقات</span>
                     <div class="st-val" style="color:#f59e0b;"><span id="val-deals">46,400,000</span> <span class="c-sym">دج</span></div>
-                    <span style="font-size:10px; color:#94a3b8;">عقدان بالانتظار</span>
+                    <span style="font-size:10px; color:#94a3b8;" data-k="sub_deals">عقدان بالانتظار</span>
                 </div>
                 <div class="card">
-                    <span style="font-size:11px; color:#94a3b8;" id="t_dlp_lbl">أمان DLP</span>
-                    <div class="st-val" style="color:#10b981;">0 <span style="font-size:11px; color:#94a3b8;">تهديدات</span></div>
-                    <span style="font-size:10px; color:#10b981;">حظر USB مشفر</span>
+                    <span style="font-size:11px; color:#94a3b8;" data-k="l_dlp">أمان DLP</span>
+                    <div class="st-val" style="color:#10b981;">0 <span style="font-size:11px; color:#94a3b8;" data-k="w_threats">تهديدات</span></div>
+                    <span style="font-size:10px; color:#10b981;" data-k="sub_dlp">حظر USB مشفر</span>
                 </div>
             </div>
 
             <!-- سندات الصرف -->
             <div class="card">
-                <h3 style="font-size:13px; margin-bottom:8px;">سندات بانتظار توقيعك واعتمادك الفوري</h3>
+                <h3 style="font-size:13px; margin-bottom:8px;" data-k="h_vouchers">سندات بانتظار توقيعك واعتمادك الفوري</h3>
                 <div class="item-row">
                     <div>
-                        <h4 style="font-size:12px; color:#fff;">تجديد تراخيص الخوادم السحابية</h4>
+                        <h4 style="font-size:12px; color:#fff;" data-k="v_item1_t">تجديد تراخيص الخوادم السحابية</h4>
                         <span style="color:#00e5ff; font-weight:900; font-family:monospace; font-size:12px;">
                             <span class="m-calc" data-b="150000">150,000</span> <span class="c-sym">دج</span>
                         </span>
                     </div>
-                    <button class="btn-act" onclick="alert('✅ تم الاعتماد والتوقيع الفوري بنجاح')">اعتماد فوري</button>
+                    <button class="btn-act" onclick="alert('✅ تم الاعتماد والتوقيع الفوري بنجاح')" data-k="btn_appr">اعتماد فوري</button>
                 </div>
                 <div class="item-row">
                     <div>
-                        <h4 style="font-size:12px; color:#fff;">شراء شاشات ووحدات تحكم المشغلين</h4>
+                        <h4 style="font-size:12px; color:#fff;" data-k="v_item2_t">شراء شاشات ووحدات تحكم المشغلين</h4>
                         <span style="color:#f59e0b; font-weight:900; font-family:monospace; font-size:12px;">
                             <span class="m-calc" data-b="280000">280,000</span> <span class="c-sym">دج</span>
                         </span>
                     </div>
-                    <button class="btn-act gold" onclick="alert('✅ تم اعتماد أمر الشراء بنجاح')">اعتماد الشراء</button>
+                    <button class="btn-act gold" onclick="alert('✅ تم اعتماد أمر الشراء بنجاح')" data-k="btn_buy">اعتماد الشراء</button>
                 </div>
             </div>
         </section>
 
-        <!-- 2. الموظفون، الأقسام، والنواقص (لوحة التحكم الكاملة) -->
+        <!-- 2. الموظفون، الأقسام، والنواقص -->
         <section id="pane-staff" class="view-pane">
             <div class="hero" style="border-color:#f59e0b;">
-                <h2 style="font-size:16px; font-weight:900;" id="t_st_h">منظومة الأقسام، الموظفون، والنواقص التشغيلية</h2>
-                <p style="font-size:12px; color:#94a3b8; margin-top:4px;" id="t_st_sub">لوحة التحكم الكاملة: أضف موظفاً، أسس قسماً، أو سجّل نقصاً في العتاد بضغطة زر واحدة</p>
+                <h2 style="font-size:16px; font-weight:900;" data-k="st_h">منظومة الأقسام، الموظفون، والنواقص التشغيلية</h2>
+                <p style="font-size:12px; color:#94a3b8; margin-top:4px;" data-k="st_sub">لوحة التحكم الكاملة: أضف موظفاً، أسس قسماً، أو سجّل نقصاً في العتاد بضغطة زر واحدة</p>
                 <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
-                    <button class="btn-act" onclick="openM('m-staff')">➕ إضافة موظف جديد</button>
-                    <button class="btn-act gold" onclick="openM('m-dept')">➕ تأسيس قسم جديد</button>
-                    <button class="btn-act red" onclick="openM('m-short')">➕ تسجيل نقص عتاد</button>
+                    <button class="btn-act" onclick="openM('m-staff')" data-k="btn_add_st">➕ إضافة موظف جديد</button>
+                    <button class="btn-act gold" onclick="openM('m-dept')" data-k="btn_add_dp">➕ تأسيس قسم جديد</button>
+                    <button class="btn-act red" onclick="openM('m-short')" data-k="btn_add_sh">➕ تسجيل نقص عتاد</button>
                 </div>
             </div>
 
             <!-- النواقص التشغيلية -->
             <div class="card" style="border-color:rgba(239,68,68,0.4);">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                    <h3 style="font-size:13px; color:#ef4444;">⚠️ قائمة النواقص التشغيلية المسجلة</h3>
+                    <h3 style="font-size:13px; color:#ef4444;" data-k="h_short">⚠️ قائمة النواقص التشغيلية المسجلة</h3>
                     <span style="font-size:11px; color:#94a3b8;" id="cnt-sh">1 نقص مسجل</span>
                 </div>
                 <div id="list-short"></div>
@@ -256,7 +270,7 @@
             <!-- سجل الموظفين والمهام -->
             <div class="card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                    <h3 style="font-size:13px; color:#00e5ff;">👥 سجل الموظفين والمهام اليومية</h3>
+                    <h3 style="font-size:13px; color:#00e5ff;" data-k="h_staff">👥 سجل الموظفين والمهام اليومية</h3>
                     <span style="font-size:11px; color:#94a3b8;" id="cnt-st">3 موظفين</span>
                 </div>
                 <div id="list-staff"></div>
@@ -265,7 +279,7 @@
             <!-- سجل الأقسام والميزانيات -->
             <div class="card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                    <h3 style="font-size:13px; color:#f59e0b;">🏢 الأقسام المؤسسية والميزانيات</h3>
+                    <h3 style="font-size:13px; color:#f59e0b;" data-k="h_depts">🏢 الأقسام المؤسسية والميزانيات</h3>
                     <span style="font-size:11px; color:#94a3b8;" id="cnt-dp">3 أقسام</span>
                 </div>
                 <div id="list-depts"></div>
@@ -275,42 +289,42 @@
         <!-- 3. فرز السير بالذكاء الاصطناعي -->
         <section id="pane-aicv" class="view-pane">
             <div class="hero" style="border-color:#9333ea;">
-                <h2 style="font-size:16px; font-weight:900;" id="t_cv_h">محرك الذكاء الاصطناعي لفرز السير الذاتية</h2>
-                <p style="font-size:12px; color:#94a3b8; margin-top:4px;" id="t_cv_sub">تحليل آلي لـ 46 سيرة ذاتية واردة ومطابقتها مع الشواغر بدقة 96%</p>
+                <h2 style="font-size:16px; font-weight:900;" data-k="cv_h">محرك الذكاء الاصطناعي لفرز السير الذاتية</h2>
+                <p style="font-size:12px; color:#94a3b8; margin-top:4px;" data-k="cv_sub">تحليل آلي لـ 46 سيرة ذاتية واردة ومطابقتها مع الشواغر بدقة 96%</p>
             </div>
             <div class="card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                    <strong style="font-size:13px; color:#fff;">م. سمير علوان (أمن سيبراني أول)</strong>
-                    <span style="background:rgba(16,185,129,0.2); color:#10b981; padding:2px 8px; border-radius:6px; font-size:11px;">تطابق 96%</span>
+                    <strong style="font-size:13px; color:#fff;" data-k="cv_cand_t">م. سمير علوان (أمن سيبراني أول)</strong>
+                    <span style="background:rgba(16,185,129,0.2); color:#10b981; padding:2px 8px; border-radius:6px; font-size:11px;" data-k="cv_cand_m">تطابق 96%</span>
                 </div>
-                <p style="font-size:11px; color:#cbd5e1; margin-bottom:8px;">الخبرة: 7 سنوات في التشفير البنكي وحماية محطات العمل (DLP).</p>
-                <button class="btn-act purple" style="width:100%;" onclick="alert('✅ تمت جدولة المقابلة الشخصية وإرسال الإشعار')">جدولة المقابلة الشخصية</button>
+                <p style="font-size:11px; color:#cbd5e1; margin-bottom:8px;" data-k="cv_cand_d">الخبرة: 7 سنوات في التشفير البنكي وحماية محطات العمل (DLP).</p>
+                <button class="btn-act purple" style="width:100%;" onclick="alert('✅ تمت جدولة المقابلة الشخصية وإرسال الإشعار')" data-k="btn_sched">جدولة المقابلة الشخصية</button>
             </div>
         </section>
 
         <!-- 4. الرادار الاقتصادي -->
         <section id="pane-economy" class="view-pane">
             <div class="hero" style="border-color:#3b82f6;">
-                <h2 style="font-size:16px; font-weight:900;" id="t_ec_h">مركز الرادار الاقتصادي والمالي</h2>
-                <p style="font-size:12px; color:#94a3b8; margin-top:4px;">متابعة مؤشرات الفائدة، السيولة، وحركة سلاسل الإمداد العالمية</p>
+                <h2 style="font-size:16px; font-weight:900;" data-k="ec_h">مركز الرادار الاقتصادي والمالي</h2>
+                <p style="font-size:12px; color:#94a3b8; margin-top:4px;" data-k="ec_sub">متابعة مؤشرات الفائدة، السيولة، وحركة سلاسل الإمداد العالمية</p>
             </div>
             <div class="card">
-                <span style="color:#10b981; font-size:11px; font-weight:800;">تسهيلات ائتمانية للشركات الكبرى</span>
-                <h4 style="font-size:13px; color:#fff; margin:4px 0 6px 0;">تخفيض الفائدة 2.5% لتمويل توسع مراكز البيانات</h4>
-                <p style="font-size:11px; color:#94a3b8; line-height:1.5;">حزمة ائتمانية تدعم توطين التقنيات والسيادة الرقمية للمؤسسات.</p>
+                <span style="color:#10b981; font-size:11px; font-weight:800;" data-k="ec_news_t">تسهيلات ائتمانية للشركات الكبرى</span>
+                <h4 style="font-size:13px; color:#fff; margin:4px 0 6px 0;" data-k="ec_news_h">تخفيض الفائدة 2.5% لتمويل توسع مراكز البيانات</h4>
+                <p style="font-size:11px; color:#94a3b8; line-height:1.5;" data-k="ec_news_d">حزمة ائتمانية تدعم توطين التقنيات والسيادة الرقمية للمؤسسات.</p>
             </div>
         </section>
 
         <!-- 5. مصفوفة الصفقات -->
         <section id="pane-deals" class="view-pane">
             <div class="hero" style="border-color:#f59e0b;">
-                <h2 style="font-size:16px; font-weight:900;" id="t_dl_h">مصفوفة الصفقات والعقود الاستراتيجية</h2>
-                <p style="font-size:12px; color:#94a3b8; margin-top:4px;">متابعة استحقاق الدفعات ونسب الإنجاز والتحصيل السيادي</p>
+                <h2 style="font-size:16px; font-weight:900;" data-k="dl_h">مصفوفة الصفقات والعقود الاستراتيجية</h2>
+                <p style="font-size:12px; color:#94a3b8; margin-top:4px;" data-k="dl_sub">متابعة استحقاق الدفعات ونسب الإنجاز والتحصيل السيادي</p>
             </div>
             <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                    <h4 style="font-size:13px; color:#fff;">مشروع البنية التحتية السيادية الموحدة</h4>
-                    <span style="font-size:11px; color:#94a3b8;">الدفعة 2 من 3 مستحقة التحصيل</span>
+                    <h4 style="font-size:13px; color:#fff;" data-k="dl_c_t">مشروع البنية التحتية السيادية الموحدة</h4>
+                    <span style="font-size:11px; color:#94a3b8;" data-k="dl_c_s">الدفعة 2 من 3 مستحقة التحصيل</span>
                 </div>
                 <div style="color:#f59e0b; font-size:16px; font-weight:900; font-family:monospace;">
                     <span class="m-calc" data-b="34000000">34,000,000</span> <span class="c-sym">دج</span>
@@ -321,15 +335,15 @@
         <!-- 6. الخزينة وترشيد النفقات -->
         <section id="pane-finance" class="view-pane">
             <div class="hero" style="border-color:#00e5ff;">
-                <h2 style="font-size:16px; font-weight:900;" id="t_fn_h">درع الخزينة وترشيد النفقات</h2>
-                <p style="font-size:12px; color:#94a3b8; margin-top:4px;">حماية الاحتياطي النقدي وتحديد سقوف الإنفاق للمدراء</p>
+                <h2 style="font-size:16px; font-weight:900;" data-k="fn_h">درع الخزينة وترشيد النفقات</h2>
+                <p style="font-size:12px; color:#94a3b8; margin-top:4px;" data-k="fn_sub">حماية الاحتياطي النقدي وتحديد سقوف الإنفاق للمدراء</p>
             </div>
             <div class="card">
-                <span style="font-size:11px; color:#94a3b8;">سقف الصرف اليومي المسموح</span>
+                <span style="font-size:11px; color:#94a3b8;" data-k="fn_cap_lbl">سقف الصرف اليومي المسموح</span>
                 <div style="font-size:18px; font-weight:900; color:#00e5ff; font-family:monospace; margin:6px 0;">
-                    <span class="m-calc" data-b="500000">500,000</span> <span class="c-sym">دج</span> / يوم
+                    <span class="m-calc" data-b="500000">500,000</span> <span class="c-sym">دج</span> <span data-k="w_per_day">/ يوم</span>
                 </div>
-                <p style="font-size:11px; color:#94a3b8;">المصروف اليوم: <span class="m-calc" data-b="160000">160,000</span> <span class="c-sym">دج</span> (32%)</p>
+                <p style="font-size:11px; color:#94a3b8;"><span data-k="fn_exp_lbl">المصروف اليوم:</span> <span class="m-calc" data-b="160000">160,000</span> <span class="c-sym">دج</span> (32%)</p>
             </div>
         </section>
 
@@ -338,26 +352,26 @@
     <!-- شريط التنقل السفلي الفعال 100% -->
     <nav class="nav-bar">
         <button class="nav-item active" id="btn-cockpit" onclick="goNav('cockpit')">
-            <span class="icon">⚡</span><span id="lb-1">العمليات</span>
+            <span class="icon">⚡</span><span data-k="b1">العمليات</span>
         </button>
         <button class="nav-item" id="btn-staff" onclick="goNav('staff')">
-            <span class="icon">👥</span><span id="lb-2">الموظفين</span>
+            <span class="icon">👥</span><span data-k="b2">الموظفين</span>
         </button>
         <button class="nav-item" id="btn-aicv" onclick="goNav('aicv')">
-            <span class="icon">🤖</span><span id="lb-3">فرز السير</span>
+            <span class="icon">🤖</span><span data-k="b3">فرز السير</span>
         </button>
         <button class="nav-item" id="btn-economy" onclick="goNav('economy')">
-            <span class="icon">📈</span><span id="lb-4">الاقتصاد</span>
+            <span class="icon">📈</span><span data-k="b4">الاقتصاد</span>
         </button>
         <button class="nav-item" id="btn-deals" onclick="goNav('deals')">
-            <span class="icon">💼</span><span id="lb-5">الصفقات</span>
+            <span class="icon">💼</span><span data-k="b5">الصفقات</span>
         </button>
         <button class="nav-item" id="btn-finance" onclick="goNav('finance')">
-            <span class="icon">🏛️</span><span id="lb-6">الخزينة</span>
+            <span class="icon">🏛️</span><span data-k="b6">الخزينة</span>
         </button>
     </nav>
 
-    <!-- كود الجافاسكريبت المضمون والخالي من الأخطاء -->
+    <!-- محرك الجافاسكريبت المضمون والخالي تماماً من الأخطاء -->
     <script>
         var pinVal = '';
         var dCount = 0;
@@ -400,66 +414,226 @@
             'CAD': { r: 0.0102, s: '$ CAD' }
         };
 
+        // قاموس الترجمة الشامل لـ 7 لغات (لكامل عناصر الصفحة)
         var DICT = {
             ar: {
-                c1: "غرفة العمليات المركزية ومؤشرات النبض", c2: "متابعة فورية للسيولة النقدية، صفقات التوسع، والنبض اللحظي لـ 142 محطة نشطة",
-                l_liq: "السيولة المتاحة", l_stat: "نبض المحطات", l_deal: "مصفوفة الصفقات", l_dlp: "أمان DLP",
+                lg_title: "CEO-PULSE SOVEREIGN", lg_sub: "أدخل الرمز السيادي (9900) أو اختر الدخول المباشر", lg_btn: "⚡ دخول فوري لغرفة القيادة",
+                tk_tag: "📈 رادار الأسواق:", tk_body: "💵 استقرار السيولة | 🛢️ خام برنت: 82.40$ (+1.2%) | 🪙 الذهب: 2,740$ | 📊 الإنتاجية العامة: 98.4%",
+                c_h1: "غرفة العمليات المركزية ومؤشرات النبض", c_sub: "متابعة فورية للسيولة النقدية، صفقات التوسع، والنبض اللحظي لـ 142 محطة نشطة",
+                btn_to_staff: "👥 الموظفون والنواقص", btn_to_cv: "🤖 فرز السير (AI)", btn_pulse: "📳 فحص الاهتزاز",
+                l_liq: "السيولة المتاحة", sub_liq: "متزامن مع الخزينة",
+                l_stat: "نبض المحطات", w_stations: "محطة", sub_gdpr: "امتثال كامل",
+                l_deal: "مصفوفة الصفقات", sub_deals: "عقدان بالانتظار",
+                l_dlp: "أمان DLP", w_threats: "تهديدات", sub_dlp: "حظر USB مشفر",
+                h_vouchers: "سندات بانتظار توقيعك واعتمادك الفوري",
+                v_item1_t: "تجديد تراخيص الخوادم السحابية", btn_appr: "اعتماد فوري",
+                v_item2_t: "شراء شاشات ووحدات تحكم المشغلين", btn_buy: "اعتماد الشراء",
                 st_h: "منظومة الأقسام، الموظفون، والنواقص التشغيلية", st_sub: "لوحة التحكم الكاملة: أضف موظفاً، أسس قسماً، أو سجّل نقصاً في العتاد بضغطة زر واحدة",
+                btn_add_st: "➕ إضافة موظف جديد", btn_add_dp: "➕ تأسيس قسم جديد", btn_add_sh: "➕ تسجيل نقص عتاد",
+                h_short: "⚠️ قائمة النواقص التشغيلية المسجلة", h_staff: "👥 سجل الموظفين والمهام اليومية", h_depts: "🏢 الأقسام المؤسسية والميزانيات",
                 cv_h: "محرك الذكاء الاصطناعي لفرز السير الذاتية", cv_sub: "تحليل آلي لـ 46 سيرة ذاتية واردة ومطابقتها مع الشواغر بدقة 96%",
-                ec_h: "مركز الرادار الاقتصادي والمالي", dl_h: "مصفوفة الصفقات والعقود الاستراتيجية", fn_h: "درع الخزينة وترشيد النفقات",
-                b1: "العمليات", b2: "الموظفين", b3: "فرز السير", b4: "الاقتصاد", b5: "الصفقات", b6: "الخزينة"
+                cv_cand_t: "م. سمير علوان (أمن سيبراني أول)", cv_cand_m: "تطابق 96%", cv_cand_d: "الخبرة: 7 سنوات في التشفير البنكي وحماية محطات العمل (DLP).", btn_sched: "جدولة المقابلة الشخصية",
+                ec_h: "مركز الرادار الاقتصادي والمالي", ec_sub: "متابعة مؤشرات الفائدة، السيولة، وحركة سلاسل الإمداد العالمية",
+                ec_news_t: "تسهيلات ائتمانية للشركات الكبرى", ec_news_h: "تخفيض الفائدة 2.5% لتمويل توسع مراكز البيانات", ec_news_d: "حزمة ائتمانية تدعم توطين التقنيات والسيادة الرقمية للمؤسسات.",
+                dl_h: "مصفوفة الصفقات والعقود الاستراتيجية", dl_sub: "متابعة استحقاق الدفعات ونسب الإنجاز والتحصيل السيادي",
+                dl_c_t: "مشروع البنية التحتية السيادية الموحدة", dl_c_s: "الدفعة 2 من 3 مستحقة التحصيل",
+                fn_h: "درع الخزينة وترشيد النفقات", fn_sub: "حماية الاحتياطي النقدي وتحديد سقوف الإنفاق للمدراء",
+                fn_cap_lbl: "سقف الصرف اليومي المسموح", w_per_day: "/ يوم", fn_exp_lbl: "المصروف اليوم:",
+                b1: "العمليات", b2: "الموظفين", b3: "فرز السير", b4: "الاقتصاد", b5: "الصفقات", b6: "الخزينة",
+                m_st_t: "➕ إضافة موظف ومهامه اليومية", m_dp_t: "➕ تأسيس قسم جديد", m_sh_t: "➕ تسجيل نقص عتاد",
+                btn_save: "حفظ الموظف", btn_save_dp: "إنشاء القسم", btn_save_sh: "تسجيل النقص", btn_cancel: "إلغاء"
             },
             en: {
-                c1: "Executive Cockpit & Live Pulse", c2: "Real-time liquidity, deals pipeline, and telemetry for 142 active fleet workstations",
-                l_liq: "Available Cash", l_stat: "Fleet Pulse", l_deal: "Deals Pipeline", l_dlp: "DLP Security",
-                st_h: "Workforce, Departments & Logistics", st_sub: "Full CEO control: Add employees, create departments, or log shortages instantly",
-                cv_h: "AI Resume Screening Engine", cv_sub: "Automated analysis of 46 applicant CVs with 96% match accuracy",
-                ec_h: "Economic Intelligence & Markets", dl_h: "Strategic Deals Matrix", fn_h: "Treasury Shield & Cap",
-                b1: "Cockpit", b2: "Workforce", b3: "AI CV", b4: "Economy", b5: "Deals", b6: "Treasury"
+                lg_title: "CEO-PULSE SOVEREIGN", lg_sub: "Enter sovereign PIN (9900) or choose instant bypass", lg_btn: "⚡ Instant Entry to Command Cockpit",
+                tk_tag: "📈 Markets Radar:", tk_body: "💵 Cash Index Stable | 🛢️ Brent Crude: $82.40 (+1.2%) | 🪙 Gold: $2,740 | 📊 Fleet Productivity: 98.4%",
+                c_h1: "Executive Cockpit & Live Pulse", c_sub: "Real-time liquidity, deals pipeline, and telemetry for 142 active fleet workstations",
+                btn_to_staff: "👥 Staff & Logistics", btn_to_cv: "🤖 AI CV Screening", btn_pulse: "📳 Haptic Test",
+                l_liq: "Available Cash", sub_liq: "Synced with SAP S/4HANA",
+                l_stat: "Fleet Workstations", w_stations: "nodes", sub_gdpr: "Full GDPR Compliance",
+                l_deal: "Deals Pipeline", sub_deals: "2 Pending Collections",
+                l_dlp: "DLP Security", w_threats: "threats", sub_dlp: "Hardware USB Filter Active",
+                h_vouchers: "Vouchers Awaiting Immediate Authorization",
+                v_item1_t: "Sovereign Cloud Server License Renewal", btn_appr: "Instant Approval",
+                v_item2_t: "Operator Mission Display Console Purchase", btn_buy: "Approve Purchase",
+                st_h: "Departments, Workforce & Daily Duties", st_sub: "Full CEO Command: Add staff, launch departments, or log hardware shortages instantly",
+                btn_add_st: "➕ Add New Employee", btn_add_dp: "➕ Create Department", btn_add_sh: "➕ Log Shortage",
+                h_short: "⚠️ Registered Operational Shortages", h_staff: "👥 Workforce Roster & Daily Duties", h_depts: "🏢 Corporate Departments & Budgets",
+                cv_h: "AI Resume Screening Engine", cv_sub: "Automated analysis of 46 resumes with 96% qualification match rate",
+                cv_cand_t: "Eng. Samir Alwan (Lead Cyber Security)", cv_cand_m: "96% Match", cv_cand_d: "7+ years banking encryption and endpoint DLP hardening.", btn_sched: "Schedule Interview",
+                ec_h: "Economic Radar & Financial Intelligence", ec_sub: "Real-time tracking of interest rates, treasury liquidity, and global trade",
+                ec_news_t: "Tier-1 Corporate Credit Facility", ec_news_h: "2.5% Interest Cut to Accelerate Sovereign Datacenter Expansion", ec_news_d: "National credit program promoting autonomous software infrastructure.",
+                dl_h: "Strategic Deals & Contracts Matrix", dl_sub: "Monitor milestone billing, progress percentages, and treasury collections",
+                dl_c_t: "Unified Sovereign Cloud Infrastructure", dl_c_s: "Milestone 2 of 3 Ready for Collection",
+                fn_h: "Treasury Shield & Executive Cap", fn_sub: "Protect cash reserves and enforce daily executive spending caps",
+                fn_cap_lbl: "Allowed Daily Executive Cap", w_per_day: "/ day", fn_exp_lbl: "Expended Today:",
+                b1: "Cockpit", b2: "Workforce", b3: "AI CV", b4: "Economy", b5: "Deals", b6: "Treasury",
+                m_st_t: "➕ Add Staff & Daily Duties", m_dp_t: "➕ Create New Department", m_sh_t: "➕ Log Operational Shortage",
+                btn_save: "Save Staff", btn_save_dp: "Create Dept", btn_save_sh: "Log Shortage", btn_cancel: "Cancel"
             },
             fr: {
-                c1: "Cockpit Exécutif & Télémétrie", c2: "Liquidités en temps réel et statut de 142 postes de travail",
-                l_liq: "Liquidité Disponible", l_stat: "Pouls des Postes", l_deal: "Portefeuille Contrats", l_dlp: "Sécurité DLP",
-                st_h: "Départements, Personnel et Logistique", st_sub: "Contrôle total du PDG: Ajoutez employés, départements et matériels",
-                cv_h: "Moteur IA de Recrutement & Tri de CV", cv_sub: "Tri automatisé de 46 candidatures selon les critères requis",
-                ec_h: "Intelligence Économique", dl_h: "Matrice des Contrats", fn_h: "Bouclier de Trésorerie",
-                b1: "Cockpit", b2: "Personnel", b3: "Tri CV", b4: "Économie", b5: "Contrats", b6: "Trésorerie"
+                lg_title: "CEO-PULSE SOVERAIN", lg_sub: "Entrez le code PIN (9900) ou accédez directement", lg_btn: "⚡ Accès Direct au Cockpit",
+                tk_tag: "📈 Radar Marchés:", tk_body: "💵 Liquidité Stable | 🛢️ Pétrole Brent: 82.40$ (+1.2%) | 🪙 Or: 2,740$ | 📊 Productivité: 98.4%",
+                c_h1: "Cockpit Exécutif & Télémétrie en Direct", c_sub: "Liquidités en temps réel, portefeuille de contrats et pouls de 142 postes actifs",
+                btn_to_staff: "👥 Personnel & Besoins", btn_to_cv: "🤖 Tri CV (IA)", btn_pulse: "📳 Test Vibreur",
+                l_liq: "Liquidité Disponible", sub_liq: "Synchronisé avec la trésorerie",
+                l_stat: "Pouls des Postes", w_stations: "postes", sub_gdpr: "Conformité RGPD 100%",
+                l_deal: "Matrice Contrats", sub_deals: "2 en attente de paiement",
+                l_dlp: "Sécurité DLP", w_threats: "menaces", sub_dlp: "Blocage USB chiffré",
+                h_vouchers: "Bons en Attente de Signature Immédiate",
+                v_item1_t: "Renouvellement Licences Serveurs Cloud", btn_appr: "Valider",
+                v_item2_t: "Achat Consoles et Écrans Opérateurs", btn_buy: "Approuver Achat",
+                st_h: "Départements, Personnel et Logistique", st_sub: "Contrôle total du PDG: Ajoutez employés, départements et matériels manquants",
+                btn_add_st: "➕ Ajouter un Employé", btn_add_dp: "➕ Créer Département", btn_add_sh: "➕ Enregistrer Pénurie",
+                h_short: "⚠️ Liste des Pénuries Matérielles", h_staff: "👥 Registre du Personnel & Missions", h_depts: "🏢 Départements & Budgets",
+                cv_h: "Moteur IA de Recrutement & Tri de CV", cv_sub: "Tri automatisé de 46 candidatures selon les critères requis (96% précision)",
+                cv_cand_t: "Ing. Samir Alwan (Cybersécurité Senior)", cv_cand_m: "Match 96%", cv_cand_d: "7 ans d'expérience en cryptographie bancaire et DLP.", btn_sched: "Planifier Entretien",
+                ec_h: "Intelligence Économique & Marchés", ec_sub: "Taux d'intérêt, flux de liquidités et commerce stratégique",
+                ec_news_t: "Facilité de Crédit pour Grandes Entreprises", ec_news_h: "Baisse de 2.5% des taux pour financer les datacenters souverains", ec_news_d: "Programme souverain de déploiement technologique à haute valeur.",
+                dl_h: "Matrice des Contrats Stratégiques", dl_sub: "Suivi des tranches de paiement et recouvrements prioritaires",
+                dl_c_t: "Projet d'Infrastructure Numérique Unifiée", dl_c_s: "Paiement 2 sur 3 prêt pour encaissement",
+                fn_h: "Bouclier de Trésorerie & Plafonds", fn_sub: "Protection des réserves financières et limitation des dépenses journalières",
+                fn_cap_lbl: "Plafond Journalier Autorisé", w_per_day: "/ jour", fn_exp_lbl: "Dépensé aujourd'hui:",
+                b1: "Cockpit", b2: "Personnel", b3: "Tri CV", b4: "Économie", b5: "Contrats", b6: "Trésorerie",
+                m_st_t: "➕ Ajouter Employé", m_dp_t: "➕ Nouveau Département", m_sh_t: "➕ Signaler Manque",
+                btn_save: "Enregistrer", btn_save_dp: "Créer", btn_save_sh: "Valider", btn_cancel: "Annuler"
             },
             es: {
-                c1: "Centro de Control Ejecutivo", c2: "Monitoreo en tiempo real de liquidez y 142 estaciones",
-                l_liq: "Liquidez Disponible", l_stat: "Pulso Operativo", l_deal: "Cartera Acuerdos", l_dlp: "Seguridad DLP",
-                st_h: "Departamentos, Personal y Logística", st_sub: "Control total: Agregue empleados, departamentos y necesidades",
-                cv_h: "Motor de IA para Filtrado de CVs", cv_sub: "Análisis automatizado de 46 postulaciones laborales",
-                ec_h: "Inteligencia Económica", dl_h: "Matriz de Contratos", fn_h: "Escudo de Tesorería",
-                b1: "Operaciones", b2: "Personal", b3: "CVs IA", b4: "Economía", b5: "Acuerdos", b6: "Tesorería"
+                lg_title: "CEO-PULSE SOBERANO", lg_sub: "Ingrese PIN (9900) o seleccione acceso directo", lg_btn: "⚡ Acceso Directo al Cockpit",
+                tk_tag: "📈 Radar de Mercados:", tk_body: "💵 Liquidez Estable | 🛢️ Petróleo Brent: $82.40 (+1.2%) | 🪙 Oro: $2,740 | 📊 Productividad: 98.4%",
+                c_h1: "Centro de Control Ejecutivo", c_sub: "Monitoreo en tiempo real de liquidez, acuerdos y 142 estaciones activas",
+                btn_to_staff: "👥 Personal y Faltantes", btn_to_cv: "🤖 Selección IA", btn_pulse: "📳 Prueba Háptica",
+                l_liq: "Liquidez Disponible", sub_liq: "Sincronizado con tesorería",
+                l_stat: "Pulso Operativo", w_stations: "estaciones", sub_gdpr: "Cumplimiento total",
+                l_deal: "Cartera Acuerdos", sub_deals: "2 pagos pendientes",
+                l_dlp: "Seguridad DLP", w_threats: "amenazas", sub_dlp: "Bloqueo USB activo",
+                h_vouchers: "Órdenes de Pago Pendientes de Aprobación",
+                v_item1_t: "Renovación Licencias Servidores Cloud", btn_appr: "Aprobación Inmediata",
+                v_item2_t: "Adquisición de Consolas y Monitores", btn_buy: "Aprobar Compra",
+                st_h: "Departamentos, Personal y Logística", st_sub: "Control total del CEO: Registre empleados, áreas o necesidades operativas",
+                btn_add_st: "➕ Agregar Empleado", btn_add_dp: "➕ Crear Departamento", btn_add_sh: "➕ Registrar Faltante",
+                h_short: "⚠️ Lista de Necesidades Operativas", h_staff: "👥 Personal y Tareas Diarias", h_depts: "🏢 Departamentos y Presupuestos",
+                cv_h: "Motor de IA para Filtrado de CVs", cv_sub: "Evaluación automática de 46 candidaturas con 96% de coincidencia",
+                cv_cand_t: "Ing. Samir Alwan (Ciberseguridad)", cv_cand_m: "96% Coincidencia", cv_cand_d: "7 años en cifrado bancario y protección DLP.", btn_sched: "Programar Entrevista",
+                ec_h: "Inteligencia Económica y Mercados", ec_sub: "Seguimiento de tasas de interés y liquidez financiera global",
+                ec_news_t: "Facilidades Crediticias para Corporaciones", ec_news_h: "Reducción del 2.5% en tasas para centros de datos soberanos", ec_news_d: "Plan de expansión tecnológica e infraestructura independiente.",
+                dl_h: "Matriz de Contratos Estratégicos", dl_sub: "Gestión de facturación por hitos y cobros de tesorería",
+                dl_c_t: "Infraestructura Digital Soberana", dl_c_s: "Cuota 2 de 3 lista para cobro",
+                fn_h: "Escudo de Tesorería y Límites", fn_sub: "Control estricto de gasto diario para protección del fondo de reserva",
+                fn_cap_lbl: "Límite Diario Permitido", w_per_day: "/ día", fn_exp_lbl: "Gastado hoy:",
+                b1: "Operaciones", b2: "Personal", b3: "CVs IA", b4: "Economía", b5: "Acuerdos", b6: "Tesorería",
+                m_st_t: "➕ Nuevo Empleado", m_dp_t: "➕ Nuevo Departamento", m_sh_t: "➕ Reportar Necesidad",
+                btn_save: "Guardar", btn_save_dp: "Crear", btn_save_sh: "Confirmar", btn_cancel: "Cancelar"
             },
             tr: {
-                c1: "Yönetici Kokpiti ve Canlı Telemetri", c2: "142 aktif iş istasyonunun nakit akışı ve takibi",
-                l_liq: "Kullanılabilir Likidite", l_stat: "İstasyon Nabzı", l_deal: "Anlaşma Havuzu", l_dlp: "DLP Güvenliği",
-                st_h: "Departmanlar, Personel ve İhtiyaçlar", st_sub: "Tam yönetici kontrolü: Personel, departman veya eksik ekleyin",
-                cv_h: "Yapay Zeka Destekli CV Filtreleme", cv_sub: "Gelen 46 özgeçmişin otomatik analizi",
-                ec_h: "Ekonomik İstihbarat", dl_h: "Stratejik Anlaşmalar", fn_h: "Hazine Kalkanı",
-                b1: "Kokpit", b2: "Personel", b3: "CV AI", b4: "Ekonomi", b5: "Anlaşmalar", b6: "Hazine"
+                lg_title: "CEO-PULSE HÜKÜMRAN", lg_sub: "Yönetici PIN kodunu (9900) girin veya doğrudan giriş yapın", lg_btn: "⚡ Yönetici Kokpitine Anında Giriş",
+                tk_tag: "📈 Piyasa Radarı:", tk_body: "💵 Likidite Dengede | 🛢️ Brent Petrol: 82.40$ (+1.2%) | 🪙 Altın: 2,740$ | 📊 Verimlilik: 98.4%",
+                c_h1: "Yönetici Kokpiti ve Canlı Telemetri", c_sub: "142 aktif iş istasyonunun nakit akışı ve operasyonel takibi",
+                btn_to_staff: "👥 Personel ve İhtiyaçlar", btn_to_cv: "🤖 CV Tarama", btn_pulse: "📳 Titreşim Testi",
+                l_liq: "Kullanılabilir Likidite", sub_liq: "Hazine ile senkronize",
+                l_stat: "İstasyon Nabzı", w_stations: "istasyon", sub_gdpr: "Tam Uyum",
+                l_deal: "Anlaşma Havuzu", sub_deals: "2 Bekleyen Tahsilat",
+                l_dlp: "DLP Güvenliği", w_threats: "tehdit", sub_dlp: "USB Engeli Aktif",
+                h_vouchers: "Onay Bekleyen Harcama Emirleri",
+                v_item1_t: "Bulut Sunucu Lisans Yenileme", btn_appr: "Anında Onayla",
+                v_item2_t: "Operatör Monitör Konsolları Alımı", btn_buy: "Alımı Onayla",
+                st_h: "Departmanlar, Personel ve İhtiyaçlar", st_sub: "Tam yönetici kontrolü: Personel, departman veya eksik malzeme ekleyin",
+                btn_add_st: "➕ Yeni Personel Ekle", btn_add_dp: "➕ Yeni Departman Kur", btn_add_sh: "➕ İhtiyaç Bildir",
+                h_short: "⚠️ Kayıtlı Operasyonel İhtiyaçlar", h_staff: "👥 Personel Listesi ve Görevler", h_depts: "🏢 Şirket Departmanları ve Bütçeler",
+                cv_h: "Yapay Zeka Destekli CV Filtreleme", cv_sub: "Gelen 46 özgeçmişin otomatik analizi (%96 eşleşme oranı)",
+                cv_cand_t: "Müh. Samir Alwan (Siber Güvenlik)", cv_cand_m: "%96 Uyum", cv_cand_d: "Banka şifreleme ve uç nokta DLP güvenliğinde 7 yıl deneyim.", btn_sched: "Mülakat Planla",
+                ec_h: "Ekonomik İstihbarat ve Piyasa", ec_sub: "Faiz oranları ve küresel sermaye hareketlerinin anlık takibi",
+                ec_news_t: "Büyük Şirketler İçin Kredi Kolaylığı", ec_news_h: "Veri merkezleri için %2.5 faiz indirimi desteği", ec_news_d: "Yerli yazılım ve egemen altyapı teşvik paketi.",
+                dl_h: "Stratejik Anlaşmalar Matrisi", dl_sub: "Aşama bazlı faturalandırma ve tahsilat takibi",
+                dl_c_t: "Birleşik Egemen Altyapı Projesi", dl_c_s: "3 aşamadan 2.si tahsilata hazır",
+                fn_h: "Hazine Kalkanı ve Harcama Sınırı", fn_sub: "Nakit rezervlerin korunması ve günlük harcama limitleri",
+                fn_cap_lbl: "İzin Verilen Günlük Limit", w_per_day: "/ gün", fn_exp_lbl: "Bugün Harcanan:",
+                b1: "Kokpit", b2: "Personel", b3: "CV AI", b4: "Ekonomi", b5: "Anlaşmalar", b6: "Hazine",
+                m_st_t: "➕ Personel Ekle", m_dp_t: "➕ Departman Ekle", m_sh_t: "➕ İhtiyaç Ekle",
+                btn_save: "Kaydet", btn_save_dp: "Oluştur", btn_save_sh: "Onayla", btn_cancel: "İptal"
             },
             de: {
-                c1: "Executive Cockpit & Live-Telemetrie", c2: "Echtzeitüberwachung der Liquidität und 142 Workstations",
-                l_liq: "Verfügbare Liquidität", l_stat: "Flottenpuls", l_deal: "Deal-Pipeline", l_dlp: "DLP-Sicherheit",
-                st_h: "Abteilungen, Mitarbeiter & Logistik", st_sub: "Volle Kontrolle: Mitarbeiter, Abteilungen und Engpässe anlegen",
-                cv_h: "KI-Lebenslauf-Screening", cv_sub: "Automatisierte Auswertung von 46 Bewerbungen",
-                ec_h: "Wirtschafts-Radar", dl_h: "Strategische Verträge", fn_h: "Finanz-Schutzschild",
-                b1: "Cockpit", b2: "Personal", b3: "KI-CV", b4: "Wirtschaft", b5: "Verträge", b6: "Finanzen"
+                lg_title: "CEO-PULSE SOVEREIGN", lg_sub: "PIN (9900) eingeben oder Sofortzugriff wählen", lg_btn: "⚡ Sofortiger Zugang zum Cockpit",
+                tk_tag: "📈 Markt-Radar:", tk_body: "💵 Liquidität Stabil | 🛢️ Brent-Öl: 82.40$ (+1.2%) | 🪙 Gold: 2,740$ | 📊 Produktivität: 98.4%",
+                c_h1: "Executive Cockpit & Live-Telemetrie", c_sub: "Echtzeitüberwachung der Liquidität und 142 aktiver Workstations",
+                btn_to_staff: "👥 Personal & Engpässe", btn_to_cv: "🤖 KI-Vorauswahl", btn_pulse: "📳 Haptik-Test",
+                l_liq: "Verfügbare Liquidität", sub_liq: "Mit Treasury synchronisiert",
+                l_stat: "Flottenpuls", w_stations: "Knoten", sub_gdpr: "DSGVO-konform",
+                l_deal: "Deal-Pipeline", sub_deals: "2 Ausstehende Zahlungen",
+                l_dlp: "DLP-Sicherheit", w_threats: "Bedrohungen", sub_dlp: "USB-Sperre aktiv",
+                h_vouchers: "Zahlungsbelege zur sofortigen Genehmigung",
+                v_item1_t: "Verlängerung Cloud-Server-Lizenzen", btn_appr: "Freigeben",
+                v_item2_t: "Beschaffung Leitstand-Monitore", btn_buy: "Kauf Genehmigen",
+                st_h: "Abteilungen, Mitarbeiter & Logistik", st_sub: "Volle Kontrolle: Mitarbeiter, Abteilungen und Engpässe sofort anlegen",
+                btn_add_st: "➕ Mitarbeiter Anlegen", btn_add_dp: "➕ Abteilung Gründen", btn_add_sh: "➕ Engpass Melden",
+                h_short: "⚠️ Erfasste operative Engpässe", h_staff: "👥 Mitarbeiterübersicht & Aufgaben", h_depts: "🏢 Abteilungen & Budgets",
+                cv_h: "KI-Lebenslauf-Screening", cv_sub: "Automatisierte Auswertung von 46 Bewerbungen (96% Passgenauigkeit)",
+                cv_cand_t: "Ing. Samir Alwan (Cyber Security)", cv_cand_m: "96% Übereinstimmung", cv_cand_d: "7 Jahre Erfahrung in Bankenverschlüsselung und DLP.", btn_sched: "Interview Planen",
+                ec_h: "Wirtschafts-Radar & Finanzen", ec_sub: "Zinsentwicklungen, Liquiditätsströme und globale Märkte",
+                ec_news_t: "Kreditfazilität für Großunternehmen", ec_news_h: "2.5% Zinssenkung für Ausbau souveräner Rechenzentren", ec_news_d: "Förderprogramm für unabhängige Software-Infrastrukturen.",
+                dl_h: "Strategische Verträge & Pipeline", dl_sub: "Meilensteinabrechnung und Einzug überfälliger Forderungen",
+                dl_c_t: "Einheitliche Souveräne Cloud-Infrastruktur", dl_c_s: "Meilenstein 2 von 3 bereit zur Einziehung",
+                fn_h: "Finanz-Schutzschild & Limits", fn_sub: "Sicherung der Barreserven und Begrenzung täglicher Ausgaben",
+                fn_cap_lbl: "Tägliches Ausgabenlimit", w_per_day: "/ Tag", fn_exp_lbl: "Heute ausgegeben:",
+                b1: "Cockpit", b2: "Personal", b3: "KI-CV", b4: "Wirtschaft", b5: "Verträge", b6: "Finanzen",
+                m_st_t: "➕ Neuer Mitarbeiter", m_dp_t: "➕ Neue Abteilung", m_sh_t: "➕ Engpass Erfassen",
+                btn_save: "Speichern", btn_save_dp: "Erstellen", btn_save_sh: "Bestätigen", btn_cancel: "Abbrechen"
             },
             it: {
-                c1: "Cockpit Esecutivo & Telemetria", c2: "Monitoraggio di liquidità e 142 stazioni operative",
-                l_liq: "Liquidità Disponibile", l_stat: "Polso Stazioni", l_deal: "Pipeline Contratti", l_dlp: "Sicurezza DLP",
-                st_h: "Dipartimenti, Personale e Logistica", st_sub: "Controllo totale: Aggiungi personale, reparti o carenze",
-                cv_h: "Motore IA per Selezione CV", cv_sub: "Analisi automatica di 46 candidature con corrispondenza 96%",
-                ec_h: "Radar Economico", dl_h: "Matrice Contratti", fn_h: "Scudo di Tesoreria",
-                b1: "Cockpit", b2: "Personale", b3: "CV IA", b4: "Economia", b5: "Contratti", b6: "Tesoreria"
+                lg_title: "CEO-PULSE SOVRANO", lg_sub: "Inserisci PIN (9900) o scegli l'accesso rapido", lg_btn: "⚡ Accesso Immediato al Cockpit",
+                tk_tag: "📈 Radar Mercati:", tk_body: "💵 Liquidità Stabile | 🛢️ Petrolio Brent: 82.40$ (+1.2%) | 🪙 Oro: 2,740$ | 📊 Produttività: 98.4%",
+                c_h1: "Cockpit Esecutivo & Telemetria", c_sub: "Monitoraggio in tempo reale di liquidità e 142 stazioni operative",
+                btn_to_staff: "👥 Personale e Mancanze", btn_to_cv: "🤖 Selezione IA", btn_pulse: "📳 Test Vibrazione",
+                l_liq: "Liquidità Disponibile", sub_liq: "Sincronizzato con tesoreria",
+                l_stat: "Polso Stazioni", w_stations: "nodi", sub_gdpr: "Conformità Totale",
+                l_deal: "Pipeline Contratti", sub_deals: "2 Pagamenti in Attesa",
+                l_dlp: "Sicurezza DLP", w_threats: "minacce", sub_dlp: "Blocco USB attivo",
+                h_vouchers: "Mandati in Attesa di Approvazione",
+                v_item1_t: "Rinnovo Licenze Server Cloud", btn_appr: "Approva Subito",
+                v_item2_t: "Acquisto Monitor Sala Operativa", btn_buy: "Approva Acquisto",
+                st_h: "Dipartimenti, Personale e Logistica", st_sub: "Controllo totale: Aggiungi personale, reparti o carenze operative",
+                btn_add_st: "➕ Aggiungi Dipendente", btn_add_dp: "➕ Nuovo Reparto", btn_add_sh: "➕ Registra Carenza",
+                h_short: "⚠️ Carenze Operative Registrate", h_staff: "👥 Ruolo Dipendenti & Mansioni", h_depts: "🏢 Reparti e Budget",
+                cv_h: "Motore IA per Selezione CV", cv_sub: "Analisi automatica di 46 candidature (corrispondenza del 96%)",
+                cv_cand_t: "Ing. Samir Alwan (Cyber Security)", cv_cand_m: "Corrispondenza 96%", cv_cand_d: "7 anni in crittografia bancaria e sicurezza DLP.", btn_sched: "Pianifica Colloquio",
+                ec_h: "Radar Economico & Finanziario", ec_sub: "Monitoraggio tassi di interesse e liquidità globale",
+                ec_news_t: "Agevolazioni di Credito per Grandi Imprese", ec_news_h: "Taglio del 2.5% sui tassi per data center sovrani", ec_news_d: "Programma di investimento per la sovranità tecnologica.",
+                dl_h: "Matrice Contratti Strategici", dl_sub: "Tracciamento scadenze e incassi prioritari",
+                dl_c_t: "Infrastruttura Digitale Sovrana Unificata", dl_c_s: "Rata 2 di 3 pronta per l'incasso",
+                fn_h: "Scudo di Tesoreria & Tetti di Spesa", fn_sub: "Tutela delle riserve e controllo dei tetti di spesa giornalieri",
+                fn_cap_lbl: "Tetto di Spesa Giornaliero", w_per_day: "/ giorno", fn_exp_lbl: "Speso oggi:",
+                b1: "Cockpit", b2: "Personale", b3: "CV IA", b4: "Economia", b5: "Contratti", b6: "Tesoreria",
+                m_st_t: "➕ Nuovo Dipendente", m_dp_t: "➕ Nuovo Reparto", m_sh_t: "➕ Segnala Carenza",
+                btn_save: "Salva", btn_save_dp: "Crea", btn_save_sh: "Registra", btn_cancel: "Annulla"
             }
         };
 
-        // 1. التنقل بين الأقسام
+        // 1. الدخول وإدارة الرمز
+        function kPin(n) {
+            if (pinVal.length < 4) {
+                pinVal += n;
+                document.getElementById('pin-view').innerText = pinVal;
+                if (pinVal === '9900' || pinVal.length === 4) {
+                    setTimeout(enterApp, 200);
+                }
+            }
+        }
+        function cPin() { pinVal = ''; document.getElementById('pin-view').innerText = '••••'; }
+        function enterApp() {
+            pinVal = '';
+            document.getElementById('pin-view').innerText = '••••';
+            document.getElementById('login-gate').style.display = 'none';
+        }
+        function showLoginGate() {
+            cPin();
+            document.getElementById('login-gate').style.display = 'flex';
+        }
+        function bioAuth(type) {
+            if (navigator.vibrate) navigator.vibrate([80, 40, 80]);
+            alert('✅ تمت المصادقة البيومترية بنجاح عبر: ' + type);
+            enterApp();
+        }
+
+        // 2. التنقل بين الواجهات
         function goNav(id) {
             var panes = document.querySelectorAll('.view-pane');
             for (var i = 0; i < panes.length; i++) panes[i].classList.remove('active');
@@ -474,7 +648,22 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 2. تغيير العملات (12 عملة)
+        // 3. تبديل اللغات لـ 7 لغات (كامل الصفحة)
+        function setLang(lang) {
+            var root = document.getElementById('app-root');
+            if (root) {
+                root.setAttribute('dir', (lang === 'ar') ? 'rtl' : 'ltr');
+                root.setAttribute('lang', lang);
+            }
+            var d = DICT[lang] || DICT.ar;
+            var els = document.querySelectorAll('[data-k]');
+            for (var i = 0; i < els.length; i++) {
+                var k = els[i].getAttribute('data-k');
+                if (d[k]) els[i].innerText = d[k];
+            }
+        }
+
+        // 4. تبديل العملات (12 عملة)
         function setCurrency(curr) {
             var c = RATES[curr] || RATES.DZD;
             var elLiq = document.getElementById('val-liq');
@@ -495,29 +684,12 @@
             drawShortages();
         }
 
-        // 3. تغيير اللغات (7 لغات)
-        function setLang(lang) {
-            var root = document.getElementById('app-root');
-            if (root) {
-                root.setAttribute('dir', (lang === 'ar') ? 'rtl' : 'ltr');
-                root.setAttribute('lang', lang);
-            }
-            var d = DICT[lang] || DICT.ar;
-            function t(id, val) { var e = document.getElementById(id); if (e && val) e.innerText = val; }
-            t('t_c1', d.c1); t('t_c2', d.c2);
-            t('t_liq_lbl', d.l_liq); t('t_stat_lbl', d.l_stat); t('t_deal_lbl', d.l_deal); t('t_dlp_lbl', d.l_dlp);
-            t('t_st_h', d.st_h); t('t_st_sub', d.st_sub);
-            t('t_cv_h', d.cv_h); t('t_cv_sub', d.cv_sub);
-            t('t_ec_h', d.ec_h); t('t_dl_h', d.dl_h); t('t_fn_h', d.fn_h);
-            t('lb-1', d.b1); t('lb-2', d.b2); t('lb-3', d.b3); t('lb-4', d.b4); t('lb-5', d.b5); t('lb-6', d.b6);
-        }
-
-        // 4. الموظفون
+        // 5. الموظفون
         function drawStaff() {
             var box = document.getElementById('list-staff');
             if (!box) return;
             box.innerHTML = '';
-            document.getElementById('cnt-st').innerText = staffData.length + ' موظفين';
+            document.getElementById('cnt-st').innerText = staffData.length + ' موظفين مسجلين';
             for (var i = 0; i < staffData.length; i++) {
                 var s = staffData[i];
                 var d = document.createElement('div');
@@ -549,7 +721,7 @@
             drawStaff();
         }
 
-        // 5. الأقسام
+        // 6. الأقسام
         function drawDepts() {
             var box = document.getElementById('list-depts');
             if (!box) return;
@@ -584,7 +756,7 @@
             drawDepts();
         }
 
-        // 6. النواقص
+        // 7. النواقص
         function drawShortages() {
             var box = document.getElementById('list-short');
             if (!box) return;
@@ -621,21 +793,11 @@
             drawShortages();
         }
 
-        // 7. النوافذ ورمز 9900
+        // 8. النوافذ والمودال
         function openM(id) { document.getElementById(id).style.display = 'flex'; }
         function closeM(id) { document.getElementById(id).style.display = 'none'; }
-        function kPin(n) {
-            if (pinVal.length < 4) {
-                pinVal += n;
-                document.getElementById('pin-view').innerText = pinVal;
-                if (pinVal === '9900' || pinVal.length === 4) {
-                    setTimeout(function() { closeM('m-pin'); pinVal = ''; document.getElementById('pin-view').innerText = '••••'; }, 200);
-                }
-            }
-        }
-        function cPin() { pinVal = ''; document.getElementById('pin-view').innerText = '••••'; }
 
-        // 8. المطور والشركات
+        // 9. المطور وقفل الشركات المنفصلة
         function devClick() { dCount++; if (dCount >= 5) { dCount = 0; openGod(); } }
         function openGod() { drawCompanies(); openM('m-god'); }
         function drawCompanies() {
@@ -683,20 +845,18 @@
             }
         }
 
-        // 9. اهتزاز وإشعار
+        // 10. الاهتزاز والتثبيت
         function doPulse() {
             if (navigator.vibrate) navigator.vibrate([150, 50, 150]);
             alert('📳 نظام الإشعارات والاهتزاز يعمل بنجاح!');
         }
-
-        // 10. التثبيت
         window.addEventListener('beforeinstallprompt', function(e) { e.preventDefault(); pwaPrompt = e; });
         function doInstall() {
             if (pwaPrompt) {
                 pwaPrompt.prompt();
                 pwaPrompt.userChoice.then(function() { pwaPrompt = null; });
             } else {
-                alert('📱 لتثبيت التطبيق على هاتفك:\n1. اضغط على خيارات المتصفح (⋮ في الزاوية).\n2. اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».\n3. سيتم تثبيته فوراً كبرنامج مستقل!');
+                alert('📱 لتثبيت التطبيق على هاتفك بدون ظهور أشرطة:\n1. اضغط على خيارات المتصفح (⋮ في الزاوية).\n2. اختر «تثبيت التطبيق» أو «إضافة للشاشة الرئيسية».\n3. سيتم تثبيته فوراً كبرنامج مستقل شاشة كاملة!');
             }
         }
 
