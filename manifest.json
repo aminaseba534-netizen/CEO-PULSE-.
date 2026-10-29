@@ -1,11 +1,15 @@
 {
-  "name": "CEO-Pulse Sovereign",
+  "name": "CEO-Pulse Sovereign Suite",
   "short_name": "CEO-Pulse",
+  "description": "منظومة القيادة التنفيذية والأمان السيادي وترشيد النفقات للرؤساء والمدراء التنفيذيين ومجالس الإدارة",
   "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#050d25",
   "theme_color": "#050d25",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["business", "productivity", "finance"],
   "icons": [
     {
       "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='128' fill='%23050d25'/%3E%3Cpath d='M256 60L420 130V270C420 370 340 450 256 480C172 450 92 370 92 270V130L256 60Z' fill='%230a122a' stroke='%2300e5ff' stroke-width='16'/%3E%3Cpath d='M270 140L170 280H260L240 380L342 240H250L270 140Z' fill='%2300e5ff'/%3E%3C/svg%3E",
