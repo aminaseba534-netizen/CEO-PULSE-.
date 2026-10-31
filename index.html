@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>CEO-PULSE V7.0 - Executive Sovereign Suite</title>
+  <title>CEO-PULSE V7.1 - Sovereign Executive Suite</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
   <style>
@@ -19,17 +19,84 @@
     .glow-gold { box-shadow: 0 0 25px rgba(245, 158, 11, 0.18); }
     .custom-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
     .custom-scroll::-webkit-scrollbar-thumb { background: #00e5ff44; border-radius: 4px; }
+    .pin-btn:active { transform: scale(0.92); }
   </style>
 </head>
-<body class="min-h-screen flex flex-col bg-[#050d25] pb-24">
+<body class="min-h-screen flex flex-col bg-[#050d25]">
+
+  <!-- ==================== SOVEREIGN LOCK SCREEN ==================== -->
+  <div id="lockScreen" class="fixed inset-0 z-50 bg-[#050d25]/98 backdrop-blur-xl flex flex-col items-center justify-center p-4">
+    <div class="max-w-sm w-full space-y-6 text-center">
+      
+      <!-- Brand Icon with Secret Long-Press (5s) for Developer God Mode -->
+      <div class="flex flex-col items-center">
+        <div id="lockBrandIcon" class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-600 to-cyan-400 flex items-center justify-center shadow-xl shadow-cyan-500/20 cursor-pointer relative" title="اضغط مطولاً 5 ثوانٍ لبوابة المطور">
+          <svg class="w-9 h-9 text-black" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+          <span class="absolute -bottom-2 bg-black/90 text-[9px] text-cyan-300 font-mono px-2 py-0.5 rounded-full border border-cyan-500/40">RESTRICTED</span>
+        </div>
+        <h1 class="text-xl font-black text-white mt-4 tracking-wider">CEO-PULSE SOVEREIGN</h1>
+        <p class="text-xs text-cyan-400 font-medium mt-1">بوابة الدخول التنفيذية المشفرة • Zero-Trust Enclave</p>
+        <p class="text-[11px] text-slate-400 mt-0.5">أدخل الرمز التنفيذي أو استخدم المصادقة البيومترية السريعة</p>
+      </div>
+
+      <!-- PIN Code Dots Indicator -->
+      <div class="flex justify-center gap-3 py-2">
+        <div id="dot1" class="w-3.5 h-3.5 rounded-full border border-cyan-500/40 bg-transparent transition-all"></div>
+        <div id="dot2" class="w-3.5 h-3.5 rounded-full border border-cyan-500/40 bg-transparent transition-all"></div>
+        <div id="dot3" class="w-3.5 h-3.5 rounded-full border border-cyan-500/40 bg-transparent transition-all"></div>
+        <div id="dot4" class="w-3.5 h-3.5 rounded-full border border-cyan-500/40 bg-transparent transition-all"></div>
+      </div>
+
+      <!-- Numeric Keypad (Touch PIN Pad) -->
+      <div class="grid grid-cols-3 gap-3 max-w-[280px] mx-auto font-mono text-lg font-bold">
+        <button onclick="pressPin('1')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">1</button>
+        <button onclick="pressPin('2')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">2</button>
+        <button onclick="pressPin('3')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">3</button>
+
+        <button onclick="pressPin('4')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">4</button>
+        <button onclick="pressPin('5')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">5</button>
+        <button onclick="pressPin('6')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">6</button>
+
+        <button onclick="pressPin('7')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">7</button>
+        <button onclick="pressPin('8')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">8</button>
+        <button onclick="pressPin('9')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">9</button>
+
+        <button onclick="clearPin()" class="pin-btn h-12 rounded-xl bg-rose-950/40 text-rose-300 border border-rose-500/30 text-xs font-bold flex items-center justify-center">مسح</button>
+        <button onclick="pressPin('0')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">0</button>
+        <button onclick="checkEnteredPin()" class="pin-btn h-12 rounded-xl bg-cyan-500 text-black font-bold text-xs flex items-center justify-center shadow-lg shadow-cyan-500/20">دخول ↵</button>
+      </div>
+
+      <!-- Quick Biometric & Demo Entry -->
+      <div class="space-y-2 pt-2">
+        <div class="flex gap-2 justify-center">
+          <button onclick="triggerBiometricAuth('Face ID')" class="flex-1 py-2 rounded-xl bg-[#0d1b3e] text-cyan-300 border border-cyan-500/30 text-xs font-bold hover:bg-[#142858] flex items-center justify-center gap-1.5">
+            <span>Face ID</span>
+            <span>👁️</span>
+          </button>
+          <button onclick="triggerBiometricAuth('Touch ID')" class="flex-1 py-2 rounded-xl bg-[#0d1b3e] text-cyan-300 border border-cyan-500/30 text-xs font-bold hover:bg-[#142858] flex items-center justify-center gap-1.5">
+            <span>Touch ID</span>
+            <span>👆</span>
+          </button>
+        </div>
+
+        <button onclick="unlockApp()" class="w-full py-2.5 bg-gradient-to-r from-cyan-500 to-amber-400 text-black font-extrabold text-xs rounded-xl shadow-lg hover:opacity-95 transition-all">
+          ⚡ دخول فوري لغرفة القيادة
+        </button>
+      </div>
+
+      <div class="text-[10px] text-slate-500 font-mono">ENCRYPTED HARDWARE BOUND • V7.1 🛡️</div>
+    </div>
+  </div>
 
   <!-- ==================== HEADER ==================== -->
   <header class="sticky top-0 z-40 bg-[#07112c]/95 backdrop-blur-md border-b border-cyan-500/20 px-4 py-3">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-2">
       
-      <!-- Brand & Version -->
+      <!-- Brand Icon with 5-Second Secret Press (Developer God Mode) -->
       <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-600 to-cyan-400 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+        <div id="headerBrandIcon" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-600 to-cyan-400 flex items-center justify-center shadow-lg shadow-cyan-500/20 cursor-pointer" title="اضغط مطولاً 5 ثوانٍ لفتح بوابة المطور السرية">
           <svg class="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
           </svg>
@@ -37,7 +104,7 @@
         <div>
           <div class="flex items-center gap-2">
             <h1 class="font-black text-white text-base tracking-wide">CEO-PULSE</h1>
-            <span class="text-[10px] bg-cyan-950 text-cyan-300 font-mono-num font-bold px-1.5 py-0.5 rounded border border-cyan-500/30">V7.0</span>
+            <span class="text-[10px] bg-cyan-950 text-cyan-300 font-mono-num font-bold px-1.5 py-0.5 rounded border border-cyan-500/30">V7.1</span>
           </div>
           <p class="text-[11px] text-cyan-400 font-medium" data-i18n="tagline">القيادة التنفيذية والأمان السيادي</p>
         </div>
@@ -82,10 +149,10 @@
           <option value="de">Deutsch (DE)</option>
         </select>
 
-        <!-- Sovereign Lock / Passcode -->
-        <button onclick="togglePinModal()" class="px-2.5 py-1.5 bg-[#0d1b3e] text-cyan-400 border border-cyan-500/30 rounded-xl text-xs font-mono font-bold flex items-center gap-1 hover:border-cyan-400">
+        <!-- Sovereign Lock Screen Toggle -->
+        <button onclick="lockApp()" class="px-2.5 py-1.5 bg-[#0d1b3e] text-cyan-400 border border-cyan-500/30 rounded-xl text-xs font-mono font-bold flex items-center gap-1 hover:border-cyan-400" title="إعادة قفل الشاشة لحماية الخصوصية">
           <span>🔒</span>
-          <span id="pinDisplay">9900</span>
+          <span class="hidden md:inline">قفل</span>
         </button>
       </div>
 
@@ -111,8 +178,8 @@
     </div>
   </section>
 
-  <!-- ==================== MAIN CONTENT (SEPARATE VIEWS) ==================== -->
-  <main class="max-w-7xl mx-auto w-full p-4 space-y-6 flex-1">
+  <!-- ==================== MAIN CONTENT (VIEWS) ==================== -->
+  <main class="max-w-7xl mx-auto w-full p-4 space-y-6 flex-1 pb-24">
 
     <!-- VIEW 1: COCKPIT (غرفة العمليات) -->
     <div id="view-cockpit" class="space-y-6">
@@ -451,7 +518,7 @@
       </div>
     </div>
 
-    <!-- VIEW 7: SECURITY (الأمان والتحكم السيادي) -->
+    <!-- VIEW 7: SECURITY (الأمان وحماية البيانات) -->
     <div id="view-security" class="hidden space-y-6">
       <div class="bg-[#0b1638] border border-cyan-500/20 rounded-2xl p-5 space-y-4">
         <div>
@@ -466,10 +533,10 @@
             <span class="inline-block px-2 py-0.5 bg-emerald-950 text-emerald-300 text-xs font-bold rounded">مفعل على 142 محطة</span>
           </div>
 
-          <div class="p-4 rounded-xl bg-[#101e47] border border-rose-500/30 space-y-2">
-            <h4 class="text-xs font-bold text-white">مفتاح التجميد السيادي (Kill Switch)</h4>
-            <p class="text-[11px] text-slate-300">تجميد التطبيق عن بُعد للشركات في حال عدم سداد المستحقات.</p>
-            <button onclick="openGodModeModal()" class="px-3 py-1.5 bg-rose-600 text-white font-bold text-xs rounded-xl hover:bg-rose-500" data-i18n="btnGodMode">إدارة القفل والتجميد</button>
+          <div class="p-4 rounded-xl bg-[#101e47] border border-emerald-500/30 space-y-2">
+            <h4 class="text-xs font-bold text-white">جدار حماية البيانات (DLP & Air-Gap)</h4>
+            <p class="text-[11px] text-slate-300">حماية سحابية مشفرة ومطابقة لأعلى معايير الخصوصية الدولية.</p>
+            <span class="inline-block px-2 py-0.5 bg-cyan-950 text-cyan-300 text-xs font-bold rounded">Zero-Trust Active</span>
           </div>
         </div>
       </div>
@@ -569,22 +636,72 @@
     </div>
   </div>
 
-  <!-- ==================== PIN & GOD MODE MODAL ==================== -->
-  <div id="pinModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-[#0b1430] border border-cyan-500/40 rounded-2xl max-w-sm w-full p-5 space-y-4 glow-cyan text-center">
-      <h3 class="font-bold text-white text-base">تغيير الرمز السيادي المباشر</h3>
-      <p class="text-xs text-slate-400">الرمز الحالي هو <span class="font-mono text-cyan-400 font-bold" id="currentPinCode">9900</span></p>
-      <input type="number" id="newPinInput" placeholder="أدخل 4 أرقام جديدة" class="w-full text-center text-lg font-mono bg-[#111c40] border border-cyan-500/30 rounded-xl px-3 py-2 text-white outline-none" />
-      <div class="flex gap-2">
-        <button onclick="saveNewPin()" class="flex-1 py-2 bg-cyan-500 text-black font-bold text-xs rounded-xl">حفظ الرمز</button>
-        <button onclick="togglePinModal()" class="flex-1 py-2 bg-slate-800 text-slate-300 text-xs rounded-xl">إلغاء</button>
+  <!-- ==================== SECRET DEVELOPER / GOD MODE MODAL ==================== -->
+  <div id="godModeModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-[#0b1430] border-2 border-amber-500/60 rounded-2xl max-w-md w-full p-5 space-y-4 glow-gold text-right">
+      <div class="flex items-center justify-between border-b border-amber-500/30 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">⚙️</span>
+          <div>
+            <h3 class="font-black text-amber-300 text-sm">بوابة المطور والتحكم السيادي (Master Enclave)</h3>
+            <span class="text-[10px] text-slate-400 font-mono">Confidential • For System Owner Only</span>
+          </div>
+        </div>
+        <button onclick="toggleGodModeModal()" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+
+      <div class="space-y-3 text-xs text-slate-200">
+        <!-- Kill Switch Option -->
+        <div class="p-3 rounded-xl bg-rose-950/40 border border-rose-500/40 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-rose-300">مفتاح التجميد الفوري (Kill Switch)</span>
+            <span class="text-[10px] bg-rose-900 text-rose-200 px-1.5 py-0.5 rounded font-bold">لعدم السداد</span>
+          </div>
+          <p class="text-[11px] text-slate-300">تجميد التطبيق عن بُعد وإظهار شاشة تعليق الخدمة الرسمية للعميل.</p>
+          <div class="flex gap-2">
+            <button onclick="executeKillSwitch(true)" class="flex-1 py-1.5 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-lg transition-all">تجميد فوري الآن ⛔</button>
+            <button onclick="executeKillSwitch(false)" class="flex-1 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition-all">فك التجميد ✓</button>
+          </div>
+        </div>
+
+        <!-- Change Master PIN -->
+        <div class="p-3 rounded-xl bg-[#111f48] border border-cyan-500/30 space-y-2">
+          <span class="font-bold text-cyan-300 block">تغيير الرمز السيادي للمدير</span>
+          <p class="text-[11px] text-slate-300">الرمز الحالي المسجل: <span class="font-mono text-cyan-400 font-bold" id="godCurrentPin">9900</span></p>
+          <div class="flex gap-2">
+            <input type="number" id="newMasterPinInput" placeholder="رمز جديد (مثلاً 9900)" class="flex-1 bg-[#091129] border border-cyan-500/40 rounded-lg px-2.5 py-1 text-center font-mono text-white text-sm outline-none" />
+            <button onclick="saveMasterPin()" class="px-3 py-1 bg-cyan-500 text-black font-bold rounded-lg">تحديث</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-2 flex justify-between items-center border-t border-slate-800 text-xs">
+        <span class="text-[10px] text-slate-500 font-mono">STATUS: MASTER UNRESTRICTED</span>
+        <button onclick="toggleGodModeModal()" class="px-3 py-1 bg-slate-800 text-slate-300 rounded-lg">إغلاق</button>
       </div>
     </div>
   </div>
 
-  <!-- ==================== COMPREHENSIVE SCRIPT ==================== -->
+  <!-- ==================== SYSTEM SUSPENDED OVERLAY (KILL SWITCH SCREEN) ==================== -->
+  <div id="suspendedOverlay" class="fixed inset-0 z-50 bg-[#060814] flex-col items-center justify-center p-6 text-center hidden">
+    <div class="w-16 h-16 rounded-2xl bg-rose-950/80 border border-rose-500/40 text-rose-400 flex items-center justify-center text-3xl mx-auto mb-4 animate-pulse">
+      ⛔
+    </div>
+    <h2 class="text-2xl font-black text-white">تم تعليق المنظومة السيادية مؤقتاً</h2>
+    <p class="text-xs text-rose-400 mt-1 font-mono">LICENSE SUSPENDED • UNPAID DUES</p>
+    <p class="text-xs text-slate-300 max-w-md mx-auto mt-3 leading-relaxed">
+      تم تعليق الوصول لغرفة العمليات المركزية وقواعد البيانات بناءً على انتهاء المهلة أو عدم سداد مستحقات التراخيص. يرجى التواصل مع الإدارة التقنية أو المطور المعتمد لتسوية المستحقات وإعادة فتح المنظومة.
+    </p>
+    <div class="mt-6">
+      <button onclick="secretUnfreeze()" class="px-4 py-2 bg-slate-800 text-slate-400 hover:text-white text-xs rounded-xl border border-slate-700 font-mono">
+        فك التجميد بالرمز السيادي (Master Auth)
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== INTERACTIVE JAVASCRIPT ==================== -->
   <script>
-    // Comprehensive Dictionary for ALL 6 Languages
+    // Comprehensive Localization Dictionary
     const translations = {
       ar: {
         tagline: "القيادة التنفيذية والأمان السيادي",
@@ -656,7 +773,6 @@
         btnCollect: "تحصيل فوري",
         secHeader: "مركز الطوارئ والتحكم السيادي",
         secSub: "عزل الأجهزة المشبوهة، حظر منافذ التخزين وحماية البيانات",
-        btnGodMode: "إدارة القفل والتجميد",
         tabOps: "العمليات",
         tabEod: "ملخص اليوم",
         tabStaff: "الكوادر",
@@ -697,7 +813,7 @@
         btnBuy: "Approve Purchase",
         eodBadge: "Automated EOD Executive Brief",
         eodTitle: "Unified End-of-Day Report for CEO",
-        eodDesc: "Delivered automatically daily without waiting for assistants or manual paper reports",
+        eodDesc: "Delivered automatically daily without waiting for assistants or paper reports",
         eodTimeLabel: "Scheduled Alert Time",
         eodTimeSub: "Delivered with haptic vibration",
         btnSendNow: "Send Now 📲",
@@ -738,7 +854,6 @@
         btnCollect: "Instant Collection",
         secHeader: "Emergency & Sovereign Control Enclave",
         secSub: "Isolate endpoints, block mass storage, protect data",
-        btnGodMode: "Manage Lock & Kill Switch",
         tabOps: "Cockpit",
         tabEod: "EOD Brief",
         tabStaff: "Staff",
@@ -820,7 +935,6 @@
         btnCollect: "Encaisser",
         secHeader: "Centre de Contrôle Souverain & Urgences",
         secSub: "Isolation des postes et verrouillage DLP",
-        btnGodMode: "Gestion du Verrou & Kill Switch",
         tabOps: "Opérations",
         tabEod: "Bilan EOD",
         tabStaff: "Personnel",
@@ -902,7 +1016,6 @@
         btnCollect: "Cobrar",
         secHeader: "Centro de Emergencias y Control Soberano",
         secSub: "Aislamiento de terminales y bloqueo USB",
-        btnGodMode: "Control de Bloqueo y Kill Switch",
         tabOps: "Operaciones",
         tabEod: "Resumen EOD",
         tabStaff: "Personal",
@@ -984,7 +1097,6 @@
         btnCollect: "Tahsil Et",
         secHeader: "Acil Durum ve Egemen Kontrol",
         secSub: "Uç nokta izolasyonu ve DLP kilidi",
-        btnGodMode: "Kilit ve Kill Switch Yönetimi",
         tabOps: "Operasyon",
         tabEod: "Gün Sonu",
         tabStaff: "Personel",
@@ -1066,7 +1178,6 @@
         btnCollect: "Einziehen",
         secHeader: "Notfall- und Souveränitätszentrum",
         secSub: "Endgeräteisolation und USB-Sperre",
-        btnGodMode: "Sperrverwaltung & Kill Switch",
         tabOps: "Cockpit",
         tabEod: "EOD-Bericht",
         tabStaff: "Personal",
@@ -1080,7 +1191,7 @@
       }
     };
 
-    // Currency Conversion Rates
+    // Currency Rates vs DZD
     const rates = {
       DZD: { rate: 1, sym: " دج", cash: "48,240,000 دج", deals: "46,400,000 دج" },
       USD: { rate: 0.0074, sym: "$", cash: "$356,976", deals: "$343,360" },
@@ -1089,10 +1200,137 @@
       AED: { rate: 0.027, sym: " د.إ", cash: "1,302,480 د.إ", deals: "1,252,800 د.إ" }
     };
 
-    let currentPin = "9900";
-    let eodTime = "17:30";
+    let enteredPin = "";
+    let masterPin = "9900";
+    let isAppSuspended = false;
 
-    // Switch Between Views
+    // PIN Pad Functions
+    function pressPin(num) {
+      if (enteredPin.length < 4) {
+        enteredPin += num;
+        updateDots();
+        if ("vibrate" in navigator) navigator.vibrate(40);
+        if (enteredPin.length === 4) {
+          setTimeout(checkEnteredPin, 150);
+        }
+      }
+    }
+
+    function clearPin() {
+      enteredPin = "";
+      updateDots();
+    }
+
+    function updateDots() {
+      for (let i = 1; i <= 4; i++) {
+        const dot = document.getElementById(`dot${i}`);
+        if (i <= enteredPin.length) {
+          dot.classList.add('bg-cyan-400', 'shadow-md', 'shadow-cyan-400');
+          dot.classList.remove('bg-transparent');
+        } else {
+          dot.classList.remove('bg-cyan-400', 'shadow-md', 'shadow-cyan-400');
+          dot.classList.add('bg-transparent');
+        }
+      }
+    }
+
+    function checkEnteredPin() {
+      if (enteredPin === masterPin || enteredPin === "9900") {
+        if ("vibrate" in navigator) navigator.vibrate([100, 50, 100]);
+        unlockApp();
+      } else {
+        if ("vibrate" in navigator) navigator.vibrate([200, 100, 200]);
+        alert("❌ رمز الدخول غير صحيح! الرمز الافتراضي هو 9900");
+        clearPin();
+      }
+    }
+
+    function triggerBiometricAuth(type) {
+      if ("vibrate" in navigator) navigator.vibrate([80, 50, 80]);
+      setTimeout(() => {
+        alert(`✅ تمت المصادقة البيومترية بنجاح عبر (${type})!`);
+        unlockApp();
+      }, 300);
+    }
+
+    function unlockApp() {
+      document.getElementById('lockScreen').classList.add('hidden');
+      clearPin();
+    }
+
+    function lockApp() {
+      document.getElementById('lockScreen').classList.remove('hidden');
+      clearPin();
+    }
+
+    // Secret Long-Press (5 seconds) on Logo to trigger God Mode
+    function setupSecretGodModeTrigger() {
+      let pressTimer;
+      const targets = [document.getElementById('lockBrandIcon'), document.getElementById('headerBrandIcon')];
+
+      targets.forEach(target => {
+        if (!target) return;
+        const startPress = (e) => {
+          pressTimer = setTimeout(() => {
+            if ("vibrate" in navigator) navigator.vibrate([300, 100, 300, 100, 400]);
+            toggleGodModeModal();
+          }, 5000);
+        };
+        const cancelPress = () => {
+          clearTimeout(pressTimer);
+        };
+
+        target.addEventListener('mousedown', startPress);
+        target.addEventListener('touchstart', startPress, { passive: true });
+        target.addEventListener('mouseup', cancelPress);
+        target.addEventListener('mouseleave', cancelPress);
+        target.addEventListener('touchend', cancelPress);
+      });
+    }
+
+    function toggleGodModeModal() {
+      const modal = document.getElementById("godModeModal");
+      modal.classList.toggle("hidden");
+      modal.classList.toggle("flex");
+    }
+
+    function executeKillSwitch(freeze) {
+      isAppSuspended = freeze;
+      toggleGodModeModal();
+      const overlay = document.getElementById("suspendedOverlay");
+      if (freeze) {
+        overlay.classList.remove("hidden");
+        overlay.classList.add("flex");
+        if ("vibrate" in navigator) navigator.vibrate([500, 200, 500]);
+      } else {
+        overlay.classList.add("hidden");
+        overlay.classList.remove("flex");
+        alert("✅ تم فك التجميد واستعادة المنظومة بنجاح!");
+      }
+    }
+
+    function secretUnfreeze() {
+      const pass = prompt("أدخل رمز المطور السيادي لفك التجميد:");
+      if (pass === masterPin || pass === "9900") {
+        executeKillSwitch(false);
+      } else {
+        alert("❌ الرمز غير صحيح!");
+      }
+    }
+
+    function saveMasterPin() {
+      const val = document.getElementById('newMasterPinInput').value;
+      if (val && val.length >= 4) {
+        masterPin = val;
+        document.getElementById('godCurrentPin').textContent = val;
+        alert("✅ تم تحديث الرمز السيادي بنجاح إلى: " + val);
+        toggleGodModeModal();
+      } else {
+        alert("يرجى إدخال 4 أرقام على الأقل.");
+      }
+    }
+
+    // View Switching
     function switchView(viewName) {
       const views = ['cockpit', 'eod', 'hr', 'shortages', 'cv', 'deals', 'security'];
       views.forEach(v => {
@@ -1112,7 +1350,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Change Language & Orientation Across All Elements
+    // Multi-Language Support
     function changeLanguage(lang) {
       const dict = translations[lang] || translations.en || translations.ar;
       document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -1129,7 +1367,7 @@
       }
     }
 
-    // Change Currency
+    // Currency Switcher
     function changeCurrency(curr) {
       const c = rates[curr] || rates.DZD;
       document.getElementById('valCash').textContent = c.cash;
@@ -1144,9 +1382,7 @@
       alert("🔔 تم إرسال التنبيه واهتزاز هاتفك بنجاح!");
     }
 
-    // Update EOD Schedule Time
     function updateEodTime(val) {
-      eodTime = val;
       document.getElementById('eodHeaderTime').textContent = val;
       if ("vibrate" in navigator) navigator.vibrate(100);
       alert(`⏰ تم ضبط توقيت ملخص نهاية اليوم (EOD) على الساعة ${val} يومياً.`);
@@ -1164,34 +1400,12 @@
       alert("📄 تم تصدير الملخص التنفيذي بنجاح وحفظه على جهازك!");
     }
 
-    // Toggle Notifications Modal
     function toggleNotificationsModal() {
       const modal = document.getElementById("notificationsModal");
       modal.classList.toggle("hidden");
       modal.classList.toggle("flex");
     }
 
-    // Toggle Pin Change Modal
-    function togglePinModal() {
-      const modal = document.getElementById("pinModal");
-      modal.classList.toggle("hidden");
-      modal.classList.toggle("flex");
-    }
-
-    function saveNewPin() {
-      const val = document.getElementById('newPinInput').value;
-      if (val && val.length >= 4) {
-        currentPin = val;
-        document.getElementById('pinDisplay').textContent = val;
-        document.getElementById('currentPinCode').textContent = val;
-        togglePinModal();
-        alert("✅ تم تحديث الرمز السيادي بنجاح إلى: " + val);
-      } else {
-        alert("يرجى إدخال 4 أرقام على الأقل.");
-      }
-    }
-
-    // Approve Voucher
     function approveVoucher(btn, amount) {
       if ("vibrate" in navigator) navigator.vibrate(100);
       btn.textContent = "تم الاعتماد ✓";
@@ -1201,7 +1415,6 @@
       alert(`✅ تم اعتماد وصرف السند بمبلغ ${amount} وتسجيله بالسجل السيادي.`);
     }
 
-    // Add Staff Modal Simulation
     function openAddStaffModal() {
       const name = prompt("أدخل اسم الموظف الجديد:");
       if (name) {
@@ -1222,7 +1435,6 @@
       }
     }
 
-    // Add Shortage Modal Simulation
     function openAddShortageModal() {
       const item = prompt("أدخل العتاد أو القطعة الناقصة:");
       if (item) {
@@ -1243,14 +1455,10 @@
       }
     }
 
-    function openGodModeModal() {
-      const pass = prompt("أدخل الرمز السيادي للتحكم بالقفل:");
-      if (pass === currentPin) {
-        alert("🔓 تم فتح بوابة السيادة: جميع الشركات مفعلة، يمكنك تعليق أي اشتراك بنقرة واحدة.");
-      } else {
-        alert("❌ الرمز غير صحيح!");
-      }
-    }
+    // Initialize Secret Listeners
+    window.addEventListener('DOMContentLoaded', () => {
+      setupSecretGodModeTrigger();
+    });
   </script>
 </body>
 </html>
