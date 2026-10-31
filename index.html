@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>CEO-PULSE V7.1 - Sovereign Executive Suite</title>
+  <title>CEO-PULSE V7.2 - Sovereign Executive Suite</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
   <style>
@@ -86,7 +86,7 @@
         </button>
       </div>
 
-      <div class="text-[10px] text-slate-500 font-mono">ENCRYPTED HARDWARE BOUND • V7.1 🛡️</div>
+      <div class="text-[10px] text-slate-500 font-mono">ENCRYPTED HARDWARE BOUND • V7.2 🛡️</div>
     </div>
   </div>
 
@@ -96,7 +96,7 @@
       
       <!-- Brand Icon with 5-Second Secret Press (Developer God Mode) -->
       <div class="flex items-center gap-3">
-        <div id="headerBrandIcon" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-600 to-cyan-400 flex items-center justify-center shadow-lg shadow-cyan-500/20 cursor-pointer" title="اضغط مطولاً 5 ثوانٍ لفتح بوابة المطور السرية">
+        <div id="headerBrandIcon" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-600 to-cyan-400 flex items-center justify-center shadow-lg shadow-cyan-500/20 cursor-pointer" title="اضغط مطولاً 5 ثوانٍ لبوابة المطور السرية">
           <svg class="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
           </svg>
@@ -104,7 +104,7 @@
         <div>
           <div class="flex items-center gap-2">
             <h1 class="font-black text-white text-base tracking-wide">CEO-PULSE</h1>
-            <span class="text-[10px] bg-cyan-950 text-cyan-300 font-mono-num font-bold px-1.5 py-0.5 rounded border border-cyan-500/30">V7.1</span>
+            <span class="text-[10px] bg-cyan-950 text-cyan-300 font-mono-num font-bold px-1.5 py-0.5 rounded border border-cyan-500/30">V7.2</span>
           </div>
           <p class="text-[11px] text-cyan-400 font-medium" data-i18n="tagline">القيادة التنفيذية والأمان السيادي</p>
         </div>
@@ -252,7 +252,7 @@
 
         <!-- Security Metric -->
         <div class="bg-[#0b1638] border border-cyan-500/20 rounded-2xl p-4 space-y-1">
-          <span class="text-xs text-slate-400 font-medium" data-i18n="mSec">أمان الأجهزة DLP</span>
+          <span class="text-xs text-slate-400 font-medium" data-i18n="mSec">أمان الأجهزة والبيانات</span>
           <div class="text-lg md:text-2xl font-black text-emerald-400 font-mono-num">0 <span class="text-xs font-normal" data-i18n="threats">تهديدات</span></div>
           <div class="text-[10px] text-emerald-300 flex items-center gap-1">
             <span>🔒</span>
@@ -518,33 +518,9 @@
       </div>
     </div>
 
-    <!-- VIEW 7: SECURITY (الأمان وحماية البيانات) -->
-    <div id="view-security" class="hidden space-y-6">
-      <div class="bg-[#0b1638] border border-cyan-500/20 rounded-2xl p-5 space-y-4">
-        <div>
-          <h2 class="text-lg font-black text-white" data-i18n="secHeader">مركز الطوارئ والتحكم السيادي</h2>
-          <p class="text-xs text-slate-400" data-i18n="secSub">عزل الأجهزة المشبوهة، حظر منافذ التخزين وحماية البيانات</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div class="p-4 rounded-xl bg-[#101e47] border border-cyan-500/20 space-y-2">
-            <h4 class="text-xs font-bold text-white">حظر منافذ USB لوسائط التخزين</h4>
-            <p class="text-[11px] text-slate-300">يمنع توصيل أي فلاش ميموري أو قرص صلب خارجي دون إذن المدير.</p>
-            <span class="inline-block px-2 py-0.5 bg-emerald-950 text-emerald-300 text-xs font-bold rounded">مفعل على 142 محطة</span>
-          </div>
-
-          <div class="p-4 rounded-xl bg-[#101e47] border border-emerald-500/30 space-y-2">
-            <h4 class="text-xs font-bold text-white">جدار حماية البيانات (DLP & Air-Gap)</h4>
-            <p class="text-[11px] text-slate-300">حماية سحابية مشفرة ومطابقة لأعلى معايير الخصوصية الدولية.</p>
-            <span class="inline-block px-2 py-0.5 bg-cyan-950 text-cyan-300 text-xs font-bold rounded">Zero-Trust Active</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </main>
 
-  <!-- ==================== FIXED BOTTOM NAVIGATION ==================== -->
+  <!-- ==================== FIXED BOTTOM NAVIGATION (NO SECURITY TAB) ==================== -->
   <nav class="fixed bottom-0 inset-x-0 z-40 bg-[#07112c]/95 backdrop-blur-md border-t border-cyan-500/20 px-3 py-2">
     <div class="max-w-xl mx-auto flex items-center justify-around text-xs">
       
@@ -576,11 +552,6 @@
       <button onclick="switchView('deals')" id="tab-deals" class="flex flex-col items-center gap-1 text-slate-400 font-bold transition-all">
         <span class="text-base">💼</span>
         <span data-i18n="tabDeals">الصفقات</span>
-      </button>
-
-      <button onclick="switchView('security')" id="tab-security" class="flex flex-col items-center gap-1 text-slate-400 font-bold transition-all">
-        <span class="text-base">🛡️</span>
-        <span data-i18n="tabSec">الأمان</span>
       </button>
 
     </div>
@@ -636,71 +607,83 @@
     </div>
   </div>
 
-  <!-- ==================== SECRET DEVELOPER / GOD MODE MODAL ==================== -->
+  <!-- ==================== SECRET DEVELOPER / GOD MODE MODAL (MULTI-TENANT LOCK) ==================== -->
   <div id="godModeModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="bg-[#0b1430] border-2 border-amber-500/60 rounded-2xl max-w-md w-full p-5 space-y-4 glow-gold text-right">
+    <div class="bg-[#0b1430] border-2 border-amber-500/60 rounded-2xl max-w-lg w-full p-5 space-y-4 glow-gold text-right max-h-[90vh] overflow-y-auto custom-scroll">
+      
       <div class="flex items-center justify-between border-b border-amber-500/30 pb-3">
         <div class="flex items-center gap-2">
           <span class="text-xl">⚙️</span>
           <div>
-            <h3 class="font-black text-amber-300 text-sm">بوابة المطور والتحكم السيادي (Master Enclave)</h3>
-            <span class="text-[10px] text-slate-400 font-mono">Confidential • For System Owner Only</span>
+            <h3 class="font-black text-amber-300 text-sm">بوابة المطور السرية: نظام قفل الشركات المنفصلة</h3>
+            <span class="text-[10px] text-slate-400 font-mono">Multi-Tenant Licensing & Kill Switch • Confidential</span>
           </div>
         </div>
         <button onclick="toggleGodModeModal()" class="text-slate-400 hover:text-white">✕</button>
       </div>
 
-      <div class="space-y-3 text-xs text-slate-200">
-        <!-- Kill Switch Option -->
-        <div class="p-3 rounded-xl bg-rose-950/40 border border-rose-500/40 space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="font-bold text-rose-300">مفتاح التجميد الفوري (Kill Switch)</span>
-            <span class="text-[10px] bg-rose-900 text-rose-200 px-1.5 py-0.5 rounded font-bold">لعدم السداد</span>
-          </div>
-          <p class="text-[11px] text-slate-300">تجميد التطبيق عن بُعد وإظهار شاشة تعليق الخدمة الرسمية للعميل.</p>
-          <div class="flex gap-2">
-            <button onclick="executeKillSwitch(true)" class="flex-1 py-1.5 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-lg transition-all">تجميد فوري الآن ⛔</button>
-            <button onclick="executeKillSwitch(false)" class="flex-1 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition-all">فك التجميد ✓</button>
-          </div>
+      <!-- Add New Company Quick Action -->
+      <div class="flex items-center justify-between bg-[#111f48] border border-cyan-500/30 rounded-xl p-3">
+        <div>
+          <h4 class="text-xs font-bold text-white">تسجيل تعاقد شركة جديدة</h4>
+          <p class="text-[10px] text-slate-300">إضافة شركة وتخصيص مستحقاتها والتحكم بقفلها</p>
         </div>
+        <button onclick="addNewTenantPrompt()" class="px-3 py-1.5 bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs rounded-lg transition-all">
+          ➕ إضافة شركة
+        </button>
+      </div>
 
-        <!-- Change Master PIN -->
-        <div class="p-3 rounded-xl bg-[#111f48] border border-cyan-500/30 space-y-2">
-          <span class="font-bold text-cyan-300 block">تغيير الرمز السيادي للمدير</span>
-          <p class="text-[11px] text-slate-300">الرمز الحالي المسجل: <span class="font-mono text-cyan-400 font-bold" id="godCurrentPin">9900</span></p>
-          <div class="flex gap-2">
-            <input type="number" id="newMasterPinInput" placeholder="رمز جديد (مثلاً 9900)" class="flex-1 bg-[#091129] border border-cyan-500/40 rounded-lg px-2.5 py-1 text-center font-mono text-white text-sm outline-none" />
-            <button onclick="saveMasterPin()" class="px-3 py-1 bg-cyan-500 text-black font-bold rounded-lg">تحديث</button>
-          </div>
+      <!-- Companies (Tenants) List -->
+      <div class="space-y-3" id="tenantsListContainer">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Global Master Passcode Settings -->
+      <div class="p-3 rounded-xl bg-[#0e193d] border border-cyan-500/20 space-y-2">
+        <span class="font-bold text-cyan-300 text-xs block">تغيير الرمز السيادي الرئيسي للمنظومة</span>
+        <p class="text-[10px] text-slate-400">الرمز الحالي المسجل: <span class="font-mono text-cyan-400 font-bold" id="godCurrentPin">9900</span></p>
+        <div class="flex gap-2">
+          <input type="number" id="newMasterPinInput" placeholder="أدخل 4 أرقام جديدة" class="flex-1 bg-[#091129] border border-cyan-500/40 rounded-lg px-2.5 py-1 text-center font-mono text-white text-xs outline-none" />
+          <button onclick="saveMasterPin()" class="px-3 py-1 bg-cyan-500 text-black font-bold text-xs rounded-lg">تحديث الرمز</button>
         </div>
       </div>
 
       <div class="pt-2 flex justify-between items-center border-t border-slate-800 text-xs">
-        <span class="text-[10px] text-slate-500 font-mono">STATUS: MASTER UNRESTRICTED</span>
+        <span class="text-[10px] text-slate-500 font-mono">ALL TENANTS ISOLATED • AES-256</span>
         <button onclick="toggleGodModeModal()" class="px-3 py-1 bg-slate-800 text-slate-300 rounded-lg">إغلاق</button>
       </div>
     </div>
   </div>
 
-  <!-- ==================== SYSTEM SUSPENDED OVERLAY (KILL SWITCH SCREEN) ==================== -->
+  <!-- ==================== SUSPENDED OVERLAY (ACTIVE TENANT SUSPENDED) ==================== -->
   <div id="suspendedOverlay" class="fixed inset-0 z-50 bg-[#060814] flex-col items-center justify-center p-6 text-center hidden">
     <div class="w-16 h-16 rounded-2xl bg-rose-950/80 border border-rose-500/40 text-rose-400 flex items-center justify-center text-3xl mx-auto mb-4 animate-pulse">
       ⛔
     </div>
-    <h2 class="text-2xl font-black text-white">تم تعليق المنظومة السيادية مؤقتاً</h2>
-    <p class="text-xs text-rose-400 mt-1 font-mono">LICENSE SUSPENDED • UNPAID DUES</p>
-    <p class="text-xs text-slate-300 max-w-md mx-auto mt-3 leading-relaxed">
-      تم تعليق الوصول لغرفة العمليات المركزية وقواعد البيانات بناءً على انتهاء المهلة أو عدم سداد مستحقات التراخيص. يرجى التواصل مع الإدارة التقنية أو المطور المعتمد لتسوية المستحقات وإعادة فتح المنظومة.
+    <h2 class="text-2xl font-black text-white">تم تعليق المنظومة السيادية للشركة</h2>
+    <p class="text-xs text-rose-400 mt-1 font-mono">ACCOUNT SUSPENDED • UNPAID LICENSING DUES</p>
+    <p class="text-xs text-slate-300 max-w-md mx-auto mt-3 leading-relaxed" id="suspendedReasonText">
+      تم تعليق الوصول لغرفة العمليات المركزية ومؤشرات النبض لهذه الشركة نظراً لعدم سداد المستحقات الدورية. يرجى التواصل مع الإدارة أو المطور المعتمد لتسوية المستحقات وإعادة تفعيل النظام فوراً.
     </p>
     <div class="mt-6">
       <button onclick="secretUnfreeze()" class="px-4 py-2 bg-slate-800 text-slate-400 hover:text-white text-xs rounded-xl border border-slate-700 font-mono">
-        فك التجميد بالرمز السيادي (Master Auth)
+        فك التجميد بالرمز السيادي (9900)
       </button>
     </div>
   </div>
 
   <!-- ==================== INTERACTIVE JAVASCRIPT ==================== -->
   <script>
+    // Multi-Tenant Dataset (Independent Companies)
+    let tenants = [
+      { id: 't1', name: 'مجموعة الأفق للتكنولوجيا والحلول', amount: '1,200,000 دج', dueDate: '2025-05-01', suspended: false },
+      { id: 't2', name: 'شركة النور للمقاولات والتجارة', amount: '850,000 دج', dueDate: '2025-04-15', suspended: false },
+      { id: 't3', name: 'مجمع الأطلس للصناعات الدوائية', amount: '2,400,000 دج', dueDate: '2025-04-20', suspended: false },
+      { id: 't4', name: 'مؤسسة النماء اللوجستية والشحن', amount: '600,000 دج', dueDate: '2025-05-10', suspended: false }
+    ];
+
+    let activeTenantId = 't1'; // Default selected tenant
+
     // Comprehensive Localization Dictionary
     const translations = {
       ar: {
@@ -721,7 +704,7 @@
         mZeroTrust: "امتثال كامل Zero-Trust",
         mDeals: "مصفوفة الصفقات المليونية",
         mPending: "عقدان بانتظار الاعتماد",
-        mSec: "أمان الأجهزة DLP",
+        mSec: "أمان الأجهزة والبيانات",
         threats: "تهديدات",
         mUsb: "حظر USB مشفر ومفعل",
         vouchersTitle: "سندات بانتظار توقيعك واعتمادك الفوري",
@@ -771,15 +754,12 @@
         dealsHeader: "مصفوفة الصفقات والعقود الاستراتيجية",
         dealsSub: "متابعة استحقاق الدفعات ونسب الإنجاز والتحصيل",
         btnCollect: "تحصيل فوري",
-        secHeader: "مركز الطوارئ والتحكم السيادي",
-        secSub: "عزل الأجهزة المشبوهة، حظر منافذ التخزين وحماية البيانات",
         tabOps: "العمليات",
         tabEod: "ملخص اليوم",
         tabStaff: "الكوادر",
         tabShort: "النواقص",
         tabCv: "السير (AI)",
         tabDeals: "الصفقات",
-        tabSec: "الأمان",
         notifModalTitle: "مركز الإشعارات التنفيذية الفورية",
         testVibeAlert: "اختبار اهتزاز الهاتف",
         btnClose: "إغلاق"
@@ -802,7 +782,7 @@
         mZeroTrust: "Full Zero-Trust Compliance",
         mDeals: "Strategic Deals Pipeline",
         mPending: "2 Contracts Awaiting Approval",
-        mSec: "Hardware & DLP Defense",
+        mSec: "Hardware & Data Security",
         threats: "Threats",
         mUsb: "Encrypted USB Block Active",
         vouchersTitle: "Vouchers Pending Executive Sign-off",
@@ -852,15 +832,12 @@
         dealsHeader: "Strategic Deals & Contracts Matrix",
         dealsSub: "Track payment maturity, progress rates and collections",
         btnCollect: "Instant Collection",
-        secHeader: "Emergency & Sovereign Control Enclave",
-        secSub: "Isolate endpoints, block mass storage, protect data",
         tabOps: "Cockpit",
         tabEod: "EOD Brief",
         tabStaff: "Staff",
         tabShort: "Shortages",
         tabCv: "AI Resumes",
         tabDeals: "Deals",
-        tabSec: "Security",
         notifModalTitle: "Real-Time Executive Alert Hub",
         testVibeAlert: "Test Mobile Haptic Vibration",
         btnClose: "Close"
@@ -883,7 +860,7 @@
         mZeroTrust: "Conformité Totale Zero-Trust",
         mDeals: "Portefeuille de Contrats",
         mPending: "2 Contrats en Attente",
-        mSec: "Sécurité & Protection DLP",
+        mSec: "Sécurité & Protection Données",
         threats: "Menaces",
         mUsb: "Blocage USB Chiffré Actif",
         vouchersTitle: "Bons en Attente de Signature",
@@ -933,15 +910,12 @@
         dealsHeader: "Matrice des Contrats Stratégiques",
         dealsSub: "Suivi des échéances et encaissements",
         btnCollect: "Encaisser",
-        secHeader: "Centre de Contrôle Souverain & Urgences",
-        secSub: "Isolation des postes et verrouillage DLP",
         tabOps: "Opérations",
         tabEod: "Bilan EOD",
         tabStaff: "Personnel",
         tabShort: "Pénuries",
         tabCv: "CV (IA)",
         tabDeals: "Contrats",
-        tabSec: "Sécurité",
         notifModalTitle: "Centre d'Alertes Exécutives",
         testVibeAlert: "Test Vibration Mobile",
         btnClose: "Fermer"
@@ -964,7 +938,7 @@
         mZeroTrust: "Cumplimiento Total Zero-Trust",
         mDeals: "Cartera de Acuerdos Estratégicos",
         mPending: "2 Contratos Pendientes",
-        mSec: "Seguridad y Enclave DLP",
+        mSec: "Seguridad y Datos",
         threats: "Amenazas",
         mUsb: "Bloqueo USB Cifrado Activo",
         vouchersTitle: "Comprobantes Pendientes de Firma",
@@ -1014,15 +988,12 @@
         dealsHeader: "Matriz de Contratos Estratégicos",
         dealsSub: "Seguimiento de vencimientos y cobros",
         btnCollect: "Cobrar",
-        secHeader: "Centro de Emergencias y Control Soberano",
-        secSub: "Aislamiento de terminales y bloqueo USB",
         tabOps: "Operaciones",
         tabEod: "Resumen EOD",
         tabStaff: "Personal",
         tabShort: "Carencias",
         tabCv: "CV (IA)",
         tabDeals: "Acuerdos",
-        tabSec: "Seguridad",
         notifModalTitle: "Centro de Alertas Ejecutivas",
         testVibeAlert: "Probar Vibración Móvil",
         btnClose: "Cerrar"
@@ -1045,7 +1016,7 @@
         mZeroTrust: "Tam Sıfır Güven (Zero-Trust) Uyumu",
         mDeals: "Stratejik Anlaşmalar",
         mPending: "2 Sözleşme Onay Bekliyor",
-        mSec: "Donanım ve DLP Güvenliği",
+        mSec: "Donanım ve Veri Güvenliği",
         threats: "Tehdit",
         mUsb: "Şifreli USB Engeli Aktif",
         vouchersTitle: "İmza Bekleyen Ödeme Fişleri",
@@ -1095,15 +1066,12 @@
         dealsHeader: "Stratejik Sözleşmeler Matrisi",
         dealsSub: "Vade, ilerleme ve tahsilat takibi",
         btnCollect: "Tahsil Et",
-        secHeader: "Acil Durum ve Egemen Kontrol",
-        secSub: "Uç nokta izolasyonu ve DLP kilidi",
         tabOps: "Operasyon",
         tabEod: "Gün Sonu",
         tabStaff: "Personel",
         tabShort: "Eksikler",
         tabCv: "CV (AI)",
         tabDeals: "Anlaşmalar",
-        tabSec: "Güvenlik",
         notifModalTitle: "Yönetici Uyarı Merkezi",
         testVibeAlert: "Mobil Titreşimi Test Et",
         btnClose: "Kapat"
@@ -1126,7 +1094,7 @@
         mZeroTrust: "Vollständige Zero-Trust-Konformität",
         mDeals: "Strategische Vertragsmatrix",
         mPending: "2 Verträge ausstehend",
-        mSec: "Hardware & DLP-Schutz",
+        mSec: "Hardware & Datensicherheit",
         threats: "Bedrohungen",
         mUsb: "Verschlüsselter USB-Block aktiv",
         vouchersTitle: "Ausstehende Freigaben",
@@ -1176,15 +1144,12 @@
         dealsHeader: "Strategische Vertragsübersicht",
         dealsSub: "Überwachung von Fälligkeiten und Einnahmen",
         btnCollect: "Einziehen",
-        secHeader: "Notfall- und Souveränitätszentrum",
-        secSub: "Endgeräteisolation und USB-Sperre",
         tabOps: "Cockpit",
         tabEod: "EOD-Bericht",
         tabStaff: "Personal",
         tabShort: "Mängel",
         tabCv: "KI-CVs",
         tabDeals: "Verträge",
-        tabSec: "Sicherheit",
         notifModalTitle: "Vorstands-Alarmzentrale",
         testVibeAlert: "Handy-Vibration Testen",
         btnClose: "Schließen"
@@ -1202,7 +1167,110 @@
 
     let enteredPin = "";
     let masterPin = "9900";
-    let isAppSuspended = false;
+
+    // Render Tenants in God Mode Modal
+    function renderTenants() {
+      const container = document.getElementById('tenantsListContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      tenants.forEach(t => {
+        const div = document.createElement('div');
+        div.className = `p-3.5 rounded-xl border transition-all ${
+          t.suspended ? 'bg-rose-950/30 border-rose-500/40' : 'bg-[#101e47] border-cyan-500/20'
+        }`;
+
+        div.innerHTML = `
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <div class="flex items-center gap-2">
+                <h4 class="text-xs font-bold text-white">${t.name}</h4>
+                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded font-mono ${
+                  t.suspended ? 'bg-rose-900 text-rose-200' : 'bg-emerald-950 text-emerald-300'
+                }">
+                  ${t.suspended ? '⛔ معلقة لعدم السداد' : '✓ نشطة'}
+                </span>
+              </div>
+              <p class="text-[11px] text-amber-300 mt-1 font-mono-num font-bold">المستحقات: ${t.amount}</p>
+              <span class="text-[10px] text-slate-400">استحقاق الدفعة: ${t.dueDate}</span>
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <button onclick="toggleTenantSuspension('${t.id}')" class="px-2.5 py-1 text-[11px] font-bold rounded transition-all ${
+                t.suspended 
+                  ? 'bg-emerald-500 hover:bg-emerald-400 text-black' 
+                  : 'bg-rose-600 hover:bg-rose-500 text-white'
+              }">
+                ${t.suspended ? 'فك التجميد 🔓' : 'تجميد الشركة ⛔'}
+              </button>
+              <button onclick="simulateTenantView('${t.id}')" class="px-2 py-0.5 text-[10px] bg-[#162758] text-cyan-300 rounded border border-cyan-500/30">
+                معاينة شاشتها
+              </button>
+            </div>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function toggleTenantSuspension(id) {
+      const t = tenants.find(x => x.id === id);
+      if (t) {
+        t.suspended = !t.suspended;
+        if ("vibrate" in navigator) navigator.vibrate([200, 100, 200]);
+        renderTenants();
+        checkActiveTenantStatus();
+        alert(t.suspended 
+          ? `⛔ تم تجميد منظومة (${t.name}) بنجاح!` 
+          : `✓ تم فك التجميد واستعادة منظومة (${t.name}) فورياً!`);
+      }
+    }
+
+    function simulateTenantView(id) {
+      activeTenantId = id;
+      checkActiveTenantStatus();
+      toggleGodModeModal();
+      const t = tenants.find(x => x.id === id);
+      alert(`👀 أنت الآن تستعرض منظومة: ${t.name}`);
+    }
+
+    function addNewTenantPrompt() {
+      const name = prompt("أدخل اسم الشركة الجديدة:");
+      if (name) {
+        const amount = prompt("المستحقات السنوية / الدفعة (مثال: 1,500,000 دج):") || "1,000,000 دج";
+        const dueDate = prompt("تاريخ الاستحقاق (YYYY-MM-DD):") || "2025-06-01";
+        const newId = 't_' + Date.now();
+        tenants.push({ id: newId, name, amount, dueDate, suspended: false });
+        renderTenants();
+        alert(`✅ تم تسجيل شركة (${name}) بنجاح في النظام!`);
+      }
+    }
+
+    function checkActiveTenantStatus() {
+      const current = tenants.find(x => x.id === activeTenantId) || tenants[0];
+      const overlay = document.getElementById("suspendedOverlay");
+      if (current && current.suspended) {
+        document.getElementById('suspendedReasonText').textContent = 
+          `تم تعليق الوصول لغرفة العمليات المركزية ومؤشرات النبض الخاصة بـ (${current.name}) نظراً لعدم سداد المستحقات البالغة (${current.amount}). يرجى التواصل مع الإدارة لتسوية المستحقات وإعادة فتح المنظومة.`;
+        overlay.classList.remove("hidden");
+        overlay.classList.add("flex");
+      } else {
+        overlay.classList.add("hidden");
+        overlay.classList.remove("flex");
+      }
+    }
+
+    function secretUnfreeze() {
+      const pass = prompt("أدخل رمز المطور السيادي لفك التجميد:");
+      if (pass === masterPin || pass === "9900") {
+        const current = tenants.find(x => x.id === activeTenantId);
+        if (current) current.suspended = false;
+        renderTenants();
+        checkActiveTenantStatus();
+        alert("✅ تم فك التجميد واستعادة المنظومة بنجاح!");
+      } else {
+        alert("❌ الرمز غير صحيح!");
+      }
+    }
 
     // PIN Pad Functions
     function pressPin(num) {
@@ -1256,6 +1324,7 @@
     function unlockApp() {
       document.getElementById('lockScreen').classList.add('hidden');
       clearPin();
+      checkActiveTenantStatus();
     }
 
     function lockApp() {
@@ -1292,29 +1361,8 @@
       const modal = document.getElementById("godModeModal");
       modal.classList.toggle("hidden");
       modal.classList.toggle("flex");
-    }
-
-    function executeKillSwitch(freeze) {
-      isAppSuspended = freeze;
-      toggleGodModeModal();
-      const overlay = document.getElementById("suspendedOverlay");
-      if (freeze) {
-        overlay.classList.remove("hidden");
-        overlay.classList.add("flex");
-        if ("vibrate" in navigator) navigator.vibrate([500, 200, 500]);
-      } else {
-        overlay.classList.add("hidden");
-        overlay.classList.remove("flex");
-        alert("✅ تم فك التجميد واستعادة المنظومة بنجاح!");
-      }
-    }
-
-    function secretUnfreeze() {
-      const pass = prompt("أدخل رمز المطور السيادي لفك التجميد:");
-      if (pass === masterPin || pass === "9900") {
-        executeKillSwitch(false);
-      } else {
-        alert("❌ الرمز غير صحيح!");
+      if (!modal.classList.contains("hidden")) {
+        renderTenants();
       }
     }
 
@@ -1324,7 +1372,6 @@
         masterPin = val;
         document.getElementById('godCurrentPin').textContent = val;
         alert("✅ تم تحديث الرمز السيادي بنجاح إلى: " + val);
-        toggleGodModeModal();
       } else {
         alert("يرجى إدخال 4 أرقام على الأقل.");
       }
@@ -1332,7 +1379,7 @@
 
     // View Switching
     function switchView(viewName) {
-      const views = ['cockpit', 'eod', 'hr', 'shortages', 'cv', 'deals', 'security'];
+      const views = ['cockpit', 'eod', 'hr', 'shortages', 'cv', 'deals'];
       views.forEach(v => {
         const el = document.getElementById(`view-${v}`);
         const tab = document.getElementById(`tab-${v}`);
@@ -1455,9 +1502,11 @@
       }
     }
 
-    // Initialize Secret Listeners
+    // Initialize Secret Listeners & Render Tenants
     window.addEventListener('DOMContentLoaded', () => {
       setupSecretGodModeTrigger();
+      renderTenants();
+      checkActiveTenantStatus();
     });
   </script>
 </body>
