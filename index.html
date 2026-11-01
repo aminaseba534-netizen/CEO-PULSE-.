@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>CEO-PULSE V8.0 - Sovereign Executive Suite</title>
+  <title>CEO-PULSE V8.1 - Sovereign Executive Suite</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
   <style>
@@ -27,11 +27,11 @@
           <svg class="w-9 h-9 text-black" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
           </svg>
-          <span class="absolute -bottom-2 bg-black/90 text-[9px] text-cyan-300 font-mono px-2 py-0.5 rounded-full border border-cyan-500/40">V8.0 LIVE</span>
+          <span class="absolute -bottom-2 bg-black/90 text-[9px] text-cyan-300 font-mono px-2 py-0.5 rounded-full border border-cyan-500/40">V8.1 LIVE</span>
         </div>
         <h1 class="text-xl font-black text-white mt-4 tracking-wider">CEO-PULSE SOVEREIGN</h1>
         <p class="text-xs text-cyan-400 font-medium mt-1">بوابة الدخول التنفيذية المشفرة • Zero-Trust Enclave</p>
-        <p class="text-[11px] text-slate-400 mt-0.5">أدخل الرمز التنفيذي (9900) أو استخدم المصادقة البيومترية المعتمدة</p>
+        <p class="text-[11px] text-slate-400 mt-0.5">أدخل الرمز السيادي المعتمد أو استخدم المصادقة البيومترية</p>
       </div>
 
       <!-- PIN Code Dots Indicator -->
@@ -75,7 +75,7 @@
         </div>
       </div>
 
-      <div class="text-[10px] text-slate-500 font-mono">SECURE HARDWARE ENCLAVE • ZERO-TRUST V8.0 🛡️</div>
+      <div class="text-[10px] text-slate-500 font-mono">SECURE HARDWARE ENCLAVE • ZERO-TRUST V8.1 🛡️</div>
     </div>
   </div>
 
@@ -113,7 +113,7 @@
           <span>ملخص اليوم</span>
         </button>
 
-        <select id="currSelect" onchange="changeCurrency(this.value)" class="bg-[#0d1b3e] border border-cyan-500/30 text-cyan-300 text-xs rounded-xl px-2 py-1.5 font-bold outline-none cursor-pointer">
+        <select id="currSelect" onchange="changeCurrency(this.value)" class="bg-[#0d1b3e] border border-cyan-500/30 text-cyan-300 text-xs rounded-xl px-2.5 py-1.5 font-bold outline-none cursor-pointer">
           <option value="DZD">دج DZD</option>
           <option value="USD">$ USD</option>
           <option value="EUR">€ EUR</option>
@@ -121,7 +121,7 @@
           <option value="AED">د.إ AED</option>
         </select>
 
-        <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-[#0d1b3e] border border-cyan-500/30 text-cyan-300 text-xs rounded-xl px-2 py-1.5 font-bold outline-none cursor-pointer">
+        <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-[#0d1b3e] border border-cyan-500/30 text-cyan-300 text-xs rounded-xl px-2.5 py-1.5 font-bold outline-none cursor-pointer">
           <option value="ar">العربية (AR)</option>
           <option value="en">English (EN)</option>
           <option value="fr">Français (FR)</option>
@@ -416,7 +416,7 @@
         unlockApp();
       } else {
         if ("vibrate" in navigator) navigator.vibrate([200, 100, 200]);
-        alert("❌ رمز الدخول غير صحيح! الرمز الافتراضي: 9900");
+        alert("❌ رمز الدخول غير مصرح به، يرجى إعادة المحاولة.");
         clearPin();
       }
     }
