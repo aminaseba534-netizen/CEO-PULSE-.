@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>CEO-PULSE V7.2 - Sovereign Executive Suite</title>
+  <title>CEO-PULSE V7.3 - Sovereign Executive Suite</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
   <style>
@@ -38,7 +38,7 @@
         </div>
         <h1 class="text-xl font-black text-white mt-4 tracking-wider">CEO-PULSE SOVEREIGN</h1>
         <p class="text-xs text-cyan-400 font-medium mt-1">بوابة الدخول التنفيذية المشفرة • Zero-Trust Enclave</p>
-        <p class="text-[11px] text-slate-400 mt-0.5">أدخل الرمز التنفيذي أو استخدم المصادقة البيومترية السريعة</p>
+        <p class="text-[11px] text-slate-400 mt-0.5">أدخل الرمز التنفيذي أو استخدم المصادقة البيومترية المعتمدة</p>
       </div>
 
       <!-- PIN Code Dots Indicator -->
@@ -68,21 +68,21 @@
         <button onclick="checkEnteredPin()" class="pin-btn h-12 rounded-xl bg-cyan-500 text-black font-bold text-xs flex items-center justify-center shadow-lg shadow-cyan-500/20">دخول ↵</button>
       </div>
 
-      <!-- Quick Biometric & Demo Entry -->
+      <!-- Verified Biometric Entry Only (No Instant Bypass Button) -->
       <div class="space-y-2 pt-2">
         <div class="flex gap-2 justify-center">
-          <button onclick="triggerBiometricAuth('Face ID')" class="flex-1 py-2 rounded-xl bg-[#0d1b3e] text-cyan-300 border border-cyan-500/30 text-xs font-bold hover:bg-[#142858] flex items-center justify-center gap-1.5">
+          <button onclick="triggerBiometricAuth('Face ID')" class="flex-1 py-2.5 rounded-xl bg-[#0d1b3e] text-cyan-300 border border-cyan-500/30 text-xs font-bold hover:bg-[#142858] flex items-center justify-center gap-1.5 transition-all">
             <span>Face ID</span>
             <span>👁️</span>
           </button>
-          <button onclick="triggerBiometricAuth('Touch ID')" class="flex-1 py-2 rounded-xl bg-[#0d1b3e] text-cyan-300 border border-cyan-500/30 text-xs font-bold hover:bg-[#142858] flex items-center justify-center gap-1.5">
+          <button onclick="triggerBiometricAuth('Touch ID')" class="flex-1 py-2.5 rounded-xl bg-[#0d1b3e] text-cyan-300 border border-cyan-500/30 text-xs font-bold hover:bg-[#142858] flex items-center justify-center gap-1.5 transition-all">
             <span>Touch ID</span>
             <span>👆</span>
           </button>
-        
+        </div>
       </div>
 
-      <div class="text-[10px] text-slate-500 font-mono">ENCRYPTED HARDWARE BOUND • V7.2 🛡️</div>
+      <div class="text-[10px] text-slate-500 font-mono">SECURE HARDWARE ENCLAVE • ZERO-TRUST V7.3 🛡️</div>
     </div>
   </div>
 
@@ -100,7 +100,7 @@
         <div>
           <div class="flex items-center gap-2">
             <h1 class="font-black text-white text-base tracking-wide">CEO-PULSE</h1>
-            <span class="text-[10px] bg-cyan-950 text-cyan-300 font-mono-num font-bold px-1.5 py-0.5 rounded border border-cyan-500/30">V7.2</span>
+            <span class="text-[10px] bg-cyan-950 text-cyan-300 font-mono-num font-bold px-1.5 py-0.5 rounded border border-cyan-500/30">V7.3</span>
           </div>
           <p class="text-[11px] text-cyan-400 font-medium" data-i18n="tagline">القيادة التنفيذية والأمان السيادي</p>
         </div>
@@ -145,7 +145,7 @@
           <option value="de">Deutsch (DE)</option>
         </select>
 
-        <!-- Sovereign Lock Screen Toggle -->
+        <!-- Sovereign Lock Screen Button -->
         <button onclick="lockApp()" class="px-2.5 py-1.5 bg-[#0d1b3e] text-cyan-400 border border-cyan-500/30 rounded-xl text-xs font-mono font-bold flex items-center gap-1 hover:border-cyan-400" title="إعادة قفل الشاشة لحماية الخصوصية">
           <span>🔒</span>
           <span class="hidden md:inline">قفل</span>
@@ -678,7 +678,7 @@
       { id: 't4', name: 'مؤسسة النماء اللوجستية والشحن', amount: '600,000 دج', dueDate: '2025-05-10', suspended: false }
     ];
 
-    let activeTenantId = 't1'; // Default selected tenant
+    let activeTenantId = 't1';
 
     // Comprehensive Localization Dictionary
     const translations = {
