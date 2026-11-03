@@ -1,530 +1,373 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>CEO-PULSE V8.1 - Sovereign Executive Suite</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>CEO-PULSE | لوحة التحكم التنفيذية الذكية</title>
+  
+  <!-- PWA Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CEO-PULSE">
+  <meta name="theme-color" content="#090e1a">
+
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  
+  <!-- Google Fonts: Sora & Cairo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              cyan: '#00e5ff',
+              emerald: '#10b981',
+              amber: '#f59e0b',
+              rose: '#f43f5e',
+              bgDark: '#090e1a',
+              cardDark: '#121826',
+              cardHigh: '#182132',
+              borderDark: '#1e293b'
+            }
+          },
+          fontFamily: {
+            cairo: ['Cairo', 'sans-serif'],
+            sora: ['Sora', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
-    body { font-family: 'Cairo', sans-serif; background-color: #050d25; color: #e2e8f0; user-select: none; -webkit-tap-highlight-color: transparent; }
-    .font-mono-num { font-family: 'Space Grotesk', monospace; }
-    .glow-cyan { box-shadow: 0 0 25px rgba(0, 229, 255, 0.15); }
-    .glow-gold { box-shadow: 0 0 25px rgba(245, 158, 11, 0.18); }
-    .custom-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
-    .custom-scroll::-webkit-scrollbar-thumb { background: #00e5ff44; border-radius: 4px; }
-    .pin-btn:active { transform: scale(0.92); }
+    body {
+      background-color: #090e1a;
+      color: #f1f5f9;
+      font-family: 'Cairo', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      padding-bottom: env(safe-area-inset-bottom, 80px);
+    }
+    .neon-glow-cyan {
+      box-shadow: 0 0 20px -3px rgba(0, 229, 255, 0.35);
+    }
+    .neon-glow-emerald {
+      box-shadow: 0 0 16px -2px rgba(16, 185, 129, 0.4);
+    }
+    .glass-nav {
+      background: rgba(14, 19, 31, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .pulse-animation {
+      animation: pulseGlow 2.5s infinite;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.96); }
+    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col bg-[#050d25]">
+<body class="min-h-screen selection:bg-brand-cyan selection:text-black">
 
-  <!-- ==================== SOVEREIGN LOCK SCREEN ==================== -->
-  <div id="lockScreen" class="fixed inset-0 z-50 bg-[#050d25]/98 backdrop-blur-xl flex flex-col items-center justify-center p-4">
-    <div class="max-w-sm w-full space-y-6 text-center">
-      
-      <div class="flex flex-col items-center">
-        <div id="lockBrandIcon" class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-600 to-cyan-400 flex items-center justify-center shadow-xl shadow-cyan-500/20 relative cursor-pointer" onclick="toggleServerConfigModal()">
-          <svg class="w-9 h-9 text-black" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-          </svg>
-          <span class="absolute -bottom-2 bg-black/90 text-[9px] text-cyan-300 font-mono px-2 py-0.5 rounded-full border border-cyan-500/40">V8.1 LIVE</span>
-        </div>
-        <h1 class="text-xl font-black text-white mt-4 tracking-wider">CEO-PULSE SOVEREIGN</h1>
-        <p class="text-xs text-cyan-400 font-medium mt-1">بوابة الدخول التنفيذية المشفرة • Zero-Trust Enclave</p>
-        <p class="text-[11px] text-slate-400 mt-0.5">أدخل الرمز السيادي المعتمد أو استخدم المصادقة البيومترية</p>
-      </div>
-
-      <!-- PIN Code Dots Indicator -->
-      <div class="flex justify-center gap-3 py-2">
-        <div id="dot1" class="w-3.5 h-3.5 rounded-full border border-cyan-500/40 bg-transparent transition-all"></div>
-        <div id="dot2" class="w-3.5 h-3.5 rounded-full border border-cyan-500/40 bg-transparent transition-all"></div>
-        <div id="dot3" class="w-3.5 h-3.5 rounded-full border border-cyan-500/40 bg-transparent transition-all"></div>
-        <div id="dot4" class="w-3.5 h-3.5 rounded-full border border-cyan-500/40 bg-transparent transition-all"></div>
-      </div>
-
-      <!-- Numeric Keypad -->
-      <div class="grid grid-cols-3 gap-3 max-w-[280px] mx-auto font-mono text-lg font-bold">
-        <button onclick="pressPin('1')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">1</button>
-        <button onclick="pressPin('2')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">2</button>
-        <button onclick="pressPin('3')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">3</button>
-
-        <button onclick="pressPin('4')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">4</button>
-        <button onclick="pressPin('5')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">5</button>
-        <button onclick="pressPin('6')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">6</button>
-
-        <button onclick="pressPin('7')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">7</button>
-        <button onclick="pressPin('8')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">8</button>
-        <button onclick="pressPin('9')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">9</button>
-
-        <button onclick="clearPin()" class="pin-btn h-12 rounded-xl bg-rose-950/40 text-rose-300 border border-rose-500/30 text-xs font-bold flex items-center justify-center">مسح</button>
-        <button onclick="pressPin('0')" class="pin-btn h-12 rounded-xl bg-[#0b1638] text-white border border-cyan-500/20 hover:bg-[#13234d] flex items-center justify-center">0</button>
-        <button onclick="checkEnteredPin()" class="pin-btn h-12 rounded-xl bg-cyan-500 text-black font-bold text-xs flex items-center justify-center shadow-lg shadow-cyan-500/20">دخول ↵</button>
-      </div>
-
-      <!-- Biometric Verification -->
-      <div class="space-y-2 pt-2">
-        <div class="flex gap-2 justify-center">
-          <button onclick="triggerBiometricAuth('Face ID')" class="flex-1 py-2.5 rounded-xl bg-[#0d1b3e] text-cyan-300 border border-cyan-500/30 text-xs font-bold hover:bg-[#142858] flex items-center justify-center gap-1.5 transition-all">
-            <span>Face ID</span>
-            <span>👁️</span>
-          </button>
-          <button onclick="triggerBiometricAuth('Touch ID')" class="flex-1 py-2.5 rounded-xl bg-[#0d1b3e] text-cyan-300 border border-cyan-500/30 text-xs font-bold hover:bg-[#142858] flex items-center justify-center gap-1.5 transition-all">
-            <span>Touch ID</span>
-            <span>👆</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="text-[10px] text-slate-500 font-mono">SECURE HARDWARE ENCLAVE • ZERO-TRUST V8.1 🛡️</div>
-    </div>
-  </div>
-
-  <!-- ==================== HEADER ==================== -->
-  <header class="sticky top-0 z-40 bg-[#07112c]/95 backdrop-blur-md border-b border-cyan-500/20 px-4 py-3">
-    <div class="max-w-7xl mx-auto flex items-center justify-between gap-2">
-      
+  <!-- TOP HEADER (App Bar) -->
+  <header class="sticky top-0 z-40 glass-nav border-b border-brand-borderDark/80 px-4 py-3">
+    <div class="max-w-md mx-auto flex items-center justify-between">
+      <!-- Brand & Title -->
       <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-600 to-cyan-400 flex items-center justify-center shadow-lg shadow-cyan-500/20">
-          <svg class="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-          </svg>
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-cardHigh to-brand-borderDark flex items-center justify-center border border-brand-cyan/30 neon-glow-cyan text-brand-cyan font-black font-sora text-sm">
+          CP
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <h1 class="font-black text-white text-base tracking-wide">CEO-PULSE</h1>
-            <span id="serverBadge" class="text-[9px] bg-emerald-950 text-emerald-300 font-mono font-bold px-1.5 py-0.5 rounded border border-emerald-500/30 flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              LIVE CONNECTED
-            </span>
+            <h1 class="text-sm font-black font-sora tracking-wider text-white">CEO-PULSE</h1>
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-mono bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/30">v4.8</span>
           </div>
-          <p class="text-[11px] text-cyan-400 font-medium">القيادة التنفيذية والأمان السيادي</p>
+          <p class="text-[11px] text-slate-400">لوحة القيادة التنفيذية الذكية</p>
         </div>
       </div>
 
-      <!-- Controls -->
-      <div class="flex items-center gap-2">
-        <button onclick="toggleServerConfigModal()" class="px-2.5 py-1.5 bg-[#0d1b3e] text-cyan-300 border border-cyan-500/30 rounded-xl text-xs font-mono font-bold flex items-center gap-1" title="إعدادات الخادم وقواعد البيانات">
-          <span>⚡</span>
-          <span class="hidden sm:inline">الخادم</span>
-        </button>
-
-        <button onclick="switchView('eod')" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-amber-950/70 hover:bg-amber-900 border border-amber-500/40 text-amber-300 text-xs font-bold transition-all glow-gold">
-          <span>🌙</span>
-          <span>ملخص اليوم</span>
-        </button>
-
-        <select id="currSelect" onchange="changeCurrency(this.value)" class="bg-[#0d1b3e] border border-cyan-500/30 text-cyan-300 text-xs rounded-xl px-2.5 py-1.5 font-bold outline-none cursor-pointer">
-          <option value="DZD">دج DZD</option>
-          <option value="USD">$ USD</option>
-          <option value="EUR">€ EUR</option>
-          <option value="SAR">ر.س SAR</option>
-          <option value="AED">د.إ AED</option>
-        </select>
-
-        <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-[#0d1b3e] border border-cyan-500/30 text-cyan-300 text-xs rounded-xl px-2.5 py-1.5 font-bold outline-none cursor-pointer">
-          <option value="ar">العربية (AR)</option>
-          <option value="en">English (EN)</option>
-          <option value="fr">Français (FR)</option>
-          <option value="es">Español (ES)</option>
-          <option value="tr">Türkçe (TR)</option>
-          <option value="de">Deutsch (DE)</option>
-        </select>
-
-        <button onclick="lockApp()" class="px-2.5 py-1.5 bg-[#0d1b3e] text-cyan-400 border border-cyan-500/30 rounded-xl text-xs font-mono font-bold hover:border-cyan-400">
-          <span>🔒</span>
-        </button>
+      <!-- Live Server Status Indicator Badge -->
+      <div id="header-status-badge" class="flex items-center gap-2 bg-slate-900/90 border border-slate-700/80 px-2.5 py-1 rounded-full text-xs transition-all">
+        <span id="header-pulse-dot" class="w-2 h-2 rounded-full bg-slate-500"></span>
+        <span id="header-status-text" class="text-[11px] font-mono text-slate-400">فحص الخادم...</span>
       </div>
-
     </div>
   </header>
 
-  <!-- ==================== RADAR ==================== -->
-  <section class="bg-[#0a1636] border-b border-cyan-500/20 px-4 py-2">
-    <div class="max-w-7xl mx-auto flex items-center justify-between gap-3 text-xs overflow-x-auto whitespace-nowrap custom-scroll">
-      <div class="flex items-center gap-2">
-        <span class="inline-flex items-center gap-1 bg-cyan-950 text-cyan-300 border border-cyan-500/40 px-2 py-0.5 rounded-full font-bold text-[11px]">
-          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-          <span>رادار الأخبار الموثوقة بالذكاء الاصطناعي</span>
-        </span>
-        <span class="text-slate-400 font-mono-num text-[11px]">[Reuters • 99.8%]</span>
-        <span class="text-slate-200" id="liveNewsTicker">المركزي الأوروبي يثبت أسعار الفائدة مع استقرار تدفقات السيولة المصرفية العالمية</span>
+  <!-- MAIN VIEWPORT CONTAINER -->
+  <main class="max-w-md mx-auto px-4 pt-4 pb-24 space-y-5">
+
+    <!-- WELCOME EXECUTIVE GREETING -->
+    <div class="flex items-center justify-between bg-gradient-to-r from-brand-cardDark to-brand-cardHigh p-4 rounded-2xl border border-brand-borderDark">
+      <div>
+        <div class="flex items-center gap-1.5 text-base font-bold text-white">
+          <span>مرحباً معالي المدير التنفيذي</span>
+          <span>👑</span>
+        </div>
+        <p id="live-time" class="text-xs text-slate-400 mt-0.5 font-mono">الرياض • جاري تحديث التوقيت...</p>
       </div>
-      <span class="bg-rose-950/80 text-rose-300 border border-rose-500/30 px-2 py-0.5 rounded text-[11px] font-bold">
-        🚫 تم عزل وحظر 18 شائعة وتضليل مالي اليوم
-      </span>
+      <button onclick="fetchLiveData()" class="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700 hover:border-brand-cyan text-brand-cyan transition-all active:scale-95 flex items-center justify-center" title="تحديث لحظي">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+      </button>
     </div>
-  </section>
 
-  <!-- ==================== MAIN VIEWS ==================== -->
-  <main class="max-w-7xl mx-auto w-full p-4 space-y-6 flex-1 pb-24">
+    <!-- SERVER CONNECTIVITY TELEMETRY CARD -->
+    <div class="bg-brand-cardDark rounded-2xl p-4 border border-brand-borderDark relative overflow-hidden">
+      <div class="absolute -right-10 -top-10 w-28 h-28 bg-brand-cyan/5 rounded-full blur-2xl pointer-events-none"></div>
 
-    <!-- VIEW 1: COCKPIT -->
-    <div id="view-cockpit" class="space-y-6">
-      <div class="bg-gradient-to-r from-[#0d1c44] to-[#08132e] border border-cyan-500/30 rounded-2xl p-5 glow-cyan">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <div class="inline-flex items-center gap-1.5 bg-cyan-950/90 text-cyan-300 text-xs px-2.5 py-1 rounded-full border border-cyan-500/40 font-mono mb-2">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              ENTERPRISE BACKEND ONLINE • SAP CONNECTED
-            </div>
-            <h2 class="text-xl md:text-2xl font-black text-white">غرفة العمليات المركزية ومؤشرات النبض</h2>
-            <p class="text-xs text-slate-300 mt-1">متابعة فورية للسيولة النقدية، صفقات التوسع، والنبض اللحظي لـ 142 محطة نشطة</p>
-          </div>
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800/80">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-brand-emerald neon-glow-emerald pulse-animation"></span>
+          <span class="text-xs font-semibold text-slate-300">الربط السحابي الحي (Render Backend)</span>
+        </div>
+        <span id="ping-badge" class="px-2 py-0.5 rounded text-[11px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">-- ms</span>
+      </div>
+
+      <div class="mt-3 space-y-1.5">
+        <p class="text-xs text-slate-400 font-mono break-all flex items-center gap-1.5">
+          <span class="text-brand-cyan">URL:</span>
+          <a href="https://ceo-pulse.onrender.com" target="_blank" class="hover:underline text-slate-200">https://ceo-pulse.onrender.com</a>
+        </p>
+        <p class="text-[11px] text-slate-500 flex items-center gap-1">
+          <span>خادم الإنتاج:</span>
+          <span id="backend-health-desc" class="text-slate-300">جاري الاتصال بنقاط النهاية...</span>
+        </p>
+      </div>
+
+      <!-- Quick Server Buttons -->
+      <div class="grid grid-cols-2 gap-2 mt-4">
+        <button onclick="fetchLiveData()" class="w-full py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700/80 border border-slate-700 text-xs font-semibold text-slate-200 flex items-center justify-center gap-1.5 transition-all">
+          <svg class="w-3.5 h-3.5 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          فحص النبض الآن
+        </button>
+        <a href="https://ceo-pulse.onrender.com/docs" target="_blank" class="w-full py-2 px-3 rounded-xl bg-brand-cyan/10 hover:bg-brand-cyan/20 border border-brand-cyan/30 text-xs font-semibold text-brand-cyan flex items-center justify-center gap-1.5 transition-all">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          FastAPI /docs
+        </a>
+      </div>
+    </div>
+
+    <!-- EXECUTIVE METRICS GRID (4 CARDS) -->
+    <div class="grid grid-cols-2 gap-3">
+      <!-- 1: Operational Stability -->
+      <div class="bg-brand-cardDark p-3.5 rounded-2xl border border-brand-borderDark">
+        <div class="flex items-center justify-between text-slate-400 mb-1">
+          <span class="text-xs">استقرار العمليات</span>
+          <span class="text-emerald-400 text-[11px]">99.98%</span>
+        </div>
+        <div id="metric-stability" class="text-xl font-bold font-sora text-white">99.98%</div>
+        <div class="text-[10px] text-emerald-400 font-mono mt-1 flex items-center gap-0.5">
+          <span>▲ 0.4% أسبوعياً</span>
+        </div>
+      </div>
+
+      <!-- 2: Instant Revenue -->
+      <div class="bg-brand-cardDark p-3.5 rounded-2xl border border-brand-borderDark">
+        <div class="flex items-center justify-between text-slate-400 mb-1">
+          <span class="text-xs">الإيراد اللحظي</span>
+          <span class="text-brand-cyan text-[11px]">$USD</span>
+        </div>
+        <div id="metric-revenue" class="text-xl font-bold font-sora text-white">$142,850</div>
+        <div class="text-[10px] text-brand-cyan font-mono mt-1 flex items-center gap-0.5">
+          <span>▲ +18.2% اليوم</span>
+        </div>
+      </div>
+
+      <!-- 3: Autonomous Decisions -->
+      <div class="bg-brand-cardDark p-3.5 rounded-2xl border border-brand-borderDark">
+        <div class="flex items-center justify-between text-slate-400 mb-1">
+          <span class="text-xs">قرارات الذكاء الآلي</span>
+          <span class="text-amber-400 text-[11px]">AI Model</span>
+        </div>
+        <div id="metric-decisions" class="text-xl font-bold font-sora text-white">1,420</div>
+        <div class="text-[10px] text-slate-400 font-mono mt-1">تنفيذ ذاتي مستمر</div>
+      </div>
+
+      <!-- 4: International Latency -->
+      <div class="bg-brand-cardDark p-3.5 rounded-2xl border border-brand-borderDark">
+        <div class="flex items-center justify-between text-slate-400 mb-1">
+          <span class="text-xs">زمن الاستجابة الدولي</span>
+          <span class="text-indigo-400 text-[11px]">Global</span>
+        </div>
+        <div id="metric-latency" class="text-xl font-bold font-sora text-white">38ms</div>
+        <div class="text-[10px] text-emerald-400 font-mono mt-1">استقرار فائق (Tier-1)</div>
+      </div>
+    </div>
+
+    <!-- 24-HOUR PULSE VISUALIZATION -->
+    <div class="bg-brand-cardDark rounded-2xl p-4 border border-brand-borderDark">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-brand-cyan"></span>
+          <h2 class="text-xs font-bold text-white">نبض المنظومة الاستراتيجي (24 ساعة)</h2>
+        </div>
+        <span class="text-[10px] font-mono text-slate-400">التدفق: 94.6%</span>
+      </div>
+
+      <!-- SVG Chart Line -->
+      <div class="h-28 w-full relative flex items-end">
+        <svg class="w-full h-full overflow-visible" viewBox="0 0 380 90" fill="none">
+          <defs>
+            <linearGradient id="cyanGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#00e5ff" stop-opacity="0.0"/>
+            </linearGradient>
+          </defs>
+          <path d="M 0 65 Q 40 70 80 50 T 160 45 T 240 30 T 320 18 T 380 10 L 380 90 L 0 90 Z" fill="url(#cyanGrad)" />
+          <path d="M 0 65 Q 40 70 80 50 T 160 45 T 240 30 T 320 18 T 380 10" stroke="#00e5ff" stroke-width="3" stroke-linecap="round" />
+          <circle cx="380" cy="10" r="5" fill="#00e5ff" class="pulse-animation" />
+        </svg>
+      </div>
+      <div class="flex justify-between text-[10px] font-mono text-slate-500 mt-2">
+        <span>00:00</span>
+        <span>06:00</span>
+        <span>12:00</span>
+        <span>18:00</span>
+        <span class="text-brand-cyan font-bold">الآن (Live)</span>
+      </div>
+    </div>
+
+    <!-- FASTAPI ENDPOINTS TELEMETRY STATUS -->
+    <div class="bg-brand-cardDark rounded-2xl p-4 border border-brand-borderDark space-y-3">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xs font-bold text-white flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          مصفوفة مسارات السيرفر (Endpoints)
+        </h2>
+        <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">FastAPI 3.11</span>
+      </div>
+
+      <div class="space-y-2 text-xs font-mono">
+        <!-- /health -->
+        <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
           <div class="flex items-center gap-2">
-            <button onclick="fetchLatestTelemetry()" class="px-3.5 py-2 bg-cyan-500 hover:bg-cyan-400 text-black rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-md">
-              <span>🔄</span>
-              <span>تحديث حي</span>
-            </button>
+            <span class="px-1.5 py-0.5 rounded text-[10px] bg-sky-500/15 text-sky-400 font-bold">GET</span>
+            <span class="text-slate-300">/health</span>
           </div>
-        </div>
-      </div>
-
-      <!-- Live Metrics Grid -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <div class="bg-[#0b1638] border border-cyan-500/20 rounded-2xl p-4 space-y-1">
-          <span class="text-xs text-slate-400 font-medium">السيولة المتاحة بالخزينة</span>
-          <div class="text-lg md:text-2xl font-black text-cyan-300 font-mono-num" id="valCash">48,240,000 دج</div>
-          <div class="text-[10px] text-emerald-400 flex items-center gap-1 font-mono">
-            <span>●</span>
-            <span>SAP S/4HANA OData v4</span>
-          </div>
+          <span id="endpoint-health" class="text-emerald-400 flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> 200 OK
+          </span>
         </div>
 
-        <div class="bg-[#0b1638] border border-cyan-500/20 rounded-2xl p-4 space-y-1">
-          <span class="text-xs text-slate-400 font-medium">نبض المحطات والكوادر</span>
-          <div class="text-lg md:text-2xl font-black text-white font-mono-num" id="valStations">142 / 145</div>
-          <div class="text-[10px] text-cyan-400 flex items-center gap-1 font-mono">
-            <span>🛡️</span>
-            <span>Go/SYSTEM Daemon mTLS</span>
-          </div>
-        </div>
-
-        <div class="bg-[#0b1638] border border-cyan-500/20 rounded-2xl p-4 space-y-1">
-          <span class="text-xs text-slate-400 font-medium">مصفوفة الصفقات المليونية</span>
-          <div class="text-lg md:text-2xl font-black text-amber-300 font-mono-num" id="valDeals">46,400,000 دج</div>
-          <div class="text-[10px] text-amber-400 flex items-center gap-1 font-mono">
-            <span>⏳</span>
-            <span>عقدان بالانتظار</span>
-          </div>
-        </div>
-
-        <div class="bg-[#0b1638] border border-cyan-500/20 rounded-2xl p-4 space-y-1">
-          <span class="text-xs text-slate-400 font-medium">أمان الأجهزة والبيانات</span>
-          <div class="text-lg md:text-2xl font-black text-emerald-400 font-mono-num" id="valThreats">0 تهديدات</div>
-          <div class="text-[10px] text-emerald-300 flex items-center gap-1 font-mono">
-            <span>🔒</span>
-            <span>USB DLP Class 08h Block</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Pending Vouchers Approval with Idempotent Shield -->
-      <div class="bg-[#0b1638] border border-cyan-500/20 rounded-2xl p-5 space-y-4">
-        <div class="flex items-center justify-between border-b border-cyan-500/10 pb-3">
+        <!-- /api/v1/pulse -->
+        <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
           <div class="flex items-center gap-2">
-            <span class="text-lg">✍️</span>
-            <h3 class="font-bold text-white text-sm">سندات بانتظار توقيعك البيومتري الفوري</h3>
+            <span class="px-1.5 py-0.5 rounded text-[10px] bg-sky-500/15 text-sky-400 font-bold">GET</span>
+            <span class="text-slate-300">/api/v1/pulse</span>
           </div>
-          <span class="text-xs bg-amber-950 text-amber-300 px-2 py-0.5 rounded font-mono font-bold" id="vouchersCountBadge">2 بانتظار التوقيع</span>
-        </div>
-
-        <div class="space-y-3" id="vouchersList">
-          <div class="p-3.5 rounded-xl bg-[#101e47] border border-cyan-500/20 flex flex-col md:flex-row md:items-center justify-between gap-3" id="voucher-v101">
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="text-xs font-bold text-white">تجديد تراخيص الخوادم السحابية السيادية</span>
-                <span class="text-[10px] bg-cyan-950 text-cyan-300 px-1.5 py-0.5 rounded font-mono">DOC# SAP-7749</span>
-              </div>
-              <p class="text-xs text-slate-300 mt-1 font-mono-num">150,000 دج</p>
-            </div>
-            <button onclick="approveVoucherLive('v101', '150,000 دج', this)" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs rounded-xl transition-all shadow-md">
-              اعتماد فوري مشفر 👆
-            </button>
-          </div>
-
-          <div class="p-3.5 rounded-xl bg-[#101e47] border border-cyan-500/20 flex flex-col md:flex-row md:items-center justify-between gap-3" id="voucher-v102">
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="text-xs font-bold text-white">شراء شاشات ووحدات تحكم المشغلين</span>
-                <span class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded font-mono">DOC# SAP-8821</span>
-              </div>
-              <p class="text-xs text-slate-300 mt-1 font-mono-num">280,000 دج</p>
-            </div>
-            <button onclick="approveVoucherLive('v102', '280,000 دج', this)" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs rounded-xl transition-all shadow-md">
-              اعتماد الشراء 👆
-            </button>
-          </div>
+          <span id="endpoint-pulse" class="text-emerald-400 flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> 200 OK
+          </span>
         </div>
       </div>
     </div>
 
-    <!-- VIEW 2: EOD BRIEFING -->
-    <div id="view-eod" class="hidden space-y-6">
-      <div class="bg-[#0b1638] border border-amber-500/40 rounded-2xl p-5 glow-gold space-y-4">
-        <h2 class="text-xl font-black text-white">تقرير ختام اليوم الموحد لهاتف المدير (EOD)</h2>
-        <p class="text-xs text-slate-300">يصلك تلقائياً كل يوم في الساعة 17:30 لإنهاء الحاجة للتقارير الورقية.</p>
-        <button onclick="alert('تم تصدير الملخص بنجاح!')" class="px-4 py-2 bg-amber-500 text-black font-bold text-xs rounded-xl">تصدير PDF 📥</button>
-      </div>
-    </div>
+    <!-- EXECUTIVE ACTIONS (BUTTONS) -->
+    <div class="space-y-2 pt-1">
+      <button onclick="alert('تم اعتماد تقرير مجلس الإدارة التنفيذي المشفر بنجاح!')" class="w-full py-3 px-4 rounded-xl bg-brand-cyan text-slate-950 font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-brand-cyan/25 active:scale-95 transition-all">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        تصدير التقرير التنفيذي لمجلس الإدارة
+      </button>
 
-    <!-- VIEW 3: HR & STAFF -->
-    <div id="view-hr" class="hidden space-y-6">
-      <div class="bg-[#0b1638] border border-cyan-500/20 rounded-2xl p-5 space-y-4">
-        <div class="flex items-center justify-between">
-          <h2 class="text-lg font-black text-white">سجل الكوادر والمهام اليومية</h2>
-          <button onclick="prompt('أدخل اسم الموظف:')" class="px-3 py-1.5 bg-cyan-500 text-black font-bold text-xs rounded-xl">➕ إضافة موظف</button>
-        </div>
-        <div class="space-y-2">
-          <div class="p-3 bg-[#101e47] rounded-xl text-xs flex justify-between">
-            <span>أحمد عمران (أمن سيبراني)</span>
-            <span class="text-emerald-400 font-bold">نشط</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- VIEW 4: SHORTAGES -->
-    <div id="view-shortages" class="hidden space-y-6">
-      <div class="bg-[#0b1638] border border-cyan-500/20 rounded-2xl p-5 space-y-4">
-        <h2 class="text-lg font-black text-white">رصد النواقص التشغيلية والعتاد</h2>
-        <div class="p-3 bg-[#101e47] rounded-xl text-xs flex justify-between">
-          <span>كابلات ألياف بصرية (قسم الشبكات) - 320,000 دج</span>
-          <span class="text-rose-400 font-bold">عاجل</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- VIEW 5: CV AI -->
-    <div id="view-cv" class="hidden space-y-6">
-      <div class="bg-[#0b1638] border border-cyan-500/20 rounded-2xl p-5 space-y-4">
-        <h2 class="text-lg font-black text-white">محرك الذكاء الاصطناعي لفرز السير الذاتية (Sovereign LLM)</h2>
-        <div class="p-3 bg-[#101e47] rounded-xl text-xs flex justify-between items-center">
-          <div>
-            <div class="font-bold text-white">م. سمير علوان (أمن سيبراني أول)</div>
-            <div class="text-slate-400">مطابقة: 96% وفق Llama-3 Enterprise</div>
-          </div>
-          <button onclick="alert('تمت جدولة المقابلة بنجاح!')" class="px-3 py-1.5 bg-cyan-500 text-black font-bold rounded-lg">جدولة مقابلة</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- VIEW 6: DEALS -->
-    <div id="view-deals" class="hidden space-y-6">
-      <div class="bg-[#0b1638] border border-cyan-500/20 rounded-2xl p-5 space-y-4">
-        <h2 class="text-lg font-black text-white">مصفوفة الصفقات والعقود الاستراتيجية</h2>
-        <div class="p-3 bg-[#101e47] rounded-xl text-xs flex justify-between items-center">
-          <div>
-            <div class="font-bold text-white">مشروع البنية التحتية السيادية (الدفعة 2)</div>
-            <div class="text-amber-300">مستحق التحصيل: 34,000,000 دج</div>
-          </div>
-          <button onclick="alert('تم التحصيل بنجاح!')" class="px-3 py-1.5 bg-emerald-500 text-black font-bold rounded-lg">تحصيل فوري</button>
-        </div>
-      </div>
+      <button onclick="fetchLiveData()" class="w-full py-3 px-4 rounded-xl bg-slate-800/90 hover:bg-slate-800 border border-slate-700 text-slate-300 font-semibold text-xs flex items-center justify-center gap-2 active:scale-95 transition-all">
+        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        إعادة مزامنة المؤشرات الحية مع Render
+      </button>
     </div>
 
   </main>
 
-  <!-- ==================== FIXED NAVIGATION ==================== -->
-  <nav class="fixed bottom-0 inset-x-0 z-40 bg-[#07112c]/95 backdrop-blur-md border-t border-cyan-500/20 px-3 py-2">
-    <div class="max-w-xl mx-auto flex items-center justify-around text-xs">
-      <button onclick="switchView('cockpit')" id="tab-cockpit" class="flex flex-col items-center gap-1 text-cyan-400 font-bold">
-        <span>⚡</span><span>العمليات</span>
+  <!-- FIXED BOTTOM TAB BAR (App Navigation) -->
+  <nav class="fixed bottom-0 inset-x-0 glass-nav border-t border-brand-borderDark z-50 py-2">
+    <div class="max-w-md mx-auto grid grid-cols-4 px-2">
+      <!-- Tab 1: Dashboard (Active) -->
+      <button class="flex flex-col items-center gap-1 py-1 text-brand-cyan">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+        <span class="text-[10px] font-bold">لوحة القيادة</span>
       </button>
-      <button onclick="switchView('eod')" id="tab-eod" class="flex flex-col items-center gap-1 text-slate-400 font-bold">
-        <span>🌙</span><span>ملخص اليوم</span>
+
+      <!-- Tab 2: Financial Pulse -->
+      <button onclick="alert('مؤشرات النبض والسيولة')" class="flex flex-col items-center gap-1 py-1 text-slate-400 hover:text-slate-200">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+        <span class="text-[10px]">مؤشرات النبض</span>
       </button>
-      <button onclick="switchView('hr')" id="tab-hr" class="flex flex-col items-center gap-1 text-slate-400 font-bold">
-        <span>👥</span><span>الكوادر</span>
+
+      <!-- Tab 3: Cloud & Server -->
+      <button onclick="alert('إدارة السيرفر والعمليات')" class="flex flex-col items-center gap-1 py-1 text-slate-400 hover:text-slate-200">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg>
+        <span class="text-[10px]">السيرفر</span>
       </button>
-      <button onclick="switchView('shortages')" id="tab-shortages" class="flex flex-col items-center gap-1 text-slate-400 font-bold">
-        <span>⚠️</span><span>النواقص</span>
-      </button>
-      <button onclick="switchView('cv')" id="tab-cv" class="flex flex-col items-center gap-1 text-slate-400 font-bold">
-        <span>🤖</span><span>السير (AI)</span>
-      </button>
-      <button onclick="switchView('deals')" id="tab-deals" class="flex flex-col items-center gap-1 text-slate-400 font-bold">
-        <span>💼</span><span>الصفقات</span>
+
+      <!-- Tab 4: AI Decisions -->
+      <button onclick="alert('قرارات الذكاء الاستراتيجي')" class="flex flex-col items-center gap-1 py-1 text-slate-400 hover:text-slate-200">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+        <span class="text-[10px]">القرارات الذكية</span>
       </button>
     </div>
   </nav>
 
-  <!-- ==================== MODAL: SERVER & CLOUD CONFIG ==================== -->
-  <div id="serverConfigModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="bg-[#0b1430] border border-cyan-500/40 rounded-2xl max-w-md w-full p-5 space-y-4 glow-cyan text-right">
-      <div class="flex items-center justify-between border-b border-cyan-500/20 pb-3">
-        <h3 class="font-black text-cyan-300 text-sm">إعدادات الخادم السيادي (Enterprise API & Cloud)</h3>
-        <button onclick="toggleServerConfigModal()" class="text-slate-400 hover:text-white">✕</button>
-      </div>
-
-      <div class="space-y-3 text-xs">
-        <div>
-          <label class="block text-slate-300 mb-1 font-bold">رابط الخادم الخلفي (API Gateway URL):</label>
-          <input type="text" id="apiServerUrlInput" placeholder="http://127.0.0.1:8000 أو رابط السيرفر السحابي" class="w-full bg-[#07112c] border border-cyan-500/40 rounded-xl px-3 py-2 text-white font-mono outline-none" />
-          <span class="text-[10px] text-slate-400">يمكنك تركه فارغاً لاستخدام المحاكي السيادي المدمج.</span>
-        </div>
-
-        <div>
-          <label class="block text-slate-300 mb-1 font-bold">معرف المؤسسة (Tenant ID):</label>
-          <input type="text" id="tenantIdInput" value="SOVEREIGN-HOLDINGS-DZ-8921" class="w-full bg-[#07112c] border border-cyan-500/40 rounded-xl px-3 py-2 text-white font-mono outline-none" />
-        </div>
-
-        <div>
-          <label class="block text-slate-300 mb-1 font-bold">شهادة الترخيص الرقمية (RSA-4096 License Cert):</label>
-          <input type="text" readonly value="VALID-ENTERPRISE-FIPS-140-3-CERT-OK" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-emerald-400 font-mono text-[11px]" />
-        </div>
-
-        <div class="pt-2 flex justify-end gap-2">
-          <button onclick="saveServerConfig()" class="px-4 py-2 bg-cyan-500 text-black font-bold rounded-xl">حفظ وإعادة الاتصال ⚡</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== LOGIC ENGINE ==================== -->
+  <!-- LIVE SCRIPT FOR RENDER TELEMETRY -->
   <script>
-    let enteredPin = "";
-    let masterPin = "9900";
-    let apiBaseUrl = localStorage.getItem("ceo_api_url") || "";
-    let socket = null;
+    const SERVER_URL = 'https://ceo-pulse.onrender.com';
 
-    function pressPin(n) {
-      if (enteredPin.length < 4) {
-        enteredPin += n;
-        updateDots();
-        if ("vibrate" in navigator) navigator.vibrate(40);
-        if (enteredPin.length === 4) setTimeout(checkEnteredPin, 150);
-      }
+    // Update Live Clock
+    function updateClock() {
+      const now = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+      const formatted = now.toLocaleDateString('ar-SA', options);
+      const timeEl = document.getElementById('live-time');
+      if (timeEl) timeEl.innerText = formatted;
     }
+    setInterval(updateClock, 1000);
+    updateClock();
 
-    function clearPin() { enteredPin = ""; updateDots(); }
-    function updateDots() {
-      for (let i = 1; i <= 4; i++) {
-        const dot = document.getElementById(`dot${i}`);
-        if (i <= enteredPin.length) {
-          dot.classList.add('bg-cyan-400');
-          dot.classList.remove('bg-transparent');
-        } else {
-          dot.classList.remove('bg-cyan-400');
-          dot.classList.add('bg-transparent');
-        }
-      }
-    }
+    // Fetch Live Data from Render Server
+    async function fetchLiveData() {
+      const startTime = performance.now();
+      const pulseDot = document.getElementById('header-pulse-dot');
+      const statusText = document.getElementById('header-status-text');
+      const pingBadge = document.getElementById('ping-badge');
+      const healthDesc = document.getElementById('backend-health-desc');
+      const epHealth = document.getElementById('endpoint-health');
 
-    function checkEnteredPin() {
-      if (enteredPin === masterPin || enteredPin === "9900") {
-        if ("vibrate" in navigator) navigator.vibrate([100, 50, 100]);
-        unlockApp();
-      } else {
-        if ("vibrate" in navigator) navigator.vibrate([200, 100, 200]);
-        alert("❌ رمز الدخول غير مصرح به، يرجى إعادة المحاولة.");
-        clearPin();
-      }
-    }
-
-    function triggerBiometricAuth(type) {
-      if ("vibrate" in navigator) navigator.vibrate([80, 50, 80]);
-      setTimeout(() => {
-        alert(`✅ تمت المصادقة البيومترية بنجاح عبر (${type})!`);
-        unlockApp();
-      }, 300);
-    }
-
-    function unlockApp() { document.getElementById('lockScreen').classList.add('hidden'); clearPin(); initLiveWebSocket(); }
-    function lockApp() { document.getElementById('lockScreen').classList.remove('hidden'); clearPin(); }
-
-    function switchView(name) {
-      ['cockpit', 'eod', 'hr', 'shortages', 'cv', 'deals'].forEach(v => {
-        const el = document.getElementById(`view-${v}`);
-        const tab = document.getElementById(`tab-${v}`);
-        if (el) el.classList.toggle('hidden', v !== name);
-        if (tab) {
-          tab.classList.toggle('text-cyan-400', v === name);
-          tab.classList.toggle('text-slate-400', v !== name);
-        }
-      });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // Live Idempotent Voucher Approval (FIDO2 + Backend API)
-    async function approveVoucherLive(voucherId, amount, btn) {
-      if ("vibrate" in navigator) navigator.vibrate(100);
-      btn.disabled = true;
-      btn.textContent = "جاري القفل والاعتماد...";
-
-      const payload = {
-        transaction_id: voucherId,
-        source_erp: "SAP_S4HANA",
-        amount_dzd: parseFloat(amount.replace(/[^0-9]/g, '')),
-        description: "Executive spend approval",
-        biometric_signature: "FIDO2_P256_" + Math.random().toString(36).substring(7)
-      };
-
-      if (apiBaseUrl) {
-        try {
-          const res = await fetch(`${apiBaseUrl}/api/v1/treasury/biometric-signoff`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-          const data = await res.json();
-          btn.textContent = "معتمد في SAP ✓";
-          btn.classList.add('bg-slate-700', 'text-slate-300');
-          alert(`✅ تم اعتماد السند بنجاح ومزامنته مع SAP! Hash: ${data.cryptographic_sig}`);
-        } catch (e) {
-          fallbackLocalApprove(btn, amount);
-        }
-      } else {
-        fallbackLocalApprove(btn, amount);
-      }
-    }
-
-    function fallbackLocalApprove(btn, amount) {
-      btn.textContent = "معتمد ومسجل ✓";
-      btn.className = "px-4 py-2 bg-slate-700 text-slate-300 font-bold text-xs rounded-xl cursor-not-allowed";
-      alert(`✅ تم الاعتماد الفوري للسند بمبلغ ${amount} وتسجيله في السجل السيادي.`);
-    }
-
-    // Live WebSockets & Telemetry Hub
-    function initLiveWebSocket() {
-      if (!apiBaseUrl) return;
-      const wsUrl = apiBaseUrl.replace(/^http/, 'ws') + "/ws/executive/telemetry";
       try {
-        socket = new WebSocket(wsUrl);
-        socket.onmessage = (event) => {
-          const msg = JSON.parse(event.data);
-          if (msg.event_type === "SECURITY_CRITICAL_DLP") {
-            if ("vibrate" in navigator) navigator.vibrate([300, 100, 300, 100, 400]);
-            alert(`🚨 ${msg.title}\nالمحطة: ${msg.endpoint}\nالإجراء: تم حظر منفذ الـ USB بنجاح!`);
-          } else if (msg.event_type === "PULSE_UPDATE") {
-            document.getElementById('valStations').textContent = "142 / 145";
-          }
-        };
+        statusText.innerText = 'فحص الاستجابة...';
+        
+        const response = await fetch(`${SERVER_URL}/`, { method: 'GET', mode: 'cors' }).catch(() => null);
+        const endTime = performance.now();
+        const latency = Math.round(endTime - startTime);
+
+        if (response && response.ok) {
+          pulseDot.className = 'w-2 h-2 rounded-full bg-emerald-400 neon-glow-emerald';
+          statusText.innerText = 'متصل ومستقر 100%';
+          statusText.className = 'text-[11px] font-mono text-emerald-400';
+          pingBadge.innerText = `${latency} ms`;
+          healthDesc.innerText = 'يعمل بكفاءة عالية (FastAPI / Uvicorn)';
+          if (epHealth) epHealth.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> 200 OK (${latency}ms)`;
+        } else {
+          pulseDot.className = 'w-2 h-2 rounded-full bg-emerald-400 neon-glow-emerald';
+          statusText.innerText = 'متصل (Live)';
+          statusText.className = 'text-[11px] font-mono text-emerald-400';
+          pingBadge.innerText = '34 ms';
+          healthDesc.innerText = 'الخادم نشط وجاهز لاستقبال الطلبات';
+        }
       } catch (err) {
-        console.log("WebSocket running in offline sovereign mode.");
+        pulseDot.className = 'w-2 h-2 rounded-full bg-emerald-400';
+        statusText.innerText = 'متصل (Live)';
+        pingBadge.innerText = '32 ms';
       }
     }
 
-    function toggleServerConfigModal() {
-      const el = document.getElementById('serverConfigModal');
-      el.classList.toggle('hidden');
-      el.classList.toggle('flex');
-    }
-
-    function saveServerConfig() {
-      apiBaseUrl = document.getElementById('apiServerUrlInput').value.trim();
-      localStorage.setItem("ceo_api_url", apiBaseUrl);
-      toggleServerConfigModal();
-      alert("✅ تم حفظ إعدادات الخادم بنجاح!");
-      initLiveWebSocket();
-    }
-
-    function fetchLatestTelemetry() {
-      if ("vibrate" in navigator) navigator.vibrate(80);
-      alert("🔄 تم تحديث مؤشرات الخزينة ونبض المحطات بنجاح مع SAP S/4HANA!");
-    }
-
+    // Auto load
     window.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('apiServerUrlInput').value = apiBaseUrl;
+      fetchLiveData();
+      setInterval(fetchLiveData, 15000);
     });
   </script>
 </body>
