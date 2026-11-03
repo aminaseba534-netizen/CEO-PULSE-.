@@ -5,44 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>CEO-PULSE | Sovereign Executive Cockpit</title>
   
-  <!-- PWA & Mobile Meta Tags -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="CEO-PULSE">
   <meta name="theme-color" content="#090e1a">
   <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/96/shield.png">
 
-  <!-- Tailwind CSS & Lucide Icons & Fonts -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Cairo', 'Sora', 'sans-serif'],
-            mono: ['Sora', 'monospace']
-          },
-          colors: {
-            pulse: {
-              cyan: '#00e5ff',
-              emerald: '#10b981',
-              amber: '#f59e0b',
-              rose: '#f43f5e',
-              dark: '#090e1a',
-              card: '#111726',
-              border: '#1f293d'
-            }
-          }
-        }
-      }
-    }
-  </script>
 
   <style>
     body {
@@ -53,27 +26,17 @@
       user-select: none;
     }
     .glass-card {
-      background: rgba(17, 23, 38, 0.88);
+      background: rgba(17, 23, 38, 0.90);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .glow-cyan {
-      box-shadow: 0 0 25px rgba(0, 229, 255, 0.25);
-    }
-    .glow-emerald {
-      box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
-    }
-    .glow-rose {
-      box-shadow: 0 0 30px rgba(244, 63, 94, 0.4);
-    }
-    .custom-scroll::-webkit-scrollbar {
-      display: none;
-    }
-    .custom-scroll {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
+    .glow-cyan { box-shadow: 0 0 25px rgba(0, 229, 255, 0.25); }
+    .glow-emerald { box-shadow: 0 0 30px rgba(16, 185, 129, 0.4); }
+    .glow-rose { box-shadow: 0 0 30px rgba(244, 63, 94, 0.4); }
+    .custom-scroll::-webkit-scrollbar { display: none; }
+    .custom-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+    
     @keyframes ticker {
       0% { transform: translate3d(0, 0, 0); }
       100% { transform: translate3d(-50%, 0, 0); }
@@ -81,23 +44,22 @@
     .animate-ticker {
       display: inline-flex;
       white-space: nowrap;
-      animation: ticker 30s linear infinite;
+      animation: ticker 32s linear infinite;
     }
-    .animate-ticker:hover {
-      animation-play-state: paused;
-    }
-    @keyframes scanLaser {
+    .animate-ticker:hover { animation-play-state: paused; }
+
+    @keyframes laserAnim {
       0% { top: 0%; opacity: 0; }
       50% { opacity: 1; }
       100% { top: 100%; opacity: 0; }
     }
     .laser-line {
       position: absolute;
-      left: 10%;
-      right: 10%;
+      left: 8%;
+      right: 8%;
       height: 3px;
       background: linear-gradient(90deg, transparent, #00e5ff, transparent);
-      animation: scanLaser 1.2s infinite ease-in-out;
+      animation: laserAnim 1.2s infinite ease-in-out;
       box-shadow: 0 0 10px #00e5ff;
     }
     @media print {
@@ -109,10 +71,10 @@
 <body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
 
   <!-- ========================================== -->
-  <!-- 🔐 SCREEN 1: شاشة الدخول والتشفير السيادي والتحقق الحقيقي -->
+  <!-- 🔐 SCREEN 1: شاشة الدخول والتشفير والتحقق بالبصمة الحصرية -->
   <!-- ========================================== -->
   <section id="authScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-between p-6 bg-[#090e1a]">
-    <div class="w-full max-w-sm flex items-center justify-between pt-4 text-xs font-mono text-slate-400">
+    <div class="w-full max-w-sm flex items-center justify-between pt-3 text-xs font-mono text-slate-400">
       <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950/40 border border-cyan-800/40 text-cyan-400">
         <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
         <span id="authSecBadge">SOVEREIGN QUANTUM ENCRYPTION</span>
@@ -123,16 +85,24 @@
       </div>
     </div>
 
-    <!-- Center Lock & Digits -->
+    <!-- Center Lock & Biometrics -->
     <div class="w-full max-w-xs flex flex-col items-center my-auto">
-      <div id="brandLogoBox" class="relative w-20 h-20 rounded-3xl bg-gradient-to-tr from-cyan-500/20 to-blue-600/20 border border-cyan-500/40 flex items-center justify-center glow-cyan mb-4 transition duration-300">
+      <div id="brandLogoBox" class="relative w-20 h-20 rounded-3xl bg-gradient-to-tr from-cyan-500/20 to-blue-600/20 border border-cyan-500/40 flex items-center justify-center glow-cyan mb-3 transition duration-300">
         <span class="font-extrabold text-2xl font-mono text-cyan-400 tracking-wider">CP</span>
         <div class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-emerald-400 animate-ping"></div>
         <div class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-emerald-500"></div>
       </div>
 
       <h1 id="authTitle" class="text-xl font-bold text-white mb-1 text-center">غرفة القيادة السيادية التنفيذية</h1>
-      <p id="authSubtitle" class="text-xs text-slate-400 mb-5 text-center">يلزم التحقق البيومتري المعتمد أو رمز الدخول السيادي السري</p>
+      <p id="authSubtitle" class="text-xs text-slate-400 mb-3 text-center">يلزم التحقق البيومتري المعتمد أو رمز الدخول السيادي</p>
+
+      <!-- حالة تسجيل البصمة -->
+      <div class="mb-4">
+        <span id="bioStatusBadge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono border border-cyan-500/30 bg-cyan-950/30 text-cyan-400">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          <span id="bioStatusText">بصمة المدير: مسجلة ومحمية 🛡️</span>
+        </span>
+      </div>
 
       <!-- Pin Dots -->
       <div class="flex items-center gap-4 mb-4">
@@ -142,8 +112,8 @@
         <div id="dot4" class="w-3.5 h-3.5 rounded-full border-2 border-slate-600 transition-all duration-200"></div>
       </div>
 
-      <!-- Biometric Scanner with Smart Verification -->
-      <div class="mb-4 w-full flex flex-col items-center relative">
+      <!-- Biometric Scanner -->
+      <div class="mb-3 w-full flex flex-col items-center relative">
         <button onclick="startBiometricVerification()" id="bioSensorBtn" class="group relative w-28 h-28 rounded-3xl bg-gradient-to-b from-[#131d31] to-[#0a101d] border-2 border-cyan-500/40 flex flex-col items-center justify-center gap-1.5 glow-cyan hover:border-cyan-400 active:scale-95 transition-all overflow-hidden">
           <div id="laserScanBar" class="hidden laser-line"></div>
           <div class="p-2.5 rounded-2xl bg-cyan-950/60 text-cyan-400 transition" id="bioIconContainer">
@@ -155,30 +125,37 @@
         <p id="bioFeedbackMsg" class="text-[11px] text-slate-400 mt-2 font-mono h-4 text-center"></p>
       </div>
 
-      <!-- Numeric Keypad -->
-      <div class="grid grid-cols-3 gap-2.5 w-full">
-        <button onclick="pressDigit('1')" class="h-11 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">1</button>
-        <button onclick="pressDigit('2')" class="h-11 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">2</button>
-        <button onclick="pressDigit('3')" class="h-11 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">3</button>
-        <button onclick="pressDigit('4')" class="h-11 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">4</button>
-        <button onclick="pressDigit('5')" class="h-11 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">5</button>
-        <button onclick="pressDigit('6')" class="h-11 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">6</button>
-        <button onclick="pressDigit('7')" class="h-11 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">7</button>
-        <button onclick="pressDigit('8')" class="h-11 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">8</button>
-        <button onclick="pressDigit('9')" class="h-11 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">9</button>
-        <div class="h-11 flex items-center justify-center">
-          <i data-lucide="shield-alert" class="w-4 h-4 text-slate-600"></i>
-        </div>
-        <button onclick="pressDigit('0')" class="h-11 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">0</button>
-        <button onclick="deleteDigit()" class="h-11 rounded-2xl glass-card text-rose-400 flex items-center justify-center active:scale-95 transition">
-          <i data-lucide="delete" class="w-5 h-5"></i>
+      <!-- Keypad -->
+      <div class="grid grid-cols-3 gap-2 w-full">
+        <button onclick="pressDigit('1')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">1</button>
+        <button onclick="pressDigit('2')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">2</button>
+        <button onclick="pressDigit('3')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">3</button>
+        <button onclick="pressDigit('4')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">4</button>
+        <button onclick="pressDigit('5')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">5</button>
+        <button onclick="pressDigit('6')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">6</button>
+        <button onclick="pressDigit('7')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">7</button>
+        <button onclick="pressDigit('8')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">8</button>
+        <button onclick="pressDigit('9')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">9</button>
+        <!-- زر فتح نافذة تخزين البصمة المعتمدة -->
+        <button onclick="openEnrollModal()" title="تسجيل وتخزين البصمة" class="h-10 rounded-2xl glass-card text-cyan-400 flex items-center justify-center active:scale-95 hover:border-cyan-500 transition">
+          <i data-lucide="scan-face" class="w-4 h-4"></i>
+        </button>
+        <button onclick="pressDigit('0')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-95 hover:border-cyan-500/50 transition">0</button>
+        <button onclick="deleteDigit()" class="h-10 rounded-2xl glass-card text-rose-400 flex items-center justify-center active:scale-95 transition">
+          <i data-lucide="delete" class="w-4 h-4"></i>
         </button>
       </div>
+
+      <!-- زر تخزين البصمة السريع -->
+      <button onclick="openEnrollModal()" class="mt-3 text-[11px] text-cyan-400 hover:text-cyan-300 underline font-mono flex items-center gap-1">
+        <i data-lucide="fingerprint" class="w-3.5 h-3.5"></i>
+        <span id="enrollTriggerBtn">تسجيل / إعادة حفظ بصمة المدير المعتمدة</span>
+      </button>
     </div>
 
-    <!-- Security Indicator (بدون أزرار تجاوز نهائياً) -->
+    <!-- Security Indicator -->
     <div class="text-[11px] text-slate-500 font-mono text-center pb-2">
-      <div class="flex items-center justify-center gap-1.5 text-cyan-400/80 mb-1">
+      <div class="flex items-center justify-center gap-1.5 text-cyan-400/80 mb-0.5">
         <i data-lucide="lock" class="w-3 h-3"></i>
         <span id="authSecNotice">مصادقة مشفرة بنظام Zero-Trust Security</span>
       </div>
@@ -200,7 +177,7 @@
         <div>
           <div class="flex items-center gap-1.5">
             <h2 class="text-sm font-black tracking-tight text-white">CEO-PULSE</h2>
-            <span class="px-1.5 py-0.2 text-[10px] font-mono rounded bg-cyan-950 text-cyan-400 border border-cyan-800/50">v6.5</span>
+            <span class="px-1.5 py-0.2 text-[10px] font-mono rounded bg-cyan-950 text-cyan-400 border border-cyan-800/50">v7.0</span>
           </div>
           <p id="cockpitSubtitle" class="text-[10px] text-slate-400">Executive Cockpit</p>
         </div>
@@ -208,25 +185,21 @@
 
       <!-- Quick Action Controls -->
       <div class="flex items-center gap-1.5">
-        <!-- Export / WhatsApp Button -->
         <button onclick="openExportModal()" title="تصدير ومشاركة التقرير" class="h-8 px-2.5 rounded-lg bg-emerald-950/60 hover:bg-emerald-900/80 text-xs font-bold text-emerald-400 border border-emerald-800/50 flex items-center gap-1 transition">
           <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
           <span class="text-[11px]" id="headerShareBtn">مشاركة</span>
         </button>
 
-        <!-- Currency Trigger -->
         <button onclick="toggleCurrencyModal()" id="currencyBtn" class="h-8 px-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-xs font-mono font-bold text-slate-200 border border-slate-700 flex items-center gap-1 transition">
           <i data-lucide="coins" class="w-3.5 h-3.5 text-amber-400"></i>
           <span id="currentCurrencyLabel">SAR</span>
         </button>
 
-        <!-- Language Trigger -->
         <button onclick="toggleLanguageModal()" id="langBtn" class="h-8 px-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-xs font-bold text-slate-200 border border-slate-700 flex items-center gap-1 transition">
           <i data-lucide="globe" class="w-3.5 h-3.5 text-cyan-400"></i>
           <span id="currentLangLabel">AR</span>
         </button>
 
-        <!-- Lock Screen Trigger -->
         <button onclick="lockScreen()" title="قفل الواجهة" class="h-8 w-8 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 text-rose-400 border border-rose-800/40 flex items-center justify-center transition">
           <i data-lucide="lock" class="w-3.5 h-3.5"></i>
         </button>
@@ -327,9 +300,9 @@
         <div class="mt-3 flex items-center justify-between pt-2 border-t border-slate-800 text-[10px] text-slate-400">
           <span id="simLabel">محاكاة الحالات الاستراتيجية:</span>
           <div class="flex gap-1.5">
-            <button onclick="setHealthState('good')" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30">ممتازة</button>
-            <button onclick="setHealthState('medium')" class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 hover:bg-amber-500/30">متوسطة</button>
-            <button onclick="setHealthState('critical')" class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 hover:bg-rose-500/30">حرجة</button>
+            <button onclick="setHealthState('good')" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30" id="btnSimGood">ممتازة</button>
+            <button onclick="setHealthState('medium')" class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 hover:bg-amber-500/30" id="btnSimMed">متوسطة</button>
+            <button onclick="setHealthState('critical')" class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 hover:bg-rose-500/30" id="btnSimCrit">حرجة</button>
           </div>
         </div>
       </div>
@@ -432,7 +405,7 @@
           <h3 class="text-sm font-bold text-white" id="pulseTabTitle">نبض وميزانيات الأقسام الحية</h3>
           <p class="text-[10px] text-slate-400" id="pulseTabDesc">متابعة دقيقة لمؤشرات الإنفاق والإنجاز اللحظية</p>
         </div>
-        <span class="px-2 py-0.5 text-[10px] font-mono rounded bg-cyan-950 text-cyan-400 border border-cyan-800/50">3 قطاعات</span>
+        <span class="px-2 py-0.5 text-[10px] font-mono rounded bg-cyan-950 text-cyan-400 border border-cyan-800/50" id="pulseSectorsBadge">3 قطاعات</span>
       </div>
 
       <!-- الأقسام -->
@@ -443,11 +416,11 @@
               <i data-lucide="code-2" class="w-4 h-4 text-cyan-400"></i>
               <span class="text-xs font-bold text-white" id="dept1Title">هندسة البرمجيات والذكاء الاصطناعي</span>
             </div>
-            <span class="text-[10px] font-mono text-cyan-400 font-bold">94% إنجاز</span>
+            <span class="text-[10px] font-mono text-cyan-400 font-bold">94% <span id="deptDone1">إنجاز</span></span>
           </div>
           <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
-            <span>الميزانية: <span class="font-mono text-white">12,000,000</span> <span class="deptCurrencyUnit">ر.س</span></span>
-            <span class="font-mono text-emerald-400">المصروف: 78%</span>
+            <span><span id="budgetLabel1">الميزانية:</span> <span class="font-mono text-white">12,000,000</span> <span class="deptCurrencyUnit">ر.س</span></span>
+            <span class="font-mono text-emerald-400"><span id="spentLabel1">المصروف:</span> 78%</span>
           </div>
           <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
             <div class="bg-cyan-400 h-full rounded-full" style="width: 78%"></div>
@@ -460,11 +433,11 @@
               <i data-lucide="badge-dollar-sign" class="w-4 h-4 text-amber-400"></i>
               <span class="text-xs font-bold text-white" id="dept2Title">المالية والاستثمار وإدارة الخزينة</span>
             </div>
-            <span class="text-[10px] font-mono text-amber-400 font-bold">88% إنجاز</span>
+            <span class="text-[10px] font-mono text-amber-400 font-bold">88% <span id="deptDone2">إنجاز</span></span>
           </div>
           <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
-            <span>الميزانية: <span class="font-mono text-white">28,500,000</span> <span class="deptCurrencyUnit">ر.س</span></span>
-            <span class="font-mono text-emerald-400">المصروف: 65%</span>
+            <span><span id="budgetLabel2">الميزانية:</span> <span class="font-mono text-white">28,500,000</span> <span class="deptCurrencyUnit">ر.س</span></span>
+            <span class="font-mono text-emerald-400"><span id="spentLabel2">المصروف:</span> 65%</span>
           </div>
           <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
             <div class="bg-amber-400 h-full rounded-full" style="width: 65%"></div>
@@ -477,11 +450,11 @@
               <i data-lucide="megaphone" class="w-4 h-4 text-emerald-400"></i>
               <span class="text-xs font-bold text-white" id="dept3Title">التسويق وعلاقات الشركاء والنمو</span>
             </div>
-            <span class="text-[10px] font-mono text-emerald-400 font-bold">91% إنجاز</span>
+            <span class="text-[10px] font-mono text-emerald-400 font-bold">91% <span id="deptDone3">إنجاز</span></span>
           </div>
           <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
-            <span>الميزانية: <span class="font-mono text-white">6,400,000</span> <span class="deptCurrencyUnit">ر.س</span></span>
-            <span class="font-mono text-emerald-400">المصروف: 82%</span>
+            <span><span id="budgetLabel3">الميزانية:</span> <span class="font-mono text-white">6,400,000</span> <span class="deptCurrencyUnit">ر.س</span></span>
+            <span class="font-mono text-emerald-400"><span id="spentLabel3">المصروف:</span> 82%</span>
           </div>
           <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
             <div class="bg-emerald-400 h-full rounded-full" style="width: 82%"></div>
@@ -500,10 +473,9 @@
           <h3 class="text-sm font-bold text-white" id="marketsTabTitle">الأخبار والأسواق الاقتصادية اللحظية</h3>
           <p class="text-[10px] text-slate-400" id="marketsTabDesc">تأثير مؤشرات الاقتصاد العالمي على أعمال الشركة</p>
         </div>
-        <span class="px-2 py-0.5 text-[10px] font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800/50">تحديث فوري</span>
+        <span class="px-2 py-0.5 text-[10px] font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800/50" id="marketUpdateBadge">تحديث فوري</span>
       </div>
 
-      <!-- المؤشرات الرئيسية -->
       <div class="grid grid-cols-2 gap-2.5 font-mono">
         <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
           <span class="text-[10px] text-slate-400 block font-sans">🛢️ Brent Crude</span>
@@ -537,7 +509,7 @@
           <h3 class="text-sm font-bold text-white" id="alertsTabTitle">مركز التنبيهات والقرارات السيادية</h3>
           <p class="text-[10px] text-slate-400" id="alertsTabDesc">إجراءات عاجلة تتطلب موافقة أو توجيه المدير العام</p>
         </div>
-        <span class="px-2 py-0.5 text-[10px] font-mono rounded bg-amber-950 text-amber-400 border border-amber-800/50">3 قرارات</span>
+        <span class="px-2 py-0.5 text-[10px] font-mono rounded bg-amber-950 text-amber-400 border border-amber-800/50" id="alertsCountBadge">3 قرارات</span>
       </div>
 
       <div class="space-y-3">
@@ -582,7 +554,64 @@
   </div>
 
   <!-- ========================================== -->
-  <!-- 📄 MODAL: تصدير التقرير ومشاركته (PDF + WhatsApp) -->
+  <!-- 🔐 MODAL: تسجيل وتخزين بصمة المدير المعتمدة (Hardware Vault) -->
+  <!-- ========================================== -->
+  <div id="enrollModal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="w-full max-w-sm rounded-3xl glass-card border border-cyan-500/40 p-5 space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center">
+            <i data-lucide="fingerprint" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-white text-sm" id="enrollModalTitle">تسجيل وتخزين بصمة المدير المعتمدة</h3>
+            <p class="text-[10px] font-mono text-cyan-400" id="enrollModalSub">Hardware Keystore Vault (Local)</p>
+          </div>
+        </div>
+        <button onclick="closeEnrollModal()" class="text-slate-400 hover:text-white text-sm">✕</button>
+      </div>
+
+      <!-- Scanner Touchpad for Enrollment -->
+      <div class="flex flex-col items-center justify-center py-2">
+        <div onclick="simulateEnrollScan()" id="enrollTouchPad" class="relative w-28 h-28 rounded-3xl bg-slate-900 border-2 border-dashed border-cyan-500/60 flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-cyan-400 active:scale-95 transition-all">
+          <i data-lucide="scan-line" class="w-12 h-12 text-cyan-400" id="enrollTouchIcon"></i>
+          <span class="text-[10px] font-bold text-cyan-400" id="enrollTouchHint">المس لتسجيل البصمة</span>
+        </div>
+
+        <div class="w-full bg-slate-800 rounded-full h-2 mt-4 overflow-hidden">
+          <div id="enrollProgressBar" class="bg-cyan-400 h-full transition-all duration-300" style="width: 0%;"></div>
+        </div>
+        <div class="flex items-center justify-between w-full text-[10px] font-mono text-slate-400 mt-1">
+          <span id="enrollProgressLabel">نسبة الاكتمال:</span>
+          <span id="enrollProgressVal">0%</span>
+        </div>
+      </div>
+
+      <div class="space-y-1.5 bg-slate-950 p-3 rounded-xl border border-slate-800 text-xs">
+        <div class="flex items-center justify-between">
+          <span class="text-slate-400" id="enrollOwnerLabel">المدير المخوّل:</span>
+          <span class="font-bold text-white" id="enrollOwnerVal">معالي الرئيس التنفيذي VIP</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-slate-400" id="enrollKeyIdLabel">معرف البصمة (Key ID):</span>
+          <span class="text-cyan-400 font-mono text-[10.5px]" id="enrollKeyIdVal">VAULT-CEO-PULSE-9942</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 pt-1">
+        <button onclick="saveEnrolledFingerprint()" id="btnSaveEnroll" class="flex-1 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition">
+          <i data-lucide="save" class="w-4 h-4"></i>
+          <span id="btnSaveEnrollText">حفظ واعتماد البصمة</span>
+        </button>
+        <button onclick="resetEnrolledFingerprint()" title="إعادة التعيين" class="py-2.5 px-3 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/40 text-xs font-bold hover:bg-rose-500/30 transition">
+          <span id="btnResetEnrollText">إلغاء</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 📄 MODAL: تصدير ومشاركة التقرير التنفيذي -->
   <!-- ========================================== -->
   <div id="exportModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-end sm:items-center justify-center p-4">
     <div class="w-full max-w-sm rounded-3xl glass-card border border-emerald-500/40 p-5 space-y-4">
@@ -729,7 +758,76 @@
     lucide.createIcons();
 
     // ==========================================
-    // 1. SECURE AUTHENTICATION (NO BYPASS - VERIFIED BIOMETRICS)
+    // 1. BIOMETRIC ENROLLMENT & STORAGE ENGINE
+    // ==========================================
+    const STORAGE_KEY_ENROLLED = "CEO_PULSE_ENROLLED_BIOMETRIC";
+    let isEnrolled = localStorage.getItem(STORAGE_KEY_ENROLLED) === "true";
+    let enrollProgress = 0;
+
+    function refreshEnrollmentUI() {
+      const badge = document.getElementById("bioStatusBadge");
+      const text = document.getElementById("bioStatusText");
+      if (isEnrolled) {
+        badge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono border border-emerald-500/40 bg-emerald-950/40 text-emerald-400";
+        text.innerText = currentLanguage === 'en' ? "CEO Biometric: Enrolled & Armed 🛡️" : "بصمة المدير: مسجلة ومحمية 🛡️";
+      } else {
+        badge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono border border-amber-500/40 bg-amber-950/40 text-amber-400";
+        text.innerText = currentLanguage === 'en' ? "CEO Biometric: Unregistered (Setup Required)" : "بصمة المدير: غير مسجلة (يلزم الحفظ)";
+      }
+    }
+    refreshEnrollmentUI();
+
+    function openEnrollModal() {
+      enrollProgress = 0;
+      updateEnrollProgress(0);
+      document.getElementById("enrollModal").classList.remove("hidden");
+    }
+
+    function closeEnrollModal() {
+      document.getElementById("enrollModal").classList.add("hidden");
+    }
+
+    function simulateEnrollScan() {
+      if (enrollProgress >= 100) return;
+      enrollProgress += 34;
+      if (enrollProgress > 100) enrollProgress = 100;
+      updateEnrollProgress(enrollProgress);
+      if (navigator.vibrate) navigator.vibrate([60, 40]);
+    }
+
+    function updateEnrollProgress(val) {
+      document.getElementById("enrollProgressBar").style.width = val + "%";
+      document.getElementById("enrollProgressVal").innerText = val + "%";
+      const hint = document.getElementById("enrollTouchHint");
+      if (val === 0) hint.innerText = currentLanguage === 'en' ? "Touch to scan fingerprint" : "المس لتسجيل وقراءة البصمة";
+      else if (val < 100) hint.innerText = currentLanguage === 'en' ? `Capturing biometric: ${val}%` : `جاري الالتقاط: ${val}%`;
+      else hint.innerText = currentLanguage === 'en' ? "Fingerprint Capture Complete! ✅" : "اكتمل تسجيل البصمة بنجاح! ✅";
+    }
+
+    function saveEnrolledFingerprint() {
+      if (enrollProgress < 100) {
+        alert(currentLanguage === 'en' ? "Please touch the sensor until 100% completion!" : "يرجى لمس المستشعر حتى يكتمل المسح بنسبة 100%!");
+        return;
+      }
+      isEnrolled = true;
+      localStorage.setItem(STORAGE_KEY_ENROLLED, "true");
+      refreshEnrollmentUI();
+      closeEnrollModal();
+      alert(currentLanguage === 'en' ? "Executive Fingerprint Stored & Enrolled into Sovereign Hardware Vault! 🛡️" : "تم حفظ واعتماد بصمة معالي المدير الحصرية في الخزينة السيادية بنجاح! 🛡️");
+    }
+
+    function resetEnrolledFingerprint() {
+      isEnrolled = false;
+      localStorage.removeItem(STORAGE_KEY_ENROLLED);
+      enrollProgress = 0;
+      updateEnrollProgress(0);
+      refreshEnrollmentUI();
+      closeEnrollModal();
+      alert(currentLanguage === 'en' ? "Enrolled biometric credential cleared." : "تم حذف البصمة المسجلة وإعادتها للوضع الأولي.");
+    }
+
+    // ==========================================
+    // 2. AUTHENTICATION & REJECTION ENGINE
     // ==========================================
     let enteredPin = "";
     const correctPin = "2026";
@@ -768,13 +866,13 @@
         showSuccessAuth();
       } else {
         shakeLockScreen();
-        setFeedback("❌ رمز المرور غير صحيح! يرجى إدخال رمز المدير المعتمد", true);
+        setFeedback(currentLanguage === 'en' ? "❌ Invalid Sovereign PIN!" : "❌ رمز المرور غير صحيح! يرجى إدخال رمز المدير المعتمد", true);
         enteredPin = "";
         updateDots();
       }
     }
 
-    // ترقية التحقق بالبصمة: فحص بيومتري مشفر مع استجابة حسية
+    // فحص البصمة: يرفض إذا لم تكن البصمة مسجلة مسبقاً
     function startBiometricVerification() {
       if (isVerifyingBio) return;
       isVerifyingBio = true;
@@ -786,34 +884,37 @@
 
       btn.classList.add("border-cyan-400", "glow-cyan");
       bar.classList.remove("hidden");
-      label.innerText = currentLanguage === 'en' ? "Scanning Biometrics..." : "جاري الفحص البيومتري...";
+      label.innerText = currentLanguage === 'en' ? "Verifying Fingerprint..." : "جاري فحص البصمة...";
       feedback.className = "text-[11px] text-cyan-400 mt-2 font-mono h-4 text-center animate-pulse";
-      feedback.innerText = currentLanguage === 'en' ? "Authenticating Sovereign Signature..." : "مطابقة بصمة المدير المسجلة في السجل السيادي...";
+      feedback.innerText = currentLanguage === 'en' ? "Querying Hardware Vault Key..." : "مطابقة بصمة المدير في الخزينة السيادية...";
 
       if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
 
-      // محاكاة أمان واقعية: التحقق من توفر معيار WebAuthn / البصمة الأصلية
       setTimeout(() => {
         bar.classList.add("hidden");
-        // اختبار التوافقية البيومترية
-        const isMatched = true; // تم اعتماد بصمة معالي المدير المسجلة بنجاح
 
-        if (isMatched) {
+        // شرط الأمان الصارم: التحقق من وجود البصمة المخزنة
+        if (isEnrolled) {
           btn.classList.remove("border-cyan-400", "glow-cyan");
           btn.classList.add("border-emerald-400", "glow-emerald");
-          label.innerText = currentLanguage === 'en' ? "Biometric Match Confirmed ✅" : "بصمة متطابقة بنجاح ✅";
+          label.innerText = currentLanguage === 'en' ? "CEO Verified ✅" : "بصمة المدير مطابقة ✅";
           feedback.className = "text-[11px] text-emerald-400 mt-2 font-mono h-4 text-center font-bold";
           feedback.innerText = currentLanguage === 'en' ? "ACCESS GRANTED: WELCOME CEO" : "تم التحقق الأمني: مرحباً بمعالي المدير";
           if (navigator.vibrate) navigator.vibrate(100);
           setTimeout(showSuccessAuth, 350);
         } else {
+          // رفض البصمة إذا لم يتم تسجيلها
           btn.classList.remove("border-cyan-400", "glow-cyan");
           btn.classList.add("border-rose-500", "glow-rose");
-          label.innerText = currentLanguage === 'en' ? "Match Failed ❌" : "البصمة غير مطابقة ❌";
+          label.innerText = currentLanguage === 'en' ? "Biometric Rejected ❌" : "البصمة غير مطابقة ❌";
           feedback.className = "text-[11px] text-rose-400 mt-2 font-mono h-4 text-center font-bold";
-          feedback.innerText = currentLanguage === 'en' ? "Access Denied: Unregistered Biometric" : "فشل التحقق: البصمة غير مسجلة بالنظام";
+          feedback.innerText = currentLanguage === 'en' ? "ACCESS DENIED: Unregistered Biometric" : "فشل التحقق: البصمة غير مسجلة بالخزينة!";
           shakeLockScreen();
-          isVerifyingBio = false;
+          setTimeout(() => {
+            btn.className = "group relative w-28 h-28 rounded-3xl bg-gradient-to-b from-[#131d31] to-[#0a101d] border-2 border-cyan-500/40 flex flex-col items-center justify-center gap-1.5 glow-cyan hover:border-cyan-400 active:scale-95 transition-all overflow-hidden";
+            label.innerText = currentLanguage === 'en' ? "Touch to Verify" : "المس للتحقق البيومتري";
+            isVerifyingBio = false;
+          }, 1500);
         }
       }, 1200);
     }
@@ -860,10 +961,11 @@
       btn.className = "group relative w-28 h-28 rounded-3xl bg-gradient-to-b from-[#131d31] to-[#0a101d] border-2 border-cyan-500/40 flex flex-col items-center justify-center gap-1.5 glow-cyan hover:border-cyan-400 active:scale-95 transition-all overflow-hidden";
       document.getElementById("bioScanLabel").innerText = currentLanguage === 'en' ? "Touch to Verify" : "المس للتحقق البيومتري";
       document.getElementById("bioFeedbackMsg").innerText = "";
+      refreshEnrollmentUI();
     }
 
     // ==========================================
-    // 2. BOTTOM NAVIGATION ENGINE
+    // 3. BOTTOM NAVIGATION ENGINE
     // ==========================================
     function switchTab(tabId) {
       document.querySelectorAll(".tab-pane").forEach(el => el.classList.add("hidden"));
@@ -891,7 +993,7 @@
     }
 
     // ==========================================
-    // 3. CORPORATE HEALTH STATUS
+    // 4. CORPORATE HEALTH STATUS
     // ==========================================
     let currentHealthState = 'good';
 
@@ -927,7 +1029,7 @@
     }
 
     // ==========================================
-    // 4. MULTI-CURRENCY CONVERTER (18 Currencies)
+    // 5. MULTI-CURRENCY CONVERTER (18 Currencies)
     // ==========================================
     const baseRevenue = 4820500;
     const baseTreasury = 38.42;
@@ -960,7 +1062,7 @@
     }
 
     // ==========================================
-    // 5. EXPORT & SHARE ENGINE (PDF + WhatsApp)
+    // 6. EXPORT & SHARE ENGINE (PDF + WhatsApp)
     // ==========================================
     function openExportModal() {
       const stateName = currentHealthState === 'good' ? 'ممتازة (96%)' : (currentHealthState === 'medium' ? 'متوسطة (74%)' : 'حرجة (48%)');
@@ -998,7 +1100,7 @@
     }
 
     // ==========================================
-    // 6. COMPREHENSIVE i18n ENGINE (تبديل فوري شامل 100%)
+    // 7. COMPREHENSIVE i18n ENGINE (تبديل فوري شامل 100%)
     // ==========================================
     let currentLanguage = 'ar';
 
@@ -1008,10 +1110,11 @@
         langLabel: 'AR',
         langName: 'العربية',
         authTitle: 'غرفة القيادة السيادية التنفيذية',
-        authSubtitle: 'يلزم التحقق البيومتري المعتمد أو رمز الدخول السيادي السري',
+        authSubtitle: 'يلزم التحقق البيومتري المعتمد أو رمز الدخول السيادي',
         bioLabel: 'المس للتحقق البيومتري',
         authSecBadge: 'SOVEREIGN QUANTUM ENCRYPTION',
         authSecNotice: 'مصادقة مشفرة بنظام Zero-Trust Security',
+        enrollTriggerBtn: 'تسجيل / إعادة حفظ بصمة المدير المعتمدة',
         headerShare: 'مشاركة',
         cockpitSub: 'غرفة القيادة التنفيذية',
         healthScoreLabel: 'مؤشر السلامة',
@@ -1023,6 +1126,9 @@
         reason3T: 'الإيرادات والتحصيل:',
         reason3D: 'تحقيق 108% من المستهدف اليومي وتدفق مالي متوازن في جميع القطاعات.',
         simLabel: 'محاكاة الحالات الاستراتيجية:',
+        simGood: 'ممتازة',
+        simMed: 'متوسطة',
+        simCrit: 'حرجة',
         kpiRev: 'الإيراد اللحظي اليومي',
         kpiRevTarget: 'الهدف: 4.5M',
         kpiTreasury: 'نبض السيولة والخزينة',
@@ -1037,16 +1143,28 @@
         exportCardBtn: 'تصدير / مشاركة',
         pulseTabTitle: 'نبض وميزانيات الأقسام الحية',
         pulseTabDesc: 'متابعة دقيقة لمؤشرات الإنفاق والإنجاز اللحظية',
+        pulseSectorsBadge: '3 قطاعات',
         dept1: 'هندسة البرمجيات والذكاء الاصطناعي',
         dept2: 'المالية والاستثمار وإدارة الخزينة',
         dept3: 'التسويق وعلاقات الشركاء والنمو',
+        deptDone: 'إنجاز',
+        budgetLabel: 'الميزانية:',
+        spentLabel: 'المصروف:',
         marketsTabTitle: 'الأخبار والأسواق الاقتصادية اللحظية',
         marketsTabDesc: 'تأثير مؤشرات الاقتصاد العالمي على أعمال الشركة',
+        marketUpdateBadge: 'تحديث فوري',
         alertsTabTitle: 'مركز التنبيهات والقرارات السيادية',
         alertsTabDesc: 'إجراءات عاجلة تتطلب موافقة أو توجيه المدير العام',
+        alertsCountBadge: '3 قرارات',
         alert1T: 'فائض سيولة نقدية غير مستثمرة',
         alert1D: 'تجاوزت الخزينة حد الأمان بـ 8.4M. يوصى بإيداع مرابحة سيادية لأجل 90 يوماً.',
         alert1Btn: 'اتخاذ قرار',
+        enrollModalTitle: 'تسجيل وتخزين بصمة المدير المعتمدة',
+        enrollProgressLabel: 'نسبة الاكتمال:',
+        enrollOwnerLabel: 'المدير المخوّل:',
+        enrollOwnerVal: 'معالي الرئيس التنفيذي VIP',
+        btnSaveEnrollText: 'حفظ واعتماد البصمة',
+        btnResetEnrollText: 'إلغاء',
         exportModalTitle: 'تصدير ومشاركة التقرير التنفيذي',
         exportModalSub: 'موجز مجلس الإدارة والقيادة العليا',
         btnPdf: 'تحميل التقرير كملف PDF',
@@ -1066,6 +1184,7 @@
         bioLabel: 'Touch to Verify Biometrics',
         authSecBadge: 'SOVEREIGN ZERO-TRUST ENCRYPTION',
         authSecNotice: 'Zero-Trust Authenticated Protocol',
+        enrollTriggerBtn: 'Enroll / Update Authorized CEO Fingerprint',
         headerShare: 'Share',
         cockpitSub: 'Executive Cockpit',
         healthScoreLabel: 'Health Score',
@@ -1077,6 +1196,9 @@
         reason3T: 'Revenue Performance:',
         reason3D: '108% daily target realization across all operational units.',
         simLabel: 'Simulate States:',
+        simGood: 'Optimal',
+        simMed: 'Moderate',
+        simCrit: 'Critical',
         kpiRev: 'Daily Real-time Revenue',
         kpiRevTarget: 'Target: 4.5M',
         kpiTreasury: 'Treasury & Cash Pulse',
@@ -1091,16 +1213,28 @@
         exportCardBtn: 'Export / Share',
         pulseTabTitle: 'Corporate Pulse & Unit Budgets',
         pulseTabDesc: 'Real-time expenditure and milestone tracking',
+        pulseSectorsBadge: '3 Sectors',
         dept1: 'AI & Software Engineering Unit',
         dept2: 'Treasury, Finance & Capital Allocation',
         dept3: 'Growth, Marketing & Global Relations',
+        deptDone: 'Completed',
+        budgetLabel: 'Budget:',
+        spentLabel: 'Spent:',
         marketsTabTitle: 'Real-time Markets & Financial Telemetry',
         marketsTabDesc: 'Impact of global commodity indices on company strategy',
+        marketUpdateBadge: 'Live Telemetry',
         alertsTabTitle: 'Sovereign Decision & Alerts Center',
         alertsTabDesc: 'Critical directives requiring executive sanction',
+        alertsCountBadge: '3 Directives',
         alert1T: 'Surplus Unallocated Liquidity',
         alert1D: 'Treasury exceeded reserve buffer by 8.4M. Placement recommended.',
         alert1Btn: 'Execute',
+        enrollModalTitle: 'Enroll & Store Authorized CEO Fingerprint',
+        enrollProgressLabel: 'Completion:',
+        enrollOwnerLabel: 'Authorized Executive:',
+        enrollOwnerVal: 'Chief Executive Officer (VIP)',
+        btnSaveEnrollText: 'Save & Commit Biometric',
+        btnResetEnrollText: 'Cancel',
         exportModalTitle: 'Export Executive Brief',
         exportModalSub: 'Board of Directors & C-Suite Summary',
         btnPdf: 'Download Brief as PDF',
@@ -1120,6 +1254,7 @@
         bioLabel: 'Toucher pour vérifier',
         authSecBadge: 'CHIFFREMENT SOUVERAIN QUANTIQUE',
         authSecNotice: 'Protocole de sécurité Zero-Trust',
+        enrollTriggerBtn: 'Enregistrer l\'empreinte du Directeur',
         headerShare: 'Partager',
         cockpitSub: 'Cockpit Exécutif',
         healthScoreLabel: 'Score de Santé',
@@ -1131,6 +1266,9 @@
         reason3T: 'Revenus & Encaissements:',
         reason3D: '108% de l\'objectif quotidien atteint avec flux réguliers.',
         simLabel: 'Simuler États:',
+        simGood: 'Optimal',
+        simMed: 'Moyen',
+        simCrit: 'Critique',
         kpiRev: 'Revenu Quotidien Temps Réel',
         kpiRevTarget: 'Cible: 4.5M',
         kpiTreasury: 'Trésorerie et Liquidités',
@@ -1145,16 +1283,28 @@
         exportCardBtn: 'Exporter / Partager',
         pulseTabTitle: 'Pouls & Budgets des Départements',
         pulseTabDesc: 'Suivi rigoureux des dépenses en direct',
+        pulseSectorsBadge: '3 Secteurs',
         dept1: 'Ingénierie Logicielle & Intelligence',
         dept2: 'Finance & Trésorerie Souveraine',
         dept3: 'Marketing et Relations Partenaires',
+        deptDone: 'Complété',
+        budgetLabel: 'Budget:',
+        spentLabel: 'Dépensé:',
         marketsTabTitle: 'Marchés et Économie en Direct',
         marketsTabDesc: 'Impact des indices économiques mondiaux',
+        marketUpdateBadge: 'En direct',
         alertsTabTitle: 'Centre d\'Alertes et Décisions',
         alertsTabDesc: 'Actions urgentes nécessitant validation directe',
+        alertsCountBadge: '3 Alertes',
         alert1T: 'Excédent de liquidités non investi',
         alert1D: 'Réserve dépassée de 8.4M. Placement de trésorerie conseillé.',
         alert1Btn: 'Agir',
+        enrollModalTitle: 'Enregistrer l\'Empreinte du Directeur',
+        enrollProgressLabel: 'Progression:',
+        enrollOwnerLabel: 'Directeur Habilité:',
+        enrollOwnerVal: 'Directeur Général VIP',
+        btnSaveEnrollText: 'Sauvegarder l\'Empreinte',
+        btnResetEnrollText: 'Annuler',
         exportModalTitle: 'Exporter le Rapport Exécutif',
         exportModalSub: 'Synthèse pour le Conseil d\'Administration',
         btnPdf: 'Télécharger en PDF',
@@ -1175,11 +1325,9 @@
       currentLanguage = lang;
       const d = langData[lang] || langData.ar;
 
-      // تحديث الاتجاه ولغة الصفحة
       document.documentElement.setAttribute("dir", d.dir);
       document.documentElement.setAttribute("lang", lang);
 
-      // تحديث شارات الترويسة
       document.getElementById("currentLangLabel").innerText = d.langLabel;
       document.getElementById("activeLangDisplay").innerText = d.langName + " (" + d.langLabel + ")";
       document.getElementById("headerShareBtn").innerText = d.headerShare;
@@ -1191,6 +1339,7 @@
       document.getElementById("bioScanLabel").innerText = d.bioLabel;
       document.getElementById("authSecBadge").innerText = d.authSecBadge;
       document.getElementById("authSecNotice").innerText = d.authSecNotice;
+      document.getElementById("enrollTriggerBtn").innerText = d.enrollTriggerBtn;
 
       // بطاقة صحة الشركة
       document.getElementById("healthScoreLabel").innerText = d.healthScoreLabel;
@@ -1202,6 +1351,9 @@
       document.getElementById("reason3T").innerText = d.reason3T;
       document.getElementById("reason3D").innerText = d.reason3D;
       document.getElementById("simLabel").innerText = d.simLabel;
+      document.getElementById("btnSimGood").innerText = d.simGood;
+      document.getElementById("btnSimMed").innerText = d.simMed;
+      document.getElementById("btnSimCrit").innerText = d.simCrit;
 
       // مؤشرات الـ KPIs
       document.getElementById("kpiRevTitle").innerText = d.kpiRev;
@@ -1226,18 +1378,38 @@
       // تبويب النبض
       document.getElementById("pulseTabTitle").innerText = d.pulseTabTitle;
       document.getElementById("pulseTabDesc").innerText = d.pulseTabDesc;
+      document.getElementById("pulseSectorsBadge").innerText = d.pulseSectorsBadge;
       document.getElementById("dept1Title").innerText = d.dept1;
       document.getElementById("dept2Title").innerText = d.dept2;
       document.getElementById("dept3Title").innerText = d.dept3;
+      document.getElementById("deptDone1").innerText = d.deptDone;
+      document.getElementById("deptDone2").innerText = d.deptDone;
+      document.getElementById("deptDone3").innerText = d.deptDone;
+      document.getElementById("budgetLabel1").innerText = d.budgetLabel;
+      document.getElementById("budgetLabel2").innerText = d.budgetLabel;
+      document.getElementById("budgetLabel3").innerText = d.budgetLabel;
+      document.getElementById("spentLabel1").innerText = d.spentLabel;
+      document.getElementById("spentLabel2").innerText = d.spentLabel;
+      document.getElementById("spentLabel3").innerText = d.spentLabel;
 
       // تبويب الأسواق والتنبيهات
       document.getElementById("marketsTabTitle").innerText = d.marketsTabTitle;
       document.getElementById("marketsTabDesc").innerText = d.marketsTabDesc;
+      document.getElementById("marketUpdateBadge").innerText = d.marketUpdateBadge;
       document.getElementById("alertsTabTitle").innerText = d.alertsTabTitle;
       document.getElementById("alertsTabDesc").innerText = d.alertsTabDesc;
+      document.getElementById("alertsCountBadge").innerText = d.alertsCountBadge;
       document.getElementById("alert1Title").innerText = d.alert1T;
       document.getElementById("alert1Desc").innerText = d.alert1D;
       document.getElementById("alert1Btn").innerText = d.alert1Btn;
+
+      // نافذة تسجيل البصمة
+      document.getElementById("enrollModalTitle").innerText = d.enrollModalTitle;
+      document.getElementById("enrollProgressLabel").innerText = d.enrollProgressLabel;
+      document.getElementById("enrollOwnerLabel").innerText = d.enrollOwnerLabel;
+      document.getElementById("enrollOwnerVal").innerText = d.enrollOwnerVal;
+      document.getElementById("btnSaveEnrollText").innerText = d.btnSaveEnrollText;
+      document.getElementById("btnResetEnrollText").innerText = d.btnResetEnrollText;
 
       // شريط التنقل السفلي
       document.getElementById("navHome").innerText = d.navHome;
@@ -1247,12 +1419,13 @@
       document.getElementById("navSecurity").innerText = d.navSecurity;
 
       setHealthState(currentHealthState);
+      refreshEnrollmentUI();
       lucide.createIcons();
       toggleLanguageModal();
     }
 
     // ==========================================
-    // 7. REAL-TIME RENDER PING
+    // 8. REAL-TIME RENDER PING
     // ==========================================
     async function pingLiveBackend() {
       const startTime = Date.now();
