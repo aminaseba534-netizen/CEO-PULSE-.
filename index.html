@@ -39,7 +39,7 @@
 <body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
 
   <!-- ========================================== -->
-  <!-- 🔐 SCREEN 1: شاشة الدخول والتشفير السيادي (محمية بالكامل - لا تسجيل بصمة هنا) -->
+  <!-- 🔐 SCREEN 1: شاشة الدخول والتشفير السيادي (محمية ومقفلة) -->
   <!-- ========================================== -->
   <section id="authScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-between p-6 bg-[#090e1a] overflow-y-auto">
     <div class="w-full max-w-sm flex items-center justify-between pt-3 text-xs font-mono text-slate-400">
@@ -114,7 +114,7 @@
   </section>
 
   <!-- ========================================== -->
-  <!-- 🚀 MAIN APP CONTAINER (غرفة القيادة بعد تسجيل الدخول) -->
+  <!-- 🚀 MAIN APP CONTAINER (غرفة القيادة بعد فك القفل) -->
   <!-- ========================================== -->
   <div id="mainDashboard" class="hidden flex-1 flex flex-col pb-24 max-w-lg mx-auto w-full">
     
@@ -127,15 +127,15 @@
         <div>
           <div class="flex items-center gap-1.5">
             <h2 class="text-sm font-black tracking-tight text-white">CEO-PULSE</h2>
-            <span class="px-1.5 py-0.2 text-[10px] font-mono rounded bg-cyan-950 text-cyan-400 border border-cyan-800/50">v9.0</span>
+            <span class="px-1.5 py-0.2 text-[10px] font-mono rounded bg-cyan-950 text-cyan-400 border border-cyan-800/50">v9.5</span>
           </div>
           <p class="text-[10px] text-slate-400" data-i18n="cockpitSub">غرفة القيادة التنفيذية</p>
         </div>
       </div>
 
-      <!-- Controls: Enroll Vault Inside App, Share, Currency, Language, Lock -->
+      <!-- Header Controls -->
       <div class="flex items-center gap-1.5">
-        <!-- 🛡️ أيقونة تسجيل البصمة الداخلية الحصرية -->
+        <!-- زر تسجيل البصمة الداخلي المحمي -->
         <button type="button" onclick="openEnrollModal()" title="تسجيل وتخزين بصمة المدير بالداخل" class="h-8 px-2 rounded-lg bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 flex items-center gap-1 active:scale-95 transition">
           <i data-lucide="fingerprint" class="w-3.5 h-3.5 text-cyan-400"></i>
           <span class="text-[10px] font-bold" data-i18n="btnBioEnrollShort">البصمة</span>
@@ -1369,7 +1369,7 @@
       var activeLang = document.getElementById("activeLangDisplay");
       if (activeLang) activeLang.innerText = d.langName + " (" + d.langLabel + ")";
 
-      // 🌟 تحديث فوري 100% لكل كلمة تحتوي على data-i18n
+      // 🌟 تحديث فوري 100% لكل عنصر يحمل سمة data-i18n
       document.querySelectorAll("[data-i18n]").forEach(function(el) {
         var key = el.getAttribute("data-i18n");
         if (d[key]) {
