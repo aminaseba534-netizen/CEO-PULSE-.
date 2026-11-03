@@ -1399,6 +1399,66 @@
           if (telem) telem.innerText = "Render Online (Active)";
         });
     }
-  </script>
+  </script>// 100% Comprehensive Multi-Language Dictionary
+    var translations = {
+      ar: {
+        dir: 'rtl', langLabel: 'AR', langName: 'العربية',
+        healthTitle: 'النبض المؤسسي العام مستقر بنسبة 96%',
+        healthBadge: 'حالة الشركة: ممتازة جداً (Optimal)',
+        authTitle: 'غرفة القيادة السيادية التنفيذية',
+        tapForBio: 'المس للبصمة',
+        navHome: 'الرئيسية', navPulse: 'النبض', navMarkets: 'الأسواق', navAlerts: 'التنبيهات', navSecurity: 'الأمان'
+      },
+      en: {
+        dir: 'ltr', langLabel: 'EN', langName: 'English',
+        healthTitle: 'Overall Corporate Pulse Stable at 96%',
+        healthBadge: 'Company Status: Optimal (96%)',
+        authTitle: 'Sovereign Executive Cockpit',
+        tapForBio: 'Touch for Biometrics',
+        navHome: 'Cockpit', navPulse: 'Pulse', navMarkets: 'Markets', navAlerts: 'Alerts', navSecurity: 'Security'
+      },
+      fr: {
+        dir: 'ltr', langLabel: 'FR', langName: 'Français',
+        healthTitle: 'Pouls d\'entreprise global stable à 96%',
+        healthBadge: 'État de l\'entreprise: Optimal (96%)',
+        authTitle: 'Poste de Commandement Exécutif',
+        tapForBio: 'Toucher pour empreinte',
+        navHome: 'Accueil', navPulse: 'Pouls', navMarkets: 'Marchés', navAlerts: 'Alertes', navSecurity: 'Sécurité'
+      },
+      es: {
+        dir: 'ltr', langLabel: 'ES', langName: 'Español',
+        healthTitle: 'Pulso corporativo general estable al 96%',
+        healthBadge: 'Estado de la Empresa: Óptimo (96%)',
+        authTitle: 'Cabina Ejecutiva Soberana',
+        tapForBio: 'Toque para huella',
+        navHome: 'Inicio', navPulse: 'Pulso', navMarkets: 'Mercados', navAlerts: 'Alertas', navSecurity: 'Seguridad'
+      }
+    };
+
+    function applyLanguage(lang) {
+      var d = translations[lang] || translations.ar;
+      document.documentElement.setAttribute("dir", d.dir);
+      document.documentElement.setAttribute("lang", lang);
+
+      // تحديث فوري لكافة العناصر
+      document.querySelectorAll("[data-i18n]").forEach(function(el) {
+        var key = el.getAttribute("data-i18n");
+        if (d[key]) { el.innerText = d[key]; }
+      });
+
+      // إصلاح جملة النبض وحالة الشركة فوراً لكل اللغات
+      var titleEl = document.getElementById("healthTitle");
+      var badgeEl = document.getElementById("healthBadge");
+      if (titleEl && d.healthTitle) titleEl.innerText = d.healthTitle;
+      if (badgeEl && d.healthBadge) badgeEl.innerText = d.healthBadge;
+
+      var curLang = document.getElementById("currentLangLabel");
+      if (curLang) curLang.innerText = d.langLabel;
+      var activeLang = document.getElementById("activeLangDisplay");
+      if (activeLang) activeLang.innerText = d.langName + " (" + d.langLabel + ")";
+
+      if (window.lucide) { lucide.createIcons(); }
+      toggleLanguageModal();
+    }
 </body>
 </html>
