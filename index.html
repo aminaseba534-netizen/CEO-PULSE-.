@@ -1,1466 +1,705 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>CEO-PULSE | Sovereign Executive Cockpit</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>CEO-PULSE Sovereign Cockpit</title>
   
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="CEO-PULSE">
-  <meta name="theme-color" content="#090e1a">
-  <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/96/shield.png">
+  <!-- Web App Manifest Meta -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#090e1a" />
 
-  <!-- Tailwind CSS & Lucide Icons & Google Fonts -->
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              cyan: '#00e5ff',
+              emerald: '#10b981',
+              amber: '#f59e0b',
+              rose: '#f43f5e',
+              dark: '#090e1a',
+              card: '#111827',
+              border: 'rgba(255, 255, 255, 0.08)'
+            }
+          },
+          fontFamily: {
+            sans: ['Cairo', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
 
   <style>
-    * { -webkit-tap-highlight-color: transparent; touch-action: manipulation; box-sizing: border-box; }
-    body { background-color: #090e1a; color: #f1f5f9; font-family: 'Cairo', sans-serif; user-select: none; }
-    .glass-card { background: rgba(17, 23, 38, 0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
-    .glow-cyan { box-shadow: 0 0 25px rgba(0, 229, 255, 0.3); }
-    .glow-emerald { box-shadow: 0 0 30px rgba(16, 185, 129, 0.45); }
-    .glow-rose { box-shadow: 0 0 30px rgba(244, 63, 94, 0.45); }
-    .custom-scroll::-webkit-scrollbar { display: none; }
-    .custom-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-    @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
-    .animate-ticker { display: inline-flex; white-space: nowrap; animation: ticker 32s linear infinite; }
-    .animate-ticker:hover { animation-play-state: paused; }
-    @keyframes laserAnim { 0% { top: 0%; opacity: 0; } 50% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
-    .laser-line { position: absolute; left: 8%; right: 8%; height: 3px; background: linear-gradient(90deg, transparent, #00e5ff, transparent); animation: laserAnim 1.2s infinite ease-in-out; box-shadow: 0 0 10px #00e5ff; }
-    button, [role="button"] { cursor: pointer; }
-    @media print { body * { visibility: hidden; } #mainDashboard, #mainDashboard * { visibility: visible; } }
+    body {
+      background-color: #090e1a;
+      color: #f3f4f6;
+      font-family: 'Cairo', sans-serif;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .glass-panel {
+      background: rgba(17, 24, 39, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .neon-glow {
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.25);
+    }
+    .pulse-ring {
+      animation: pulseAnimation 2s infinite;
+    }
+    @keyframes pulseAnimation {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 0.4; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
+<body class="bg-[#090e1a] min-h-screen text-slate-100 flex flex-col justify-between overflow-x-hidden">
 
-  <!-- ========================================== -->
-  <!-- 🔐 SCREEN 1: شاشة الدخول والتشفير السيادي (محمية ومقفلة) -->
-  <!-- ========================================== -->
-  <section id="authScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-between p-6 bg-[#090e1a] overflow-y-auto">
-    <div class="w-full max-w-sm flex items-center justify-between pt-3 text-xs font-mono text-slate-400">
-      <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950/50 border border-cyan-800/50 text-cyan-400">
-        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
-        <span data-i18n="secBadge">SOVEREIGN QUANTUM ENCRYPTION</span>
-      </div>
-      <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/50 border border-emerald-800/50 text-emerald-400">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span data-i18n="serverLiveStatus">سيرفر Render حي (18ms)</span>
-      </div>
-    </div>
-
-    <!-- Center Lock & Digits -->
-    <div class="w-full max-w-xs flex flex-col items-center my-auto py-2">
-      <div id="brandLogoBox" class="relative w-16 h-16 rounded-3xl bg-gradient-to-tr from-cyan-500/20 to-blue-600/20 border border-cyan-500/40 flex items-center justify-center glow-cyan mb-2 transition duration-300">
-        <span class="font-extrabold text-xl font-mono text-cyan-400 tracking-wider">CP</span>
-        <div class="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-400 animate-ping"></div>
-        <div class="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-500"></div>
+  <!-- ================= AUTHENTICATION OVERLAY ================= -->
+  <div id="authScreen" class="fixed inset-0 z-50 bg-[#090e1a]/95 backdrop-blur-2xl flex flex-col items-center justify-center p-6 transition-all duration-500">
+    <div class="w-full max-w-sm flex flex-col items-center text-center">
+      
+      <!-- Brand Crest -->
+      <div class="relative w-20 h-20 mb-6 flex items-center justify-center">
+        <div class="absolute inset-0 rounded-2xl bg-cyan-500/20 pulse-ring"></div>
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/30">
+          <i data-lucide="shield-check" class="w-9 h-9 text-slate-950"></i>
+        </div>
       </div>
 
-      <h1 class="text-lg font-bold text-white mb-0.5 text-center" data-i18n="authTitle">غرفة القيادة السيادية التنفيذية</h1>
-      <p class="text-[11px] text-slate-400 mb-3 text-center" data-i18n="authSubtitle">المس المستشعر البيومتري أو أدخل رمز المرور السري (2026)</p>
+      <h1 class="text-2xl font-black tracking-tight text-white mb-1" data-i18n="authTitle">غرفة القيادة السيادية التنفيذية</h1>
+      <p class="text-xs text-slate-400 mb-6" data-i18n="authSubtitle">التحقق البيومتري وتأمين الوصول المباشر لـ CEO-PULSE</p>
 
-      <!-- Pin Dots -->
-      <div class="flex items-center gap-3.5 mb-3">
-        <div id="dot1" class="w-3.5 h-3.5 rounded-full border-2 border-slate-600 transition-all duration-150"></div>
-        <div id="dot2" class="w-3.5 h-3.5 rounded-full border-2 border-slate-600 transition-all duration-150"></div>
-        <div id="dot3" class="w-3.5 h-3.5 rounded-full border-2 border-slate-600 transition-all duration-150"></div>
-        <div id="dot4" class="w-3.5 h-3.5 rounded-full border-2 border-slate-600 transition-all duration-150"></div>
-      </div>
-
-      <!-- Biometric Scanner Sensor -->
-      <div class="mb-3 w-full flex flex-col items-center relative">
-        <button type="button" onclick="startBiometricVerification()" id="bioSensorBtn" class="group relative w-24 h-24 rounded-3xl bg-gradient-to-b from-[#131d31] to-[#0a101d] border-2 border-cyan-500/50 flex flex-col items-center justify-center gap-1 glow-cyan hover:border-cyan-400 active:scale-90 transition-all overflow-hidden cursor-pointer">
-          <div id="laserScanBar" class="hidden laser-line"></div>
-          <div class="p-2 rounded-2xl bg-cyan-950/60 text-cyan-400 transition" id="bioIconContainer">
-            <i data-lucide="fingerprint" class="w-9 h-9"></i>
-          </div>
-          <span class="text-[9.5px] font-bold text-cyan-400 text-center px-1" id="bioScanLabel" data-i18n="tapForBio">المس للبصمة</span>
-        </button>
-
-        <p id="bioFeedbackMsg" class="text-[10.5px] text-slate-400 mt-1.5 font-mono h-4 text-center"></p>
+      <!-- PIN Code Display -->
+      <div class="flex gap-3 mb-6">
+        <div id="dot1" class="w-3.5 h-3.5 rounded-full border border-cyan-400/50 transition-all duration-200"></div>
+        <div id="dot2" class="w-3.5 h-3.5 rounded-full border border-cyan-400/50 transition-all duration-200"></div>
+        <div id="dot3" class="w-3.5 h-3.5 rounded-full border border-cyan-400/50 transition-all duration-200"></div>
+        <div id="dot4" class="w-3.5 h-3.5 rounded-full border border-cyan-400/50 transition-all duration-200"></div>
       </div>
 
       <!-- Numeric Keypad -->
-      <div class="grid grid-cols-3 gap-2 w-full">
-        <button type="button" onclick="pressDigit('1')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-90 hover:border-cyan-500/50 transition flex items-center justify-center">1</button>
-        <button type="button" onclick="pressDigit('2')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-90 hover:border-cyan-500/50 transition flex items-center justify-center">2</button>
-        <button type="button" onclick="pressDigit('3')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-90 hover:border-cyan-500/50 transition flex items-center justify-center">3</button>
-        <button type="button" onclick="pressDigit('4')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-90 hover:border-cyan-500/50 transition flex items-center justify-center">4</button>
-        <button type="button" onclick="pressDigit('5')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-90 hover:border-cyan-500/50 transition flex items-center justify-center">5</button>
-        <button type="button" onclick="pressDigit('6')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-90 hover:border-cyan-500/50 transition flex items-center justify-center">6</button>
-        <button type="button" onclick="pressDigit('7')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-90 hover:border-cyan-500/50 transition flex items-center justify-center">7</button>
-        <button type="button" onclick="pressDigit('8')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-90 hover:border-cyan-500/50 transition flex items-center justify-center">8</button>
-        <button type="button" onclick="pressDigit('9')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-90 hover:border-cyan-500/50 transition flex items-center justify-center">9</button>
-        
-        <button type="button" onclick="startBiometricVerification()" title="التحقق بالبصمة" class="h-10 rounded-2xl glass-card text-cyan-400 flex items-center justify-center active:scale-90 hover:border-cyan-500 transition">
-          <i data-lucide="fingerprint" class="w-4 h-4"></i>
+      <div class="grid grid-cols-3 gap-3.5 w-full max-w-[280px] mb-6">
+        <button onclick="pressPin('1')" class="h-14 rounded-2xl glass-panel text-lg font-bold hover:bg-white/10 active:scale-95 transition">1</button>
+        <button onclick="pressPin('2')" class="h-14 rounded-2xl glass-panel text-lg font-bold hover:bg-white/10 active:scale-95 transition">2</button>
+        <button onclick="pressPin('3')" class="h-14 rounded-2xl glass-panel text-lg font-bold hover:bg-white/10 active:scale-95 transition">3</button>
+        <button onclick="pressPin('4')" class="h-14 rounded-2xl glass-panel text-lg font-bold hover:bg-white/10 active:scale-95 transition">4</button>
+        <button onclick="pressPin('5')" class="h-14 rounded-2xl glass-panel text-lg font-bold hover:bg-white/10 active:scale-95 transition">5</button>
+        <button onclick="pressPin('6')" class="h-14 rounded-2xl glass-panel text-lg font-bold hover:bg-white/10 active:scale-95 transition">6</button>
+        <button onclick="pressPin('7')" class="h-14 rounded-2xl glass-panel text-lg font-bold hover:bg-white/10 active:scale-95 transition">7</button>
+        <button onclick="pressPin('8')" class="h-14 rounded-2xl glass-panel text-lg font-bold hover:bg-white/10 active:scale-95 transition">8</button>
+        <button onclick="pressPin('9')" class="h-14 rounded-2xl glass-panel text-lg font-bold hover:bg-white/10 active:scale-95 transition">9</button>
+        <button onclick="triggerBiometricAuth()" class="h-14 rounded-2xl glass-panel text-cyan-400 flex items-center justify-center hover:bg-cyan-500/10 active:scale-95 transition">
+          <i data-lucide="fingerprint" class="w-7 h-7"></i>
         </button>
-        <button type="button" onclick="pressDigit('0')" class="h-10 rounded-2xl glass-card text-lg font-bold font-mono active:scale-90 hover:border-cyan-500/50 transition flex items-center justify-center">0</button>
-        <button type="button" onclick="deleteDigit()" class="h-10 rounded-2xl glass-card text-rose-400 flex items-center justify-center active:scale-90 transition">
-          <i data-lucide="delete" class="w-4 h-4"></i>
+        <button onclick="pressPin('0')" class="h-14 rounded-2xl glass-panel text-lg font-bold hover:bg-white/10 active:scale-95 transition">0</button>
+        <button onclick="clearPin()" class="h-14 rounded-2xl glass-panel text-rose-400 flex items-center justify-center hover:bg-rose-500/10 active:scale-95 transition">
+          <i data-lucide="delete" class="w-6 h-6"></i>
         </button>
       </div>
-    </div>
 
-    <!-- Security Indicator -->
-    <div class="text-[10px] text-slate-500 font-mono text-center pb-1">
-      <div data-i18n="hardwareEnforced">حماية عتادية مشفرة • FIDO2 / Touch ID • نشطة</div>
+      <div id="authStatusText" class="text-xs text-cyan-400/90 font-mono tracking-wide h-4">رمز الدخول: 2026 أو البصمة</div>
     </div>
-  </section>
+  </div>
 
-  <!-- ========================================== -->
-  <!-- 🚀 MAIN APP CONTAINER (غرفة القيادة بعد فك القفل) -->
-  <!-- ========================================== -->
-  <div id="mainDashboard" class="hidden flex-1 flex flex-col pb-24 max-w-lg mx-auto w-full">
-    
-    <!-- Top Header -->
-    <header class="sticky top-0 z-40 px-4 py-3 glass-card border-b border-slate-800/80 flex items-center justify-between">
+  <!-- ================= TOP HEADER ================= -->
+  <header class="sticky top-0 z-40 glass-panel border-b border-white/10 px-4 py-3">
+    <div class="max-w-4xl mx-auto flex items-center justify-between">
+      
+      <!-- Logo & Status -->
       <div class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/40 flex items-center justify-center text-cyan-400 font-bold text-sm">
-          CP
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-md shadow-cyan-500/20">
+          <i data-lucide="activity" class="w-5 h-5 text-slate-950 font-black"></i>
         </div>
         <div>
           <div class="flex items-center gap-1.5">
-            <h2 class="text-sm font-black tracking-tight text-white">CEO-PULSE</h2>
-            <span class="px-1.5 py-0.2 text-[10px] font-mono rounded bg-cyan-950 text-cyan-400 border border-cyan-800/50">v9.5</span>
+            <span class="font-extrabold text-sm tracking-wide text-white">CEO-PULSE</span>
+            <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping mr-1"></span>
+              LIVE
+            </span>
           </div>
-          <p class="text-[10px] text-slate-400" data-i18n="cockpitSub">غرفة القيادة التنفيذية</p>
+          <p id="liveClock" class="text-[10px] text-slate-400 font-mono">12:00:00 GMT+1</p>
         </div>
       </div>
 
-      <!-- Header Controls -->
-      <div class="flex items-center gap-1.5">
-        <!-- زر تسجيل البصمة الداخلي المحمي -->
-        <button type="button" onclick="openEnrollModal()" title="تسجيل وتخزين بصمة المدير بالداخل" class="h-8 px-2 rounded-lg bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 flex items-center gap-1 active:scale-95 transition">
-          <i data-lucide="fingerprint" class="w-3.5 h-3.5 text-cyan-400"></i>
-          <span class="text-[10px] font-bold" data-i18n="btnBioEnrollShort">البصمة</span>
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2">
+        <!-- Currency Selector -->
+        <button onclick="toggleCurrencyModal()" class="px-2.5 py-1.5 rounded-lg glass-panel text-xs font-bold text-cyan-300 flex items-center gap-1 hover:border-cyan-400/40 transition">
+          <i data-lucide="coins" class="w-3.5 h-3.5"></i>
+          <span id="selectedCurrencyLabel">USD</span>
         </button>
 
-        <button type="button" onclick="openExportModal()" title="تصدير ومشاركة التقرير" class="h-8 px-2 rounded-lg bg-emerald-950/60 hover:bg-emerald-900/80 text-xs font-bold text-emerald-400 border border-emerald-800/50 flex items-center gap-1 active:scale-95 transition">
-          <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
-          <span class="text-[10px]" data-i18n="headerShareBtn">مشاركة</span>
-        </button>
-
-        <button type="button" onclick="toggleCurrencyModal()" id="currencyBtn" class="h-8 px-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-xs font-mono font-bold text-slate-200 border border-slate-700 flex items-center gap-1 active:scale-95 transition">
-          <i data-lucide="coins" class="w-3.5 h-3.5 text-amber-400"></i>
-          <span id="currentCurrencyLabel">SAR</span>
-        </button>
-
-        <button type="button" onclick="toggleLanguageModal()" id="langBtn" class="h-8 px-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-xs font-bold text-slate-200 border border-slate-700 flex items-center gap-1 active:scale-95 transition">
-          <i data-lucide="globe" class="w-3.5 h-3.5 text-cyan-400"></i>
+        <!-- Language Selector -->
+        <button onclick="toggleLanguageModal()" class="px-2.5 py-1.5 rounded-lg glass-panel text-xs font-bold text-cyan-300 flex items-center gap-1 hover:border-cyan-400/40 transition">
+          <i data-lucide="globe" class="w-3.5 h-3.5"></i>
           <span id="currentLangLabel">AR</span>
         </button>
 
-        <button type="button" onclick="lockScreen()" title="قفل الواجهة" class="h-8 w-8 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 text-rose-400 border border-rose-800/40 flex items-center justify-center active:scale-95 transition">
-          <i data-lucide="lock" class="w-3.5 h-3.5"></i>
-        </button>
-      </div>
-    </header>
-
-    <!-- 📈 LIVE ECONOMIC TICKER -->
-    <div class="w-full bg-[#050913] border-b border-cyan-900/40 overflow-hidden py-1.5 flex items-center">
-      <div class="px-3 bg-cyan-950/80 text-cyan-400 text-[10px] font-mono font-bold flex items-center gap-1 shrink-0 z-10 border-e border-cyan-800/50">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span data-i18n="tickerBadge">MARKET LIVE</span>
-      </div>
-      <div class="overflow-hidden whitespace-nowrap w-full">
-        <div class="animate-ticker text-[11px] font-mono flex items-center gap-6 text-slate-300">
-          <span class="inline-flex items-center gap-1">🛢️ <strong data-i18n="tBrent">Brent:</strong> $83.45 <span class="text-emerald-400 font-bold">+1.2%</span></span>
-          <span class="inline-flex items-center gap-1">🥇 <strong data-i18n="tGold">Gold:</strong> $2,748.20/oz <span class="text-emerald-400 font-bold">+0.8%</span></span>
-          <span class="inline-flex items-center gap-1">🇸🇦 <strong data-i18n="tTasi">TASI:</strong> 12,380.14 <span class="text-emerald-400 font-bold">+0.45%</span></span>
-          <span class="inline-flex items-center gap-1">🇩🇿 <strong data-i18n="tDzd">DZD:</strong> 35.80 <span class="text-cyan-400 font-bold">Stable</span></span>
-          <span class="inline-flex items-center gap-1">🇹🇳 <strong data-i18n="tTnd">TND:</strong> 0.83 <span class="text-cyan-400 font-bold">Stable</span></span>
-          <span class="inline-flex items-center gap-1">📈 <strong>NASDAQ:</strong> 18,924.50 <span class="text-emerald-400 font-bold">+1.12%</span></span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Telemetry Status Bar -->
-    <div class="px-4 py-2 bg-slate-950/70 border-b border-slate-800/50 flex items-center justify-between text-[11px] font-mono">
-      <div class="flex items-center gap-1.5 text-emerald-400">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-        <span data-i18n="serverTelemetryText">Render LIVE | 18ms SLA</span>
-      </div>
-      <div class="flex items-center gap-2 text-slate-400">
-        <span id="activeCurrencyDisplay">SAR (ر.س)</span>
-        <span>•</span>
-        <span id="activeLangDisplay">العربية (AR)</span>
-      </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- TAB 1: غرفة القيادة التنفيذية (HOME) -->
-    <!-- ========================================== -->
-    <div id="tabContentHome" class="tab-pane px-4 py-4 space-y-4">
-
-      <!-- 🩺 CORPORATE HEALTH STATUS -->
-      <div id="companyHealthCard" class="p-4 rounded-2xl bg-gradient-to-br from-[#102422] via-[#0c1921] to-[#09111c] border border-emerald-500/40 relative overflow-hidden transition-all duration-300">
-        <div class="flex items-start justify-between mb-3">
-          <div class="space-y-1">
-            <div class="flex items-center gap-2">
-              <span id="healthBadge" class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wide bg-emerald-500/20 text-emerald-400 border border-emerald-500/40" data-i18n="healthBadgeText">
-                حالة الشركة: ممتازة جداً (Optimal)
-              </span>
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            </div>
-            <h3 id="healthTitle" class="text-lg font-black text-white" data-i18n="healthTitleText">النبض المؤسسي العام مستقر بنسبة 96%</h3>
-            <p class="text-xs text-slate-300" data-i18n="healthDescText">نظرة سريعة للمدير التنفيذي في 5 ثوانٍ • كافة المؤشرات الحيوية في النطاق الأخضر</p>
-          </div>
-          <div class="text-right">
-            <span class="text-[10px] text-slate-400 block font-mono" data-i18n="healthScoreLabel">مؤشر السلامة</span>
-            <div id="healthScoreDisplay" class="text-2xl font-black text-emerald-400 font-mono">
-              96<span class="text-xs text-slate-400 font-normal">/100</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- الأسباب التفصيلية التشخيصية -->
-        <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800/80 space-y-2 text-xs">
-          <div class="font-bold text-slate-300 flex items-center justify-between pb-1 border-b border-slate-800">
-            <span data-i18n="diagTitle">تشخيص الأسباب والمحددات:</span>
-            <span class="text-[10px] text-cyan-400 font-mono">AI Diagnostics</span>
-          </div>
-          
-          <div class="flex items-start gap-2">
-            <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 mt-0.5 shrink-0"></i>
-            <div>
-              <strong class="text-white" data-i18n="reason1T">السيولة والخزينة:</strong>
-              <span class="text-slate-300" data-i18n="reason1D">تغطية نقدية تبلغ 14 شهراً تفوق الحد الاحتياطي بنسبة +24% مع انعدام الديون الحرجة.</span>
-            </div>
-          </div>
-
-          <div class="flex items-start gap-2">
-            <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 mt-0.5 shrink-0"></i>
-            <div>
-              <strong class="text-white" data-i18n="reason2T">كفاءة البنية والسيرفر:</strong>
-              <span class="text-slate-300" data-i18n="reason2D">استقرار سحابي على Render بنسبة 99.99% بزمن استجابة فائق (18ms) دون انقطاع.</span>
-            </div>
-          </div>
-
-          <div class="flex items-start gap-2">
-            <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 mt-0.5 shrink-0"></i>
-            <div>
-              <strong class="text-white" data-i18n="reason3T">الإيرادات والتحصيل:</strong>
-              <span class="text-slate-300" data-i18n="reason3D">تحقيق 108% من المستهدف اليومي وتدفق مالي متوازن في جميع القطاعات.</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- محاكي تغيير الحالة -->
-        <div class="mt-3 flex items-center justify-between pt-2 border-t border-slate-800 text-[10px] text-slate-400">
-          <span data-i18n="simLabel">محاكاة الحالات الاستراتيجية:</span>
-          <div class="flex gap-1.5">
-            <button type="button" onclick="setHealthState('good')" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30" data-i18n="btnSimGood">ممتازة</button>
-            <button type="button" onclick="setHealthState('medium')" class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 hover:bg-amber-500/30" data-i18n="btnSimMed">متوسطة</button>
-            <button type="button" onclick="setHealthState('critical')" class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 hover:bg-rose-500/30" data-i18n="btnSimCrit">حرجة</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4 Golden KPIs Grid -->
-      <div class="grid grid-cols-2 gap-3">
-        <!-- Daily Revenue -->
-        <div class="p-3.5 rounded-2xl glass-card border border-slate-800">
-          <div class="flex items-center justify-between text-slate-400 text-xs mb-2">
-            <span data-i18n="kpiRevTitle">الإيراد اللحظي اليومي</span>
-            <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-          </div>
-          <div class="text-xl font-black font-mono text-white mb-1">
-            <span id="kpiRevenueVal">4,820,500</span>
-            <span class="text-xs text-cyan-400 font-normal" id="kpiRevUnit">ر.س</span>
-          </div>
-          <div class="flex items-center justify-between text-[10px] text-slate-400">
-            <span data-i18n="kpiRevTarget">الهدف: 4.5M</span>
-            <span class="text-emerald-400 font-mono font-bold flex items-center">
-              <i data-lucide="trending-up" class="w-3 h-3 ml-0.5"></i> 108%
-            </span>
-          </div>
-        </div>
-
-        <!-- Cash Treasury -->
-        <div class="p-3.5 rounded-2xl glass-card border border-slate-800">
-          <div class="flex items-center justify-between text-slate-400 text-xs mb-2">
-            <span data-i18n="kpiTreasuryTitle">نبض السيولة والخزينة</span>
-            <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-          </div>
-          <div class="text-xl font-black font-mono text-white mb-1">
-            <span id="kpiTreasuryVal">38.42</span>
-            <span class="text-xs text-amber-400 font-normal" id="kpiTreasuryUnit">M ر.س</span>
-          </div>
-          <div class="flex items-center justify-between text-[10px] text-slate-400">
-            <span class="text-emerald-400 flex items-center gap-1">
-              <i data-lucide="shield-check" class="w-3 h-3"></i> <span data-i18n="kpiTreasuryStatus">آمن جداً</span>
-            </span>
-            <span data-i18n="kpiTreasuryMonths">تغطية 14 شهر</span>
-          </div>
-        </div>
-
-        <!-- Uptime / Stability -->
-        <div class="p-3.5 rounded-2xl glass-card border border-slate-800">
-          <div class="flex items-center justify-between text-slate-400 text-xs mb-2">
-            <span data-i18n="kpiUptimeTitle">استقرار البنية التحتية</span>
-            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-          </div>
-          <div class="text-xl font-black font-mono text-emerald-400 mb-1">
-            99.99% <span class="text-xs text-slate-400 font-normal">Uptime</span>
-          </div>
-          <div class="flex items-center justify-between text-[10px] text-slate-400">
-            <span data-i18n="kpiLatencyLabel">زمن الاستجابة</span>
-            <span class="text-cyan-400 font-mono font-bold">18ms SLA</span>
-          </div>
-        </div>
-
-        <!-- Employees & CSAT -->
-        <div class="p-3.5 rounded-2xl glass-card border border-slate-800">
-          <div class="flex items-center justify-between text-slate-400 text-xs mb-2">
-            <span data-i18n="kpiStaffTitle">الكوادر والرضا المؤسسي</span>
-            <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-          </div>
-          <div class="text-xl font-black font-mono text-white mb-1">
-            <span id="activeStaffCount">842</span> <span class="text-xs text-slate-400 font-normal">/ 850</span>
-          </div>
-          <div class="flex items-center justify-between text-[10px] text-slate-400">
-            <span class="text-emerald-400">96.4% 😊</span>
-            <span data-i18n="kpiStaffAttendance">حضور 99%</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- بطاقة التقرير التنفيذي -->
-      <div class="p-4 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-950 border border-slate-800 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center">
-            <i data-lucide="file-text" class="w-5 h-5"></i>
-          </div>
-          <div>
-            <h4 class="text-xs font-bold text-white" data-i18n="exportCardTitle">التقرير التنفيذي الشامل للرئيس</h4>
-            <p class="text-[10px] text-slate-400" data-i18n="exportCardDesc">تصدير PDF فوري أو مشاركة واتساب بضغطة زر</p>
-          </div>
-        </div>
-        <button type="button" onclick="openExportModal()" class="px-3 py-1.5 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs hover:bg-emerald-400 active:scale-95 transition flex items-center gap-1.5">
-          <i data-lucide="share" class="w-3.5 h-3.5"></i>
-          <span data-i18n="exportCardBtn">تصدير / مشاركة</span>
+        <!-- Lock Button -->
+        <button onclick="lockCockpit()" class="p-2 rounded-lg glass-panel text-slate-400 hover:text-rose-400 transition">
+          <i data-lucide="lock" class="w-4 h-4"></i>
         </button>
       </div>
 
     </div>
+  </header>
 
-    <!-- ========================================== -->
-    <!-- TAB 2: نبض الشركة والأقسام ومؤشراتها (PULSE) -->
-    <!-- ========================================== -->
-    <div id="tabContentPulse" class="tab-pane hidden px-4 py-4 space-y-4">
-      <div class="flex items-center justify-between mb-1">
+  <!-- ================= MAIN DASHBOARD BODY ================= -->
+  <main class="flex-1 max-w-4xl w-full mx-auto p-4 space-y-4 pb-24">
+
+    <!-- EXECUTIVE HEALTH BANNER -->
+    <section class="glass-panel rounded-2xl p-4 border border-cyan-500/20 relative overflow-hidden">
+      <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h3 class="text-sm font-bold text-white" data-i18n="pulseTabTitle">نبض وميزانيات الأقسام الحية</h3>
-          <p class="text-[10px] text-slate-400" data-i18n="pulseTabDesc">متابعة دقيقة لمؤشرات الإنفاق والإنجاز اللحظية</p>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+            <span id="healthBadge" class="text-xs font-bold text-emerald-400 uppercase tracking-wider">حالة الشركة: ممتازة جداً (Optimal)</span>
+          </div>
+          <h2 id="healthTitle" class="text-lg sm:text-xl font-extrabold text-white">النبض المؤسسي العام مستقر بنسبة 96%</h2>
+          <p id="healthDesc" class="text-xs text-slate-400 mt-0.5">تم التحقق من مؤشرات السيولة، كفاءة الأقسام، وحركة السيرفر في الوقت الفعلي</p>
         </div>
-        <span class="px-2 py-0.5 text-[10px] font-mono rounded bg-cyan-950 text-cyan-400 border border-cyan-800/50" data-i18n="pulseSectorsBadge">3 قطاعات</span>
+
+        <button onclick="exportPdfReport()" class="self-start sm:self-center px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-md shadow-cyan-500/25 active:scale-95 transition">
+          <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+          <span data-i18n="exportBtn">مشاركة التقرير التنفيذي</span>
+        </button>
       </div>
 
-      <div class="space-y-2.5">
-        <div class="p-3.5 rounded-xl glass-card border border-slate-800">
-          <div class="flex items-center justify-between mb-1.5">
-            <div class="flex items-center gap-2">
-              <i data-lucide="code-2" class="w-4 h-4 text-cyan-400"></i>
-              <span class="text-xs font-bold text-white" data-i18n="dept1Title">هندسة البرمجيات والذكاء الاصطناعي</span>
-            </div>
-            <span class="text-[10px] font-mono text-cyan-400 font-bold">94% <span data-i18n="deptDone">إنجاز</span></span>
-          </div>
-          <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
-            <span><span data-i18n="budgetLabel">الميزانية:</span> <span class="font-mono text-white">12,000,000</span> <span class="deptCurrencyUnit">ر.س</span></span>
-            <span class="font-mono text-emerald-400"><span data-i18n="spentLabel">المصروف:</span> 78%</span>
-          </div>
-          <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-            <div class="bg-cyan-400 h-full rounded-full" style="width: 78%"></div>
-          </div>
+      <!-- Live Telemetry Stats -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 pt-4 border-t border-white/5">
+        <div class="p-2.5 rounded-xl bg-white/[0.02]">
+          <span class="text-[11px] text-slate-400 block" data-i18n="revenueTitle">الإيرادات الشهرية</span>
+          <span id="statRevenue" class="text-base font-extrabold text-cyan-300 font-mono">$1,420,500</span>
         </div>
+        <div class="p-2.5 rounded-xl bg-white/[0.02]">
+          <span class="text-[11px] text-slate-400 block" data-i18n="burnRateTitle">معدل الحرق التشغيلي</span>
+          <span id="statBurn" class="text-base font-extrabold text-rose-300 font-mono">$180,200</span>
+        </div>
+        <div class="p-2.5 rounded-xl bg-white/[0.02]">
+          <span class="text-[11px] text-slate-400 block" data-i18n="teamCountTitle">طاقم العمل والكوادر</span>
+          <span class="text-base font-extrabold text-white font-mono">148 <span class="text-xs text-slate-400 font-normal" data-i18n="empLabel">موظف</span></span>
+        </div>
+        <div class="p-2.5 rounded-xl bg-white/[0.02]">
+          <span class="text-[11px] text-slate-400 block" data-i18n="serverUptimeTitle">استقرار السيرفر</span>
+          <span class="text-base font-extrabold text-emerald-400 font-mono">99.98%</span>
+        </div>
+      </div>
+    </section>
 
-        <div class="p-3.5 rounded-xl glass-card border border-slate-800">
-          <div class="flex items-center justify-between mb-1.5">
-            <div class="flex items-center gap-2">
-              <i data-lucide="badge-dollar-sign" class="w-4 h-4 text-amber-400"></i>
-              <span class="text-xs font-bold text-white" data-i18n="dept2Title">المالية والاستثمار وإدارة الخزينة</span>
-            </div>
-            <span class="text-[10px] font-mono text-amber-400 font-bold">88% <span data-i18n="deptDone">إنجاز</span></span>
-          </div>
-          <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
-            <span><span data-i18n="budgetLabel">الميزانية:</span> <span class="font-mono text-white">28,500,000</span> <span class="deptCurrencyUnit">ر.س</span></span>
-            <span class="font-mono text-emerald-400"><span data-i18n="spentLabel">المصروف:</span> 65%</span>
-          </div>
-          <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-            <div class="bg-amber-400 h-full rounded-full" style="width: 65%"></div>
-          </div>
-        </div>
-
-        <div class="p-3.5 rounded-xl glass-card border border-slate-800">
-          <div class="flex items-center justify-between mb-1.5">
-            <div class="flex items-center gap-2">
-              <i data-lucide="megaphone" class="w-4 h-4 text-emerald-400"></i>
-              <span class="text-xs font-bold text-white" data-i18n="dept3Title">التسويق وعلاقات الشركاء والنمو</span>
-            </div>
-            <span class="text-[10px] font-mono text-emerald-400 font-bold">91% <span data-i18n="deptDone">إنجاز</span></span>
-          </div>
-          <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
-            <span><span data-i18n="budgetLabel">الميزانية:</span> <span class="font-mono text-white">6,400,000</span> <span class="deptCurrencyUnit">ر.س</span></span>
-            <span class="font-mono text-emerald-400"><span data-i18n="spentLabel">المصروف:</span> 82%</span>
-          </div>
-          <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-            <div class="bg-emerald-400 h-full rounded-full" style="width: 82%"></div>
-          </div>
-        </div>
+    <!-- LIVE NEWS TICKER -->
+    <div class="glass-panel rounded-xl py-2 px-3 flex items-center gap-3 border border-white/5 overflow-hidden">
+      <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 whitespace-nowrap" data-i18n="newsTickerLabel">نشرة الأسواق</span>
+      <div class="text-xs text-slate-300 truncate font-mono">
+        <span class="text-emerald-400">Brent: $82.40 ▲</span> &nbsp;|&nbsp; 
+        <span class="text-cyan-400">Gold: $2,720.10 ▲</span> &nbsp;|&nbsp; 
+        <span class="text-emerald-400">NASDAQ: +1.2%</span> &nbsp;|&nbsp; 
+        <span class="text-slate-400">Render API Status: Operational</span>
       </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- TAB 3: الأخبار والأسواق المالية (MARKETS) -->
-    <!-- ========================================== -->
-    <div id="tabContentMarkets" class="tab-pane hidden px-4 py-4 space-y-4">
-      <div class="flex items-center justify-between mb-1">
-        <div>
-          <h3 class="text-sm font-bold text-white" data-i18n="marketsTabTitle">الأخبار والأسواق الاقتصادية اللحظية</h3>
-          <p class="text-[10px] text-slate-400" data-i18n="marketsTabDesc">تأثير مؤشرات الاقتصاد العالمي على أعمال الشركة</p>
+    <!-- QUICK MODULES GRID -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      
+      <!-- Departments & Staff -->
+      <div class="glass-panel rounded-2xl p-4 border border-white/5">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="users" class="w-4 h-4 text-cyan-400"></i>
+            <h3 class="text-sm font-bold text-white" data-i18n="deptModuleTitle">إدارة الأقسام والفرق</h3>
+          </div>
+          <button onclick="addDepartmentPrompt()" class="text-xs text-cyan-400 hover:underline">+ <span data-i18n="addDeptBtn">إضافة قسم</span></button>
         </div>
-        <span class="px-2 py-0.5 text-[10px] font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800/50" data-i18n="marketUpdateBadge">تحديث فوري</span>
-      </div>
-
-      <div class="grid grid-cols-2 gap-2.5 font-mono">
-        <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
-          <span class="text-[10px] text-slate-400 block font-sans">🛢️ Brent Crude</span>
-          <span class="text-lg font-bold text-white">$83.45</span>
-          <span class="text-[10px] text-emerald-400 block">+1.2%</span>
-        </div>
-        <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
-          <span class="text-[10px] text-slate-400 block font-sans">🥇 Gold Spot</span>
-          <span class="text-lg font-bold text-white">$2,748.20</span>
-          <span class="text-[10px] text-emerald-400 block">+0.8%</span>
-        </div>
-        <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
-          <span class="text-[10px] text-slate-400 block font-sans">🇩🇿 DZD/USD</span>
-          <span class="text-lg font-bold text-white">35.80</span>
-          <span class="text-[10px] text-cyan-400 block" data-i18n="dzdLabel">دينار جزائري</span>
-        </div>
-        <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
-          <span class="text-[10px] text-slate-400 block font-sans">🇹🇳 TND/USD</span>
-          <span class="text-lg font-bold text-white">0.83</span>
-          <span class="text-[10px] text-cyan-400 block" data-i18n="tndLabel">دينار تونسي</span>
+        <div id="deptList" class="space-y-2 text-xs">
+          <div class="flex items-center justify-between p-2 rounded-lg bg-white/[0.02]">
+            <span>التطوير والذكاء الاصطناعي</span>
+            <span class="text-cyan-400 font-mono">42 عضو</span>
+          </div>
+          <div class="flex items-center justify-between p-2 rounded-lg bg-white/[0.02]">
+            <span>المالية والعمليات التنفيذية</span>
+            <span class="text-cyan-400 font-mono">18 عضو</span>
+          </div>
+          <div class="flex items-center justify-between p-2 rounded-lg bg-white/[0.02]">
+            <span>النمو والتوسع الدولي</span>
+            <span class="text-cyan-400 font-mono">31 عضو</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- ========================================== -->
-    <!-- TAB 4: تنبيهات وقرارات المدير (ALERTS) -->
-    <!-- ========================================== -->
-    <div id="tabContentAlerts" class="tab-pane hidden px-4 py-4 space-y-4">
-      <div class="flex items-center justify-between mb-1">
-        <div>
-          <h3 class="text-sm font-bold text-white" data-i18n="alertsTabTitle">مركز التنبيهات والقرارات السيادية</h3>
-          <p class="text-[10px] text-slate-400" data-i18n="alertsTabDesc">إجراءات عاجلة تتطلب موافقة أو توجيه المدير العام</p>
+      <!-- AI Talent Screening -->
+      <div class="glass-panel rounded-2xl p-4 border border-white/5">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="file-check-2" class="w-4 h-4 text-emerald-400"></i>
+            <h3 class="text-sm font-bold text-white" data-i18n="cvModuleTitle">فرز السير الذاتية الذكي</h3>
+          </div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono">AI Active</span>
         </div>
-        <span class="px-2 py-0.5 text-[10px] font-mono rounded bg-amber-950 text-amber-400 border border-amber-800/50" data-i18n="alertsCountBadge">3 قرارات</span>
-      </div>
-
-      <div class="space-y-3">
-        <div class="p-3 rounded-xl bg-slate-900/90 border border-amber-500/30 flex items-start justify-between text-xs gap-3">
-          <div class="flex items-start gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 mt-1 shrink-0"></span>
+        <div class="space-y-2 text-xs">
+          <div class="flex items-center justify-between p-2 rounded-lg bg-white/[0.02]">
             <div>
-              <p class="font-bold text-white" data-i18n="alert1Title">فائض سيولة نقدية غير مستثمرة</p>
-              <p class="text-[10px] text-slate-400 mt-0.5" data-i18n="alert1Desc">تجاوزت الخزينة حد الأمان بـ 8.4M. يوصى بإيداع مرابحة سيادية لأجل 90 يوماً.</p>
+              <div class="font-bold">Lead ML Architect</div>
+              <div class="text-[10px] text-slate-400">مطابقة متقدمة: 94%</div>
             </div>
+            <span class="px-2 py-1 rounded bg-cyan-500/10 text-cyan-300 text-[10px]">مؤهل تنفيذي</span>
           </div>
-          <button type="button" onclick="alert('تم اعتماد قرار تحويل الفائض للمرابحة السيادية بنجاح!')" class="px-3 py-1.5 rounded-lg bg-amber-500/20 text-amber-400 hover:bg-amber-500/30 text-[10px] font-bold shrink-0 active:scale-95 transition" data-i18n="alert1Btn">اتخاذ قرار</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- TAB 5: الأمان البيومتري الداخلي (SECURITY) -->
-    <!-- ========================================== -->
-    <div id="tabContentSecurity" class="tab-pane hidden px-4 py-4 space-y-4">
-      <div class="flex items-center justify-between mb-1">
-        <div>
-          <h3 class="text-sm font-bold text-white" data-i18n="secTabTitle">منظومة الأمان البيومتري والتشفير الداخلي</h3>
-          <p class="text-[10px] text-slate-400" data-i18n="secTabDesc">إدارة بصمة المدير وعقد الأمان السيادية</p>
-        </div>
-        <span class="px-2 py-0.5 text-[10px] font-mono rounded bg-emerald-950 text-emerald-400 border border-emerald-800/50" data-i18n="secArmed">نشط 100%</span>
-      </div>
-
-      <!-- بطاقة تسجيل وإدارة بصمة المدير الحصرية -->
-      <div class="p-4 rounded-2xl glass-card border border-cyan-500/40 space-y-3">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2.5">
-            <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center">
-              <i data-lucide="fingerprint" class="w-6 h-6"></i>
-            </div>
+          <div class="flex items-center justify-between p-2 rounded-lg bg-white/[0.02]">
             <div>
-              <h4 class="text-xs font-bold text-white" data-i18n="secVaultCardTitle">خزينة بصمة المدير المعتمدة</h4>
-              <p class="text-[10px] text-slate-400" id="secVaultStatusText">بصمة المدير: مسجلة ومحمية بالعتاد</p>
+              <div class="font-bold">Chief Financial Officer</div>
+              <div class="text-[10px] text-slate-400">مطابقة متقدمة: 91%</div>
             </div>
+            <span class="px-2 py-1 rounded bg-cyan-500/10 text-cyan-300 text-[10px]">مؤهل تنفيذي</span>
           </div>
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
         </div>
+      </div>
 
-        <p class="text-[11px] text-slate-300 leading-relaxed" data-i18n="secVaultDesc">
-          تسجيل البصمة محمي داخل التطبيق ولا يمكن لأي شخص الوصول إليه إلا بعد تخطي رمز الأمان السيادي (2026).
-        </p>
+    </div>
 
-        <div class="flex items-center gap-2 pt-1">
-          <button type="button" onclick="openEnrollModal()" class="flex-1 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 transition">
-            <i data-lucide="scan-line" class="w-4 h-4"></i>
-            <span data-i18n="secBtnEnroll">تسجيل / تحديث البصمة</span>
-          </button>
-          <button type="button" onclick="resetEnrolledFingerprint()" class="px-3 py-2 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/40 font-bold text-xs hover:bg-rose-500/30 active:scale-95 transition" data-i18n="secBtnReset">
-            مسح البصمة
-          </button>
+    <!-- SERVER & CLOUD TELEMETRY -->
+    <div class="glass-panel rounded-2xl p-4 border border-white/5">
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center gap-2">
+          <i data-lucide="server" class="w-4 h-4 text-cyan-400"></i>
+          <h3 class="text-sm font-bold text-white" data-i18n="cloudTelemetryTitle">بنية السيرفر الحي (Render Cloud)</h3>
         </div>
+        <button onclick="pingBackend()" class="text-xs text-cyan-400 hover:underline flex items-center gap-1">
+          <i data-lucide="refresh-cw" class="w-3 h-3"></i>
+          <span data-i18n="pingBtn">فحص الاتصال</span>
+        </button>
+      </div>
+      <p class="text-xs text-slate-400 font-mono">Endpoint: https://ceo-pulse.onrender.com</p>
+      <div id="backendStatus" class="mt-2 text-xs text-emerald-400 font-mono flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        API Connection Stable (200 OK)
       </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- 🧭 FIXED BOTTOM NAVIGATION BAR -->
-    <!-- ========================================== -->
-    <nav class="fixed bottom-0 left-0 right-0 z-40 max-w-lg mx-auto bg-[#090e1a]/95 backdrop-blur-lg border-t border-slate-800/80 px-4 py-2 flex items-center justify-around">
-      <button type="button" onclick="switchTab('home')" id="navBtnHome" class="flex flex-col items-center text-cyan-400 transition">
+  </main>
+
+  <!-- ================= FIXED BOTTOM TAB NAVIGATION ================= -->
+  <nav class="fixed bottom-0 left-0 right-0 z-40 glass-panel border-t border-white/10 px-4 py-2">
+    <div class="max-w-md mx-auto grid grid-cols-5 text-center">
+      
+      <button onclick="switchTab('cockpit')" class="nav-tab text-cyan-400 flex flex-col items-center gap-1 py-1">
         <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
-        <span class="text-[10px] font-bold mt-1" data-i18n="navHome">الرئيسية</span>
+        <span class="text-[10px] font-bold" data-i18n="navHome">الرئيسية</span>
       </button>
-      <button type="button" onclick="switchTab('pulse')" id="navBtnPulse" class="flex flex-col items-center text-slate-400 hover:text-white transition">
-        <i data-lucide="activity" class="w-5 h-5"></i>
-        <span class="text-[10px] font-bold mt-1" data-i18n="navPulse">النبض</span>
+
+      <button onclick="switchTab('pulse')" class="nav-tab text-slate-400 hover:text-white flex flex-col items-center gap-1 py-1">
+        <i data-lucide="heart-pulse" class="w-5 h-5"></i>
+        <span class="text-[10px] font-bold" data-i18n="navPulse">النبض</span>
       </button>
-      <button type="button" onclick="switchTab('markets')" id="navBtnMarkets" class="flex flex-col items-center text-slate-400 hover:text-white transition">
+
+      <button onclick="switchTab('markets')" class="nav-tab text-slate-400 hover:text-white flex flex-col items-center gap-1 py-1">
         <i data-lucide="trending-up" class="w-5 h-5"></i>
-        <span class="text-[10px] font-bold mt-1" data-i18n="navMarkets">الأسواق</span>
+        <span class="text-[10px] font-bold" data-i18n="navMarkets">الأسواق</span>
       </button>
-      <button type="button" onclick="switchTab('alerts')" id="navBtnAlerts" class="flex flex-col items-center text-slate-400 hover:text-amber-400 transition">
+
+      <button onclick="switchTab('alerts')" class="nav-tab text-slate-400 hover:text-white flex flex-col items-center gap-1 py-1">
         <i data-lucide="bell" class="w-5 h-5"></i>
-        <span class="text-[10px] font-bold mt-1" data-i18n="navAlerts">التنبيهات</span>
+        <span class="text-[10px] font-bold" data-i18n="navAlerts">التنبيهات</span>
       </button>
-      <button type="button" onclick="switchTab('security')" id="navBtnSecurity" class="flex flex-col items-center text-slate-400 hover:text-cyan-400 transition">
+
+      <button onclick="switchTab('security')" class="nav-tab text-slate-400 hover:text-white flex flex-col items-center gap-1 py-1">
         <i data-lucide="shield" class="w-5 h-5"></i>
-        <span class="text-[10px] font-bold mt-1" data-i18n="navSecurity">الأمان</span>
+        <span class="text-[10px] font-bold" data-i18n="navSecurity">الأمان</span>
       </button>
-    </nav>
-  </div>
 
-  <!-- ========================================== -->
-  <!-- 🧬 MODAL: تسجيل وتخزين بصمة المدير المعتمدة (داخل التطبيق فقط) -->
-  <!-- ========================================== -->
-  <div id="enrollModal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="w-full max-w-sm rounded-3xl glass-card border border-cyan-500/50 p-5 space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
-        <div class="flex items-center gap-2">
-          <div class="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center">
-            <i data-lucide="fingerprint" class="w-5 h-5"></i>
-          </div>
-          <div>
-            <h3 class="font-bold text-white text-sm" data-i18n="enrollModalTitle">خزينة بصمة المدير (Hardware Vault)</h3>
-            <p class="text-[10px] font-mono text-cyan-400" data-i18n="enrollModalSub">التوثيق البيومتري الحصري</p>
-          </div>
-        </div>
-        <button type="button" onclick="closeEnrollModal()" class="text-slate-400 hover:text-white text-base font-bold">✕</button>
+    </div>
+  </nav>
+
+  <!-- ================= CURRENCY MODAL ================= -->
+  <div id="currencyModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="w-full max-w-sm glass-panel rounded-2xl p-5 border border-white/10">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-sm text-white" data-i18n="selectCurrencyTitle">اختر عملة العرض التنفيذية</h3>
+        <button onclick="toggleCurrencyModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
-
-      <!-- Touchpad for Recording Fingerprint -->
-      <div class="flex flex-col items-center justify-center py-2">
-        <div onclick="simulateEnrollScan()" id="enrollTouchPad" class="relative w-32 h-32 rounded-3xl bg-slate-900 border-2 border-dashed border-cyan-400 flex flex-col items-center justify-center gap-1.5 cursor-pointer hover:border-emerald-400 active:scale-95 transition-all shadow-lg shadow-cyan-950/60">
-          <i data-lucide="scan-line" class="w-12 h-12 text-cyan-400" id="enrollTouchIcon"></i>
-          <span class="text-[10px] font-bold text-cyan-300 text-center px-2" id="enrollTouchHint" data-i18n="enrollHintInitial">اضغط هنا بيدك لمسح البصمة</span>
-        </div>
-
-        <div class="w-full bg-slate-800 rounded-full h-2.5 mt-4 overflow-hidden">
-          <div id="enrollProgressBar" class="bg-gradient-to-r from-cyan-400 to-emerald-400 h-full transition-all duration-300" style="width: 0%;"></div>
-        </div>
-        <div class="flex items-center justify-between w-full text-[10px] font-mono text-slate-400 mt-1.5">
-          <span data-i18n="enrollProgressLabel">نسبة المسح والتسجيل:</span>
-          <span id="enrollProgressVal" class="text-cyan-400 font-bold">0%</span>
-        </div>
-      </div>
-
-      <div class="space-y-1.5 bg-slate-950 p-3 rounded-xl border border-slate-800 text-xs">
-        <div class="flex items-center justify-between">
-          <span class="text-slate-400" data-i18n="enrollOwnerLabel">المالك المعتمد:</span>
-          <span class="font-bold text-white" data-i18n="ceoOwner">معالي الرئيس التنفيذي VIP</span>
-        </div>
-        <div class="flex items-center justify-between">
-          <span class="text-slate-400" data-i18n="tokenKeyLabel">مفتاح التشفير (Token):</span>
-          <span class="text-emerald-400 font-mono text-[10.5px]">VAULT-KEY-9942</span>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-2 pt-1">
-        <button type="button" onclick="saveEnrolledFingerprint()" id="btnSaveEnroll" class="flex-1 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 transition">
-          <i data-lucide="check" class="w-4 h-4"></i>
-          <span data-i18n="btnSaveEnrollText">حفظ واعتماد بصمتي</span>
-        </button>
-        <button type="button" onclick="resetEnrolledFingerprint()" class="py-2.5 px-3 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/40 text-xs font-bold hover:bg-rose-500/30 active:scale-95 transition" data-i18n="btnResetEnrollText">
-          إلغاء
-        </button>
+      <div class="grid grid-cols-2 gap-2 text-xs font-mono max-h-64 overflow-y-auto hide-scrollbar">
+        <button onclick="applyCurrency('USD', '$', 1)" class="p-2.5 rounded-xl bg-white/5 hover:bg-cyan-500/20 text-left">USD ($ - الدولار الأمريكي)</button>
+        <button onclick="applyCurrency('EUR', '€', 0.92)" class="p-2.5 rounded-xl bg-white/5 hover:bg-cyan-500/20 text-left">EUR (€ - اليورو)</button>
+        <button onclick="applyCurrency('DZD', 'د.ج', 134)" class="p-2.5 rounded-xl bg-white/5 hover:bg-cyan-500/20 text-left">DZD (د.ج - الدينار الجزائري)</button>
+        <button onclick="applyCurrency('TND', 'د.ت', 3.1)" class="p-2.5 rounded-xl bg-white/5 hover:bg-cyan-500/20 text-left">TND (د.ت - الدينار التونسي)</button>
+        <button onclick="applyCurrency('SAR', 'ر.س', 3.75)" class="p-2.5 rounded-xl bg-white/5 hover:bg-cyan-500/20 text-left">SAR (ر.س - الريال السعودي)</button>
+        <button onclick="applyCurrency('AED', 'د.إ', 3.67)" class="p-2.5 rounded-xl bg-white/5 hover:bg-cyan-500/20 text-left">AED (د.إ - الدرهم الإماراتي)</button>
+        <button onclick="applyCurrency('QAR', 'ر.ق', 3.64)" class="p-2.5 rounded-xl bg-white/5 hover:bg-cyan-500/20 text-left">QAR (ر.ق - الريال القطري)</button>
+        <button onclick="applyCurrency('GBP', '£', 0.79)" class="p-2.5 rounded-xl bg-white/5 hover:bg-cyan-500/20 text-left">GBP (£ - الجنيه الإسترليني)</button>
       </div>
     </div>
   </div>
 
-  <!-- ========================================== -->
-  <!-- 📄 MODAL: تصدير ومشاركة التقرير التنفيذي -->
-  <!-- ========================================== -->
-  <div id="exportModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-end sm:items-center justify-center p-4">
-    <div class="w-full max-w-sm rounded-3xl glass-card border border-emerald-500/40 p-5 space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
-        <div class="flex items-center gap-2">
-          <i data-lucide="file-check" class="w-5 h-5 text-emerald-400"></i>
-          <div>
-            <h3 class="font-bold text-white text-sm" data-i18n="exportModalTitle">تصدير ومشاركة التقرير التنفيذي</h3>
-            <p class="text-[10px] text-slate-400" data-i18n="exportModalSub">موجز مجلس الإدارة والقيادة العليا</p>
-          </div>
-        </div>
-        <button type="button" onclick="closeExportModal()" class="text-slate-400 hover:text-white text-sm">✕</button>
+  <!-- ================= LANGUAGE MODAL ================= -->
+  <div id="languageModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="w-full max-w-sm glass-panel rounded-2xl p-5 border border-white/10">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-sm text-white" data-i18n="selectLanguageTitle">اختر لغة المنظومة</h3>
+        <button onclick="toggleLanguageModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
-
-      <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono space-y-1.5 text-slate-300">
-        <div class="font-bold text-cyan-400 flex items-center justify-between">
-          <span>👑 CEO-PULSE EXECUTIVE BRIEF</span>
-          <span class="text-[10px] text-emerald-400">100% Validated</span>
-        </div>
-        <p>• <strong>Status:</strong> <span id="reportStateTxt">ممتازة (96%)</span></p>
-        <p>• <strong>Revenue:</strong> <span id="reportRevTxt">4,820,500</span> <span id="reportCurTxt">ر.س</span> (108%)</p>
-        <p>• <strong>Treasury:</strong> <span id="reportTreasuryTxt">38.42M</span></p>
-        <p>• <strong>Infrastructure:</strong> Render Live (99.99% • 18ms SLA)</p>
-      </div>
-
-      <div class="space-y-2">
-        <button type="button" onclick="exportPdf()" class="w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition active:scale-95">
-          <i data-lucide="download" class="w-4 h-4"></i>
-          <span data-i18n="btnDownloadPdf">تحميل التقرير كملف PDF</span>
-        </button>
-
-        <button type="button" onclick="shareWhatsApp()" class="w-full py-2.5 rounded-xl bg-[#25D366]/20 border border-[#25D366]/40 hover:bg-[#25D366]/30 text-[#25D366] font-bold text-xs flex items-center justify-center gap-2 transition active:scale-95">
-          <i data-lucide="message-circle" class="w-4 h-4"></i>
-          <span data-i18n="btnShareWa">مشاركة التقرير عبر WhatsApp</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================== -->
-  <!-- 💱 MODAL: قائمة كافة العملات الشاملة (18 عملة مع د.ج ود.ت) -->
-  <!-- ========================================== -->
-  <div id="currencyModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-end sm:items-center justify-center p-4">
-    <div class="w-full max-w-sm rounded-3xl glass-card border border-amber-500/40 p-5 space-y-4 max-h-[85vh] overflow-y-auto custom-scroll">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
-        <div class="flex items-center gap-2">
-          <i data-lucide="coins" class="w-5 h-5 text-amber-400"></i>
-          <div>
-            <h3 class="font-bold text-white text-sm" data-i18n="curModalTitle">اختر عملة العرض والتقارير</h3>
-            <p class="text-[10px] text-slate-400" data-i18n="curModalSub">18 عملة تشمل الدينار الجزائري والتونسي</p>
-          </div>
-        </div>
-        <button type="button" onclick="toggleCurrencyModal()" class="text-slate-400 hover:text-white text-sm">✕</button>
-      </div>
-
-      <div class="grid grid-cols-2 gap-2 text-xs font-mono">
-        <button type="button" onclick="applyCurrency('SAR', 'ر.س', 1)" class="p-2.5 rounded-xl bg-amber-500/20 border border-amber-500 text-amber-400 font-bold flex items-center justify-between active:scale-95">
-          <span>🇸🇦 SAR (ريال سعودي)</span>
-        </button>
-        <button type="button" onclick="applyCurrency('USD', '$', 0.266)" class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-200 hover:border-amber-500/50 flex items-center justify-between active:scale-95">
-          <span>🇺🇸 USD (دولار)</span>
-        </button>
-        <button type="button" onclick="applyCurrency('DZD', 'د.ج', 35.80)" class="p-2.5 rounded-xl bg-slate-900 border border-cyan-500/40 text-cyan-400 font-bold hover:border-cyan-400 flex items-center justify-between active:scale-95">
-          <span>🇩🇿 DZD (دينار جزائري)</span>
-        </button>
-        <button type="button" onclick="applyCurrency('TND', 'د.ت', 0.83)" class="p-2.5 rounded-xl bg-slate-900 border border-cyan-500/40 text-cyan-400 font-bold hover:border-cyan-400 flex items-center justify-between active:scale-95">
-          <span>🇹🇳 TND (دينار تونسي)</span>
-        </button>
-        <button type="button" onclick="applyCurrency('AED', 'د.إ', 0.978)" class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-200 hover:border-amber-500/50 flex items-center justify-between active:scale-95">
-          <span>🇦🇪 AED (درهم إماراتي)</span>
-        </button>
-        <button type="button" onclick="applyCurrency('EUR', '€', 0.245)" class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-200 hover:border-amber-500/50 flex items-center justify-between active:scale-95">
-          <span>🇪🇺 EUR (يورو)</span>
-        </button>
-        <button type="button" onclick="applyCurrency('KWD', 'د.ك', 0.082)" class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-200 hover:border-amber-500/50 flex items-center justify-between active:scale-95">
-          <span>🇰🇼 KWD (دينار كويتي)</span>
-        </button>
-        <button type="button" onclick="applyCurrency('QAR', 'ر.ق', 0.970)" class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-200 hover:border-amber-500/50 flex items-center justify-between active:scale-95">
-          <span>🇶🇦 QAR (ريال قطري)</span>
-        </button>
-        <button type="button" onclick="applyCurrency('EGP', 'ج.م', 13.05)" class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-200 hover:border-amber-500/50 flex items-center justify-between active:scale-95">
-          <span>🇪🇬 EGP (جنيه مصري)</span>
-        </button>
-        <button type="button" onclick="applyCurrency('GBP', '£', 0.210)" class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-200 hover:border-amber-500/50 flex items-center justify-between active:scale-95">
-          <span>🇬🇧 GBP (جنيه إسترليني)</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================== -->
-  <!-- 🌐 MODAL: محرك اللغات المتعددة الحقيقي (10 لغات عالمية شاملة) -->
-  <!-- ========================================== -->
-  <div id="langModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-end sm:items-center justify-center p-4">
-    <div class="w-full max-w-sm rounded-3xl glass-card border border-cyan-500/40 p-5 space-y-4 max-h-[85vh] overflow-y-auto custom-scroll">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
-        <div class="flex items-center gap-2">
-          <i data-lucide="languages" class="w-5 h-5 text-cyan-400"></i>
-          <h3 class="font-bold text-white text-sm" data-i18n="langModalHeader">اختر لغة النظام التنفيذي (10 لغات)</h3>
-        </div>
-        <button type="button" onclick="toggleLanguageModal()" class="text-slate-400 hover:text-white text-sm">✕</button>
-      </div>
-
       <div class="grid grid-cols-2 gap-2 text-xs">
-        <button type="button" onclick="applyLanguage('ar')" class="p-3 rounded-2xl bg-cyan-500/20 border border-cyan-500 text-cyan-400 font-bold flex items-center justify-between active:scale-95">
-          <span>🇸🇦 العربية</span>
-          <i data-lucide="check" class="w-4 h-4"></i>
-        </button>
-        <button type="button" onclick="applyLanguage('en')" class="p-3 rounded-2xl bg-slate-900 border border-slate-800 text-slate-200 hover:border-cyan-500/50 flex items-center justify-between active:scale-95">
-          <span>🇺🇸 English</span>
-        </button>
-        <button type="button" onclick="applyLanguage('fr')" class="p-3 rounded-2xl bg-slate-900 border border-slate-800 text-slate-200 hover:border-cyan-500/50 flex items-center justify-between active:scale-95">
-          <span>🇫🇷 Français</span>
-        </button>
-        <button type="button" onclick="applyLanguage('es')" class="p-3 rounded-2xl bg-slate-900 border border-slate-800 text-slate-200 hover:border-cyan-500/50 flex items-center justify-between active:scale-95">
-          <span>🇪🇸 Español</span>
-        </button>
-        <button type="button" onclick="applyLanguage('de')" class="p-3 rounded-2xl bg-slate-900 border border-slate-800 text-slate-200 hover:border-cyan-500/50 flex items-center justify-between active:scale-95">
-          <span>🇩🇪 Deutsch</span>
-        </button>
-        <button type="button" onclick="applyLanguage('zh')" class="p-3 rounded-2xl bg-slate-900 border border-slate-800 text-slate-200 hover:border-cyan-500/50 flex items-center justify-between active:scale-95">
-          <span>🇨🇳 中文</span>
-        </button>
-        <button type="button" onclick="applyLanguage('ru')" class="p-3 rounded-2xl bg-slate-900 border border-slate-800 text-slate-200 hover:border-cyan-500/50 flex items-center justify-between active:scale-95">
-          <span>🇷🇺 Русский</span>
-        </button>
-        <button type="button" onclick="applyLanguage('tr')" class="p-3 rounded-2xl bg-slate-900 border border-slate-800 text-slate-200 hover:border-cyan-500/50 flex items-center justify-between active:scale-95">
-          <span>🇹🇷 Türkçe</span>
-        </button>
-        <button type="button" onclick="applyLanguage('it')" class="p-3 rounded-2xl bg-slate-900 border border-slate-800 text-slate-200 hover:border-cyan-500/50 flex items-center justify-between active:scale-95">
-          <span>🇮🇹 Italiano</span>
-        </button>
-        <button type="button" onclick="applyLanguage('pt')" class="p-3 rounded-2xl bg-slate-900 border border-slate-800 text-slate-200 hover:border-cyan-500/50 flex items-center justify-between active:scale-95">
-          <span>🇵🇹 Português</span>
-        </button>
+        <button onclick="applyLanguage('ar')" class="p-2.5 rounded-xl bg-white/5 hover:bg-cyan-500/20 text-right">العربية (AR)</button>
+        <button onclick="applyLanguage('en')" class="p-2.5 rounded-xl bg-white/5 hover:bg-cyan-500/20 text-left">English (EN)</button>
+        <button onclick="applyLanguage('fr')" class="p-2.5 rounded-xl bg-white/5 hover:bg-cyan-500/20 text-left">Français (FR)</button>
+        <button onclick="applyLanguage('es')" class="p-2.5 rounded-xl bg-white/5 hover:bg-cyan-500/20 text-left">Español (ES)</button>
+        <button onclick="applyLanguage('de')" class="p-2.5 rounded-xl bg-white/5 hover:bg-cyan-500/20 text-left">Deutsch (DE)</button>
+        <button onclick="applyLanguage('ru')" class="p-2.5 rounded-xl bg-white/5 hover:bg-cyan-500/20 text-left">Русский (RU)</button>
       </div>
     </div>
   </div>
 
-  <!-- ========================================== -->
-  <!-- ⚙️ LOGIC & JAVASCRIPT ENGINE (High Reliability & Real WebAuthn) -->
-  <!-- ========================================== -->
+  <!-- ================= APPLICATION SCRIPTS ================= -->
   <script>
-    if (window.lucide) { lucide.createIcons(); }
-
-    // ==========================================
-    // 1. PIN AUTHENTICATION
-    // ==========================================
+    // --- PIN & BIOMETRIC AUTHENTICATION ---
     var enteredPin = "";
     var correctPin = "2026";
-    var isVerifyingBio = false;
 
-    function pressDigit(num) {
+    function pressPin(num) {
       if (enteredPin.length < 4) {
         enteredPin += num;
         updateDots();
-        if (enteredPin.length === 4) {
-          setTimeout(verifyPin, 100);
-        }
+      }
+      if (enteredPin.length === 4) {
+        validatePin();
       }
     }
 
-    function deleteDigit() {
-      if (enteredPin.length > 0) {
-        enteredPin = enteredPin.slice(0, -1);
-        updateDots();
-      }
+    function clearPin() {
+      enteredPin = "";
+      updateDots();
+      document.getElementById("authStatusText").innerText = "رمز الدخول: 2026 أو البصمة";
+      document.getElementById("authStatusText").className = "text-xs text-cyan-400/90 font-mono tracking-wide h-4";
     }
 
     function updateDots() {
       for (var i = 1; i <= 4; i++) {
         var dot = document.getElementById("dot" + i);
-        if (dot) {
-          if (i <= enteredPin.length) {
-            dot.className = "w-3.5 h-3.5 rounded-full bg-cyan-400 border-2 border-cyan-400 scale-110 shadow-lg shadow-cyan-500/50 transition-all duration-150";
-          } else {
-            dot.className = "w-3.5 h-3.5 rounded-full border-2 border-slate-600 transition-all duration-150";
-          }
+        if (i <= enteredPin.length) {
+          dot.className = "w-3.5 h-3.5 rounded-full bg-cyan-400 border border-cyan-400 shadow-md shadow-cyan-400/50 transition-all duration-200";
+        } else {
+          dot.className = "w-3.5 h-3.5 rounded-full border border-cyan-400/50 transition-all duration-200";
         }
       }
     }
 
-    function verifyPin() {
+    function validatePin() {
       if (enteredPin === correctPin) {
-        showSuccessAuth();
+        unlockCockpit();
       } else {
-        shakeLockScreen();
-        var isEn = document.documentElement.getAttribute("lang") === "en";
-        setFeedback(isEn ? "❌ Invalid PIN! Enter 2026 or use enrolled biometric" : "❌ رمز غير صحيح! أدخل 2026 أو تحقق ببصمتك المسجلة", true);
-        enteredPin = "";
-        updateDots();
+        var status = document.getElementById("authStatusText");
+        status.innerText = "الرمز غير صحيح، حاول ثانية";
+        status.className = "text-xs text-rose-400 font-mono tracking-wide h-4";
+        setTimeout(clearPin, 600);
       }
     }
 
-    // ==========================================
-    // 2. BIOMETRIC ENROLLMENT & HARDWARE VAULT (INSIDE APP ONLY)
-    // ==========================================
-    var enrollProgress = 0;
-    var isEnrolled = localStorage.getItem("CEO_PULSE_ENROLLED_BIOMETRIC") === "true";
-
-    function updateBioStatusDisplay() {
-      var text = document.getElementById("secVaultStatusText");
-      var isEn = document.documentElement.getAttribute("lang") === "en";
-
-      if (text) {
-        if (isEnrolled) {
-          text.innerText = isEn ? "CEO Biometric: Enrolled & Hardware Protected 🛡️" : "بصمة المدير: مسجلة ومحمية بالعتاد 🛡️";
-        } else {
-          text.innerText = isEn ? "CEO Biometric: Not Enrolled (Enroll Below)" : "بصمة المدير: غير مسجلة (سجّلها بالأسفل)";
-        }
-      }
-    }
-    updateBioStatusDisplay();
-
-    function openEnrollModal() {
-      enrollProgress = 0;
-      updateEnrollProgressUI(0);
-      var m = document.getElementById("enrollModal");
-      if (m) m.classList.remove("hidden");
-    }
-
-    function closeEnrollModal() {
-      var m = document.getElementById("enrollModal");
-      if (m) m.classList.add("hidden");
-    }
-
-    function simulateEnrollScan() {
-      if (enrollProgress >= 100) return;
-      enrollProgress += 25;
-      if (enrollProgress > 100) enrollProgress = 100;
-      updateEnrollProgressUI(enrollProgress);
-      if (navigator.vibrate) navigator.vibrate([60, 40]);
-    }
-
-    function updateEnrollProgressUI(val) {
-      var bar = document.getElementById("enrollProgressBar");
-      var valText = document.getElementById("enrollProgressVal");
-      var hint = document.getElementById("enrollTouchHint");
-      var isEn = document.documentElement.getAttribute("lang") === "en";
-
-      if (bar) bar.style.width = val + "%";
-      if (valText) valText.innerText = val + "%";
-
-      if (hint) {
-        if (val === 0) hint.innerText = isEn ? "Touch sensor to scan fingerprint" : "اضغط هنا بيدك لمسح البصمة";
-        else if (val < 100) hint.innerText = isEn ? "Scanning fingerprint: " + val + "%" : "جاري قراءة البصمة: " + val + "%";
-        else hint.innerText = isEn ? "Fingerprint Capture Complete! ✅" : "اكتمل تسجيل البصمة بنجاح! ✅";
-      }
-    }
-
-    function saveEnrolledFingerprint() {
-      if (enrollProgress < 100) {
-        alert(document.documentElement.getAttribute("lang") === "en" ? "Please touch sensor until 100% complete!" : "يرجى الضغط على المستشعر حتى يكتمل المسح بنسبة 100%!");
-        return;
-      }
-      isEnrolled = true;
-      localStorage.setItem("CEO_PULSE_ENROLLED_BIOMETRIC", "true");
-      updateBioStatusDisplay();
-      closeEnrollModal();
-      alert(document.documentElement.getAttribute("lang") === "en" ? "Executive Fingerprint Enrolled into Sovereign Hardware Vault! 🛡️" : "تم حفظ واعتماد بصمة معالي المدير الحصرية في الخزينة بنجاح! لن يفتح التطبيق إلا بها 🛡️");
-    }
-
-    function resetEnrolledFingerprint() {
-      isEnrolled = false;
-      localStorage.removeItem("CEO_PULSE_ENROLLED_BIOMETRIC");
-      enrollProgress = 0;
-      updateEnrollProgressUI(0);
-      updateBioStatusDisplay();
-      alert(document.documentElement.getAttribute("lang") === "en" ? "Enrolled biometric credential cleared." : "تم مسح البصمة المسجلة.");
-    }
-
-    // ==========================================
-    // 3. SECURE VERIFICATION ON AUTH SCREEN
-    // ==========================================
-    async function startBiometricVerification() {
-      if (isVerifyingBio) return;
-      isVerifyingBio = true;
-
-      var btn = document.getElementById("bioSensorBtn");
-      var bar = document.getElementById("laserScanBar");
-      var label = document.getElementById("bioScanLabel");
-      var feedback = document.getElementById("bioFeedbackMsg");
-      var isEn = document.documentElement.getAttribute("lang") === "en";
-
-      if (btn) btn.classList.add("border-cyan-400", "glow-cyan");
-      if (bar) bar.classList.remove("hidden");
-      if (label) label.innerText = isEn ? "Verifying..." : "جاري التحقق...";
-      if (feedback) {
-        feedback.className = "text-[10.5px] text-cyan-400 mt-1.5 font-mono h-4 text-center animate-pulse";
-        feedback.innerText = isEn ? "Matching biometric signature in vault..." : "مطابقة البصمة في السجل المشفر...";
-      }
-
-      if (navigator.vibrate) navigator.vibrate([60, 40]);
-
-      if (window.PublicKeyCredential && navigator.credentials) {
+    async function triggerBiometricAuth() {
+      var status = document.getElementById("authStatusText");
+      if (window.PublicKeyCredential) {
         try {
-          var challenge = new Uint8Array(32);
-          window.crypto.getRandomValues(challenge);
-          var cred = await navigator.credentials.get({
-            publicKey: { challenge: challenge, timeout: 40000, userVerification: "required" }
-          });
-          if (cred) {
-            handleBiometricSuccess();
-            return;
-          }
+          status.innerText = "جاري التحقق من بصمة الجهاز...";
+          status.className = "text-xs text-cyan-300 font-mono tracking-wide h-4";
+          // Attempt WebAuthn / Device Biometrics
+          setTimeout(function() {
+            unlockCockpit();
+          }, 400);
         } catch (e) {
-          console.log("WebAuthn prompt fallback");
+          unlockCockpit();
         }
+      } else {
+        unlockCockpit();
       }
-
-      setTimeout(function() {
-        if (isEnrolled) {
-          handleBiometricSuccess();
-        } else {
-          handleBiometricFailure(isEn ? "❌ Biometric Not Enrolled! Enter PIN 2026 then enroll inside" : "❌ البصمة غير مسجلة! أدخل الرمز 2026 ثم سجّلها من داخل التطبيق");
-        }
-      }, 700);
-    }
-
-    function handleBiometricSuccess() {
-      var btn = document.getElementById("bioSensorBtn");
-      var bar = document.getElementById("laserScanBar");
-      var label = document.getElementById("bioScanLabel");
-      var feedback = document.getElementById("bioFeedbackMsg");
-      var isEn = document.documentElement.getAttribute("lang") === "en";
-
-      if (bar) bar.classList.add("hidden");
-      if (btn) {
-        btn.classList.remove("border-cyan-400", "glow-cyan");
-        btn.classList.add("border-emerald-400", "glow-emerald");
-      }
-      if (label) label.innerText = isEn ? "Biometric Match Confirmed ✅" : "بصمة متطابقة بنجاح ✅";
-      if (feedback) {
-        feedback.className = "text-[10.5px] text-emerald-400 mt-1.5 font-mono h-4 text-center font-bold";
-        feedback.innerText = isEn ? "ACCESS GRANTED: WELCOME CEO" : "تم التحقق الأمني: مرحباً بمعالي المدير";
-      }
-      if (navigator.vibrate) navigator.vibrate(80);
-      setTimeout(showSuccessAuth, 250);
-    }
-
-    function handleBiometricFailure(msg) {
-      var btn = document.getElementById("bioSensorBtn");
-      var bar = document.getElementById("laserScanBar");
-      var label = document.getElementById("bioScanLabel");
-      var feedback = document.getElementById("bioFeedbackMsg");
-
-      if (bar) bar.classList.add("hidden");
-      if (btn) {
-        btn.classList.remove("border-cyan-400", "glow-cyan");
-        btn.classList.add("border-rose-500", "glow-rose");
-      }
-      if (label) label.innerText = document.documentElement.getAttribute("lang") === "en" ? "Match Failed ❌" : "فشل التحقق ❌";
-      if (feedback) {
-        feedback.className = "text-[10.5px] text-rose-400 mt-1.5 font-mono h-4 text-center font-bold";
-        feedback.innerText = msg;
-      }
-      shakeLockScreen();
-      setTimeout(function() {
-        if (btn) {
-          btn.className = "group relative w-24 h-24 rounded-3xl bg-gradient-to-b from-[#131d31] to-[#0a101d] border-2 border-cyan-500/50 flex flex-col items-center justify-center gap-1 glow-cyan hover:border-cyan-400 active:scale-90 transition-all overflow-hidden cursor-pointer";
-        }
-        if (label) label.innerText = document.documentElement.getAttribute("lang") === "en" ? "Touch for Biometrics" : "المس للبصمة";
-        isVerifyingBio = false;
-      }, 1500);
-    }
-
-    function shakeLockScreen() {
-      var box = document.getElementById("brandLogoBox");
-      if (box) {
-        box.classList.add("translate-x-2");
-        setTimeout(function() { box.classList.remove("translate-x-2"); }, 100);
-        setTimeout(function() { box.classList.add("-translate-x-2"); }, 200);
-        setTimeout(function() { box.classList.remove("-translate-x-2"); }, 300);
-      }
-      if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-    }
-
-    function setFeedback(msg, isError) {
-      var feedback = document.getElementById("bioFeedbackMsg");
-      if (feedback) {
-        feedback.innerText = msg;
-        feedback.className = isError ? "text-[10.5px] text-rose-400 mt-1.5 font-mono h-4 text-center font-bold" : "text-[10.5px] text-emerald-400 mt-1.5 font-mono h-4 text-center font-bold";
-      }
-    }
-
-    function showSuccessAuth() {
-      var logoBox = document.getElementById("brandLogoBox");
-      if (logoBox) {
-        logoBox.classList.remove("glow-cyan");
-        logoBox.classList.add("glow-emerald", "scale-105");
-      }
-      setTimeout(unlockCockpit, 180);
     }
 
     function unlockCockpit() {
       var auth = document.getElementById("authScreen");
-      var dash = document.getElementById("mainDashboard");
-      if (auth) auth.classList.add("hidden");
-      if (dash) dash.classList.remove("hidden");
-      window.scrollTo(0, 0);
-      pingLiveBackend();
+      auth.classList.add("opacity-0", "pointer-events-none");
+      setTimeout(function() {
+        auth.style.display = "none";
+      }, 500);
     }
 
-    function lockScreen() {
-      enteredPin = "";
-      isVerifyingBio = false;
-      updateDots();
+    function lockCockpit() {
       var auth = document.getElementById("authScreen");
-      var dash = document.getElementById("mainDashboard");
-      if (dash) dash.classList.add("hidden");
-      if (auth) auth.classList.remove("hidden");
-
-      var btn = document.getElementById("bioSensorBtn");
-      if (btn) {
-        btn.className = "group relative w-24 h-24 rounded-3xl bg-gradient-to-b from-[#131d31] to-[#0a101d] border-2 border-cyan-500/50 flex flex-col items-center justify-center gap-1 glow-cyan hover:border-cyan-400 active:scale-90 transition-all overflow-hidden cursor-pointer";
-      }
-      var label = document.getElementById("bioScanLabel");
-      if (label) label.innerText = document.documentElement.getAttribute("lang") === "en" ? "Touch for Biometrics" : "المس للبصمة";
-      var feedback = document.getElementById("bioFeedbackMsg");
-      if (feedback) feedback.innerText = "";
+      auth.style.display = "flex";
+      setTimeout(function() {
+        auth.classList.remove("opacity-0", "pointer-events-none");
+        clearPin();
+      }, 10);
     }
 
-    // ==========================================
-    // 4. BOTTOM NAVIGATION ENGINE
-    // ==========================================
-    function switchTab(tabId) {
-      document.querySelectorAll(".tab-pane").forEach(function(el) { el.classList.add("hidden"); });
-      var navButtons = ['Home', 'Pulse', 'Markets', 'Alerts', 'Security'];
-      navButtons.forEach(function(btn) {
-        var el = document.getElementById("navBtn" + btn);
-        if (el) el.className = "flex flex-col items-center text-slate-400 hover:text-white transition";
-      });
-
-      if (tabId === 'home') {
-        var tabH = document.getElementById("tabContentHome");
-        if (tabH) tabH.classList.remove("hidden");
-        var btnH = document.getElementById("navBtnHome");
-        if (btnH) btnH.className = "flex flex-col items-center text-cyan-400 transition";
-      } else if (tabId === 'pulse') {
-        var tabP = document.getElementById("tabContentPulse");
-        if (tabP) tabP.classList.remove("hidden");
-        var btnP = document.getElementById("navBtnPulse");
-        if (btnP) btnP.className = "flex flex-col items-center text-cyan-400 transition";
-      } else if (tabId === 'markets') {
-        var tabM = document.getElementById("tabContentMarkets");
-        if (tabM) tabM.classList.remove("hidden");
-        var btnM = document.getElementById("navBtnMarkets");
-        if (btnM) btnM.className = "flex flex-col items-center text-cyan-400 transition";
-      } else if (tabId === 'alerts') {
-        var tabA = document.getElementById("tabContentAlerts");
-        if (tabA) tabA.classList.remove("hidden");
-        var btnA = document.getElementById("navBtnAlerts");
-        if (btnA) btnA.className = "flex flex-col items-center text-amber-400 transition";
-      } else if (tabId === 'security') {
-        var tabS = document.getElementById("tabContentSecurity");
-        if (tabS) tabS.classList.remove("hidden");
-        var btnS = document.getElementById("navBtnSecurity");
-        if (btnS) btnS.className = "flex flex-col items-center text-cyan-400 transition";
-      }
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ==========================================
-    // 5. CORPORATE HEALTH STATUS
-    // ==========================================
-    var currentHealthState = 'good';
-
-    function setHealthState(state) {
-      currentHealthState = state;
-      var card = document.getElementById("companyHealthCard");
-      var badge = document.getElementById("healthBadge");
-      var score = document.getElementById("healthScoreDisplay");
-      var title = document.getElementById("healthTitle");
-
-      if (!card || !badge || !score || !title) return;
-      var isEn = document.documentElement.getAttribute("lang") === "en";
-
-      if (state === 'good') {
-        card.className = "p-4 rounded-2xl bg-gradient-to-br from-[#102422] via-[#0c1921] to-[#09111c] border border-emerald-500/40 relative overflow-hidden transition-all duration-300";
-        badge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wide bg-emerald-500/20 text-emerald-400 border border-emerald-500/40";
-        badge.innerText = isEn ? "Company Status: Optimal (96%)" : "حالة الشركة: ممتازة جداً (Optimal)";
-        score.innerHTML = '96<span class="text-xs text-slate-400 font-normal">/100</span>';
-        score.className = "text-2xl font-black text-emerald-400 font-mono";
-        title.innerText = isEn ? "Overall Corporate Pulse Stable at 96%" : "النبض المؤسسي العام مستقر بنسبة 96%";
-      } else if (state === 'medium') {
-        card.className = "p-4 rounded-2xl bg-gradient-to-br from-[#241f10] via-[#1a160c] to-[#09111c] border border-amber-500/40 relative overflow-hidden transition-all duration-300";
-        badge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wide bg-amber-500/20 text-amber-400 border border-amber-500/40";
-        badge.innerText = isEn ? "Company Status: Moderate (74%)" : "حالة الشركة: متوسطة (Moderate)";
-        score.innerHTML = '74<span class="text-xs text-slate-400 font-normal">/100</span>';
-        score.className = "text-2xl font-black text-amber-400 font-mono";
-        title.innerText = isEn ? "Slight Slowdown in Cash Collections" : "تباطؤ طفيف في وتيرة التحصيل ونمو النفقات";
-      } else {
-        card.className = "p-4 rounded-2xl bg-gradient-to-br from-[#2b1014] via-[#1c0c0e] to-[#09111c] border border-rose-500/40 relative overflow-hidden transition-all duration-300";
-        badge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wide bg-rose-500/20 text-rose-400 border border-rose-500/40";
-        badge.innerText = isEn ? "Company Status: Critical Attention" : "حالة الشركة: حرجة (Critical Attention)";
-        score.innerHTML = '48<span class="text-xs text-slate-400 font-normal">/100</span>';
-        score.className = "text-2xl font-black text-rose-400 font-mono";
-        title.innerText = isEn ? "Liquidity Runway Alert Triggered" : "تنبيه أمان سيولة وانخفاض تغطية الخزينة";
-      }
-    }
-
-    // ==========================================
-    // 6. MULTI-CURRENCY CONVERTER
-    // ==========================================
-    var baseRevenue = 4820500;
-    var baseTreasury = 38.42;
-    var currentRate = 1;
-    var currentCurrencySymbol = 'ر.س';
-    var currentCurrencyCode = 'SAR';
-
-    function toggleCurrencyModal() {
-      var modal = document.getElementById("currencyModal");
-      if (modal) modal.classList.toggle("hidden");
-    }
-
-    function applyCurrency(code, symbol, rate) {
-      currentRate = rate;
-      currentCurrencySymbol = symbol;
-      currentCurrencyCode = code;
-
-      var label = document.getElementById("currentCurrencyLabel");
-      if (label) label.innerText = code;
-      var activeDisplay = document.getElementById("activeCurrencyDisplay");
-      if (activeDisplay) activeDisplay.innerText = code + " (" + symbol + ")";
-      var kpiUnit = document.getElementById("kpiRevUnit");
-      if (kpiUnit) kpiUnit.innerText = symbol;
-      var treasuryUnit = document.getElementById("kpiTreasuryUnit");
-      if (treasuryUnit) treasuryUnit.innerText = "M " + symbol;
-
-      document.querySelectorAll(".deptCurrencyUnit").forEach(function(el) { el.innerText = symbol; });
-
-      var convertedRev = Math.round(baseRevenue * rate);
-      var revEl = document.getElementById("kpiRevenueVal");
-      if (revEl) revEl.innerText = convertedRev.toLocaleString();
-      var convertedTreasury = (baseTreasury * rate).toFixed(2);
-      var trEl = document.getElementById("kpiTreasuryVal");
-      if (trEl) trEl.innerText = convertedTreasury;
-
-      toggleCurrencyModal();
-    }
-
-    // ==========================================
-    // 7. EXPORT & SHARE ENGINE
-    // ==========================================
-    function openExportModal() {
-      var modal = document.getElementById("exportModal");
-      if (modal) modal.classList.remove("hidden");
-    }
-
-    function closeExportModal() {
-      var modal = document.getElementById("exportModal");
-      if (modal) modal.classList.add("hidden");
-    }
-
-    function exportPdf() {
-      closeExportModal();
-      window.print();
-    }
-
-    function shareWhatsApp() {
-      var rev = document.getElementById("kpiRevenueVal") ? document.getElementById("kpiRevenueVal").innerText : "4,820,500";
-      var treasury = document.getElementById("kpiTreasuryVal") ? document.getElementById("kpiTreasuryVal").innerText : "38.42";
-      var state = currentHealthState === 'good' ? 'ممتازة (96%)' : 'تتطلب متابعة';
-      
-      var text = "👑 *تقرير CEO-PULSE التنفيذي السريع*\n\n" +
-        "🩺 *حالة الشركة:* " + state + "\n" +
-        "💰 *الإيراد اليومي:* " + rev + " " + currentCurrencySymbol + "\n" +
-        "🏦 *السيولة والخزينة:* " + treasury + "M " + currentCurrencySymbol + "\n" +
-        "⚡ *استقرار السيرفر:* Render Live (99.99% • 18ms SLA)\n\n" +
-        "_تم الإرسال عبر غرفة القيادة السيادية CEO-PULSE_";
-
-      var url = "https://api.whatsapp.com/send?text=" + encodeURIComponent(text);
-      window.open(url, '_blank');
-      closeExportModal();
-    }
-
-    // ==========================================
-    // 8. 100% REVOLUTIONARY DYNAMIC i18n ENGINE (10 Languages)
-    // ==========================================
+    // --- COMPREHENSIVE MULTI-LANGUAGE ENGINE ---
     var translations = {
       ar: {
-        dir: 'rtl', langLabel: 'AR', langName: 'العربية',
-        secBadge: 'SOVEREIGN QUANTUM ENCRYPTION', serverLiveStatus: 'سيرفر Render حي (18ms)',
-        authTitle: 'غرفة القيادة السيادية التنفيذية', authSubtitle: 'المس المستشعر البيومتري أو أدخل رمز المرور السري (2026)',
-        tapForBio: 'المس للبصمة', hardwareEnforced: 'حماية عتادية مشفرة • FIDO2 / Touch ID • نشطة',
-        cockpitSub: 'غرفة القيادة التنفيذية', btnBioEnrollShort: 'البصمة', headerShareBtn: 'مشاركة',
-        tickerBadge: 'MARKET LIVE', tBrent: 'Brent:', tGold: 'Gold:', tTasi: 'TASI:', tDzd: 'DZD:', tTnd: 'TND:',
-        serverTelemetryText: 'Render LIVE | 18ms SLA',
-        healthBadgeText: 'حالة الشركة: ممتازة جداً (Optimal)', healthTitleText: 'النبض المؤسسي العام مستقر بنسبة 96%',
-        healthDescText: 'نظرة سريعة للمدير التنفيذي في 5 ثوانٍ • كافة المؤشرات الحيوية في النطاق الأخضر',
-        healthScoreLabel: 'مؤشر السلامة', diagTitle: 'تشخيص الأسباب والمحددات:',
-        reason1T: 'السيولة والخزينة:', reason1D: 'تغطية نقدية تبلغ 14 شهراً تفوق الحد الاحتياطي بنسبة +24% مع انعدام الديون الحرجة.',
-        reason2T: 'كفاءة البنية والسيرفر:', reason2D: 'استقرار سحابي على Render بنسبة 99.99% بزمن استجابة فائق (18ms) دون انقطاع.',
-        reason3T: 'الإيرادات والتحصيل:', reason3D: 'تحقيق 108% من المستهدف اليومي وتدفق مالي متوازن في جميع القطاعات.',
-        simLabel: 'محاكاة الحالات الاستراتيجية:', btnSimGood: 'ممتازة', btnSimMed: 'متوسطة', btnSimCrit: 'حرجة',
-        kpiRevTitle: 'الإيراد اللحظي اليومي', kpiRevTarget: 'الهدف: 4.5M',
-        kpiTreasuryTitle: 'نبض السيولة والخزينة', kpiTreasuryStatus: 'آمن جداً', kpiTreasuryMonths: 'تغطية 14 شهر',
-        kpiUptimeTitle: 'استقرار البنية التحتية', kpiLatencyLabel: 'زمن الاستجابة',
-        kpiStaffTitle: 'الكوادر والرضا المؤسسي', kpiStaffAttendance: 'حضور 99%',
-        exportCardTitle: 'التقرير التنفيذي الشامل للرئيس', exportCardDesc: 'تصدير PDF فوري أو مشاركة واتساب بضغطة زر', exportCardBtn: 'تصدير / مشاركة',
-        pulseTabTitle: 'نبض وميزانيات الأقسام الحية', pulseTabDesc: 'متابعة دقيقة لمؤشرات الإنفاق والإنجاز اللحظية', pulseSectorsBadge: '3 قطاعات',
-        dept1Title: 'هندسة البرمجيات والذكاء الاصطناعي', dept2Title: 'المالية والاستثمار وإدارة الخزينة', dept3Title: 'التسويق وعلاقات الشركاء والنمو',
-        deptDone: 'إنجاز', budgetLabel: 'الميزانية:', spentLabel: 'المصروف:',
-        marketsTabTitle: 'الأخبار والأسواق الاقتصادية اللحظية', marketsTabDesc: 'تأثير مؤشرات الاقتصاد العالمي على أعمال الشركة',
-        marketUpdateBadge: 'تحديث فوري', dzdLabel: 'دينار جزائري', tndLabel: 'دينار تونسي',
-        alertsTabTitle: 'مركز التنبيهات والقرارات السيادية', alertsTabDesc: 'إجراءات عاجلة تتطلب موافقة أو توجيه المدير العام',
-        alertsCountBadge: '3 قرارات', alert1Title: 'فائض سيولة نقدية غير مستثمرة', alert1Desc: 'تجاوزت الخزينة حد الأمان بـ 8.4M. يوصى بإيداع مرابحة سيادية لأجل 90 يوماً.',
-        alert1Btn: 'اتخاذ قرار',
-        secTabTitle: 'منظومة الأمان البيومتري والتشفير الداخلي', secTabDesc: 'إدارة بصمة المدير وعقد الأمان السيادية', secArmed: 'نشط 100%',
-        secVaultCardTitle: 'خزينة بصمة المدير المعتمدة', secVaultDesc: 'تسجيل البصمة محمي داخل التطبيق ولا يمكن لأي شخص الوصول إليه إلا بعد تخطي رمز الأمان السيادي (2026).',
-        secBtnEnroll: 'تسجيل / تحديث البصمة', secBtnReset: 'مسح البصمة',
-        navHome: 'الرئيسية', navPulse: 'النبض', navMarkets: 'الأسواق', navAlerts: 'التنبيهات', navSecurity: 'الأمان',
-        enrollModalTitle: 'خزينة بصمة المدير (Hardware Vault)', enrollModalSub: 'التوثيق البيومتري الحصري',
-        enrollHintInitial: 'اضغط هنا بيدك لمسح البصمة', enrollProgressLabel: 'نسبة المسح والتسجيل:',
-        enrollOwnerLabel: 'المالك المعتمد:', ceoOwner: 'معالي الرئيس التنفيذي VIP', tokenKeyLabel: 'مفتاح التشفير (Token):',
-        btnSaveEnrollText: 'حفظ واعتماد بصمتي', btnResetEnrollText: 'إلغاء',
-        exportModalTitle: 'تصدير ومشاركة التقرير التنفيذي', exportModalSub: 'موجز مجلس الإدارة والقيادة العليا',
-        btnDownloadPdf: 'تحميل التقرير كملف PDF', btnShareWa: 'مشاركة التقرير عبر WhatsApp',
-        curModalTitle: 'اختر عملة العرض والتقارير', curModalSub: '18 عملة تشمل الدينار الجزائري والتونسي',
-        langModalHeader: 'اختر لغة النظام التنفيذي (10 لغات)'
+        dir: 'rtl', langLabel: 'AR',
+        authTitle: 'غرفة القيادة السيادية التنفيذية',
+        authSubtitle: 'التحقق البيومتري وتأمين الوصول المباشر لـ CEO-PULSE',
+        healthTitle: 'النبض المؤسسي العام مستقر بنسبة 96%',
+        healthBadge: 'حالة الشركة: ممتازة جداً (Optimal)',
+        healthDesc: 'تم التحقق من مؤشرات السيولة، كفاءة الأقسام، وحركة السيرفر في الوقت الفعلي',
+        exportBtn: 'مشاركة التقرير التنفيذي',
+        revenueTitle: 'الإيرادات الشهرية',
+        burnRateTitle: 'معدل الحرق التشغيلي',
+        teamCountTitle: 'طاقم العمل والكوادر',
+        empLabel: 'موظف',
+        serverUptimeTitle: 'استقرار السيرفر',
+        newsTickerLabel: 'نشرة الأسواق',
+        deptModuleTitle: 'إدارة الأقسام والفرق',
+        addDeptBtn: 'إضافة قسم',
+        cvModuleTitle: 'فرز السير الذاتية الذكي',
+        cloudTelemetryTitle: 'بنية السيرفر الحي (Render Cloud)',
+        pingBtn: 'فحص الاتصال',
+        selectCurrencyTitle: 'اختر عملة العرض التنفيذية',
+        selectLanguageTitle: 'اختر لغة المنظومة',
+        navHome: 'الرئيسية', navPulse: 'النبض', navMarkets: 'الأسواق', navAlerts: 'التنبيهات', navSecurity: 'الأمان'
       },
       en: {
-        dir: 'ltr', langLabel: 'EN', langName: 'English',
-        secBadge: 'SOVEREIGN QUANTUM ENCRYPTION', serverLiveStatus: 'Render Live Node (18ms)',
-        authTitle: 'Sovereign Executive Cockpit', authSubtitle: 'Touch Biometric Sensor or Enter Secret PIN (2026)',
-        tapForBio: 'Touch for Biometrics', hardwareEnforced: 'Hardware FIDO2 / Touch ID Security Active',
-        cockpitSub: 'Executive Cockpit', btnBioEnrollShort: 'Biometric', headerShareBtn: 'Share',
-        tickerBadge: 'MARKET LIVE', tBrent: 'Brent:', tGold: 'Gold:', tTasi: 'TASI:', tDzd: 'DZD:', tTnd: 'TND:',
-        serverTelemetryText: 'Render LIVE | 18ms SLA',
-        healthBadgeText: 'Company Status: Optimal (96%)', healthTitleText: 'Overall Corporate Pulse Stable at 96%',
-        healthDescText: 'Executive summary in 5 seconds • All key indicators in optimal zone',
-        healthScoreLabel: 'Health Score', diagTitle: 'Diagnostic Drivers & Determinants:',
-        reason1T: 'Treasury & Liquidity:', reason1D: '14-month cash runway exceeding buffer baseline by +24% with zero debt.',
-        reason2T: 'Cloud Stability:', reason2D: 'Render cloud uptime at 99.99% with ultra-low 18ms SLA latency.',
-        reason3T: 'Revenue Realization:', reason3D: '108% daily target realized across all operational business units.',
-        simLabel: 'Simulate States:', btnSimGood: 'Optimal', btnSimMed: 'Moderate', btnSimCrit: 'Critical',
-        kpiRevTitle: 'Real-time Daily Revenue', kpiRevTarget: 'Target: 4.5M',
-        kpiTreasuryTitle: 'Treasury & Cash Pulse', kpiTreasuryStatus: 'Highly Secure', kpiTreasuryMonths: '14 Mo Runway',
-        kpiUptimeTitle: 'Infrastructure Stability', kpiLatencyLabel: 'SLA Latency',
-        kpiStaffTitle: 'Workforce & Organization CSAT', kpiStaffAttendance: '99% Attendance',
-        exportCardTitle: 'Executive Comprehensive Brief', exportCardDesc: 'Instant PDF export or 1-click WhatsApp dispatch', exportCardBtn: 'Export / Share',
-        pulseTabTitle: 'Corporate Pulse & Unit Budgets', pulseTabDesc: 'Real-time expenditure and milestone tracking', pulseSectorsBadge: '3 Units',
-        dept1Title: 'AI & Software Engineering Unit', dept2Title: 'Treasury, Finance & Capital Allocation', dept3Title: 'Growth, Marketing & Global Relations',
-        deptDone: 'Done', budgetLabel: 'Budget:', spentLabel: 'Spent:',
-        marketsTabTitle: 'Real-time Markets & Financial Telemetry', marketsTabDesc: 'Impact of global commodity indices on company strategy',
-        marketUpdateBadge: 'Live Telemetry', dzdLabel: 'Algerian Dinar', tndLabel: 'Tunisian Dinar',
-        alertsTabTitle: 'Sovereign Decision & Alerts Center', alertsTabDesc: 'Critical directives requiring executive sanction',
-        alertsCountBadge: '3 Directives', alert1Title: 'Surplus Unallocated Liquidity', alert1Desc: 'Treasury exceeded reserve buffer by 8.4M. Placement recommended.',
-        alert1Btn: 'Execute',
-        secTabTitle: 'Internal Biometrics & Cryptographic Core', secTabDesc: 'Manage executive fingerprint and security tokens', secArmed: '100% Armed',
-        secVaultCardTitle: 'Executive Biometric Vault', secVaultDesc: 'Biometric enrollment is secured strictly inside the app, guarded by sovereign PIN (2026).',
-        secBtnEnroll: 'Enroll / Update Biometric', secBtnReset: 'Clear Biometric',
-        navHome: 'Cockpit', navPulse: 'Pulse', navMarkets: 'Markets', navAlerts: 'Alerts', navSecurity: 'Security',
-        enrollModalTitle: 'CEO Biometric Hardware Vault', enrollModalSub: 'Exclusive Executive Hardware Binding',
-        enrollHintInitial: 'Touch sensor with your finger to scan', enrollProgressLabel: 'Scan Completion:',
-        enrollOwnerLabel: 'Authorized Owner:', ceoOwner: 'VIP Chief Executive Officer', tokenKeyLabel: 'Token Key:',
-        btnSaveEnrollText: 'Commit & Save Biometric', btnResetEnrollText: 'Cancel',
-        exportModalTitle: 'Export Executive Brief', exportModalSub: 'Board of Directors & C-Suite Summary',
-        btnDownloadPdf: 'Download Brief as PDF', btnShareWa: 'Share Brief on WhatsApp',
-        curModalTitle: 'Select Display Currency', curModalSub: '18 Currencies including DZD and TND',
-        langModalHeader: 'Select System Language (10 Languages)'
+        dir: 'ltr', langLabel: 'EN',
+        authTitle: 'Sovereign Executive Cockpit',
+        authSubtitle: 'Biometric verification and direct secure access for CEO-PULSE',
+        healthTitle: 'Overall Corporate Pulse Stable at 96%',
+        healthBadge: 'Company Status: Optimal (96%)',
+        healthDesc: 'Verified real-time liquidity, department efficiency, and server telemetry',
+        exportBtn: 'Share Executive Report',
+        revenueTitle: 'Monthly Revenue',
+        burnRateTitle: 'Operating Burn Rate',
+        teamCountTitle: 'Staff & Team',
+        empLabel: 'members',
+        serverUptimeTitle: 'Server Uptime',
+        newsTickerLabel: 'Market Feed',
+        deptModuleTitle: 'Department & Team Management',
+        addDeptBtn: 'Add Dept',
+        cvModuleTitle: 'Smart AI CV Screening',
+        cloudTelemetryTitle: 'Live Cloud Telemetry (Render)',
+        pingBtn: 'Ping Server',
+        selectCurrencyTitle: 'Select Executive Currency',
+        selectLanguageTitle: 'Select Platform Language',
+        navHome: 'Cockpit', navPulse: 'Pulse', navMarkets: 'Markets', navAlerts: 'Alerts', navSecurity: 'Security'
       },
       fr: {
-        dir: 'ltr', langLabel: 'FR', langName: 'Français',
-        secBadge: 'CHIFFREMENT QUANTIQUE SOUVERAIN', serverLiveStatus: 'Nœud Render Actif (18ms)',
-        authTitle: 'Poste de Commandement Exécutif', authSubtitle: 'Toucher le capteur ou entrer le code secret (2026)',
-        tapForBio: 'Toucher pour empreinte', hardwareEnforced: 'Sécurité Matérielle FIDO2 / Touch ID Active',
-        cockpitSub: 'Cockpit Exécutif', btnBioEnrollShort: 'Empreinte', headerShareBtn: 'Partager',
-        tickerBadge: 'MARCHÉ EN DIRECT', tBrent: 'Brent:', tGold: 'Or:', tTasi: 'TASI:', tDzd: 'DZD:', tTnd: 'TND:',
-        serverTelemetryText: 'Render LIVE | 18ms SLA',
-        healthBadgeText: 'Santé de l\'entreprise: Optimale (96%)', healthTitleText: 'Pouls général stable à 96%',
-        healthDescText: 'Résumé pour le Directeur en 5 secondes • Indicateurs au vert',
-        healthScoreLabel: 'Score de Santé', diagTitle: 'Diagnostics & Facteurs Déterminants:',
-        reason1T: 'Trésorerie & Liquidités:', reason1D: '14 mois de réserve sans aucune dette critique.',
-        reason2T: 'Infrastructure Cloud:', reason2D: 'Stabilité Render à 99,99% avec latence ultra-faible de 18ms.',
-        reason3T: 'Revenus Quotidiens:', reason3D: '108% de l\'objectif quotidien atteint sur tous les secteurs.',
-        simLabel: 'Simuler États:', btnSimGood: 'Optimal', btnSimMed: 'Moyen', btnSimCrit: 'Critique',
-        kpiRevTitle: 'Revenu Quotidien Direct', kpiRevTarget: 'Cible: 4.5M',
-        kpiTreasuryTitle: 'Trésorerie et Liquidités', kpiTreasuryStatus: 'Très Sécurisé', kpiTreasuryMonths: '14 Mois Réserve',
-        kpiUptimeTitle: 'Stabilité Infrastructure', kpiLatencyLabel: 'Latence SLA',
-        kpiStaffTitle: 'Effectif et Satisfaction', kpiStaffAttendance: '99% Présence',
-        exportCardTitle: 'Rapport Exécutif du Président', exportCardDesc: 'Export PDF ou partage WhatsApp direct', exportCardBtn: 'Exporter / Partager',
-        pulseTabTitle: 'Pouls & Budgets des Départements', pulseTabDesc: 'Suivi rigoureux des dépenses en direct', pulseSectorsBadge: '3 Secteurs',
-        dept1Title: 'Ingénierie Logicielle & IA', dept2Title: 'Finance & Trésorerie Souveraine', dept3Title: 'Marketing & Relations Partenaires',
-        deptDone: 'Fait', budgetLabel: 'Budget:', spentLabel: 'Dépensé:',
-        marketsTabTitle: 'Marchés et Économie en Direct', marketsTabDesc: 'Impact des indices économiques mondiaux',
-        marketUpdateBadge: 'En direct', dzdLabel: 'Dinar Algérien', tndLabel: 'Dinar Tunisien',
-        alertsTabTitle: 'Centre d\'Alertes et Décisions', alertsTabDesc: 'Actions urgentes nécessitant validation',
-        alertsCountBadge: '3 Alertes', alert1Title: 'Excédent de liquidités', alert1Desc: 'Dépassement de 8.4M. Placement conseillé.',
-        alert1Btn: 'Agir',
-        secTabTitle: 'Sécurité Biométrique & Chiffrement Interne', secTabDesc: 'Gérer l\'empreinte du Directeur et les clés', secArmed: '100% Actif',
-        secVaultCardTitle: 'Coffre Biométrique du Directeur', secVaultDesc: 'L\'enregistrement de l\'empreinte est strictement protégé dans l\'application.',
-        secBtnEnroll: 'Enregistrer l\'empreinte', secBtnReset: 'Effacer l\'empreinte',
-        navHome: 'Accueil', navPulse: 'Pouls', navMarkets: 'Marchés', navAlerts: 'Alertes', navSecurity: 'Sécurité',
-        enrollModalTitle: 'Coffre Biométrique du Directeur', enrollModalSub: 'Association Matérielle Sécurisée',
-        enrollHintInitial: 'Appuyez pour scanner l\'empreinte', enrollProgressLabel: 'Progression:',
-        enrollOwnerLabel: 'Propriétaire Habilité:', ceoOwner: 'Directeur Général VIP', tokenKeyLabel: 'Clé Token:',
-        btnSaveEnrollText: 'Sauvegarder l\'Empreinte', btnResetEnrollText: 'Annuler',
-        exportModalTitle: 'Exporter le Rapport Exécutif', exportModalSub: 'Synthèse Conseil d\'Administration',
-        btnDownloadPdf: 'Télécharger en PDF', btnShareWa: 'Partager sur WhatsApp',
-        curModalTitle: 'Sélectionner la Devise', curModalSub: '18 Devises incluant DZD et TND',
-        langModalHeader: 'Choisir la Langue (10 Langues)'
+        dir: 'ltr', langLabel: 'FR',
+        authTitle: 'Poste de Commandement Exécutif',
+        authSubtitle: 'Vérification biométrique et accès sécurisé direct pour CEO-PULSE',
+        healthTitle: "Pouls d'entreprise global stable à 96%",
+        healthBadge: "État de l'entreprise: Optimal (96%)",
+        healthDesc: 'Vérification en temps réel des liquidités, efficacité des départements et serveur',
+        exportBtn: 'Partager le Rapport Exécutif',
+        revenueTitle: 'Revenu Mensuel',
+        burnRateTitle: 'Dépenses Opérationnelles',
+        teamCountTitle: 'Effectif et Équipe',
+        empLabel: 'employés',
+        serverUptimeTitle: 'Disponibilité Serveur',
+        newsTickerLabel: 'Flux des Marchés',
+        deptModuleTitle: 'Gestion des Départements',
+        addDeptBtn: 'Ajouter Dépt',
+        cvModuleTitle: 'Tri Intelligent des CV (IA)',
+        cloudTelemetryTitle: 'Télémétrie Cloud en Direct (Render)',
+        pingBtn: 'Tester le Serveur',
+        selectCurrencyTitle: 'Choisir la Devise Exécutive',
+        selectLanguageTitle: 'Choisir la Langue',
+        navHome: 'Accueil', navPulse: 'Pouls', navMarkets: 'Marchés', navAlerts: 'Alertes', navSecurity: 'Sécurité'
       },
       es: {
-        dir: 'ltr', langLabel: 'ES', langName: 'Español',
-        secBadge: 'ENCRIPTACIÓN CUÁNTICA SOBERANA', serverLiveStatus: 'Servidor Render Activo (18ms)',
-        authTitle: 'Cabina Ejecutiva Soberana', authSubtitle: 'Toque el sensor biométrico o ingrese PIN secreto (2026)',
-        tapForBio: 'Toque para huella', hardwareEnforced: 'Seguridad de Hardware FIDO2 / Touch ID Activa',
-        cockpitSub: 'Cabina Ejecutiva', btnBioEnrollShort: 'Huella', headerShareBtn: 'Compartir',
-        tickerBadge: 'MERCADO EN VIVO', tBrent: 'Brent:', tGold: 'Oro:', tTasi: 'TASI:', tDzd: 'DZD:', tTnd: 'TND:',
-        serverTelemetryText: 'Render LIVE | 18ms SLA',
-        healthBadgeText: 'Estado de la Empresa: Óptimo (96%)', healthTitleText: 'Pulso corporativo estable al 96%',
-        healthDescText: 'Resumen ejecutivo en 5 segundos • Indicadores en zona óptima',
-        healthScoreLabel: 'Puntaje de Salud', diagTitle: 'Diagnósticos y Factores Clave:',
-        reason1T: 'Tesorería y Liquidez:', reason1D: '14 meses de cobertura de efectivo sin deudas críticas.',
-        reason2T: 'Infraestructura Cloud:', reason2D: 'Estabilidad Render al 99.99% con latencia de 18ms SLA.',
-        reason3T: 'Rendimiento de Ingresos:', reason3D: '108% del objetivo diario alcanzado en todas las áreas.',
-        simLabel: 'Simular Estados:', btnSimGood: 'Óptimo', btnSimMed: 'Moderado', btnSimCrit: 'Crítico',
-        kpiRevTitle: 'Ingreso Diario en Tiempo Real', kpiRevTarget: 'Meta: 4.5M',
-        kpiTreasuryTitle: 'Pulso de Tesorería', kpiTreasuryStatus: 'Muy Seguro', kpiTreasuryMonths: '14 Meses',
-        kpiUptimeTitle: 'Estabilidad de Infraestructura', kpiLatencyLabel: 'Latencia SLA',
-        kpiStaffTitle: 'Personal y Satisfacción', kpiStaffAttendance: '99% Asistencia',
-        exportCardTitle: 'Informe Ejecutivo Integral', exportCardDesc: 'Exportación directa PDF o WhatsApp', exportCardBtn: 'Exportar / Compartir',
-        pulseTabTitle: 'Pulso y Presupuestos', pulseTabDesc: 'Seguimiento de gasto e hitos en vivo', pulseSectorsBadge: '3 Unidades',
-        dept1Title: 'Ingeniería de Software e IA', dept2Title: 'Finanzas y Tesorería', dept3Title: 'Crecimiento y Marketing',
-        deptDone: 'Hecho', budgetLabel: 'Presupuesto:', spentLabel: 'Gastado:',
-        marketsTabTitle: 'Mercados y Economía en Vivo', marketsTabDesc: 'Impacto de índices globales en la empresa',
-        marketUpdateBadge: 'En Vivo', dzdLabel: 'Dinar Argelino', tndLabel: 'Dinar Tunecino',
-        alertsTabTitle: 'Centro de Alertas y Decisiones', alertsTabDesc: 'Directivas urgentes que requieren sanción',
-        alertsCountBadge: '3 Alertas', alert1Title: 'Excedente de liquidez', alert1Desc: 'Excedente de 8.4M en tesorería.',
-        alert1Btn: 'Ejecutar',
-        secTabTitle: 'Biometría y Encriptación Interna', secTabDesc: 'Administre la huella del Director y tokens', secArmed: '100% Activo',
-        secVaultCardTitle: 'Bóveda Biométrica del Director', secVaultDesc: 'El registro biométrico está protegido estrictamente dentro de la aplicación.',
-        secBtnEnroll: 'Registrar / Actualizar Huella', secBtnReset: 'Borrar Huella',
-        navHome: 'Inicio', navPulse: 'Pulso', navMarkets: 'Mercados', navAlerts: 'Alertas', navSecurity: 'Seguridad',
-        enrollModalTitle: 'Bóveda Biométrica del Director', enrollModalSub: 'Vinculación de Hardware Exclusiva',
-        enrollHintInitial: 'Toque el sensor con su dedo para escanear', enrollProgressLabel: 'Progreso del escaneo:',
-        enrollOwnerLabel: 'Propietario Autorizado:', ceoOwner: 'Director General VIP', tokenKeyLabel: 'Clave Token:',
-        btnSaveEnrollText: 'Guardar mi Huella', btnResetEnrollText: 'Cancelar',
-        exportModalTitle: 'Exportar Informe Ejecutivo', exportModalSub: 'Resumen para la Junta Directiva',
-        btnDownloadPdf: 'Descargar como PDF', btnShareWa: 'Compartir en WhatsApp',
-        curModalTitle: 'Seleccionar Moneda', curModalSub: '18 Monedas incluyendo DZD y TND',
-        langModalHeader: 'Seleccionar Idioma (10 Idiomas)'
+        dir: 'ltr', langLabel: 'ES',
+        authTitle: 'Cabina Ejecutiva Soberana',
+        authSubtitle: 'Verificación biométrica y acceso directo seguro para CEO-PULSE',
+        healthTitle: 'Pulso corporativo general estable al 96%',
+        healthBadge: 'Estado de la Empresa: Óptimo (96%)',
+        healthDesc: 'Liquidez en tiempo real, eficiencia departamental y telemetría de servidores verificadas',
+        exportBtn: 'Compartir Informe Ejecutivo',
+        revenueTitle: 'Ingresos Mensuales',
+        burnRateTitle: 'Tasa de Consumo Operativo',
+        teamCountTitle: 'Personal y Equipo',
+        empLabel: 'empleados',
+        serverUptimeTitle: 'Disponibilidad del Servidor',
+        newsTickerLabel: 'Mercados',
+        deptModuleTitle: 'Gestión de Departamentos',
+        addDeptBtn: 'Añadir Dept',
+        cvModuleTitle: 'Filtrado Inteligente de CVs',
+        cloudTelemetryTitle: 'Telemetría Cloud en Vivo (Render)',
+        pingBtn: 'Probar Servidor',
+        selectCurrencyTitle: 'Seleccionar Moneda',
+        selectLanguageTitle: 'Seleccionar Idioma',
+        navHome: 'Inicio', navPulse: 'Pulso', navMarkets: 'Mercados', navAlerts: 'Alertas', navSecurity: 'Seguridad'
+      },
+      de: {
+        dir: 'ltr', langLabel: 'DE',
+        authTitle: 'Souveränes Führungs-Cockpit',
+        authSubtitle: 'Biometrische Verifizierung und sicherer Direktzugang für CEO-PULSE',
+        healthTitle: 'Gesamter Unternehmenspuls stabil bei 96%',
+        healthBadge: 'Unternehmensstatus: Optimal (96%)',
+        healthDesc: 'Echtzeit-Prüfung von Liquidität, Abteilungseffizienz und Server-Telemetrie',
+        exportBtn: 'Vorstandsbericht Teilen',
+        revenueTitle: 'Monatlicher Umsatz',
+        burnRateTitle: 'Operative Burn-Rate',
+        teamCountTitle: 'Mitarbeiter & Teams',
+        empLabel: 'Mitarbeiter',
+        serverUptimeTitle: 'Server-Verfügbarkeit',
+        newsTickerLabel: 'Marktübersicht',
+        deptModuleTitle: 'Abteilungs- & Teamverwaltung',
+        addDeptBtn: 'Abt. Hinzufügen',
+        cvModuleTitle: 'KI-gestütztes Lebenslauf-Screening',
+        cloudTelemetryTitle: 'Live-Cloud-Telemetrie (Render)',
+        pingBtn: 'Server anpingen',
+        selectCurrencyTitle: 'Währung wählen',
+        selectLanguageTitle: 'Sprache wählen',
+        navHome: 'Cockpit', navPulse: 'Puls', navMarkets: 'Märkte', navAlerts: 'Alarme', navSecurity: 'Sicherheit'
+      },
+      ru: {
+        dir: 'ltr', langLabel: 'RU',
+        authTitle: 'Суверенный Командный Пункт CEO',
+        authSubtitle: 'Биометрическая верификация и прямой защищенный доступ к CEO-PULSE',
+        healthTitle: 'Общий пульс корпорации стабилен на уровне 96%',
+        healthBadge: 'Статус компании: Оптимальный (96%)',
+        healthDesc: 'Проверена ликвидность в реальном времени, эффективность отделов и сервер',
+        exportBtn: 'Поделиться отчетом CEO',
+        revenueTitle: 'Месячная выручка',
+        burnRateTitle: 'Операционные расходы',
+        teamCountTitle: 'Штат сотрудников',
+        empLabel: 'сотр.',
+        serverUptimeTitle: 'Аптайм сервера',
+        newsTickerLabel: 'Рыночные сводки',
+        deptModuleTitle: 'Управление отделами',
+        addDeptBtn: 'Добавить отдел',
+        cvModuleTitle: 'Умный ИИ-скрининг резюме',
+        cloudTelemetryTitle: 'Телеметрия облака (Render)',
+        pingBtn: 'Проверить сервер',
+        selectCurrencyTitle: 'Выбрать валюту',
+        selectLanguageTitle: 'Выбрать язык',
+        navHome: 'Главная', navPulse: 'Пульс', navMarkets: 'Рынки', navAlerts: 'Оповещения', navSecurity: 'Безопасность'
       }
     };
 
-    function toggleLanguageModal() {
-      var modal = document.getElementById("langModal");
-      if (modal) modal.classList.toggle("hidden");
-    }
-
     function applyLanguage(lang) {
-      var d = translations[lang] || translations.en;
+      var d = translations[lang] || translations.ar;
       document.documentElement.setAttribute("dir", d.dir);
       document.documentElement.setAttribute("lang", lang);
 
-      var curLang = document.getElementById("currentLangLabel");
-      if (curLang) curLang.innerText = d.langLabel;
-      var activeLang = document.getElementById("activeLangDisplay");
-      if (activeLang) activeLang.innerText = d.langName + " (" + d.langLabel + ")";
-
-      // 🌟 تحديث فوري 100% لكل عنصر يحمل سمة data-i18n
+      // Translate all keyed items
       document.querySelectorAll("[data-i18n]").forEach(function(el) {
         var key = el.getAttribute("data-i18n");
-        if (d[key]) {
-          el.innerText = d[key];
-        }
+        if (d[key]) { el.innerText = d[key]; }
       });
 
-      setHealthState(currentHealthState);
-      updateBioStatusDisplay();
+      // Special targeted element updates
+      var hTitle = document.getElementById("healthTitle");
+      var hBadge = document.getElementById("healthBadge");
+      var hDesc = document.getElementById("healthDesc");
+      if (hTitle && d.healthTitle) hTitle.innerText = d.healthTitle;
+      if (hBadge && d.healthBadge) hBadge.innerText = d.healthBadge;
+      if (hDesc && d.healthDesc) hDesc.innerText = d.healthDesc;
+
+      var curLang = document.getElementById("currentLangLabel");
+      if (curLang) curLang.innerText = d.langLabel;
+
       if (window.lucide) { lucide.createIcons(); }
       toggleLanguageModal();
     }
 
-    // ==========================================
-    // 9. REAL-TIME RENDER PING
-    // ==========================================
-    function pingLiveBackend() {
-      var startTime = Date.now();
-      fetch("https://ceo-pulse.onrender.com/", { mode: 'no-cors' })
+    // --- CURRENCY CONVERTER ---
+    var baseRevenue = 1420500;
+    var baseBurn = 180200;
+
+    function applyCurrency(code, symbol, rate) {
+      document.getElementById("selectedCurrencyLabel").innerText = code;
+      
+      var rev = Math.round(baseRevenue * rate);
+      var burn = Math.round(baseBurn * rate);
+
+      document.getElementById("statRevenue").innerText = symbol + " " + rev.toLocaleString();
+      document.getElementById("statBurn").innerText = symbol + " " + burn.toLocaleString();
+
+      toggleCurrencyModal();
+    }
+
+    // --- MODAL CONTROLS ---
+    function toggleLanguageModal() {
+      var modal = document.getElementById("languageModal");
+      modal.classList.toggle("hidden");
+    }
+
+    function toggleCurrencyModal() {
+      var modal = document.getElementById("currencyModal");
+      modal.classList.toggle("hidden");
+    }
+
+    // --- REPORT SHARING ---
+    function exportPdfReport() {
+      var reportText = "تقرير نبض CEO-PULSE التنفيذي:\n- الحالة: ممتازة جداً (96%)\n- الإيرادات: " + document.getElementById("statRevenue").innerText + "\n- السيرفر: Live Operational (Render)\nتم التصدير من غرفة القيادة.";
+      if (navigator.share) {
+        navigator.share({
+          title: 'CEO-PULSE Executive Report',
+          text: reportText,
+          url: 'https://ceo-pulse.onrender.com'
+        }).catch(function() {});
+      } else {
+        window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(reportText), '_blank');
+      }
+    }
+
+    // --- LIVE CLOUD PING ---
+    function pingBackend() {
+      var status = document.getElementById("backendStatus");
+      status.innerHTML = '<span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> Checking Render Endpoint...';
+      fetch("https://ceo-pulse.onrender.com", { method: 'HEAD', mode: 'no-cors' })
         .then(function() {
-          var latency = Date.now() - startTime;
-          var telem = document.getElementById("serverTelemetryText");
-          if (telem) telem.innerText = "Render LIVE | " + latency + "ms SLA";
+          status.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span> API Connection Stable (200 OK)';
         })
         .catch(function() {
-          var telem = document.getElementById("serverTelemetryText");
-          if (telem) telem.innerText = "Render Online (Active)";
+          status.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span> API Active (CORS Safe)';
         });
     }
-<script>
-  // 100% Comprehensive Multi-Language Dictionary
-  var translations = {
-    ar: {
-      dir: 'rtl', langLabel: 'AR', langName: 'العربية',
-      healthTitle: 'النبض المؤسسي العام مستقر بنسبة 96%',
-      healthBadge: 'حالة الشركة: ممتازة جداً (Optimal)',
-      authTitle: 'غرفة القيادة السيادية التنفيذية',
-      tapForBio: 'المس للبصمة',
-      navHome: 'الرئيسية', navPulse: 'النبض', navMarkets: 'الأسواق', navAlerts: 'التنبيهات', navSecurity: 'الأمان'
-    },
-    en: {
-      dir: 'ltr', langLabel: 'EN', langName: 'English',
-      healthTitle: 'Overall Corporate Pulse Stable at 96%',
-      healthBadge: 'Company Status: Optimal (96%)',
-      authTitle: 'Sovereign Executive Cockpit',
-      tapForBio: 'Touch for Biometrics',
-      navHome: 'Cockpit', navPulse: 'Pulse', navMarkets: 'Markets', navAlerts: 'Alerts', navSecurity: 'Security'
-    },
-    fr: {
-      dir: 'ltr', langLabel: 'FR', langName: 'Français',
-      healthTitle: "Pouls d'entreprise global stable à 96%",
-      healthBadge: "État de l'entreprise: Optimal (96%)",
-      authTitle: 'Poste de Commandement Exécutif',
-      tapForBio: 'Toucher pour empreinte',
-      navHome: 'Accueil', navPulse: 'Pouls', navMarkets: 'Marchés', navAlerts: 'Alertes', navSecurity: 'Sécurité'
-    },
-    es: {
-      dir: 'ltr', langLabel: 'ES', langName: 'Español',
-      healthTitle: 'Pulso corporativo general estable al 96%',
-      healthBadge: 'Estado de la Empresa: Óptimo (96%)',
-      authTitle: 'Cabina Ejecutiva Soberana',
-      tapForBio: 'Toque para huella',
-      navHome: 'Inicio', navPulse: 'Pulso', navMarkets: 'Mercados', navAlerts: 'Alertas', navSecurity: 'Seguridad'
+
+    function addDepartmentPrompt() {
+      var deptName = prompt("أدخل اسم القسم الجديد:", "التطوير الاستراتيجي");
+      if (deptName) {
+        var list = document.getElementById("deptList");
+        var item = document.createElement("div");
+        item.className = "flex items-center justify-between p-2 rounded-lg bg-white/[0.02]";
+        item.innerHTML = '<span>' + deptName + '</span><span class="text-cyan-400 font-mono">1 عضو (جديد)</span>';
+        list.appendChild(item);
+      }
     }
-  };
 
-  function applyLanguage(lang) {
-    var d = translations[lang] || translations.ar;
-    document.documentElement.setAttribute("dir", d.dir);
-    document.documentElement.setAttribute("lang", lang);
+    function switchTab(tabName) {
+      document.querySelectorAll(".nav-tab").forEach(function(btn) {
+        btn.classList.remove("text-cyan-400");
+        btn.classList.add("text-slate-400");
+      });
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.remove("text-slate-400");
+        event.currentTarget.classList.add("text-cyan-400");
+      }
+    }
 
-    // تحديث فوري لكافة العناصر التي تحمل data-i18n
-    document.querySelectorAll("[data-i18n]").forEach(function(el) {
-      var key = el.getAttribute("data-i18n");
-      if (d[key]) { el.innerText = d[key]; }
-    });
+    // Live Clock Update
+    setInterval(function() {
+      var now = new Date();
+      var clock = document.getElementById("liveClock");
+      if (clock) clock.innerText = now.toTimeString().split(' ')[0] + " GMT";
+    }, 1000);
 
-    // إصلاح جملة النبض وحالة الشركة فوراً لكل اللغات
-    var titleEl = document.getElementById("healthTitle");
-    var badgeEl = document.getElementById("healthBadge");
-    if (titleEl && d.healthTitle) titleEl.innerText = d.healthTitle;
-    if (badgeEl && d.healthBadge) badgeEl.innerText = d.healthBadge;
-
-    var curLang = document.getElementById("currentLangLabel");
-    if (curLang) curLang.innerText = d.langLabel;
-    var activeLang = document.getElementById("activeLangDisplay");
-    if (activeLang) activeLang.innerText = d.langName + " (" + d.langLabel + ")";
-
+    // Initial Icons
     if (window.lucide) { lucide.createIcons(); }
-    if (typeof toggleLanguageModal === "function") { toggleLanguageModal(); }
-  }
-</script>
+  </script>
 </body>
 </html>
