@@ -9,11 +9,10 @@ from google.genai import types
 
 app = FastAPI(
     title="CEO-PULSE SOVEREIGN API",
-    version="8.3.0",
-    description="Universal Executive OS & Real Cognitive AI Engine"
+    version="8.4.0",
+    description="Universal Executive OS & Fast AI Engine"
 )
 
-# 1. تفعيل CORS للسماح بالاتصال من التطبيق على الهاتف والويب
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -22,7 +21,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# نماذج البيانات
 class AdvisorRequest(BaseModel):
     question: str
     liquidity: Optional[float] = 1066875.0
@@ -39,12 +37,10 @@ def home():
     api_status = "Connected" if os.environ.get("GEMINI_API_KEY") else "Missing Key"
     return {
         "status": "ONLINE",
-        "system": "CEO-PULSE SOVEREIGN v8.3-live",
-        "latency": "11ms",
+        "system": "CEO-PULSE SOVEREIGN v8.4-live",
         "ai_engine": api_status
     }
 
-# 2. نقطة المستشار الاستراتيجي الذكي الحقيقي (Gemini 3.8 Flash)
 @app.post("/api/ai-advisor")
 async def run_ai_advisor(payload: AdvisorRequest):
     q = payload.question.strip()
@@ -60,19 +56,14 @@ async def run_ai_advisor(payload: AdvisorRequest):
     try:
         client = genai.Client(api_key=api_key)
         prompt = f"""
-        أنت المستشار الاستراتيجي التنفيذي لمنظومة CEO-PULSE SOVEREIGN.
-        بيانات المؤسسة الحية الآن:
-        - السيولة المتاحة: {payload.liquidity:,.0f} {payload.currency}
-        - صافي الأرباح الشهرية: {payload.net_profit:,.0f} {payload.currency}
-        - معدل الحرق الشهري: {payload.burn_rate:,.0f} {payload.currency}
-        - مدرج الأمان الاستراتيجي (Runway): {runway_months} شهراً
-
-        سؤال المدير التنفيذي: "{q}"
-
-        المطلوب: قدم توجيهاً استراتيجياً حاسماً ومختصراً جداً (3 نقاط تنفيذية مرقمة فقط) مبنياً بدقة على الأرقام أعلاه، بأسلوب قيادي مباشر يناسب قاعدة الـ 5 ثوانٍ.
+        أنت المستشار الاستراتيجي التنفيذي لمنظومة CEO-PULSE.
+        بيانات الشركة: السيولة {payload.liquidity:,.0f} {payload.currency}، الأرباح {payload.net_profit:,.0f} {payload.currency}، الحرق الشهري {payload.burn_rate:,.0f} {payload.currency}، مدرج الأمان {runway_months} شهر.
+        سؤال المدير: "{q}"
+        أجب باختصار شديد في 3 نقاط تنفيذية حاسمة.
         """
+        # استخدام gemini-flash-latest يضمن أسرع استجابة وأعلى توافق مع الباقة المجانية
         response = client.models.generate_content(
-            model='gemini-3.8-flash',
+            model='gemini-flash-latest',
             contents=prompt,
         )
         return {
@@ -82,10 +73,9 @@ async def run_ai_advisor(payload: AdvisorRequest):
     except Exception as e:
         return {
             "status": "error",
-            "reply": f"⚠️ تعذر التحليل اللحظي: {str(e)}"
+            "reply": f"⚠️ تنبيه السيرفر: {str(e)}"
         }
 
-# 3. نقطة فرز ومطابقة السير الذاتية الذكية (AI CV Match)
 @app.post("/api/parse-cv")
 async def parse_cv(payload: CVRequest):
     api_key = os.environ.get("GEMINI_API_KEY")
@@ -95,18 +85,12 @@ async def parse_cv(payload: CVRequest):
     try:
         client = genai.Client(api_key=api_key)
         prompt = f"""
-        قم بتقييم هذه السيرة الذاتية لوظيفة: "{payload.job_title}".
-        نص السيرة الذاتية:
-        {payload.cv_text}
-
-        أرجع النتيجة بصيغة JSON حصراً تحتوي على المفاتيح التالية:
-        - "candidate_name": اسم المرشح المستخرج من النص
-        - "match_score": رقم صحيح من 0 إلى 100 يمثل نسبة التطابق مع الوظيفة
-        - "summary": سطر واحد يلخص نقطة القوة الأبرز للمرشح
-        - "whatsapp_invite": رسالة دعوة احترافية ومختصرة لمقابلة عمل جاهزة للإرسال عبر واتساب
+        قيّم هذه السيرة الذاتية لوظيفة: "{payload.job_title}".
+        النص: {payload.cv_text}
+        أرجع النتيجة بصيغة JSON بالمفاتيح: "candidate_name", "match_score", "summary", "whatsapp_invite".
         """
         response = client.models.generate_content(
-            model='gemini-3.8-flash',
+            model='gemini-flash-latest',
             contents=prompt,
             config=types.GenerateContentConfig(
                 response_mime_type="application/json"
@@ -117,7 +101,4 @@ async def parse_cv(payload: CVRequest):
             "analysis": json.loads(response.text)
         }
     except Exception as e:
-        return {
-            "status": "error",
-            "detail": str(e)
-        }
+        return {"status": "error", "detail": str(e)}
