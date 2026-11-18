@@ -13,7 +13,6 @@ app = FastAPI(
     description="Universal Executive OS & Real Cognitive AI Engine"
 )
 
-# 1. تفعيل CORS للسماح بالاتصال من التطبيق على الهاتف والويب
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -22,7 +21,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# نماذج البيانات
 class AdvisorRequest(BaseModel):
     question: str
     liquidity: Optional[float] = 1066875.0
@@ -44,7 +42,6 @@ def home():
         "ai_engine": api_status
     }
 
-# 2. نقطة المستشار الاستراتيجي الذكي الحقيقي (Gemini AI)
 @app.post("/api/ai-advisor")
 async def run_ai_advisor(payload: AdvisorRequest):
     q = payload.question.strip()
@@ -85,7 +82,6 @@ async def run_ai_advisor(payload: AdvisorRequest):
             "reply": f"⚠️ تعذر التحليل اللحظي: {str(e)}"
         }
 
-# 3. نقطة فرز ومطابقة السير الذاتية الذكية (AI CV Match)
 @app.post("/api/parse-cv")
 async def parse_cv(payload: CVRequest):
     api_key = os.environ.get("GEMINI_API_KEY")
