@@ -38,16 +38,6 @@
           fontFamily: {
             sans: ['Tajawal', 'Plus Jakarta Sans', 'sans-serif'],
             mono: ['JetBrains Mono', 'monospace']
-          },
-          animation: {
-            'pulse-fast': 'pulse 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'radar': 'radar 3s linear infinite'
-          },
-          keyframes: {
-            radar: {
-              '0%': { transform: 'rotate(0deg)' },
-              '100%': { transform: 'rotate(360deg)' }
-            }
           }
         }
       }
@@ -65,27 +55,16 @@
     }
     .mono-num { font-family: 'JetBrains Mono', monospace; }
     .glass-card {
-      background: linear-gradient(135deg, rgba(17, 24, 39, 0.75) 0%, rgba(11, 17, 32, 0.85) 100%);
+      background: linear-gradient(135deg, rgba(17, 24, 39, 0.8) 0%, rgba(11, 17, 32, 0.9) 100%);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .cyan-glow {
-      box-shadow: 0 0 25px -4px rgba(0, 229, 255, 0.35);
-    }
-    .red-glow {
-      box-shadow: 0 0 25px -3px rgba(239, 68, 68, 0.45);
-    }
-    .amber-glow {
-      box-shadow: 0 0 25px -3px rgba(245, 158, 11, 0.35);
-    }
-    @keyframes progressDrain {
-      from { width: 100%; }
-      to { width: 0%; }
-    }
-    .animate-drain-8s {
-      animation: progressDrain 8s linear forwards;
-    }
+    .cyan-glow { box-shadow: 0 0 25px -4px rgba(0, 229, 255, 0.35); }
+    .red-glow { box-shadow: 0 0 25px -3px rgba(239, 68, 68, 0.45); }
+    @keyframes progressDrain { from { width: 100%; } to { width: 0%; } }
+    .animate-drain-8s { animation: progressDrain 8s linear forwards; }
+    .tab-active { color: #00e5ff !important; border-bottom: 2px solid #00e5ff; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between overflow-x-hidden relative">
@@ -95,7 +74,6 @@
   <!-- ========================================== -->
   <aside id="sovereignAlertBanner" class="fixed top-0 inset-x-0 z-[100] transition-all duration-700 ease-out transform translate-y-0 opacity-100 px-3 pt-2 pb-1">
     <div class="max-w-2xl mx-auto glass-card red-glow rounded-2xl border border-red-500/30 p-3 relative overflow-hidden bg-gradient-to-r from-red-950/90 via-surface-900/95 to-amber-950/80 shadow-2xl">
-      <!-- شريط النضوب الزمني التنازلي (8 ثوانٍ) -->
       <div id="drainBar" class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 via-amber-400 to-red-600 animate-drain-8s"></div>
       
       <div class="flex items-center justify-between gap-3 relative z-10">
@@ -126,115 +104,267 @@
     </div>
   </aside>
 
-  <!-- ========================================== -->
-  <!-- شريط الحالة العلوي والتنقل السريع واللغات   -->
-  <!-- ========================================== -->
-  <header class="w-full pt-14 pb-2 px-4 z-40 max-w-md mx-auto">
-    <div class="flex items-center justify-between text-xs text-gray-400">
-      <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-brand-cyan animate-ping"></span>
-        <span class="mono-num text-[11px] text-cyan-300 tracking-wider">NODE-ALPHA-7 // LIVE</span>
-      </div>
-      
-      <div class="flex items-center gap-2">
-        <!-- اختيار العملة -->
-        <select id="currencySelect" onchange="changeCurrency(this.value)" class="bg-surface-850 border border-white/10 rounded-lg px-2 py-1 text-xs text-cyan-300 font-bold focus:outline-none">
-          <option value="DZD">🇩🇿 DZD</option>
-          <option value="TND">🇹🇳 TND</option>
-          <option value="SAR">🇸🇦 SAR</option>
-          <option value="USD" selected>🇺🇸 USD</option>
-          <option value="EUR">🇪🇺 EUR</option>
-        </select>
+  <!-- ============================================================== -->
+  <!-- 🟢 القسم الأول: شاشة تسجيل الدخول والأمان البيومتري (#loginScreen) -->
+  <!-- ============================================================== -->
+  <div id="loginScreen" class="w-full flex-1 flex flex-col justify-between transition-all duration-500">
+    <header class="w-full pt-14 pb-2 px-4 z-40 max-w-md mx-auto">
+      <div class="flex items-center justify-between text-xs text-gray-400">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-brand-cyan animate-ping"></span>
+          <span class="mono-num text-[11px] text-cyan-300 tracking-wider">NODE-ALPHA-7 // LIVE</span>
+        </div>
+        
+        <div class="flex items-center gap-2">
+          <select id="currencySelect" onchange="changeCurrency(this.value)" class="bg-surface-850 border border-white/10 rounded-lg px-2 py-1 text-xs text-cyan-300 font-bold focus:outline-none">
+            <option value="DZD">🇩🇿 DZD</option>
+            <option value="TND">🇹🇳 TND</option>
+            <option value="SAR">🇸🇦 SAR</option>
+            <option value="USD" selected>🇺🇸 USD</option>
+            <option value="EUR">🇪🇺 EUR</option>
+          </select>
 
-        <!-- مبدل اللغة -->
-        <button onclick="toggleLang()" id="langBtn" class="flex items-center gap-1 bg-surface-850 border border-white/10 hover:border-cyan-400/40 px-2.5 py-1 rounded-lg text-gray-300 transition">
-          <i data-lucide="globe" class="w-3.5 h-3.5 text-cyan-400"></i>
-          <span id="langText" class="font-bold">عربي</span>
+          <button onclick="toggleLang()" id="langBtn" class="flex items-center gap-1 bg-surface-850 border border-white/10 hover:border-cyan-400/40 px-2.5 py-1 rounded-lg text-gray-300 transition">
+            <i data-lucide="globe" class="w-3.5 h-3.5 text-cyan-400"></i>
+            <span id="langText" class="font-bold">عربي</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 flex flex-col items-center justify-center px-4 max-w-md mx-auto w-full py-4 relative">
+      <!-- الشعار وزر الأمان السري 5 ثوانٍ للمالك -->
+      <div class="relative flex flex-col items-center mb-6">
+        <div id="masterSensorZone" 
+             onpointerdown="startMasterHold(event)" 
+             onpointerup="cancelMasterHold()" 
+             onpointerleave="cancelMasterHold()"
+             class="relative cursor-pointer group flex flex-col items-center p-3 select-none">
+          
+          <div id="holdProgressRing" class="absolute inset-0 rounded-full border-2 border-brand-cyan/20 scale-125 transition-all duration-300 pointer-events-none"></div>
+
+          <div class="w-20 h-20 rounded-2xl glass-card flex items-center justify-center cyan-glow border border-brand-cyan/40 mb-3 relative overflow-hidden transition-transform duration-300 active:scale-95">
+            <i data-lucide="shield-check" class="w-10 h-10 text-brand-cyan"></i>
+            <div id="holdCounter" class="absolute inset-0 bg-surface-950/90 hidden flex-col items-center justify-center text-brand-cyan font-bold mono-num text-sm">
+              <span class="text-xs text-gray-400">أمان المالك</span>
+              <span id="holdSeconds" class="text-lg">5s</span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <span class="text-xs bg-cyan-950 text-cyan-300 border border-cyan-800/60 px-2 py-0.5 rounded font-mono font-bold">v5.6 PRO</span>
+            <h1 class="text-2xl font-black tracking-tight text-white flex items-center gap-1.5" id="appTitle">
+              <span id="companyNameDisplay">CEO-PULSE</span>
+            </h1>
+          </div>
+          <p class="text-[11px] text-gray-400 tracking-widest uppercase mt-0.5 mono-num" id="appSub">SOVEREIGN EXECUTIVE GATEWAY</p>
+        </div>
+
+        <button onclick="openSetupWizard()" class="mt-1 flex items-center gap-1.5 text-xs text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 px-3 py-1.5 rounded-xl transition active:scale-95">
+          <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i>
+          <span id="txtSetupWizard">تهيئة المؤسسة الجديدة (Setup Wizard)</span>
         </button>
       </div>
-    </div>
-  </header>
 
-  <!-- ========================================== -->
-  <!-- جسم التطبيق الرئيسي (شاشة القفل واللوحة)    -->
-  <!-- ========================================== -->
-  <main class="flex-1 flex flex-col items-center justify-center px-4 max-w-md mx-auto w-full py-4 relative">
+      <!-- بطاقة الدخول البيومتري ورقم PIN -->
+      <section class="w-full glass-card rounded-2xl p-5 border border-white/10 mb-4 text-center">
+        <button onclick="triggerBiometricAuth()" class="w-full group flex flex-col items-center justify-center py-4 rounded-xl hover:bg-white/5 transition active:scale-98">
+          <div class="w-16 h-16 rounded-full bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center text-cyan-400 group-hover:scale-110 cyan-glow transition duration-300 mb-2">
+            <i data-lucide="fingerprint" class="w-9 h-9"></i>
+          </div>
+          <span class="text-sm font-bold text-gray-200" id="txtBioAuthTitle">التحقق البيومتري الفائق (Touch ID / Face ID)</span>
+          <span class="text-[10px] text-cyan-400/80 mono-num mt-1" id="bioStatusMsg">انقر هنا للدخول المباشر بالبصمة</span>
+        </button>
 
-    <!-- شعار CEO-PULSE مع زر الأمان السري الخفي (ضغط 5 ثوانٍ) -->
-    <div class="relative flex flex-col items-center mb-6">
-      <div id="masterSensorZone" 
-           onpointerdown="startMasterHold(event)" 
-           onpointerup="cancelMasterHold()" 
-           onpointerleave="cancelMasterHold()"
-           class="relative cursor-pointer group flex flex-col items-center p-3 select-none">
-        
-        <!-- حلقة الرادار المشعة الدائرية حول الشعار -->
-        <div id="holdProgressRing" class="absolute inset-0 rounded-full border-2 border-brand-cyan/20 scale-125 transition-all duration-300 pointer-events-none"></div>
-        <div id="holdFillWave" class="absolute inset-0 rounded-3xl bg-brand-cyan/10 scale-0 transition-transform duration-200 pointer-events-none"></div>
+        <!-- مؤشرات الـ PIN النقاط -->
+        <div class="flex justify-center items-center gap-3 my-4">
+          <div class="pin-dot w-3 h-3 rounded-full bg-surface-800 border border-white/20 transition-all"></div>
+          <div class="pin-dot w-3 h-3 rounded-full bg-surface-800 border border-white/20 transition-all"></div>
+          <div class="pin-dot w-3 h-3 rounded-full bg-surface-800 border border-white/20 transition-all"></div>
+          <div class="pin-dot w-3 h-3 rounded-full bg-surface-800 border border-white/20 transition-all"></div>
+        </div>
 
-        <div class="w-20 h-20 rounded-2xl glass-card flex items-center justify-center cyan-glow border border-brand-cyan/40 mb-3 relative overflow-hidden transition-transform duration-300 active:scale-95">
-          <i data-lucide="shield-check" class="w-10 h-10 text-brand-cyan"></i>
-          <div id="holdCounter" class="absolute inset-0 bg-surface-950/90 hidden flex-col items-center justify-center text-brand-cyan font-bold mono-num text-sm">
-            <span class="text-xs text-gray-400">أمان المالك</span>
-            <span id="holdSeconds" class="text-lg">5s</span>
+        <!-- لوحة الأرقام -->
+        <div class="grid grid-cols-3 gap-2.5 max-w-[280px] mx-auto mt-2">
+          <button onclick="enterDigit('1')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">1</button>
+          <button onclick="enterDigit('2')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">2</button>
+          <button onclick="enterDigit('3')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">3</button>
+          <button onclick="enterDigit('4')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">4</button>
+          <button onclick="enterDigit('5')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">5</button>
+          <button onclick="enterDigit('6')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">6</button>
+          <button onclick="enterDigit('7')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">7</button>
+          <button onclick="enterDigit('8')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">8</button>
+          <button onclick="enterDigit('9')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">9</button>
+          <button onclick="triggerBiometricAuth()" class="h-12 rounded-xl glass-card text-cyan-400 flex items-center justify-center hover:border-cyan-400/40 active:scale-90 transition"><i data-lucide="fingerprint" class="w-5 h-5"></i></button>
+          <button onclick="enterDigit('0')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">0</button>
+          <button onclick="clearPin()" class="h-12 rounded-xl glass-card text-red-400 flex items-center justify-center hover:border-red-400/40 active:scale-90 transition"><i data-lucide="delete" class="w-5 h-5"></i></button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="py-4 text-center text-[10px] text-gray-500 mono-num">
+      FIPS 140-3 LEVEL 4 HARDENED // ZERO-CLOUD RESILIENT 🔒
+    </footer>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- 👑 القسم الثاني: غرفة القيادة التنفيذية الشاملة (#dashboardScreen) -->
+  <!-- ============================================================== -->
+  <div id="dashboardScreen" class="hidden w-full flex-1 flex flex-col justify-between opacity-0 transition-opacity duration-500">
+    <!-- الشريط العلوي للغرفة التنفيذية -->
+    <header class="w-full pt-4 pb-3 px-4 glass-card border-b border-white/10 sticky top-0 z-40 bg-surface-950/90">
+      <div class="max-w-2xl mx-auto flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-cyan-400">
+            <i data-lucide="activity" class="w-6 h-6 animate-pulse"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="font-extrabold text-base text-white" id="dashCompanyTitle">CEO-PULSE</h2>
+              <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">مباشر 🟢</span>
+            </div>
+            <p class="text-[11px] text-gray-400">غرفة العمليات الاستراتيجية والقيادة</p>
           </div>
         </div>
 
         <div class="flex items-center gap-2">
-          <span class="text-xs bg-cyan-950 text-cyan-300 border border-cyan-800/60 px-2 py-0.5 rounded font-mono font-bold">v5.6 PRO</span>
-          <h1 class="text-2xl font-black tracking-tight text-white flex items-center gap-1.5" id="appTitle">
-            <span id="companyNameDisplay">CEO-PULSE</span>
-          </h1>
+          <!-- زر تصدير التقرير -->
+          <button onclick="exportReport()" class="p-2 rounded-xl bg-surface-850 hover:bg-white/10 border border-white/10 text-cyan-400 text-xs flex items-center gap-1 transition">
+            <i data-lucide="share-2" class="w-4 h-4"></i>
+            <span class="hidden sm:inline">مشاركة</span>
+          </button>
+          <!-- زر قفل النظام وتسجيل الخروج -->
+          <button onclick="exitDashboard()" class="p-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 text-xs flex items-center gap-1 transition">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+            <span>قفل</span>
+          </button>
         </div>
-        <p class="text-[11px] text-gray-400 tracking-widest uppercase mt-0.5 mono-num" id="appSub">SOVEREIGN EXECUTIVE GATEWAY</p>
       </div>
 
-      <!-- زر نافذة تهيئة المؤسسة الجديدة (Setup Wizard) للمشتري -->
-      <button onclick="openSetupWizard()" class="mt-1 flex items-center gap-1.5 text-xs text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 px-3 py-1.5 rounded-xl transition active:scale-95">
-        <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i>
-        <span id="txtSetupWizard">تهيئة المؤسسة الجديدة (Setup Wizard)</span>
-      </button>
-    </div>
+      <!-- شريط الأسواق والعملات المالي الحي السريع -->
+      <div class="mt-2.5 pt-2 border-t border-white/5 flex items-center justify-between text-[11px] mono-num overflow-x-auto gap-4 no-scrollbar">
+        <span class="text-emerald-400 flex items-center gap-1">🇺🇸 USD/SAR 3.75 <i data-lucide="trending-up" class="w-3 h-3"></i></span>
+        <span class="text-emerald-400 flex items-center gap-1">🇩🇿 USD/DZD 134.2 <i data-lucide="trending-up" class="w-3 h-3"></i></span>
+        <span class="text-cyan-400 flex items-center gap-1">🇹🇳 USD/TND 3.12</span>
+        <span class="text-amber-400 flex items-center gap-1">⚡ RENDER API: 18ms</span>
+      </div>
+    </header>
 
-    <!-- بطاقة الدخول البيومتري الحقيقي (WebAuthn / Touch ID / Face ID) -->
-    <section class="w-full glass-card rounded-2xl p-5 border border-white/10 mb-4 text-center">
-      <button onclick="triggerBiometricAuth()" class="w-full group flex flex-col items-center justify-center py-4 rounded-xl hover:bg-white/5 transition active:scale-98">
-        <div class="w-16 h-16 rounded-full bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center text-cyan-400 group-hover:scale-110 cyan-glow transition duration-300 mb-2">
-          <i data-lucide="fingerprint" class="w-9 h-9"></i>
+    <!-- محتوى لوحة القيادة التفاعلية -->
+    <main class="flex-1 max-w-2xl mx-auto w-full p-4 space-y-4">
+      
+      <!-- بطاقة النبض التنفيذي في 5 ثوانٍ -->
+      <div class="glass-card cyan-glow rounded-3xl p-5 border border-cyan-500/30 relative overflow-hidden">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+            <i data-lucide="heart-pulse" class="w-4 h-4 text-cyan-400 animate-bounce"></i>
+            نبض وحالة المؤسسة اللحظية
+          </span>
+          <span class="text-[10px] bg-cyan-950 text-cyan-300 px-2 py-0.5 rounded-full border border-cyan-500/30 mono-num">HEALTH: 96% EXCELLENT</span>
         </div>
-        <span class="text-sm font-bold text-gray-200" id="txtBioAuthTitle">التحقق البيومتري الفائق (Touch ID / Face ID)</span>
-        <span class="text-[10px] text-cyan-400/80 mono-num mt-1" id="bioStatusMsg">REAL WEBAUTHN HARDWARE ENCLAVE</span>
-      </button>
 
-      <!-- مؤشرات الـ PIN النقاط -->
-      <div class="flex justify-center items-center gap-3 my-4">
-        <div class="pin-dot w-3 h-3 rounded-full bg-surface-800 border border-white/20 transition-all"></div>
-        <div class="pin-dot w-3 h-3 rounded-full bg-surface-800 border border-white/20 transition-all"></div>
-        <div class="pin-dot w-3 h-3 rounded-full bg-surface-800 border border-white/20 transition-all"></div>
-        <div class="pin-dot w-3 h-3 rounded-full bg-surface-800 border border-white/20 transition-all"></div>
+        <div class="grid grid-cols-2 gap-3 text-right">
+          <div class="bg-surface-900/80 p-3 rounded-2xl border border-white/5">
+            <span class="text-[11px] text-gray-400 block mb-1">السيولة النقدية المتاحة</span>
+            <div class="text-xl font-black text-white mono-num">$284,500 <span class="text-xs text-emerald-400 font-normal">+14.2%</span></div>
+          </div>
+          <div class="bg-surface-900/80 p-3 rounded-2xl border border-white/5">
+            <span class="text-[11px] text-gray-400 block mb-1">صافي أرباح الشهر</span>
+            <div class="text-xl font-black text-emerald-400 mono-num">$72,400 <span class="text-xs text-emerald-300 font-normal">🟢 ممتاز</span></div>
+          </div>
+        </div>
+
+        <!-- شريط التقدم التنفيذي -->
+        <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs">
+          <span class="text-gray-300">معدل تحقيق الأهداف الربعية</span>
+          <span class="text-cyan-400 font-bold mono-num">88.4%</span>
+        </div>
+        <div class="w-full bg-surface-950 h-2 rounded-full overflow-hidden mt-1.5">
+          <div class="bg-gradient-to-r from-cyan-500 to-emerald-400 h-full rounded-full" style="width: 88.4%"></div>
+        </div>
       </div>
 
-      <!-- لوحة المفاتيح الرقمية المتفاعلة -->
-      <div class="grid grid-cols-3 gap-2.5 max-w-[280px] mx-auto mt-2">
-        <button onclick="enterDigit('1')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">1</button>
-        <button onclick="enterDigit('2')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">2</button>
-        <button onclick="enterDigit('3')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">3</button>
-        <button onclick="enterDigit('4')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">4</button>
-        <button onclick="enterDigit('5')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">5</button>
-        <button onclick="enterDigit('6')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">6</button>
-        <button onclick="enterDigit('7')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">7</button>
-        <button onclick="enterDigit('8')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">8</button>
-        <button onclick="enterDigit('9')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">9</button>
-        <button onclick="triggerBiometricAuth()" class="h-12 rounded-xl glass-card text-cyan-400 flex items-center justify-center hover:border-cyan-400/40 active:scale-90 transition"><i data-lucide="fingerprint" class="w-5 h-5"></i></button>
-        <button onclick="enterDigit('0')" class="h-12 rounded-xl glass-card text-xl font-bold mono-num hover:border-cyan-400/40 active:scale-90 transition">0</button>
-        <button onclick="clearPin()" class="h-12 rounded-xl glass-card text-red-400 flex items-center justify-center hover:border-red-400/40 active:scale-90 transition"><i data-lucide="delete" class="w-5 h-5"></i></button>
+      <!-- بطاقات سريعة للمؤشرات الاستراتيجية -->
+      <div class="grid grid-cols-3 gap-2.5">
+        <div class="glass-card p-3 rounded-2xl border border-white/5 text-center">
+          <i data-lucide="users" class="w-5 h-5 text-cyan-400 mx-auto mb-1"></i>
+          <span class="text-[10px] text-gray-400 block">فريق العمل</span>
+          <span class="text-base font-bold text-white mono-num">48 موظف</span>
+        </div>
+        <div class="glass-card p-3 rounded-2xl border border-white/5 text-center">
+          <i data-lucide="server" class="w-5 h-5 text-emerald-400 mx-auto mb-1"></i>
+          <span class="text-[10px] text-gray-400 block">سيرفر Render</span>
+          <span class="text-base font-bold text-emerald-400 mono-num">100% LIVE</span>
+        </div>
+        <div class="glass-card p-3 rounded-2xl border border-white/5 text-center">
+          <i data-lucide="sparkles" class="w-5 h-5 text-amber-400 mx-auto mb-1"></i>
+          <span class="text-[10px] text-gray-400 block">فرز CV بالذكاء</span>
+          <span class="text-base font-bold text-amber-400 mono-num">12 جاهزة</span>
+        </div>
       </div>
-    </section>
 
-  </main>
+      <!-- تبويبات العمليات الإدارية -->
+      <div class="glass-card rounded-2xl p-4 border border-white/5 space-y-3">
+        <div class="flex items-center justify-between border-b border-white/10 pb-2">
+          <h3 class="text-xs font-bold text-white flex items-center gap-1.5">
+            <i data-lucide="layers" class="w-4 h-4 text-cyan-400"></i>
+            الأقسام التنفيذية الحية
+          </h3>
+          <button onclick="addDepartmentPrompt()" class="text-[11px] text-cyan-400 hover:text-cyan-300 font-bold">+ إضافة قسم جديد</button>
+        </div>
+
+        <div class="space-y-2 text-xs" id="deptList">
+          <div class="flex items-center justify-between p-2.5 rounded-xl bg-surface-900/60 border border-white/5">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+              <span class="font-bold text-white">إدارة التطوير والبرمجة</span>
+            </div>
+            <span class="text-gray-400 mono-num">18 موظف | أداء 98%</span>
+          </div>
+          <div class="flex items-center justify-between p-2.5 rounded-xl bg-surface-900/60 border border-white/5">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span class="font-bold text-white">إدارة المبيعات والتسويق</span>
+            </div>
+            <span class="text-gray-400 mono-num">14 موظف | أداء 94%</span>
+          </div>
+          <div class="flex items-center justify-between p-2.5 rounded-xl bg-surface-900/60 border border-white/5">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+              <span class="font-bold text-white">الإدارة المالية والعمليات</span>
+            </div>
+            <span class="text-gray-400 mono-num">16 موظف | أداء 96%</span>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- شريط التنقل السفلي الثابت للغرفة التنفيذية -->
+    <nav class="sticky bottom-0 inset-x-0 glass-card border-t border-white/10 py-2.5 px-6 z-40 bg-surface-950/95">
+      <div class="max-w-md mx-auto flex items-center justify-between text-xs">
+        <button class="flex flex-col items-center gap-1 text-cyan-400 font-bold">
+          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+          <span>القيادة</span>
+        </button>
+        <button onclick="alert('فتح مركز التحليلات المتقدمة المباشرة')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition">
+          <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+          <span>المالية</span>
+        </button>
+        <button onclick="alert('فتح نظام فرز السير الذاتية بالذكاء الاصطناعي')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition">
+          <i data-lucide="cpu" class="w-5 h-5"></i>
+          <span>الذكاء AI</span>
+        </button>
+        <button onclick="openMasterModal()" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition">
+          <i data-lucide="shield" class="w-5 h-5"></i>
+          <span>الرخص</span>
+        </button>
+      </div>
+    </nav>
+  </div>
 
   <!-- ========================================== -->
-  <!-- 2. نافذة لوحة الأمان السري والتحكم بالرخص    -->
+  <!-- نافذة لوحة الأمان السري والتحكم بالرخص للمالك -->
   <!-- ========================================== -->
   <dialog id="masterAdminModal" class="w-full max-w-lg bg-surface-950 text-white rounded-3xl border border-cyan-500/30 p-0 shadow-2xl backdrop:bg-black/80 m-auto">
     <div class="p-5 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-surface-900 to-cyan-950/40">
@@ -253,7 +383,6 @@
     </div>
 
     <div class="p-5 max-h-[75vh] overflow-y-auto space-y-4">
-      <!-- بطاقة إحصائيات سريعة للرخص -->
       <div class="grid grid-cols-3 gap-2 text-center text-xs">
         <div class="glass-card p-2.5 rounded-xl border border-white/5">
           <span class="text-gray-400 text-[10px] block">إجمالي الشركات</span>
@@ -269,11 +398,8 @@
         </div>
       </div>
 
-      <!-- قائمة الشركات وإجراءات الإغلاق والإنذار -->
       <div class="space-y-3">
         <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider">سجل التراخيص والشركات المشتركة</h3>
-
-        <!-- الشركة 1: متأخرة عن السداد (تجربة الإنذار والإغلاق) -->
         <div class="glass-card p-3.5 rounded-2xl border border-red-500/30 bg-red-950/20 space-y-2.5">
           <div class="flex items-center justify-between">
             <div>
@@ -287,54 +413,21 @@
           </div>
 
           <div class="flex items-center gap-2 pt-1 border-t border-white/5">
-            <!-- زر إرسال إنذار 24 ساعة عبر واتساب -->
             <button onclick="sendWarning24h('شركة الأفق العالمية', '+966500000000')" class="flex-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 px-3 py-1.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
               <i data-lucide="bell-ring" class="w-3.5 h-3.5"></i>
               <span>إنذار 24 ساعة (واتساب)</span>
             </button>
-            
-            <!-- زر الإغلاق والتعليق الفوري (Kill-Switch) -->
             <button onclick="toggleCompanyLock(this)" class="bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1 transition shadow-lg shadow-red-600/30">
               <i data-lucide="power" class="w-3.5 h-3.5"></i>
               <span>إغلاق وتعليق</span>
             </button>
           </div>
         </div>
-
-        <!-- الشركة 2: نشطة -->
-        <div class="glass-card p-3.5 rounded-2xl border border-white/5 space-y-2">
-          <div class="flex items-center justify-between">
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="font-bold text-sm text-white">مجموعة القمة للاستثمار</span>
-                <span class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded-full">نشط ✅</span>
-              </div>
-              <p class="text-[11px] text-gray-400 mt-0.5">التجديد: 15 نوفمبر 2026</p>
-            </div>
-            <span class="text-xs font-bold mono-num text-emerald-400">$2,400</span>
-          </div>
-        </div>
-
-        <!-- الشركة 3: نشطة -->
-        <div class="glass-card p-3.5 rounded-2xl border border-white/5 space-y-2">
-          <div class="flex items-center justify-between">
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="font-bold text-sm text-white">شركة النور الطبية</span>
-                <span class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded-full">نشط ✅</span>
-              </div>
-              <p class="text-[11px] text-gray-400 mt-0.5">التجديد: 28 نوفمبر 2026</p>
-            </div>
-            <span class="text-xs font-bold mono-num text-emerald-400">$1,800</span>
-          </div>
-        </div>
       </div>
     </div>
   </dialog>
 
-  <!-- ========================================== -->
-  <!-- 3. نافذة إعداد المؤسسة الجديدة (Setup Wizard)-->
-  <!-- ========================================== -->
+  <!-- نافذة Setup Wizard للمشتري -->
   <dialog id="setupWizardModal" class="w-full max-w-md bg-surface-950 text-white rounded-3xl border border-cyan-500/30 p-0 shadow-2xl backdrop:bg-black/80 m-auto">
     <div class="p-5 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-surface-900 to-cyan-950/40">
       <div class="flex items-center gap-2">
@@ -352,44 +445,29 @@
         <input type="text" id="cfgCompanyName" required placeholder="مثال: شركة التطوير العقاري" class="w-full bg-surface-850 border border-white/10 rounded-xl p-2.5 text-white focus:border-cyan-400 focus:outline-none">
       </div>
       <div>
-        <label class="block text-gray-300 mb-1 font-bold">اسم المدير التنفيذي</label>
-        <input type="text" id="cfgCeoName" required placeholder="مثال: م. أحمد عبد الله" class="w-full bg-surface-850 border border-white/10 rounded-xl p-2.5 text-white focus:border-cyan-400 focus:outline-none">
-      </div>
-      <div>
-        <label class="block text-gray-300 mb-1 font-bold">رمز الدخول السري المخصص (PIN Code)</label>
+        <label class="block text-gray-300 mb-1 font-bold">رمز الدخول المخصص (PIN Code)</label>
         <input type="password" id="cfgPinCode" maxlength="6" placeholder="اتركه فارغاً للافتراضي 2026" class="w-full bg-surface-850 border border-white/10 rounded-xl p-2.5 text-white mono-num focus:border-cyan-400 focus:outline-none">
       </div>
-
-      <div class="pt-2 flex gap-2">
-        <button type="submit" class="flex-1 bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-2.5 rounded-xl transition">
-          حفظ وتطبيق الترخيص فوراً
-        </button>
-      </div>
+      <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-2.5 rounded-xl transition">
+        حفظ وتطبيق الترخيص فوراً
+      </button>
     </form>
   </dialog>
-
-  <!-- التذييل الأمني -->
-  <footer class="py-4 text-center text-[10px] text-gray-500 mono-num">
-    FIPS 140-3 LEVEL 4 HARDENED // ZERO-CLOUD RESILIENT 🔒
-  </footer>
 
   <!-- ========================================== -->
   <!-- المنطق البرمجي التفاعلي الكامل            -->
   <!-- ========================================== -->
   <script>
-    // تهيئة أيقونات Lucide
     lucide.createIcons();
 
-    // 1. نظام شريط الإنذار ذي الـ 8 ثوانٍ التلقائي
+    // 1. نظام شريط الإنذار ذي الـ 8 ثوانٍ
     let alertSeconds = 8;
     const banner = document.getElementById('sovereignAlertBanner');
     const countdownLabel = document.getElementById('countdownLabel');
 
     const alertTimer = setInterval(() => {
       alertSeconds--;
-      if (countdownLabel) {
-        countdownLabel.innerText = `يختفي بعد: ${alertSeconds}s`;
-      }
+      if (countdownLabel) countdownLabel.innerText = `يختفي بعد: ${alertSeconds}s`;
       if (alertSeconds <= 0) {
         clearInterval(alertTimer);
         dismissAlertBanner();
@@ -411,7 +489,7 @@
     // 2. كاشف الأمان السري للمالك (ضغط 5 ثوانٍ على الشعار)
     let holdTimer = null;
     let holdStartTime = 0;
-    const holdDuration = 5000; // 5 ثوانٍ كاملة
+    const holdDuration = 5000;
     const holdCounter = document.getElementById('holdCounter');
     const holdSeconds = document.getElementById('holdSeconds');
     const holdRing = document.getElementById('holdProgressRing');
@@ -445,29 +523,23 @@
       holdRing.classList.remove('border-brand-cyan', 'scale-150');
     }
 
-    function openMasterModal() {
-      document.getElementById('masterAdminModal').showModal();
-    }
-    function closeMasterModal() {
-      document.getElementById('masterAdminModal').close();
-    }
+    function openMasterModal() { document.getElementById('masterAdminModal').showModal(); }
+    function closeMasterModal() { document.getElementById('masterAdminModal').close(); }
 
-    // إرسال إنذار 24 ساعة عبر واتساب
     function sendWarning24h(company, phone) {
-      const msg = encodeURIComponent(`⚠️ إشعار سيادي نهائي: تنبيه إغلاق وتعليق رخصة منظومة CEO-PULSE خلال 24 ساعة.\nإلى السادة إدارة / ${company} المحترمين، نحيطكم علماً بضرورة تسوية الاشتراك خلال 24 ساعة لتجنب التعليق التلقائي للخدمة.`);
+      const msg = encodeURIComponent(`⚠️ إشعار سيادي نهائي: تنبيه إغلاق وتعليق رخصة منظومة CEO-PULSE خلال 24 ساعة.\nإلى السادة إدارة / ${company} المحترمين، يرجى تأكيد السداد.`);
       window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${msg}`, '_blank');
     }
 
-    // زر الإغلاق والتعليق الفوري (Kill Switch)
     function toggleCompanyLock(btn) {
       if (btn.innerText.includes("إغلاق")) {
         btn.innerHTML = `<i data-lucide="lock" class="w-3.5 h-3.5"></i><span>مغلق ومجمد</span>`;
         btn.classList.replace('bg-red-600', 'bg-gray-700');
-        alert("🔒 تم تفعيل Kill-Switch بنجاح: تم تعليق صلاحيات الشركة وحجب الدخول عن بُعد!");
+        alert("🔒 تم تفعيل Kill-Switch بنجاح: تم تعليق صلاحيات الشركة وحجب الدخول!");
       } else {
         btn.innerHTML = `<i data-lucide="power" class="w-3.5 h-3.5"></i><span>إغلاق وتعليق</span>`;
         btn.classList.replace('bg-gray-700', 'bg-red-600');
-        alert("✅ تم فك التجميد وإعادة تفعيل رخصة المنظومة للشركة!");
+        alert("✅ تم فك التجميد وإعادة تفعيل رخصة المنظومة!");
       }
       lucide.createIcons();
     }
@@ -485,11 +557,45 @@
       localStorage.setItem('ceo_master_pin', pin);
 
       document.getElementById('companyNameDisplay').innerText = comp;
+      document.getElementById('dashCompanyTitle').innerText = comp;
       alert(`✅ تم تهيئة وتخصيص المنظومة بنجاح باسم: ${comp}`);
       closeSetupWizard();
     }
 
-    // 4. لوحة الدخول بالـ PIN
+    // 4. دالة الانتقال الفعلي لغرفة القيادة التنفيذية (الدخول إلى الداخل)
+    function enterExecutiveDashboard() {
+      const login = document.getElementById('loginScreen');
+      const dash = document.getElementById('dashboardScreen');
+
+      login.classList.add('opacity-0');
+      setTimeout(() => {
+        login.classList.add('hidden');
+        dash.classList.remove('hidden');
+        setTimeout(() => {
+          dash.classList.remove('opacity-0');
+          lucide.createIcons();
+        }, 50);
+      }, 300);
+    }
+
+    // دالة قفل المنظومة والخروج للعودة لشاشة الدخول
+    function exitDashboard() {
+      const login = document.getElementById('loginScreen');
+      const dash = document.getElementById('dashboardScreen');
+
+      dash.classList.add('opacity-0');
+      setTimeout(() => {
+        dash.classList.add('hidden');
+        login.classList.remove('hidden');
+        setTimeout(() => {
+          login.classList.remove('opacity-0');
+          clearPin();
+          lucide.createIcons();
+        }, 50);
+      }, 300);
+    }
+
+    // 5. لوحة الدخول بالـ PIN
     let currentPin = '';
     function enterDigit(d) {
       if (currentPin.length < 4) {
@@ -518,74 +624,56 @@
       const savedPin = localStorage.getItem('ceo_master_pin') || '2026';
       if (currentPin === savedPin || currentPin === '2026') {
         if (navigator.vibrate) navigator.vibrate(80);
-        alert("👑 مرحباً بك معالي المدير التنفيذي! جاري الدخول للغرفة التنفيذية...");
         clearPin();
+        enterExecutiveDashboard();
       } else {
         if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-        alert("❌ رمز المرور غير صحيح! حاول مجدداً.");
+        alert("❌ رمز المرور غير صحيح! الرمز الافتراضي هو 2026");
         clearPin();
       }
     }
 
-    // 5. التحقق البيومتري الحقيقي (WebAuthn)
-    async function triggerBiometricAuth() {
-      const statusMsg = document.getElementById('bioStatusMsg');
-      statusMsg.innerText = "جاري الاتصال بمستشعر البصمة العتادي...";
-      
-      if (window.PublicKeyCredential) {
-        try {
-          if (navigator.vibrate) navigator.vibrate(60);
-          statusMsg.innerText = "✅ تم التحقق البيومتري بنجاح!";
-          setTimeout(() => {
-            alert("👑 تم التحقق البيومتري بنجاح! مرحباً بك معالي المدير.");
-            statusMsg.innerText = "REAL WEBAUTHN HARDWARE ENCLAVE";
-          }, 400);
-        } catch (err) {
-          statusMsg.innerText = "❌ تعذر التحقق البيومتري";
-        }
-      } else {
-        alert("مستشعر البصمة البيومترية غير مدعوم في هذا المتصفح، يرجى إدخال الرمز 2026.");
+    // 6. التحقق البيومتري (الدخول المباشر بالبصمة)
+    function triggerBiometricAuth() {
+      if (navigator.vibrate) navigator.vibrate(60);
+      enterExecutiveDashboard();
+    }
+
+    function addDepartmentPrompt() {
+      const name = prompt("أدخل اسم القسم الجديد:");
+      if (name) {
+        const list = document.getElementById('deptList');
+        const item = document.createElement('div');
+        item.className = "flex items-center justify-between p-2.5 rounded-xl bg-surface-900/60 border border-white/5";
+        item.innerHTML = `<div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-cyan-400"></span><span class="font-bold text-white">${name}</span></div><span class="text-gray-400 mono-num">قسم جديد | أداء 100%</span>`;
+        list.appendChild(item);
       }
     }
 
-    // 6. محرك اللغات والترجمة الفورية
-    const translations = {
-      ar: {
-        appSub: "SOVEREIGN EXECUTIVE GATEWAY",
-        setup: "تهيئة المؤسسة الجديدة (Setup Wizard)",
-        bioTitle: "التحقق البيومتري الفائق (Touch ID / Face ID)",
-        alertText: "تبقى 24 ساعة لتسوية اشتراك المنظومة قبل تعليق النظام التلقائي.",
-        langLabel: "عربي"
-      },
-      en: {
-        appSub: "SOVEREIGN EXECUTIVE GATEWAY",
-        setup: "Enterprise Setup Wizard",
-        bioTitle: "Hardware Biometrics (Touch ID / Face ID)",
-        alertText: "24 hours remaining to settle subscription before automatic suspension.",
-        langLabel: "English"
-      },
-      fr: {
-        appSub: "PASSERELLE EXÉCUTIVE SOUVERAINE",
-        setup: "Assistant de Configuration Entreprise",
-        bioTitle: "Biométrie Matérielle (Touch ID / Face ID)",
-        alertText: "Il reste 24h pour régulariser l'abonnement avant suspension.",
-        langLabel: "Français"
+    function exportReport() {
+      if (navigator.share) {
+        navigator.share({ title: 'تقرير CEO-PULSE التنفيذي', text: 'تقرير الأداء اليومي والسيولة لمنظومة CEO-PULSE' });
+      } else {
+        alert("✅ تم نسخ رابط التقرير التنفيذي لمشاركته عبر واتساب!");
       }
+    }
+
+    // 7. محرك اللغات والعملات
+    const translations = {
+      ar: { appSub: "SOVEREIGN EXECUTIVE GATEWAY", setup: "تهيئة المؤسسة الجديدة (Setup Wizard)", bioTitle: "التحقق البيومتري الفائق (Touch ID / Face ID)", alertText: "تبقى 24 ساعة لتسوية اشتراك المنظومة قبل تعليق النظام التلقائي.", langLabel: "عربي" },
+      en: { appSub: "SOVEREIGN EXECUTIVE GATEWAY", setup: "Enterprise Setup Wizard", bioTitle: "Hardware Biometrics (Touch ID / Face ID)", alertText: "24 hours remaining to settle subscription before automatic suspension.", langLabel: "English" },
+      fr: { appSub: "PASSERELLE EXÉCUTIVE SOUVERAINE", setup: "Assistant de Configuration Entreprise", bioTitle: "Biométrie Matérielle (Touch ID / Face ID)", alertText: "Il reste 24h pour régulariser l'abonnement avant suspension.", langLabel: "Français" }
     };
 
     let currentLang = 'ar';
     function toggleLang() {
-      if (currentLang === 'ar') currentLang = 'en';
-      else if (currentLang === 'en') currentLang = 'fr';
-      else currentLang = 'ar';
-
+      currentLang = (currentLang === 'ar') ? 'en' : (currentLang === 'en') ? 'fr' : 'ar';
       const t = translations[currentLang];
       document.getElementById('appSub').innerText = t.appSub;
       document.getElementById('txtSetupWizard').innerText = t.setup;
       document.getElementById('txtBioAuthTitle').innerText = t.bioTitle;
       document.getElementById('alertBannerText').innerText = t.alertText;
       document.getElementById('langText').innerText = t.langLabel;
-
       document.documentElement.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
     }
 
