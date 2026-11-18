@@ -9,10 +9,11 @@ from google.genai import types
 
 app = FastAPI(
     title="CEO-PULSE SOVEREIGN API",
-    version="8.2.0",
+    version="8.3.0",
     description="Universal Executive OS & Real Cognitive AI Engine"
 )
 
+# 1. تفعيل CORS للسماح بالاتصال من التطبيق على الهاتف والويب
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -21,6 +22,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# نماذج البيانات
 class AdvisorRequest(BaseModel):
     question: str
     liquidity: Optional[float] = 1066875.0
@@ -37,11 +39,12 @@ def home():
     api_status = "Connected" if os.environ.get("GEMINI_API_KEY") else "Missing Key"
     return {
         "status": "ONLINE",
-        "system": "CEO-PULSE SOVEREIGN v8.2-live",
+        "system": "CEO-PULSE SOVEREIGN v8.3-live",
         "latency": "11ms",
         "ai_engine": api_status
     }
 
+# 2. نقطة المستشار الاستراتيجي الذكي الحقيقي (Gemini 3.8 Flash)
 @app.post("/api/ai-advisor")
 async def run_ai_advisor(payload: AdvisorRequest):
     q = payload.question.strip()
@@ -69,7 +72,7 @@ async def run_ai_advisor(payload: AdvisorRequest):
         المطلوب: قدم توجيهاً استراتيجياً حاسماً ومختصراً جداً (3 نقاط تنفيذية مرقمة فقط) مبنياً بدقة على الأرقام أعلاه، بأسلوب قيادي مباشر يناسب قاعدة الـ 5 ثوانٍ.
         """
         response = client.models.generate_content(
-            model='gemini-2.5-flash',
+            model='gemini-3.8-flash',
             contents=prompt,
         )
         return {
@@ -82,6 +85,7 @@ async def run_ai_advisor(payload: AdvisorRequest):
             "reply": f"⚠️ تعذر التحليل اللحظي: {str(e)}"
         }
 
+# 3. نقطة فرز ومطابقة السير الذاتية الذكية (AI CV Match)
 @app.post("/api/parse-cv")
 async def parse_cv(payload: CVRequest):
     api_key = os.environ.get("GEMINI_API_KEY")
@@ -102,7 +106,7 @@ async def parse_cv(payload: CVRequest):
         - "whatsapp_invite": رسالة دعوة احترافية ومختصرة لمقابلة عمل جاهزة للإرسال عبر واتساب
         """
         response = client.models.generate_content(
-            model='gemini-2.5-flash',
+            model='gemini-3.8-flash',
             contents=prompt,
             config=types.GenerateContentConfig(
                 response_mime_type="application/json"
