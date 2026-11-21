@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
 
-app = FastAPI(title="CEO-PULSE SOVEREIGN API", version="9.2.0")
+app = FastAPI(title="CEO-PULSE SOVEREIGN API", version="9.3.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -30,31 +30,35 @@ class CVRequest(BaseModel):
 def ask_google_ai(api_key: str, prompt: str) -> str:
     clean_key = api_key.strip()
     body = {
-        "contents": [
-            {"role": "user", "parts": [{"text": prompt}]}
-        ]
+        "contents": list((
+            {"role": "user", "parts": list(({"text": prompt},))},
+        ))
     }
     
-    # تمرير المفتاح عبر params يمنع تشوه الرابط عند النسخ
-    urls = [
+    # النماذج الحديثة المعتمدة في 2026 للمفاتيح الجديدة
+    models = list(("gemini-3.8-flash", "gemini-3.5-flash", "gemini-3.0-flash", "gemini-2.5-flash"))
+    bases = list((
         "https://googleapis.com",
         "https://googleapis.com"
-    ]
+    ))
     
     last_err = ""
-    for url in urls:
-        try:
-            res = requests.post(url, params={"key": clean_key}, json=body, timeout=25)
-            if res.status_code == 200:
-                data = res.json()
-                cands = data.get("candidates", [])
-                if cands:
-                    parts = cands[0].get("content", {}).get("parts", [])
-                    if parts:
-                        return parts[0].get("text", "")
-            last_err = f"HTTP {res.status_code}: {res.text[:150]}"
-        except Exception as e:
-            last_err = str(e)
+    for base in bases:
+        for model in models:
+            url = f"{base}/{model}:generateContent"
+            try:
+                res = requests.post(url, params={"key": clean_key}, json=body, timeout=25)
+                if res.status_code == 200:
+                    data = res.json()
+                    first_cand = next(iter(data.get("candidates", list())), {})
+                    parts = first_cand.get("content", {}).get("parts", list())
+                    first_part = next(iter(parts), {})
+                    text = first_part.get("text", "")
+                    if text:
+                        return text
+                last_err = f"{model} -> HTTP {res.status_code}: {res.text[:100]}"
+            except Exception as e:
+                last_err = str(e)
             
     raise Exception(last_err)
 
@@ -62,7 +66,7 @@ def ask_google_ai(api_key: str, prompt: str) -> str:
 def home():
     return {
         "status": "ONLINE",
-        "system": "CEO-PULSE SOVEREIGN v9.2-live",
+        "system": "CEO-PULSE SOVEREIGN v9.3-live",
         "ai_engine": "Connected" if os.environ.get("GEMINI_API_KEY") else "Missing Key"
     }
 
