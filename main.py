@@ -6,11 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
 
-app = FastAPI(
-    title="CEO-PULSE SOVEREIGN API",
-    version="9.1.0",
-    description="Dual-Engine Sovereign AI (Vertex Express + AI Studio)"
-)
+app = FastAPI(title="CEO-PULSE SOVEREIGN API", version="9.2.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -31,97 +27,74 @@ class CVRequest(BaseModel):
     job_title: str
     cv_text: str
 
-def call_gemini_universal(api_key: str, prompt: str) -> str:
+def ask_google_ai(api_key: str, prompt: str) -> str:
     clean_key = api_key.strip()
     body = {
-        "contents": list((
-            {"role": "user", "parts": list(({"text": prompt},))},
-        ))
+        "contents": [
+            {"role": "user", "parts": [{"text": prompt}]}
+        ]
     }
-
-    # قائمة المسارات المحتملة حسب نوع المفتاح (AQ. أو AIzaSy)
-    endpoints = list((
-        f"https://googleapis.com{clean_key}",
-        f"https://googleapis.com{clean_key}",
-        f"https://googleapis.com{clean_key}",
-        f"https://googleapis.com{clean_key}"
-    ))
-
-    last_error = ""
-    for url in endpoints:
+    
+    # تمرير المفتاح عبر params يمنع تشوه الرابط عند النسخ
+    urls = [
+        "https://googleapis.com",
+        "https://googleapis.com"
+    ]
+    
+    last_err = ""
+    for url in urls:
         try:
-            response = requests.post(url, headers={"Content-Type": "application/json"}, json=body, timeout=25)
-            if response.status_code == 200:
-                data = response.json()
-                first_cand = next(iter(data.get("candidates", list())), {})
-                parts = first_cand.get("content", {}).get("parts", list())
-                first_part = next(iter(parts), {})
-                text = first_part.get("text", "")
-                if text:
-                    return text
-            last_error = f"HTTP {response.status_code}: {response.text[:140]}"
+            res = requests.post(url, params={"key": clean_key}, json=body, timeout=25)
+            if res.status_code == 200:
+                data = res.json()
+                cands = data.get("candidates", [])
+                if cands:
+                    parts = cands[0].get("content", {}).get("parts", [])
+                    if parts:
+                        return parts[0].get("text", "")
+            last_err = f"HTTP {res.status_code}: {res.text[:150]}"
         except Exception as e:
-            last_error = str(e)
-            continue
-
-    raise Exception(f"تفاصيل الاستجابة: {last_error}")
+            last_err = str(e)
+            
+    raise Exception(last_err)
 
 @app.get("/")
 def home():
-    api_status = "Connected" if os.environ.get("GEMINI_API_KEY") else "Missing Key"
     return {
         "status": "ONLINE",
-        "system": "CEO-PULSE SOVEREIGN v9.1-live",
-        "ai_engine": api_status
+        "system": "CEO-PULSE SOVEREIGN v9.2-live",
+        "ai_engine": "Connected" if os.environ.get("GEMINI_API_KEY") else "Missing Key"
     }
 
 @app.post("/api/ai-advisor")
 async def run_ai_advisor(payload: AdvisorRequest):
     q = payload.question.strip()
     if not q:
-        return {"status": "error", "reply": "⚠️ الرجاء كتابة سؤالك الاستراتيجي أولاً."}
+        return {"status": "error", "reply": "⚠️ الرجاء كتابة سؤالك أولاً."}
 
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
-        return {"status": "error", "reply": "⚠️ مفتاح GEMINI_API_KEY غير مربوط."}
+        return {"status": "error", "reply": "⚠️ مفتاح API غير موجود في Render."}
 
-    runway_months = round(payload.liquidity / payload.burn_rate, 1) if payload.burn_rate > 0 else 12.0
+    runway = round(payload.liquidity / payload.burn_rate, 1) if payload.burn_rate > 0 else 12.0
 
     try:
-        prompt = f"""
-        أنت المستشار الاستراتيجي التنفيذي لمنظومة CEO-PULSE.
-        بيانات الشركة: السيولة {payload.liquidity:,.0f} {payload.currency}، الأرباح {payload.net_profit:,.0f} {payload.currency}، الحرق الشهري {payload.burn_rate:,.0f} {payload.currency}، مدرج الأمان {runway_months} شهر.
-        سؤال المدير: "{q}"
-        أجب باختصار شديد في 3 نقاط تنفيذية حاسمة.
-        """
-        reply_text = call_gemini_universal(api_key, prompt)
-        return {
-            "status": "success",
-            "reply": reply_text
-        }
+        prompt = f"أنت المستشار التنفيذي لمنظومة CEO-PULSE. السيولة: {payload.liquidity:,.0f} {payload.currency}، الأرباح: {payload.net_profit:,.0f} {payload.currency}، الحرق الشهري: {payload.burn_rate:,.0f} {payload.currency}، مدرج الأمان: {runway} شهر. سؤال المدير: '{q}'. أجب باختصار في 3 نقاط تنفيذية حاسمة."
+        reply_text = ask_google_ai(api_key, prompt)
+        return {"status": "success", "reply": reply_text}
     except Exception as e:
-        return {
-            "status": "error",
-            "reply": f"⚠️ تنبيه السيرفر: {str(e)}"
-        }
+        return {"status": "error", "reply": f"⚠️ تنبيه: {str(e)}"}
 
 @app.post("/api/parse-cv")
 async def parse_cv(payload: CVRequest):
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
-        raise HTTPException(status_code=500, detail="GEMINI_API_KEY is missing")
+        raise HTTPException(status_code=500, detail="Missing API Key")
 
     try:
-        prompt = f"""
-        قيّم هذه السيرة الذاتية لوظيفة: "{payload.job_title}".
-        النص: {payload.cv_text}
-        أرجع النتيجة بصيغة JSON فقط بدون أي نص إضافي بالمفاتيح: "candidate_name", "match_score", "summary", "whatsapp_invite".
-        """
-        raw_text = call_gemini_universal(api_key, prompt)
-        clean_json = raw_text.replace("```json", "").replace("```", "").strip()
-        return {
-            "status": "success",
-            "analysis": json.loads(clean_json)
-        }
+        prompt = f"قيّم هذه السيرة الذاتية لوظيفة '{payload.job_title}': {payload.cv_text}. أرجع JSON فقط بالمفاتيح: candidate_name, match_score, summary, whatsapp_invite."
+        raw = ask_google_ai(api_key, prompt)
+        clean_json = raw.replace("```json", "").replace("```", "").strip()
+        return {"status": "success", "analysis": json.loads(clean_json)}
     except Exception as e:
         return {"status": "error", "detail": str(e)}
