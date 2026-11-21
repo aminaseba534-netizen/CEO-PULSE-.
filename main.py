@@ -8,7 +8,7 @@ from typing import Optional
 
 app = FastAPI(
     title="CEO-PULSE SOVEREIGN API",
-    version="8.8.0",
+    version="8.9.0",
     description="Direct Sovereign AI Engine"
 )
 
@@ -32,29 +32,25 @@ class CVRequest(BaseModel):
     cv_text: str
 
 def call_gemini_direct(api_key: str, prompt: str) -> str:
-    models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
+    # استخدام النماذج الحديثة المعتمدة من جوجل
+    models = ["gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-2.0-flash"]
     last_error = ""
     base_host = "https://googleapis.com"
 
     for model_name in models:
-        url = base_host + "/v1beta/models/" + model_name + ":generateContent"
+        url = f"{base_host}/v1beta/models/{model_name}:generateContent?key={api_key.strip()}"
         headers = {"Content-Type": "application/json"}
-        params = {"key": api_key.strip()}
         body = {
             "contents": [{
                 "parts": [{"text": prompt}]
             }]
         }
         try:
-            response = requests.post(url, headers=headers, params=params, json=body, timeout=25)
+            response = requests.post(url, headers=headers, json=body, timeout=25)
             if response.status_code == 200:
                 result = response.json()
-                candidates = result.get("candidates", [])
-                if candidates:
-                    parts = candidates[0].get("content", {}).get("parts", [])
-                    if parts:
-                        return parts[0].get("text", "")
-            last_error = f"HTTP {response.status_code}: {response.text}"
+                return result["candidates"][0]["content"]["parts"][0]["text"]
+            last_error = f"Model {model_name} -> HTTP {response.status_code}"
         except Exception as e:
             last_error = str(e)
             continue
@@ -66,7 +62,7 @@ def home():
     api_status = "Connected" if os.environ.get("GEMINI_API_KEY") else "Missing Key"
     return {
         "status": "ONLINE",
-        "system": "CEO-PULSE SOVEREIGN v8.8-live",
+        "system": "CEO-PULSE SOVEREIGN v8.9-live",
         "ai_engine": api_status
     }
 
