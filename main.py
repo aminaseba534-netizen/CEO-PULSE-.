@@ -1,7 +1,6 @@
 import os
 import json
-import urllib.request
-import urllib.error
+import requests
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -9,7 +8,7 @@ from typing import Optional
 
 app = FastAPI(
     title="CEO-PULSE SOVEREIGN API",
-    version="8.6.0",
+    version="8.7.0",
     description="Direct Sovereign AI Engine"
 )
 
@@ -32,41 +31,41 @@ class CVRequest(BaseModel):
     job_title: str
     cv_text: str
 
-# دالة اتصال مباشر ومستقر مع محرك جوجل الرسمي
 def call_gemini_direct(api_key: str, prompt: str) -> str:
     models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
     last_error = ""
 
     for model_name in models:
-        url = f"https://googleapis.com{model_name}:generateContent?key={api_key}"
+        url = f"https://googleapis.com{model_name}:generateContent"
         headers = {"Content-Type": "application/json"}
+        params = {"key": api_key.strip()}
         body = {
             "contents": [{
                 "parts": [{"text": prompt}]
             }]
         }
-        req = urllib.request.Request(url, data=json.dumps(body).encode("utf-8"), headers=headers, method="POST")
         try:
-            with urllib.request.urlopen(req, timeout=25) as response:
-                result = json.loads(response.read().decode("utf-8"))
+            response = requests.post(url, headers=headers, params=params, json=body, timeout=25)
+            if response.status_code == 200:
+                result = response.json()
                 return result["candidates"][0]["content"]["parts"][0]["text"]
-        except urllib.error.HTTPError as e:
-            last_error = e.read().decode("utf-8")
-            if e.code == 404:
+            elif response.status_code == 404:
+                last_error = response.text
                 continue
-            raise Exception(f"HTTP {e.code}: {last_error}")
+            else:
+                raise Exception(f"HTTP {response.status_code}: {response.text}")
         except Exception as e:
             last_error = str(e)
             continue
 
-    raise Exception(f"تعذر الوصول للنماذج المتاحة: {last_error}")
+    raise Exception(f"تعذر الوصول: {last_error}")
 
 @app.get("/")
 def home():
     api_status = "Connected" if os.environ.get("GEMINI_API_KEY") else "Missing Key"
     return {
         "status": "ONLINE",
-        "system": "CEO-PULSE SOVEREIGN v8.6-live",
+        "system": "CEO-PULSE SOVEREIGN v8.7-live",
         "ai_engine": api_status
     }
 
@@ -78,7 +77,7 @@ async def run_ai_advisor(payload: AdvisorRequest):
 
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
-        return {"status": "error", "reply": "⚠️ مفتاح GEMINI_API_KEY غير مربوط في إعدادات Render."}
+        return {"status": "error", "reply": "⚠️ مفتاح GEMINI_API_KEY غير مربوط."}
 
     runway_months = round(payload.liquidity / payload.burn_rate, 1) if payload.burn_rate > 0 else 12.0
 
