@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from typing import Optional
 from groq import Groq
 
-app = FastAPI(title="CEO-PULSE SOVEREIGN API", version="10.2.0")
+app = FastAPI(title="CEO-PULSE SOVEREIGN API", version="10.3.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -33,8 +33,22 @@ def ask_groq_official(prompt: str) -> str:
         raise Exception("مفتاح GROQ_API_KEY غير موجود في إعدادات Render")
 
     client = Groq(api_key=api_key)
+    
+    # جلب أول نموذج محادثة نشط ومجاني في حسابك تلقائياً
+    active_model = "llama-3.1-8b-instant"
+    try:
+        models_list = client.models.list()
+        for m in models_list.data:
+            mid = m.id.lower()
+            if "whisper" not in mid and "guard" not in mid and "tts" not in mid and "embed" not in mid:
+                active_model = m.id
+                if "llama" in mid or "qwen" in mid or "gpt" in mid:
+                    break
+    except Exception:
+        pass
+
     completion = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
+        model=active_model,
         messages=list((
             {
                 "role": "system",
@@ -55,7 +69,7 @@ def ask_groq_official(prompt: str) -> str:
 def home():
     return {
         "status": "ONLINE",
-        "system": "CEO-PULSE SOVEREIGN v10.2-OfficialGroq",
+        "system": "CEO-PULSE SOVEREIGN v10.3-OfficialGroq",
         "ai_engine": "Connected" if os.environ.get("GROQ_API_KEY") else "Missing Key"
     }
 
