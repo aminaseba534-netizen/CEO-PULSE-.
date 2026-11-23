@@ -174,10 +174,10 @@
           </div>
           <div>
             <h3 class="text-sm font-bold text-white flex items-center gap-2">
-              لوحة المالك الخارق وإدارة التراخيص
+              <span data-i18n="adminHeader">لوحة المالك الخارق وإدارة التراخيص</span>
               <span class="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-num">MASTER SOVEREIGN</span>
             </h3>
-            <p class="text-xs text-slate-400">بث إنذار 24h • قفل التطبيق وتجميد الشركات • إصدار الرخص</p>
+            <p class="text-xs text-slate-400" data-i18n="adminSub">بث إنذار 24h • قفل التطبيق وتجميد الشركات • إصدار الرخص</p>
           </div>
         </div>
         <button onclick="toggleModal('superAdminModal')" class="p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white">
@@ -188,12 +188,12 @@
       <div class="space-y-4 pt-4">
         <div class="p-4 rounded-2xl bg-gradient-to-r from-cyan-950/40 via-blue-950/30 to-purple-950/40 border border-cyan-500/20 flex items-center justify-between">
           <div>
-            <div class="text-xs text-cyan-300 font-semibold mb-0.5">تسعيرة بيع ترخيص المنظومة للشركة (مدى الحياة)</div>
+            <div class="text-xs text-cyan-300 font-semibold mb-0.5" data-i18n="licensePriceTitle">تسعيرة بيع ترخيص المنظومة للشركة (مدى الحياة)</div>
             <div class="text-2xl font-bold font-num text-white">$15,000</div>
-            <div class="text-[11px] text-slate-400">يشمل السيرفر، الذكاء الاصطناعي، والـ White-Label</div>
+            <div class="text-[11px] text-slate-400" data-i18n="licenseIncludes">يشمل السيرفر، الذكاء الاصطناعي، والـ White-Label</div>
           </div>
           <div class="text-right">
-            <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-semibold">
+            <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-semibold" data-i18n="registeredCompanies">
               ● 3 شركات مسجلة
             </span>
           </div>
@@ -202,16 +202,16 @@
         <div class="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800">
           <h4 class="text-xs font-bold text-amber-300 mb-2.5 flex items-center gap-1.5">
             <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i>
-            التحكم الفوري في شاشة التطبيق الحالية (Live Action):
+            <span data-i18n="liveActionTitle">التحكم الفوري في شاشة التطبيق الحالية (Live Action):</span>
           </h4>
           <div class="grid grid-cols-2 gap-2">
             <button onclick="triggerAlarmImmediate()" class="py-2.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs flex items-center justify-center gap-1.5 transition-colors">
               <i data-lucide="bell-ring" class="w-4 h-4"></i>
-              إظهار شريط إنذار 24h فوراً
+              <span data-i18n="showAlarmBtn">إظهار شريط إنذار 24h فوراً</span>
             </button>
             <button onclick="freezeAppImmediate()" class="py-2.5 px-3 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors">
               <i data-lucide="lock" class="w-4 h-4"></i>
-              قفل التطبيق وتجميده فوراً
+              <span data-i18n="freezeAppBtn">قفل التطبيق وتجميده فوراً</span>
             </button>
           </div>
         </div>
@@ -219,23 +219,23 @@
         <div>
           <h4 class="text-xs font-bold text-slate-200 mb-2.5 flex items-center gap-2">
             <i data-lucide="radio" class="w-4 h-4 text-cyan-400"></i>
-            إدارة رخص الشركات المسجلة وبث الإنذارات:
+            <span data-i18n="manageTenantsTitle">إدارة رخص الشركات المسجلة وبث الإنذارات:</span>
           </h4>
           <div class="space-y-2.5">
             <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
                 <div class="text-xs font-bold text-white flex items-center gap-2">
-                  شركة الأفق القابضة (NODE-01)
-                  <span class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 text-[10px] font-bold">مسدد بالكامل</span>
+                  <span>شركة الأفق القابضة (NODE-01)</span>
+                  <span class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 text-[10px] font-bold" data-i18n="fullyPaid">مسدد بالكامل</span>
                 </div>
-                <div class="text-[11px] text-slate-400 mt-0.5">القيمة: $15,000 • الترخيص: ساري ومفعل</div>
+                <div class="text-[11px] text-slate-400 mt-0.5" data-i18n="tenant1Detail">القيمة: $15,000 • الترخيص: ساري ومفعل</div>
               </div>
               <div class="flex items-center gap-2">
                 <button onclick="dispatchRemoteAlarm('شركة الأفق القابضة')" class="px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xs font-bold flex items-center gap-1 transition-colors">
                   <i data-lucide="bell" class="w-3.5 h-3.5"></i>
-                  بث إنذار 24h
+                  <span data-i18n="sendAlarmBtn">بث إنذار 24h</span>
                 </button>
-                <button onclick="freezeTenantAccess('شركة الأفق القابضة')" class="px-3 py-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-400 text-xs font-bold transition-colors">
+                <button onclick="freezeTenantAccess('شركة الأفق القابضة')" class="px-3 py-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-400 text-xs font-bold transition-colors" data-i18n="freezeBtn">
                   تجميد
                 </button>
               </div>
@@ -244,17 +244,17 @@
             <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
                 <div class="text-xs font-bold text-white flex items-center gap-2">
-                  مجموعة المشرق المالية (NODE-02)
-                  <span class="px-2 py-0.5 rounded-md bg-rose-500/20 text-rose-400 text-[10px] font-bold">متأخر عن السداد</span>
+                  <span>مجموعة المشرق المالية (NODE-02)</span>
+                  <span class="px-2 py-0.5 rounded-md bg-rose-500/20 text-rose-400 text-[10px] font-bold" data-i18n="overdue">متأخر عن السداد</span>
                 </div>
-                <div class="text-[11px] text-slate-400 mt-0.5">متبقي دفعة 7,500$ • المهلة تنتهي خلال 24 ساعة</div>
+                <div class="text-[11px] text-slate-400 mt-0.5" data-i18n="tenant2Detail">متبقي دفعة 7,500$ • المهلة تنتهي خلال 24 ساعة</div>
               </div>
               <div class="flex items-center gap-2">
                 <button onclick="dispatchRemoteAlarm('مجموعة المشرق المالية')" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-xs font-bold flex items-center gap-1 transition-colors">
                   <i data-lucide="bell-ring" class="w-3.5 h-3.5"></i>
-                  بث إنذار 24h
+                  <span data-i18n="sendAlarmBtn">بث إنذار 24h</span>
                 </button>
-                <button onclick="freezeTenantAccess('مجموعة المشرق المالية')" class="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition-colors">
+                <button onclick="freezeTenantAccess('مجموعة المشرق المالية')" class="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition-colors" data-i18n="lockAppActionBtn">
                   قفل التطبيق
                 </button>
               </div>
@@ -265,16 +265,16 @@
         <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
           <h4 class="text-xs font-bold text-slate-300 mb-2 flex items-center gap-1.5">
             <i data-lucide="plus-circle" class="w-4 h-4 text-emerald-400"></i>
-            إصدار ترخيص تجاري لشركة جديدة ($15,000):
+            <span data-i18n="issueNewLicenseTitle">إصدار ترخيص تجاري لشركة جديدة ($15,000):</span>
           </h4>
           <div class="space-y-2.5">
             <div>
-              <label class="block text-[11px] text-slate-400 mb-1">اسم الشركة المشترية:</label>
-              <input id="newTenantInput" type="text" placeholder="مثلاً: شركة سدير اللوجستية" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 focus:outline-none">
+              <label class="block text-[11px] text-slate-400 mb-1" data-i18n="clientCompanyName">اسم الشركة المشترية:</label>
+              <input id="newTenantInput" type="text" placeholder="مثلاً: شركة سدير اللوجستية" data-i18n-placeholder="companyNamePlaceholder" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 focus:outline-none">
             </div>
             <div class="grid grid-cols-2 gap-2.5">
               <div>
-                <label class="block text-[11px] text-slate-400 mb-1">العملة الافتراضية:</label>
+                <label class="block text-[11px] text-slate-400 mb-1" data-i18n="defaultCurrency">العملة الافتراضية:</label>
                 <select id="newTenantCurrency" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 focus:outline-none">
                   <option value="SAR">SAR - ريال سعودي</option>
                   <option value="USD">USD - دولار أمريكي</option>
@@ -288,13 +288,13 @@
                 </select>
               </div>
               <div>
-                <label class="block text-[11px] text-slate-400 mb-1">قيمة الترخيص:</label>
+                <label class="block text-[11px] text-slate-400 mb-1" data-i18n="licenseCostLabel">قيمة الترخيص:</label>
                 <input type="text" value="$15,000" readonly class="w-full px-3 py-2 bg-slate-950/80 border border-slate-800 rounded-xl text-xs text-emerald-400 font-num font-bold">
               </div>
             </div>
             <button onclick="generateNewLicense()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 text-black font-bold text-xs flex items-center justify-center gap-2 hover:opacity-95 transition-opacity">
               <i data-lucide="wand-2" class="w-4 h-4"></i>
-              توليد كود التفعيل والترخيص السيادي
+              <span data-i18n="generateLicenseBtn">توليد كود التفعيل والترخيص السيادي</span>
             </button>
           </div>
         </div>
@@ -308,7 +308,7 @@
       <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
         <h3 class="text-xs font-bold text-white flex items-center gap-1.5">
           <i data-lucide="languages" class="w-4 h-4 text-cyan-400"></i>
-          اختر لغة المنظومة // Select Language
+          <span data-i18n="selectLanguageTitle">اختر لغة المنظومة // Select Language</span>
         </h3>
         <button onclick="toggleModal('languageModal')" class="p-1 rounded-lg bg-slate-800 text-slate-400 hover:text-white">
           <i data-lucide="x" class="w-4 h-4"></i>
@@ -333,7 +333,7 @@
       <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
         <h3 class="text-xs font-bold text-white flex items-center gap-1.5">
           <i data-lucide="coins" class="w-4 h-4 text-cyan-400"></i>
-          العملة النقدية المعتمدة
+          <span data-i18n="currencyModalTitle">العملة النقدية المعتمدة</span>
         </h3>
         <button onclick="toggleModal('currencyModal')" class="p-1 rounded-lg bg-slate-800 text-slate-400 hover:text-white">
           <i data-lucide="x" class="w-4 h-4"></i>
@@ -362,7 +362,7 @@
         </div>
         <div>
           <div id="appHeaderTenantName" class="text-xs font-bold text-white flex items-center gap-1.5">
-            شركة الأفق القابضة
+            <span data-i18n="companyName">شركة الأفق القابضة</span>
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           </div>
           <div class="text-[10px] text-slate-400 font-num">CEO-PULSE SOVEREIGN v8.0 Enterprise</div>
@@ -391,7 +391,7 @@
         <span class="inline-flex items-center gap-1.5"><b class="text-white">USD/SAR:</b> 3.7505 <span class="text-slate-400 font-bold">0.00% ▬</span></span>
         <span class="inline-flex items-center gap-1.5"><b class="text-white">GOLD:</b> $2,042.80 <span class="text-rose-400 font-bold">-0.34% ▼</span></span>
         <span class="inline-flex items-center gap-1.5"><b class="text-white">FASTAPI ENGINE:</b> <span class="text-emerald-400 font-bold">ONLINE 200 OK</span></span>
-        <span class="inline-flex items-center gap-1.5"><b class="text-cyan-400">PULSE AI:</b> <span class="text-slate-200">السيولة ممتازة والمدرج آمن 14.8 شهر</span></span>
+        <span class="inline-flex items-center gap-1.5"><b class="text-cyan-400">PULSE AI:</b> <span class="text-slate-200" data-i18n="tickerAiMsg">السيولة ممتازة والمدرج آمن 14.8 شهر</span></span>
       </div>
     </div>
 
@@ -503,10 +503,10 @@
             <div class="flex items-center justify-between">
               <label class="text-[11px] font-bold text-purple-300 flex items-center gap-1.5 cursor-pointer">
                 <i data-lucide="upload-cloud" class="w-4 h-4 text-purple-400"></i>
-                <span>إرفاق تقرير مالي للتحليل (PDF / Excel / CSV)</span>
+                <span data-i18n="attachReportLabel">إرفاق تقرير مالي للتحليل (PDF / Excel / CSV)</span>
                 <input id="reportFileInput" type="file" accept=".pdf,.csv,.xlsx,.xls" class="hidden" onchange="handleReportFileSelected()">
               </label>
-              <span id="selectedReportFileName" class="text-[10px] text-slate-400 font-num">لم يتم اختيار ملف</span>
+              <span id="selectedReportFileName" class="text-[10px] text-slate-400 font-num" data-i18n="noFileSelected">لم يتم اختيار ملف</span>
             </div>
           </div>
 
@@ -517,7 +517,7 @@
           </div>
 
           <div class="mt-4 flex gap-2">
-            <input id="advisorQueryInput" type="text" placeholder="اكتب استشارتك التنفيذية هنا..." class="flex-1 px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-purple-500 focus:outline-none">
+            <input id="advisorQueryInput" type="text" placeholder="اكتب استشارتك التنفيذية هنا..." data-i18n-placeholder="aiQueryPlaceholder" class="flex-1 px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-purple-500 focus:outline-none">
             <button onclick="askSovereignRAG()" class="px-4 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors">
               <i data-lucide="send" class="w-4 h-4"></i>
               <span data-i18n="aiBtn">استشارة</span>
@@ -546,21 +546,21 @@
 
           <div class="space-y-2 mb-3">
             <div>
-              <label class="block text-[11px] text-slate-400 mb-1">المنصب المستهدف:</label>
-              <input id="targetRoleInput" type="text" value="مدير تنفيذي للعمليات (COO)" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 focus:outline-none">
+              <label class="block text-[11px] text-slate-400 mb-1" data-i18n="targetRoleLabel">المنصب المستهدف:</label>
+              <input id="targetRoleInput" type="text" value="مدير تنفيذي للعمليات (COO)" data-i18n-value="targetRoleDefault" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 focus:outline-none">
             </div>
 
             <div class="p-3 rounded-2xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
               <label class="text-[11px] font-bold text-cyan-300 flex items-center gap-1.5 cursor-pointer">
                 <i data-lucide="file-up" class="w-4 h-4 text-cyan-400"></i>
-                <span>رفع ملف السيرة الذاتية (PDF / Word)</span>
+                <span data-i18n="uploadResumeLabel">رفع ملف السيرة الذاتية (PDF / Word)</span>
                 <input id="resumeFileInput" type="file" accept=".pdf,.doc,.docx,.txt" class="hidden" onchange="handleResumeFileSelected()">
               </label>
-              <span id="selectedResumeFileName" class="text-[10px] text-slate-400 font-num">أو الصق النص بالأسفل</span>
+              <span id="selectedResumeFileName" class="text-[10px] text-slate-400 font-num" data-i18n="orPasteBelow">أو الصق النص بالأسفل</span>
             </div>
           </div>
 
-          <textarea id="resumeTextInput" rows="3" placeholder="أو الصق نص السيرة الذاتية (CV) هنا لتحليلها..." class="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 focus:outline-none custom-scrollbar"></textarea>
+          <textarea id="resumeTextInput" rows="3" placeholder="أو الصق نص السيرة الذاتية (CV) هنا لتحليلها..." data-i18n-placeholder="resumeTextPlaceholder" class="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 focus:outline-none custom-scrollbar"></textarea>
           
           <button onclick="submitEnterpriseResumeScreening()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold text-xs flex items-center justify-center gap-2 hover:opacity-95 transition-opacity mt-2">
             <i data-lucide="sparkles" class="w-4 h-4"></i>
@@ -652,6 +652,8 @@
         lockFooter: "رمز الدخول الافتراضي: 2026 // تشفير سيادي v8.0",
         alarmText: "⚠️ إنذار سيادي: يرجى تسوية مستحقات تجديد ترخيص المنظومة خلال 24 ساعة لتفادي تجميد الخدمة وقفل التطبيق!",
         close: "إغلاق",
+        companyName: "شركة الأفق القابضة",
+        tickerAiMsg: "السيولة ممتازة والمدرج آمن 14.8 شهر",
         pulseHeader: "مؤشر النبض المؤسسي الحي",
         pulseStatus: "96.4% ممتازة",
         cashRunwayTitle: "السيولة المتاحة فوراً",
@@ -668,10 +670,18 @@
         shareBtn: "مشاركة التقرير التنفيذي المشفر لمجلس الإدارة عبر واتساب",
         aiTitle: "المستشار الإدراكي الذكي (Cognitive AI)",
         aiSub: "مربوط بنموذج Groq LLaMA 3.3-70B لتحليل تقارير الشركة",
+        attachReportLabel: "إرفاق تقرير مالي للتحليل (PDF / Excel / CSV)",
+        noFileSelected: "لم يتم اختيار ملف",
         aiInit: "مرحباً بك معالي المدير. أنا مستشارك الاستراتيجي المالي، تم تحليل سيولة الشركة الحالية وتدفقاتها. يمكنك إرفاق أي ميزانية أو تقرير PDF وسأقوم بقراءته وتوليد مخطط التدفقات والتوصيات لك فوراً.",
+        aiQueryPlaceholder: "اكتب استشارتك التنفيذية هنا...",
         aiBtn: "استشارة",
         cvTitle: "محرك فرز السير الذاتية الذكي (FastAPI AI)",
         cvSub: "يقيم المرشح ويحدد نسبة الملائمة لمناصب شركتك",
+        targetRoleLabel: "المنصب المستهدف:",
+        targetRoleDefault: "مدير تنفيذي للعمليات (COO)",
+        uploadResumeLabel: "رفع ملف السيرة الذاتية (PDF / Word)",
+        orPasteBelow: "أو الصق النص بالأسفل",
+        resumeTextPlaceholder: "أو الصق نص السيرة الذاتية (CV) هنا لتحليلها...",
         cvBtn: "فرز وتحليل السيرة بالذكاء الاصطناعي",
         deptsTitle: "هيكل الأقسام التشغيلية",
         deptsCount: "4 أقسام نشطة",
@@ -686,7 +696,31 @@
         navCockpit: "القيادة",
         navAdvisor: "المستشار AI",
         navRecruitment: "فرز الـ CV",
-        navTeam: "الأقسام"
+        navTeam: "الأقسام",
+        selectLanguageTitle: "اختر لغة المنظومة // Select Language",
+        currencyModalTitle: "العملة النقدية المعتمدة",
+        adminHeader: "لوحة المالك الخارق وإدارة التراخيص",
+        adminSub: "بث إنذار 24h • قفل التطبيق وتجميد الشركات • إصدار الرخص",
+        licensePriceTitle: "تسعيرة بيع ترخيص المنظومة للشركة (مدى الحياة)",
+        licenseIncludes: "يشمل السيرفر، الذكاء الاصطناعي، والـ White-Label",
+        registeredCompanies: "● 3 شركات مسجلة",
+        liveActionTitle: "التحكم الفوري في شاشة التطبيق الحالية (Live Action):",
+        showAlarmBtn: "إظهار شريط إنذار 24h فوراً",
+        freezeAppBtn: "قفل التطبيق وتجميده فوراً",
+        manageTenantsTitle: "إدارة رخص الشركات المسجلة وبث الإنذارات:",
+        fullyPaid: "مسدد بالكامل",
+        tenant1Detail: "القيمة: $15,000 • الترخيص: ساري ومفعل",
+        overdue: "متأخر عن السداد",
+        tenant2Detail: "متبقي دفعة 7,500$ • المهلة تنتهي خلال 24 ساعة",
+        sendAlarmBtn: "بث إنذار 24h",
+        freezeBtn: "تجميد",
+        lockAppActionBtn: "قفل التطبيق",
+        issueNewLicenseTitle: "إصدار ترخيص تجاري لشركة جديدة ($15,000):",
+        clientCompanyName: "اسم الشركة المشترية:",
+        companyNamePlaceholder: "مثلاً: شركة سدير اللوجستية",
+        defaultCurrency: "العملة الافتراضية:",
+        licenseCostLabel: "قيمة الترخيص:",
+        generateLicenseBtn: "توليد كود التفعيل والترخيص السيادي"
       },
       en: {
         dir: "ltr", langLabel: "English",
@@ -696,6 +730,8 @@
         lockFooter: "Default PIN: 2026 // Sovereign Encryption v8.0",
         alarmText: "⚠️ Sovereign Alert: Please settle enterprise license renewal within 24 hours to prevent account suspension!",
         close: "Close",
+        companyName: "Horizon Holding Co.",
+        tickerAiMsg: "Liquidity is excellent; 14.8 months runway secured",
         pulseHeader: "Live Company Pulse Telemetry",
         pulseStatus: "96.4% EXCELLENT",
         cashRunwayTitle: "Immediate Cash Runway",
@@ -712,10 +748,18 @@
         shareBtn: "Share Encrypted Executive Brief to Board via WhatsApp",
         aiTitle: "Cognitive Executive Advisor (AI)",
         aiSub: "Connected to Groq LLaMA 3.3-70B Financial RAG Engine",
+        attachReportLabel: "Attach financial report for analysis (PDF / Excel / CSV)",
+        noFileSelected: "No file selected",
         aiInit: "Welcome CEO. I am your strategic financial advisor. You can upload any balance sheet or PDF report and I will analyze runway, burn rates, and action items.",
+        aiQueryPlaceholder: "Enter your executive inquiry here...",
         aiBtn: "Consult",
         cvTitle: "AI CV Screening Engine (FastAPI)",
         cvSub: "Evaluates candidates and scores fit for roles",
+        targetRoleLabel: "Target Position:",
+        targetRoleDefault: "Chief Operating Officer (COO)",
+        uploadResumeLabel: "Upload Resume (PDF / Word)",
+        orPasteBelow: "Or paste text below",
+        resumeTextPlaceholder: "Or paste resume text here to analyze...",
         cvBtn: "Screen & Match CV with AI",
         deptsTitle: "Operational Department Structure",
         deptsCount: "4 Active Departments",
@@ -730,7 +774,31 @@
         navCockpit: "Cockpit",
         navAdvisor: "AI Advisor",
         navRecruitment: "CV Screening",
-        navTeam: "Departments"
+        navTeam: "Departments",
+        selectLanguageTitle: "Select System Language",
+        currencyModalTitle: "Designated Currency",
+        adminHeader: "Master Sovereign & License Management",
+        adminSub: "Broadcast 24h alert • Freeze tenants • Issue licenses",
+        licensePriceTitle: "Enterprise License Lifetime Price",
+        licenseIncludes: "Includes server, cognitive AI & white-label",
+        registeredCompanies: "● 3 Registered Companies",
+        liveActionTitle: "Live Screen Immediate Control:",
+        showAlarmBtn: "Show 24h Alert Now",
+        freezeAppBtn: "Freeze & Lock App Now",
+        manageTenantsTitle: "Manage Company Licenses & Alerts:",
+        fullyPaid: "Fully Settled",
+        tenant1Detail: "Value: $15,000 • License: Active & Valid",
+        overdue: "Payment Overdue",
+        tenant2Detail: "Remaining: $7,500 • Grace period: 24h",
+        sendAlarmBtn: "Send 24h Alert",
+        freezeBtn: "Freeze",
+        lockAppActionBtn: "Lock App",
+        issueNewLicenseTitle: "Issue Enterprise License ($15,000):",
+        clientCompanyName: "Purchaser Company Name:",
+        companyNamePlaceholder: "e.g., Sudair Logistics Corp",
+        defaultCurrency: "Default Currency:",
+        licenseCostLabel: "License Value:",
+        generateLicenseBtn: "Generate Sovereign Activation Key"
       },
       fr: {
         dir: "ltr", langLabel: "Français",
@@ -740,6 +808,8 @@
         lockFooter: "Code PIN par défaut: 2026 // Chiffrement Souverain v8.0",
         alarmText: "⚠️ Alerte Souveraine: Veuillez régler le renouvellement de licence sous 24h pour éviter le gel du service!",
         close: "Fermer",
+        companyName: "Holding Al-Ofoq",
+        tickerAiMsg: "Trésorerie excellente; 14.8 mois de réserve garantis",
         pulseHeader: "Télémétrie du Pouls d'Entreprise",
         pulseStatus: "96.4% EXCELLENT",
         cashRunwayTitle: "Piste de Trésorerie Immédiate",
@@ -756,10 +826,18 @@
         shareBtn: "Partager le Rapport Exécutif au Conseil via WhatsApp",
         aiTitle: "Conseiller Exécutif Cognitif (IA)",
         aiSub: "Connecté au moteur RAG financier Groq LLaMA 3.3-70B",
+        attachReportLabel: "Joindre un rapport financier (PDF / Excel / CSV)",
+        noFileSelected: "Aucun fichier sélectionné",
         aiInit: "Bienvenue Monsieur le Directeur. Vous pouvez téléverser vos bilans PDF pour analyse automatique de trésorerie et recommandations.",
+        aiQueryPlaceholder: "Saisissez votre consultation ici...",
         aiBtn: "Consulter",
         cvTitle: "Moteur de Filtrage de CV par IA",
         cvSub: "Évalue la compatibilité des candidats pour vos postes",
+        targetRoleLabel: "Poste ciblé:",
+        targetRoleDefault: "Directeur des Opérations (COO)",
+        uploadResumeLabel: "Téléverser le CV (PDF / Word)",
+        orPasteBelow: "Ou collez le texte ci-dessous",
+        resumeTextPlaceholder: "Ou collez le texte du CV ici pour l'analyser...",
         cvBtn: "Filtrer et Analyser le CV par IA",
         deptsTitle: "Structure Opérationnelle des Pôles",
         deptsCount: "4 Pôles Actifs",
@@ -774,7 +852,31 @@
         navCockpit: "Cockpit",
         navAdvisor: "Conseiller IA",
         navRecruitment: "Tri CV",
-        navTeam: "Pôles"
+        navTeam: "Pôles",
+        selectLanguageTitle: "Sélectionnez la langue du système",
+        currencyModalTitle: "Devise Officielle",
+        adminHeader: "Panneau Maître & Gestion des Licences",
+        adminSub: "Alerte 24h • Geler les filiales • Émettre des licences",
+        licensePriceTitle: "Prix de licence entreprise à vie",
+        licenseIncludes: "Serveur inclus, IA cognitive et marque blanche",
+        registeredCompanies: "● 3 Entreprises Enregistrées",
+        liveActionTitle: "Contrôle immédiat de l'écran en direct:",
+        showAlarmBtn: "Afficher l'alerte 24h maintenant",
+        freezeAppBtn: "Verrouiller et geler l'application",
+        manageTenantsTitle: "Gestion des licences et alertes:",
+        fullyPaid: "Intégralement Payé",
+        tenant1Detail: "Montant: 15 000 $ • Licence: Active",
+        overdue: "Paiement en retard",
+        tenant2Detail: "Reste: 7 500 $ • Délai: 24h",
+        sendAlarmBtn: "Diffuser alerte 24h",
+        freezeBtn: "Geler",
+        lockAppActionBtn: "Verrouiller",
+        issueNewLicenseTitle: "Délivrer licence d'entreprise (15 000 $):",
+        clientCompanyName: "Nom de l'entreprise cliente:",
+        companyNamePlaceholder: "Ex: Sudair Logistics Corp",
+        defaultCurrency: "Devise par défaut:",
+        licenseCostLabel: "Valeur de la licence:",
+        generateLicenseBtn: "Générer la clé d'activation souveraine"
       },
       es: {
         dir: "ltr", langLabel: "Español",
@@ -784,6 +886,8 @@
         lockFooter: "PIN por defecto: 2026 // Cifrado Soberano v8.0",
         alarmText: "⚠️ Alerta Soberana: ¡Regularice la renovación de la licencia en 24 horas para evitar la suspensión!",
         close: "Cerrar",
+        companyName: "Horizon Holding Co.",
+        tickerAiMsg: "Liquidez excelente; 14.8 meses de pista operativa",
         pulseHeader: "Pulso Corporativo en Tiempo Real",
         pulseStatus: "96.4% EXCELENTE",
         cashRunwayTitle: "Pista de Liquidez Inmediata",
@@ -800,10 +904,18 @@
         shareBtn: "Compartir Informe Ejecutivo Cifrado por WhatsApp",
         aiTitle: "Asesor Cognitivo Ejecutivo (IA)",
         aiSub: "Conectado al motor RAG de Groq LLaMA 3.3-70B",
+        attachReportLabel: "Adjuntar informe financiero (PDF / Excel / CSV)",
+        noFileSelected: "Ningún archivo seleccionado",
         aiInit: "Bienvenido Director General. Suba reportes financieros PDF para generar proyecciones y planes estratégicos inmediatos.",
+        aiQueryPlaceholder: "Escriba su consulta ejecutiva...",
         aiBtn: "Consultar",
         cvTitle: "Motor de Filtrado de CV con IA",
         cvSub: "Evalúa candidatos y calcula compatibilidad con el puesto",
+        targetRoleLabel: "Puesto objetivo:",
+        targetRoleDefault: "Director de Operaciones (COO)",
+        uploadResumeLabel: "Subir currículum (PDF / Word)",
+        orPasteBelow: "O pegue el texto abajo",
+        resumeTextPlaceholder: "O pegue el texto del currículum aquí...",
         cvBtn: "Filtrar y Evaluar CV con IA",
         deptsTitle: "Estructura de Departamentos Operativos",
         deptsCount: "4 Departamentos Activos",
@@ -818,7 +930,31 @@
         navCockpit: "Comando",
         navAdvisor: "Asesor IA",
         navRecruitment: "Filtro CV",
-        navTeam: "Equipos"
+        navTeam: "Equipos",
+        selectLanguageTitle: "Seleccione el idioma del sistema",
+        currencyModalTitle: "Moneda Designada",
+        adminHeader: "Panel Maestro y Gestión de Licencias",
+        adminSub: "Alerta 24h • Congelar clientes • Emitir licencias",
+        licensePriceTitle: "Precio de licencia corporativa de por vida",
+        licenseIncludes: "Servidor incluido, IA cognitiva y marca blanca",
+        registeredCompanies: "● 3 Empresas Registradas",
+        liveActionTitle: "Control inmediato en pantalla en vivo:",
+        showAlarmBtn: "Mostrar alerta de 24h ahora",
+        freezeAppBtn: "Bloquear y congelar app",
+        manageTenantsTitle: "Gestión de licencias y alertas:",
+        fullyPaid: "Completamente Pagado",
+        tenant1Detail: "Valor: $15,000 • Licencia: Activa",
+        overdue: "Pago Vencido",
+        tenant2Detail: "Restante: $7,500 • Plazo: 24h",
+        sendAlarmBtn: "Emitir alerta 24h",
+        freezeBtn: "Congelar",
+        lockAppActionBtn: "Bloquear app",
+        issueNewLicenseTitle: "Emitir licencia corporativa ($15,000):",
+        clientCompanyName: "Nombre de empresa compradora:",
+        companyNamePlaceholder: "Ej: Sudair Logistics Corp",
+        defaultCurrency: "Moneda por defecto:",
+        licenseCostLabel: "Valor de licencia:",
+        generateLicenseBtn: "Generar clave de activación soberana"
       },
       de: {
         dir: "ltr", langLabel: "Deutsch",
@@ -828,6 +964,8 @@
         lockFooter: "Standard-PIN: 2026 // Souveräne Verschlüsselung v8.0",
         alarmText: "⚠️ Souveräne Warnung: Bitte Lizenz innerhalb von 24 Stunden erneuern, um Sperrung zu vermeiden!",
         close: "Schließen",
+        companyName: "Horizon Holding AG",
+        tickerAiMsg: "Liquidität exzellent; 14.8 Monate Reichweite gesichert",
         pulseHeader: "Live-Unternehmenspuls Telemetrie",
         pulseStatus: "96.4% AUSGEZEICHNET",
         cashRunwayTitle: "Verfügbare Liquiditätsreichweite",
@@ -844,10 +982,18 @@
         shareBtn: "Verschlüsselten Vorstandsbericht via WhatsApp teilen",
         aiTitle: "Kognitiver KI-Vorstandsberater",
         aiSub: "Groq LLaMA 3.3-70B Finanz-RAG Engine",
+        attachReportLabel: "Finanzbericht zur Analyse anhängen (PDF / Excel / CSV)",
+        noFileSelected: "Keine Datei ausgewählt",
         aiInit: "Willkommen Geschäftsführer. Laden Sie Finanzberichte hoch für eine datengestützte Analyse.",
+        aiQueryPlaceholder: "Geben Sie Ihre Anfrage ein...",
         aiBtn: "Beraten",
         cvTitle: "KI-Bewerber-Screening-Engine",
         cvSub: "Analysiert Lebensläufe auf Rollen-Passung",
+        targetRoleLabel: "Zielposition:",
+        targetRoleDefault: "Chief Operating Officer (COO)",
+        uploadResumeLabel: "Lebenslauf hochladen (PDF / Word)",
+        orPasteBelow: "Oder Text unten einfügen",
+        resumeTextPlaceholder: "Oder Lebenslauftext hier einfügen...",
         cvBtn: "Lebenslauf mit KI filtern",
         deptsTitle: "Betriebliche Abteilungsstruktur",
         deptsCount: "4 Aktive Abteilungen",
@@ -862,7 +1008,31 @@
         navCockpit: "Cockpit",
         navAdvisor: "KI-Berater",
         navRecruitment: "CV-Filter",
-        navTeam: "Abteilungen"
+        navTeam: "Abteilungen",
+        selectLanguageTitle: "Systemsprache auswählen",
+        currencyModalTitle: "Festgelegte Währung",
+        adminHeader: "Master-Panel & Lizenzverwaltung",
+        adminSub: "24h-Alarm • Mandanten einfrieren • Lizenzen ausstellen",
+        licensePriceTitle: "Lebenslange Enterprise-Lizenzgebühr",
+        licenseIncludes: "Inklusive Server, kognitiver KI und White-Label",
+        registeredCompanies: "● 3 Registrierte Unternehmen",
+        liveActionTitle: "Sofortige Live-Bildschirm-Steuerung:",
+        showAlarmBtn: "24h-Alarm jetzt anzeigen",
+        freezeAppBtn: "App sperren und einfrieren",
+        manageTenantsTitle: "Lizenz- und Alarmverwaltung:",
+        fullyPaid: "Vollständig Bezahlt",
+        tenant1Detail: "Wert: $15.000 • Lizenz: Aktiv",
+        overdue: "Zahlung überfällig",
+        tenant2Detail: "Restbetrag: $7.500 • Frist: 24 Std.",
+        sendAlarmBtn: "24h-Alarm senden",
+        freezeBtn: "Einfrieren",
+        lockAppActionBtn: "App sperren",
+        issueNewLicenseTitle: "Enterprise-Lizenz ausstellen ($15.000):",
+        clientCompanyName: "Name des Käuferunternehmens:",
+        companyNamePlaceholder: "Z.B. Sudair Logistics GmbH",
+        defaultCurrency: "Standardwährung:",
+        licenseCostLabel: "Lizenzwert:",
+        generateLicenseBtn: "Souveränen Aktivierungscode generieren"
       },
       tr: {
         dir: "ltr", langLabel: "Türkçe",
@@ -872,6 +1042,8 @@
         lockFooter: "Varsayılan PIN: 2026 // Güvenli Şifreleme v8.0",
         alarmText: "⚠️ Egemenlik Uyarısı: Hizmet askıya alınmasını önlemek için lisansı 24 saat içinde yenileyin!",
         close: "Kapat",
+        companyName: "Horizon Holding A.Ş.",
+        tickerAiMsg: "Nakit durumu mükemmel; 14.8 aylık rezerv güvencede",
         pulseHeader: "Canlı Şirket Nabız Telemetrisi",
         pulseStatus: "%96.4 MÜKEMMEL",
         cashRunwayTitle: "Anlık Nakit Rezervi",
@@ -888,10 +1060,18 @@
         shareBtn: "Şifreli Yönetici Raporunu WhatsApp ile Paylaş",
         aiTitle: "Bilişsel Yönetici Danışmanı (Yapay Zeka)",
         aiSub: "Groq LLaMA 3.3-70B Finansal RAG Motoru",
+        attachReportLabel: "Finansal rapor ekleyin (PDF / Excel / CSV)",
+        noFileSelected: "Dosya seçilmedi",
         aiInit: "Hoş geldiniz Sayın CEO. Finansal tablolarınızı yükleyerek anında nakit analizleri alabilirsiniz.",
+        aiQueryPlaceholder: "Sorunuzu buraya yazın...",
         aiBtn: "Danış",
         cvTitle: "Yapay Zeka CV İnceleme Motoru",
         cvSub: "Adayları şirket pozisyonlarına göre puanlar",
+        targetRoleLabel: "Hedef Pozisyon:",
+        targetRoleDefault: "Operasyon Direktörü (COO)",
+        uploadResumeLabel: "Özgeçmiş Yükle (PDF / Word)",
+        orPasteBelow: "Veya metni aşağıya yapıştırın",
+        resumeTextPlaceholder: "Veya CV metnini buraya yapıştırın...",
         cvBtn: "CV'yi Yapay Zeka ile İncele",
         deptsTitle: "Operasyonel Departman Yapısı",
         deptsCount: "4 Aktif Departman",
@@ -906,7 +1086,31 @@
         navCockpit: "Yönetim",
         navAdvisor: "YZ Danışman",
         navRecruitment: "CV Tarama",
-        navTeam: "Bölümler"
+        navTeam: "Bölümler",
+        selectLanguageTitle: "Sistem Dilini Seçin",
+        currencyModalTitle: "Geçerli Para Birimi",
+        adminHeader: "Ana Yönetici ve Lisans Yönetimi",
+        adminSub: "24 saat alarmı • Şirketleri dondur • Lisans üret",
+        licensePriceTitle: "Ömür Boyu Kurumsal Lisans Ücreti",
+        licenseIncludes: "Sunucu, yapay zeka ve white-label dahil",
+        registeredCompanies: "● 3 Kayıtlı Şirket",
+        liveActionTitle: "Canlı Ekran Anlık Kontrol:",
+        showAlarmBtn: "24 saat alarmını göster",
+        freezeAppBtn: "Uygulamayı dondur ve kilitle",
+        manageTenantsTitle: "Lisans ve Uyarı Yönetimi:",
+        fullyPaid: "Tamamen Ödendi",
+        tenant1Detail: "Tutar: 15.000$ • Lisans: Aktif",
+        overdue: "Ödeme Gecikti",
+        tenant2Detail: "Kalan: 7.500$ • Süre: 24 saat",
+        sendAlarmBtn: "24h Alarm Gönder",
+        freezeBtn: "Dondur",
+        lockAppActionBtn: "Uygulamayı Kilitle",
+        issueNewLicenseTitle: "Kurumsal Lisans Oluştur ($15.000):",
+        clientCompanyName: "Alıcı Şirket Adı:",
+        companyNamePlaceholder: "Örn: Sudair Logistics A.Ş.",
+        defaultCurrency: "Varsayılan Para Birimi:",
+        licenseCostLabel: "Lisans Değeri:",
+        generateLicenseBtn: "Egemen Aktivasyon Kodunu Üret"
       },
       ru: {
         dir: "ltr", langLabel: "Русский",
@@ -916,6 +1120,8 @@
         lockFooter: "PIN по умолчанию: 2026 // Безопасное шифрование v8.0",
         alarmText: "⚠️ Предупреждение: продлите лицензию в течение 24 часов во избежание блокировки!",
         close: "Закрыть",
+        companyName: "Холдинг Аль-Офок",
+        tickerAiMsg: "Ликвидность отличная; 14.8 месяцев резерва обеспечено",
         pulseHeader: "Пульс Корпоративной Деятельности",
         pulseStatus: "96.4% ОТЛИЧНО",
         cashRunwayTitle: "Доступная Ликвидность",
@@ -932,10 +1138,18 @@
         shareBtn: "Отправить Отчет Совету Директоров в WhatsApp",
         aiTitle: "Когнитивный ИИ-Советник Руководителя",
         aiSub: "Groq LLaMA 3.3-70B RAG Анализ",
+        attachReportLabel: "Прикрепить финансовый отчет (PDF / Excel / CSV)",
+        noFileSelected: "Файл не выбран",
         aiInit: "Добро пожаловать. Загрузите PDF отчеты для глубокого аудита ликвидности и рисков.",
+        aiQueryPlaceholder: "Введите запрос для ИИ-советника...",
         aiBtn: "Консультация",
         cvTitle: "ИИ-Скрининг Резюме (FastAPI)",
         cvSub: "Оценивает кандидатов и процент соответствия должности",
+        targetRoleLabel: "Целевая должность:",
+        targetRoleDefault: "Операционный директор (COO)",
+        uploadResumeLabel: "Загрузить резюме (PDF / Word)",
+        orPasteBelow: "Или вставьте текст ниже",
+        resumeTextPlaceholder: "Или вставьте текст резюме здесь...",
         cvBtn: "Анализировать Резюме с ИИ",
         deptsTitle: "Структура Операционных Отделов",
         deptsCount: "4 Активных Отдела",
@@ -950,7 +1164,31 @@
         navCockpit: "Командный Пункт",
         navAdvisor: "ИИ-Советник",
         navRecruitment: "Отбор CV",
-        navTeam: "Отделы"
+        navTeam: "Отделы",
+        selectLanguageTitle: "Выберите язык системы",
+        currencyModalTitle: "Основная валюта",
+        adminHeader: "Панель Владельца и Лицензии",
+        adminSub: "Тревога 24ч • Заморозка компаний • Выпуск лицензий",
+        licensePriceTitle: "Стоимость пожизненной лицензии",
+        licenseIncludes: "Включает сервер, ИИ и white-label",
+        registeredCompanies: "● 3 Зарегистрированные компании",
+        liveActionTitle: "Мгновенное управление экраном:",
+        showAlarmBtn: "Показать тревогу 24ч сейчас",
+        freezeAppBtn: "Заблокировать и заморозить",
+        manageTenantsTitle: "Управление лицензиями и оповещениями:",
+        fullyPaid: "Полностью Оплачено",
+        tenant1Detail: "Сумма: $15,000 • Лицензия: Активна",
+        overdue: "Просрочен платеж",
+        tenant2Detail: "Остаток: $7,500 • Срок: 24ч",
+        sendAlarmBtn: "Отправить тревогу 24ч",
+        freezeBtn: "Заморозить",
+        lockAppActionBtn: "Заблокировать",
+        issueNewLicenseTitle: "Выпуск корпоративной лицензии ($15,000):",
+        clientCompanyName: "Название компании-покупателя:",
+        companyNamePlaceholder: "Например: Судайр Логистикс",
+        defaultCurrency: "Валюта по умолчанию:",
+        licenseCostLabel: "Стоимость лицензии:",
+        generateLicenseBtn: "Сгенерировать ключ активации"
       },
       zh: {
         dir: "ltr", langLabel: "中文",
@@ -960,6 +1198,8 @@
         lockFooter: "默认密码: 2026 // 安全加密 v8.0",
         alarmText: "⚠️ 主权警报：请在24小时内结清企业授权续费，以防服务冻结！",
         close: "关闭",
+        companyName: "地平线控股集团",
+        tickerAiMsg: "流动性充沛；已保障14.8个月的运营安全储备",
         pulseHeader: "企业运营健康遥测",
         pulseStatus: "96.4% 卓越",
         cashRunwayTitle: "即时流动资金储备",
@@ -976,10 +1216,18 @@
         shareBtn: "通过WhatsApp将机密简报共享给董事会",
         aiTitle: "企业认知智能顾问 (AI)",
         aiSub: "Groq LLaMA 3.3-70B 金融RAG推理引擎",
+        attachReportLabel: "上传财务报表用于分析 (PDF / Excel / CSV)",
+        noFileSelected: "未选择任何文件",
         aiInit: "尊敬的首席执行官，您好。您可以上传财务PDF报表，AI将即时提取现金储备并生成策略建议。",
+        aiQueryPlaceholder: "在此输入您的咨询问题...",
         aiBtn: "执行咨询",
         cvTitle: "智能简历筛选系统 (FastAPI AI)",
         cvSub: "智能评估候选人与岗位胜任力匹配度",
+        targetRoleLabel: "目标岗位:",
+        targetRoleDefault: "首席运营官 (COO)",
+        uploadResumeLabel: "上传简历文档 (PDF / Word)",
+        orPasteBelow: "或在下方直接粘贴内容",
+        resumeTextPlaceholder: "或在此粘贴简历纯文本进行AI初筛...",
         cvBtn: "AI智能简历初筛",
         deptsTitle: "运营部门组织架构",
         deptsCount: "4个活跃业务部",
@@ -994,11 +1242,35 @@
         navCockpit: "驾驶舱",
         navAdvisor: "AI顾问",
         navRecruitment: "简历初筛",
-        navTeam: "组织架构"
+        navTeam: "组织架构",
+        selectLanguageTitle: "选择系统语言",
+        currencyModalTitle: "法定结算货币",
+        adminHeader: "超级所有者控制台与授权管理",
+        adminSub: "广播24h警报 • 冻结企业租户 • 签发企业授权",
+        licensePriceTitle: "企业终身买断授权价格",
+        licenseIncludes: "包含云服务器、认知AI与白标自研",
+        registeredCompanies: "● 3家在册企业",
+        liveActionTitle: "当前界面即时联动控制:",
+        showAlarmBtn: "即刻呈现24h欠费预警",
+        freezeAppBtn: "即刻冻结并锁定系统",
+        manageTenantsTitle: "企业授权及预警广播管理:",
+        fullyPaid: "已足额支付",
+        tenant1Detail: "总额: $15,000 • 授权状态: 有效运行中",
+        overdue: "款项已逾期",
+        tenant2Detail: "未付余款: $7,500 • 剩余期限: 24小时",
+        sendAlarmBtn: "广播24h警报",
+        freezeBtn: "冻结",
+        lockAppActionBtn: "锁定系统",
+        issueNewLicenseTitle: "签发全新企业授权 ($15,000):",
+        clientCompanyName: "采购企业全称:",
+        companyNamePlaceholder: "例：苏代尔现代物流集团",
+        defaultCurrency: "默认结算币种:",
+        licenseCostLabel: "授权定价值:",
+        generateLicenseBtn: "生成主权级激活密匙"
       }
     };
 
-    function applyLanguage(code) {
+    function applyLanguage(code, closeModal = true) {
       const data = translations[code] || translations.ar;
       currentLang = code;
       localStorage.setItem("ceo_lang", code);
@@ -1009,6 +1281,7 @@
       const labelEl = document.getElementById("lockLangLabel");
       if (labelEl) labelEl.innerText = data.langLabel;
 
+      // 1. ترجمة جميع النصوص الداخلية
       document.querySelectorAll("[data-i18n]").forEach(el => {
         const key = el.getAttribute("data-i18n");
         if (data[key]) {
@@ -1016,7 +1289,28 @@
         }
       });
 
-      toggleModal('languageModal');
+      // 2. ترجمة نصوص الخانات التوضيحية (Placeholders)
+      document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+        const key = el.getAttribute("data-i18n-placeholder");
+        if (data[key]) {
+          el.placeholder = data[key];
+        }
+      });
+
+      // 3. ترجمة القيم الافتراضية للمدخلات (Inputs default values)
+      document.querySelectorAll("[data-i18n-value]").forEach(el => {
+        const key = el.getAttribute("data-i18n-value");
+        if (data[key]) {
+          el.value = data[key];
+        }
+      });
+
+      if (closeModal) {
+        const langModal = document.getElementById('languageModal');
+        if (langModal && !langModal.classList.contains('hidden')) {
+          langModal.classList.add('hidden');
+        }
+      }
       if (window.lucide) { lucide.createIcons(); }
     }
 
@@ -1409,7 +1703,7 @@
 
     window.addEventListener("DOMContentLoaded", () => {
       const savedLang = localStorage.getItem("ceo_lang") || "ar";
-      applyLanguage(savedLang);
+      applyLanguage(savedLang, false);
 
       const savedCurr = localStorage.getItem("ceo_curr");
       const savedMult = localStorage.getItem("ceo_curr_mult");
