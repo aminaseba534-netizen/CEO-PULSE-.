@@ -1320,7 +1320,7 @@
       const labelEl = document.getElementById("lockLangLabel");
       if (labelEl) labelEl.innerText = data.langLabel;
 
-      // ترجمة جميع العناصر
+      // ترجمة جميع النصوص
       document.querySelectorAll("[data-i18n]").forEach(el => {
         const key = el.getAttribute("data-i18n");
         if (data[key]) {
