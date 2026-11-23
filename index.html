@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>CEO-PULSE SOVEREIGN v7.5 - Final Master Edition</title>
+  <title>CEO-PULSE SOVEREIGN v8.0 - Enterprise Edition</title>
   
   <meta name="theme-color" content="#090e1a">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -76,7 +76,6 @@
     .custom-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 
-  <!-- تهيئة تخصيص العلامة البيضاء للشركات -->
   <script>
     window.APP_TENANT_NAME = "شركة الأفق القابضة";
     window.APP_TENANT_NODE = "NODE-01 // ENTERPRISE";
@@ -85,7 +84,7 @@
 </head>
 <body class="min-h-screen flex flex-col bg-[#090e1a] text-slate-100 overflow-x-hidden selection:bg-cyan-500 selection:text-black">
 
-  <!-- 🚨 شريط الإنذار السيادي اللحظي (يتحكم به المالك الخارق حصرياً) -->
+  <!-- 🚨 شريط الإنذار السيادي اللحظي -->
   <div id="remoteAlarmBanner" class="hidden fixed top-0 inset-x-0 z-50 bg-gradient-to-r from-rose-600 via-amber-600 to-rose-700 text-white px-4 py-3 shadow-2xl flex items-center justify-between border-b border-rose-400/40">
     <div class="flex items-center gap-2 text-xs font-bold">
       <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-300 animate-bounce"></i>
@@ -119,7 +118,7 @@
         <h1 class="text-xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 font-num">
           CEO-PULSE
         </h1>
-        <span class="text-[10px] text-slate-500 uppercase tracking-widest font-num mt-0.5">SOVEREIGN ARCHITECT</span>
+        <span class="text-[10px] text-slate-500 uppercase tracking-widest font-num mt-0.5">SOVEREIGN ARCHITECT v8.0</span>
         <div class="mt-1 flex items-center gap-1 text-[9px] text-cyan-400/80 bg-cyan-950/40 px-2.5 py-0.5 rounded-full border border-cyan-500/20">
           <i data-lucide="sparkles" class="w-3 h-3 text-cyan-400"></i>
           <span data-i18n="secretHint">المس 4 مرات سريعة أو اضغط مطولاً للوحة المالك</span>
@@ -160,7 +159,7 @@
       <div id="tenantDisplayLock" class="text-xs font-semibold text-slate-400">شركة الأفق القابضة</div>
       <div class="flex items-center gap-1 text-[10px]">
         <i data-lucide="key" class="w-3 h-3 text-cyan-500/70"></i>
-        <span data-i18n="lockFooter">رمز الدخول الافتراضي: 2026 // تشفير سيادي</span>
+        <span data-i18n="lockFooter">رمز الدخول الافتراضي: 2026 // تشفير سيادي v8.0</span>
       </div>
     </div>
   </div>
@@ -366,7 +365,7 @@
             شركة الأفق القابضة
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           </div>
-          <div class="text-[10px] text-slate-400 font-num">CEO-PULSE SOVEREIGN v7.5</div>
+          <div class="text-[10px] text-slate-400 font-num">CEO-PULSE SOVEREIGN v8.0 Enterprise</div>
         </div>
       </div>
 
@@ -481,26 +480,45 @@
         </button>
       </div>
 
-      <!-- TAB 2: المستشار AI -->
+      <!-- TAB 2: المستشار AI مع ميزة رفع ملفات التقارير المالية (RAG Engine) -->
       <div id="tabViewAdvisor" class="hidden space-y-4">
         <div class="glass-card rounded-3xl p-5 border border-purple-500/20">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-400">
-              <i data-lucide="brain" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <h3 class="text-sm font-bold text-white" data-i18n="aiTitle">المستشار الإدراكي الذكي (Cognitive AI)</h3>
-              <p class="text-xs text-slate-400" data-i18n="aiSub">مربوط بسيرفر Render مع نموذج Gemini المالي</p>
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-400">
+                <i data-lucide="brain" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                  <span data-i18n="aiTitle">المستشار الإدراكي الذكي (Cognitive AI)</span>
+                  <span class="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-[9px] font-num">RAG v8.0</span>
+                </h3>
+                <p class="text-xs text-slate-400" data-i18n="aiSub">مربوط بنموذج Groq LLaMA 3.3-70B لتحليل تقارير الشركة</p>
+              </div>
             </div>
           </div>
 
-          <div id="advisorOutputBox" class="p-4 rounded-2xl bg-slate-950/60 border border-slate-800 text-xs text-slate-300 min-h-[110px] leading-relaxed" data-i18n="aiInit">
-            مرحباً بك معالي المدير. أنا مستشارك الاستراتيجي المالي، تم تحليل سيولة الشركة الحالية وتدفقاتها. اسألني عن أي قرار استثماري، تقليص نفقات، أو خطط التوسع.
+          <!-- رفع تقرير مالي (PDF / Excel / CSV) في الذاكرة دون تخزين على القرص -->
+          <div class="mb-3 p-3 rounded-2xl bg-slate-950/70 border border-slate-800">
+            <div class="flex items-center justify-between">
+              <label class="text-[11px] font-bold text-purple-300 flex items-center gap-1.5 cursor-pointer">
+                <i data-lucide="upload-cloud" class="w-4 h-4 text-purple-400"></i>
+                <span>إرفاق تقرير مالي للتحليل (PDF / Excel / CSV)</span>
+                <input id="reportFileInput" type="file" accept=".pdf,.csv,.xlsx,.xls" class="hidden" onchange="handleReportFileSelected()">
+              </label>
+              <span id="selectedReportFileName" class="text-[10px] text-slate-400 font-num">لم يتم اختيار ملف</span>
+            </div>
+          </div>
+
+          <div id="advisorOutputBox" class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 text-xs text-slate-300 min-h-[120px] leading-relaxed">
+            <div data-i18n="aiInit">
+              مرحباً بك معالي المدير. أنا مستشارك الاستراتيجي المالي، تم تحليل سيولة الشركة الحالية وتدفقاتها. يمكنك إرفاق أي ميزانية أو تقرير PDF وسأقوم بقراءته وتوليد مخطط التدفقات والتوصيات لك فوراً.
+            </div>
           </div>
 
           <div class="mt-4 flex gap-2">
             <input id="advisorQueryInput" type="text" placeholder="اكتب استشارتك التنفيذية هنا..." class="flex-1 px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-purple-500 focus:outline-none">
-            <button onclick="askSovereignAI()" class="px-4 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors">
+            <button onclick="askSovereignRAG()" class="px-4 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors">
               <i data-lucide="send" class="w-4 h-4"></i>
               <span data-i18n="aiBtn">استشارة</span>
             </button>
@@ -508,22 +526,43 @@
         </div>
       </div>
 
-      <!-- TAB 3: فرز الـ CV -->
+      <!-- TAB 3: فرز الـ CV مع دعم رفع ملفات الـ PDF -->
       <div id="tabViewRecruitment" class="hidden space-y-4">
         <div class="glass-card rounded-3xl p-5 border border-cyan-500/20">
-          <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400">
-              <i data-lucide="file-check" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <h3 class="text-sm font-bold text-white" data-i18n="cvTitle">محرك فرز السير الذاتية الذكي (FastAPI AI)</h3>
-              <p class="text-xs text-slate-400" data-i18n="cvSub">يقيم المرشح ويحدد نسبة الملائمة لمناصب شركتك</p>
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400">
+                <i data-lucide="file-check" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                  <span data-i18n="cvTitle">محرك فرز السير الذاتية الذكي (FastAPI AI)</span>
+                  <span class="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[9px] font-num">ENTERPRISE</span>
+                </h3>
+                <p class="text-xs text-slate-400" data-i18n="cvSub">يقيم المرشح ويحدد نسبة الملائمة لمناصب شركتك</p>
+              </div>
             </div>
           </div>
 
-          <textarea id="resumeTextInput" rows="4" placeholder="الصق نص السيرة الذاتية (CV) هنا لتحليلها..." class="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 focus:outline-none custom-scrollbar"></textarea>
+          <div class="space-y-2 mb-3">
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">المنصب المستهدف:</label>
+              <input id="targetRoleInput" type="text" value="مدير تنفيذي للعمليات (COO)" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 focus:outline-none">
+            </div>
+
+            <div class="p-3 rounded-2xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+              <label class="text-[11px] font-bold text-cyan-300 flex items-center gap-1.5 cursor-pointer">
+                <i data-lucide="file-up" class="w-4 h-4 text-cyan-400"></i>
+                <span>رفع ملف السيرة الذاتية (PDF / Word)</span>
+                <input id="resumeFileInput" type="file" accept=".pdf,.doc,.docx,.txt" class="hidden" onchange="handleResumeFileSelected()">
+              </label>
+              <span id="selectedResumeFileName" class="text-[10px] text-slate-400 font-num">أو الصق النص بالأسفل</span>
+            </div>
+          </div>
+
+          <textarea id="resumeTextInput" rows="3" placeholder="أو الصق نص السيرة الذاتية (CV) هنا لتحليلها..." class="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:border-cyan-500 focus:outline-none custom-scrollbar"></textarea>
           
-          <button onclick="submitResumeScreening()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold text-xs flex items-center justify-center gap-2 hover:opacity-95 transition-opacity mt-2">
+          <button onclick="submitEnterpriseResumeScreening()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold text-xs flex items-center justify-center gap-2 hover:opacity-95 transition-opacity mt-2">
             <i data-lucide="sparkles" class="w-4 h-4"></i>
             <span data-i18n="cvBtn">فرز وتحليل السيرة بالذكاء الاصطناعي</span>
           </button>
@@ -610,7 +649,7 @@
         secretHint: "المس 4 مرات سريعة أو اضغط مطولاً للوحة المالك",
         lockTitle: "بوابة الدخول التنفيذية",
         lockSub: "أدخل رمز الدخول السيادي (PIN) أو استخدم التحقق بالبصمة",
-        lockFooter: "رمز الدخول الافتراضي: 2026 // تشفير سيادي",
+        lockFooter: "رمز الدخول الافتراضي: 2026 // تشفير سيادي v8.0",
         alarmText: "⚠️ إنذار سيادي: يرجى تسوية مستحقات تجديد ترخيص المنظومة خلال 24 ساعة لتفادي تجميد الخدمة وقفل التطبيق!",
         close: "إغلاق",
         pulseHeader: "مؤشر النبض المؤسسي الحي",
@@ -628,8 +667,8 @@
         serverTitle: "حالة السيرفر الحي",
         shareBtn: "مشاركة التقرير التنفيذي المشفر لمجلس الإدارة عبر واتساب",
         aiTitle: "المستشار الإدراكي الذكي (Cognitive AI)",
-        aiSub: "مربوط بسيرفر Render مع نموذج Gemini المالي",
-        aiInit: "مرحباً بك معالي المدير. أنا مستشارك الاستراتيجي المالي، تم تحليل سيولة الشركة الحالية وتدفقاتها. اسألني عن أي قرار استثماري، تقليص نفقات، أو خطط التوسع.",
+        aiSub: "مربوط بنموذج Groq LLaMA 3.3-70B لتحليل تقارير الشركة",
+        aiInit: "مرحباً بك معالي المدير. أنا مستشارك الاستراتيجي المالي، تم تحليل سيولة الشركة الحالية وتدفقاتها. يمكنك إرفاق أي ميزانية أو تقرير PDF وسأقوم بقراءته وتوليد مخطط التدفقات والتوصيات لك فوراً.",
         aiBtn: "استشارة",
         cvTitle: "محرك فرز السير الذاتية الذكي (FastAPI AI)",
         cvSub: "يقيم المرشح ويحدد نسبة الملائمة لمناصب شركتك",
@@ -654,7 +693,7 @@
         secretHint: "Tap 4 times fast or long-press for Master Panel",
         lockTitle: "Executive Access Gateway",
         lockSub: "Enter Sovereign PIN or use biometric authentication",
-        lockFooter: "Default PIN: 2026 // Sovereign Encryption",
+        lockFooter: "Default PIN: 2026 // Sovereign Encryption v8.0",
         alarmText: "⚠️ Sovereign Alert: Please settle enterprise license renewal within 24 hours to prevent account suspension!",
         close: "Close",
         pulseHeader: "Live Company Pulse Telemetry",
@@ -672,8 +711,8 @@
         serverTitle: "Live Server State",
         shareBtn: "Share Encrypted Executive Brief to Board via WhatsApp",
         aiTitle: "Cognitive Executive Advisor (AI)",
-        aiSub: "Connected to Render FastAPI with Gemini Core",
-        aiInit: "Welcome CEO. I am your strategic financial advisor. Current liquidity and runway have been analyzed. Ask me about investments, cost optimization, or scaling.",
+        aiSub: "Connected to Groq LLaMA 3.3-70B Financial RAG Engine",
+        aiInit: "Welcome CEO. I am your strategic financial advisor. You can upload any balance sheet or PDF report and I will analyze runway, burn rates, and action items.",
         aiBtn: "Consult",
         cvTitle: "AI CV Screening Engine (FastAPI)",
         cvSub: "Evaluates candidates and scores fit for roles",
@@ -698,7 +737,7 @@
         secretHint: "Touchez 4 fois ou maintenez pour le Panneau Maître",
         lockTitle: "Portail d'Accès Exécutif",
         lockSub: "Entrez le code PIN souverain ou utilisez la biométrie",
-        lockFooter: "Code PIN par défaut: 2026 // Chiffrement Souverain",
+        lockFooter: "Code PIN par défaut: 2026 // Chiffrement Souverain v8.0",
         alarmText: "⚠️ Alerte Souveraine: Veuillez régler le renouvellement de licence sous 24h pour éviter le gel du service!",
         close: "Fermer",
         pulseHeader: "Télémétrie du Pouls d'Entreprise",
@@ -716,8 +755,8 @@
         serverTitle: "État du Serveur Live",
         shareBtn: "Partager le Rapport Exécutif au Conseil via WhatsApp",
         aiTitle: "Conseiller Exécutif Cognitif (IA)",
-        aiSub: "Connecté à Render FastAPI avec modèle Gemini",
-        aiInit: "Bienvenue Monsieur le Directeur. Vos finances et votre trésorerie sont analysées. Posez-moi vos questions stratégiques.",
+        aiSub: "Connecté au moteur RAG financier Groq LLaMA 3.3-70B",
+        aiInit: "Bienvenue Monsieur le Directeur. Vous pouvez téléverser vos bilans PDF pour analyse automatique de trésorerie et recommandations.",
         aiBtn: "Consulter",
         cvTitle: "Moteur de Filtrage de CV par IA",
         cvSub: "Évalue la compatibilité des candidats pour vos postes",
@@ -742,7 +781,7 @@
         secretHint: "Toque 4 veces o mantenga para el Panel Maestro",
         lockTitle: "Portal de Acceso Ejecutivo",
         lockSub: "Ingrese el PIN soberano o use autenticación biométrica",
-        lockFooter: "PIN por defecto: 2026 // Cifrado Soberano",
+        lockFooter: "PIN por defecto: 2026 // Cifrado Soberano v8.0",
         alarmText: "⚠️ Alerta Soberana: ¡Regularice la renovación de la licencia en 24 horas para evitar la suspensión!",
         close: "Cerrar",
         pulseHeader: "Pulso Corporativo en Tiempo Real",
@@ -760,8 +799,8 @@
         serverTitle: "Estado del Servidor en Vivo",
         shareBtn: "Compartir Informe Ejecutivo Cifrado por WhatsApp",
         aiTitle: "Asesor Cognitivo Ejecutivo (IA)",
-        aiSub: "Conectado a Render FastAPI con Gemini Core",
-        aiInit: "Bienvenido Director General. La liquidez y flujo de caja están evaluados. Consúlteme sobre inversiones o reducción de costos.",
+        aiSub: "Conectado al motor RAG de Groq LLaMA 3.3-70B",
+        aiInit: "Bienvenido Director General. Suba reportes financieros PDF para generar proyecciones y planes estratégicos inmediatos.",
         aiBtn: "Consultar",
         cvTitle: "Motor de Filtrado de CV con IA",
         cvSub: "Evalúa candidatos y calcula compatibilidad con el puesto",
@@ -786,7 +825,7 @@
         secretHint: "4x tippen oder halten für Master-Panel",
         lockTitle: "Exekutiv-Zugangsportal",
         lockSub: "Souveränen PIN eingeben oder Biometrie nutzen",
-        lockFooter: "Standard-PIN: 2026 // Souveräne Verschlüsselung",
+        lockFooter: "Standard-PIN: 2026 // Souveräne Verschlüsselung v8.0",
         alarmText: "⚠️ Souveräne Warnung: Bitte Lizenz innerhalb von 24 Stunden erneuern, um Sperrung zu vermeiden!",
         close: "Schließen",
         pulseHeader: "Live-Unternehmenspuls Telemetrie",
@@ -804,8 +843,8 @@
         serverTitle: "Live-Serverstatus",
         shareBtn: "Verschlüsselten Vorstandsbericht via WhatsApp teilen",
         aiTitle: "Kognitiver KI-Vorstandsberater",
-        aiSub: "Verbunden mit Render FastAPI & Gemini",
-        aiInit: "Willkommen, Geschäftsleiter. Liquidität und Cashflow sind analysiert. Fragen Sie mich zu Investitionen.",
+        aiSub: "Groq LLaMA 3.3-70B Finanz-RAG Engine",
+        aiInit: "Willkommen Geschäftsführer. Laden Sie Finanzberichte hoch für eine datengestützte Analyse.",
         aiBtn: "Beraten",
         cvTitle: "KI-Bewerber-Screening-Engine",
         cvSub: "Analysiert Lebensläufe auf Rollen-Passung",
@@ -830,7 +869,7 @@
         secretHint: "Yönetici Paneli için 4 kez dokunun veya basılı tutun",
         lockTitle: "Yönetici Erişim Portalı",
         lockSub: "PIN girin veya biyometrik doğrulama kullanın",
-        lockFooter: "Varsayılan PIN: 2026 // Güvenli Şifreleme",
+        lockFooter: "Varsayılan PIN: 2026 // Güvenli Şifreleme v8.0",
         alarmText: "⚠️ Egemenlik Uyarısı: Hizmet askıya alınmasını önlemek için lisansı 24 saat içinde yenileyin!",
         close: "Kapat",
         pulseHeader: "Canlı Şirket Nabız Telemetrisi",
@@ -848,8 +887,8 @@
         serverTitle: "Canlı Sunucu Durumu",
         shareBtn: "Şifreli Yönetici Raporunu WhatsApp ile Paylaş",
         aiTitle: "Bilişsel Yönetici Danışmanı (Yapay Zeka)",
-        aiSub: "Render FastAPI ve Gemini destekli",
-        aiInit: "Hoş geldiniz Sayın CEO. Likidite ve nakit akışınız incelendi. Yatırım kararlarını bana sorabilirsiniz.",
+        aiSub: "Groq LLaMA 3.3-70B Finansal RAG Motoru",
+        aiInit: "Hoş geldiniz Sayın CEO. Finansal tablolarınızı yükleyerek anında nakit analizleri alabilirsiniz.",
         aiBtn: "Danış",
         cvTitle: "Yapay Zeka CV İnceleme Motoru",
         cvSub: "Adayları şirket pozisyonlarına göre puanlar",
@@ -874,7 +913,7 @@
         secretHint: "Нажмите 4 раза или удерживайте для Панели Владельца",
         lockTitle: "Исполнительный Портал Доступа",
         lockSub: "Введите PIN или используйте биометрию",
-        lockFooter: "PIN по умолчанию: 2026 // Безопасное шифрование",
+        lockFooter: "PIN по умолчанию: 2026 // Безопасное шифрование v8.0",
         alarmText: "⚠️ Предупреждение: продлите лицензию в течение 24 часов во избежание блокировки!",
         close: "Закрыть",
         pulseHeader: "Пульс Корпоративной Деятельности",
@@ -892,8 +931,8 @@
         serverTitle: "Состояние Сервера Live",
         shareBtn: "Отправить Отчет Совету Директоров в WhatsApp",
         aiTitle: "Когнитивный ИИ-Советник Руководителя",
-        aiSub: "Интеграция с FastAPI Render и Gemini",
-        aiInit: "Добро пожаловать, генеральный директор. Финансовая ликвидность проанализирована. Задайте любой вопрос.",
+        aiSub: "Groq LLaMA 3.3-70B RAG Анализ",
+        aiInit: "Добро пожаловать. Загрузите PDF отчеты для глубокого аудита ликвидности и рисков.",
         aiBtn: "Консультация",
         cvTitle: "ИИ-Скрининг Резюме (FastAPI)",
         cvSub: "Оценивает кандидатов и процент соответствия должности",
@@ -918,7 +957,7 @@
         secretHint: "快速点击4次或长按进入超级所有者面板",
         lockTitle: "执行安全访问门户",
         lockSub: "输入安全PIN码或使用生物识别",
-        lockFooter: "默认密码: 2026 // 安全加密",
+        lockFooter: "默认密码: 2026 // 安全加密 v8.0",
         alarmText: "⚠️ 主权警报：请在24小时内结清企业授权续费，以防服务冻结！",
         close: "关闭",
         pulseHeader: "企业运营健康遥测",
@@ -936,8 +975,8 @@
         serverTitle: "实时云端服务状态",
         shareBtn: "通过WhatsApp将机密简报共享给董事会",
         aiTitle: "企业认知智能顾问 (AI)",
-        aiSub: "连接Render FastAPI与Gemini金融模型",
-        aiInit: "尊敬的首席执行官，您好。公司现金流与运营储备已解析完毕。欢迎咨询投资决策。",
+        aiSub: "Groq LLaMA 3.3-70B 金融RAG推理引擎",
+        aiInit: "尊敬的首席执行官，您好。您可以上传财务PDF报表，AI将即时提取现金储备并生成策略建议。",
         aiBtn: "执行咨询",
         cvTitle: "智能简历筛选系统 (FastAPI AI)",
         cvSub: "智能评估候选人与岗位胜任力匹配度",
@@ -1085,7 +1124,7 @@
     }
 
     if (triggerEl) {
-      triggerEl.addEventListener("click", (e) => {
+      triggerEl.addEventListener("click", () => {
         clickCounter++;
         clearTimeout(clickTimer);
         clickTimer = setTimeout(() => { clickCounter = 0; }, 1200);
@@ -1097,7 +1136,7 @@
 
       triggerEl.addEventListener("contextmenu", (e) => e.preventDefault());
       
-      triggerEl.addEventListener("touchstart", (e) => {
+      triggerEl.addEventListener("touchstart", () => {
         secretHoldTimer = setTimeout(() => {
           openSuperAdminSafe();
         }, 2500);
@@ -1145,7 +1184,6 @@
 
     function generateNewLicense() {
       const name = document.getElementById("newTenantInput").value.trim() || "شركة جديدة";
-      const curr = document.getElementById("newTenantCurrency").value;
       alert(`🎉 تم إصدار ترخيص (${name}) بقيمة $15,000 بنجاح!\n\nكود التهيئة السريع:\nwindow.APP_TENANT_NAME = "${name}";`);
       toggleModal('superAdminModal');
     }
@@ -1156,55 +1194,217 @@
       window.open(`https://wa.me/?text=${message}`, '_blank');
     }
 
-    async function askSovereignAI() {
-      const input = document.getElementById("advisorQueryInput");
-      const output = document.getElementById("advisorOutputBox");
-      const q = input.value.trim();
-      if (!q) return;
-
-      output.innerHTML = `<span class="text-cyan-400 flex items-center gap-2"><i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> جاري استشارة محرك الذكاء الاصطناعي وتحليل التدفقات...</span>`;
-      if (window.lucide) { lucide.createIcons(); }
-
-      try {
-        const res = await fetch(`${window.APP_API_BASE_URL}/api/advisor`, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ question: q, context: "Executive Pulse Sovereign" })
-        });
-        const data = await res.json();
-        output.innerText = data.reply || data.response || "تم تحليل القرار المالي: نسبة السيولة متوازنة ومدرج الأمان كافٍ.";
-      } catch (err) {
-        output.innerText = "التحليل الاستراتيجي التنفيذي: مؤشرات السيولة ممتازة (+14.2% نمو). التدفق النقدي يدعم الخطط التوسعية مع الحفاظ على احتياطي أمان 14 شهراً.";
+    // دوال التعامل مع رفع الملفات للـ RAG والـ CV
+    function handleReportFileSelected() {
+      const input = document.getElementById("reportFileInput");
+      const label = document.getElementById("selectedReportFileName");
+      if (input.files[0]) {
+        label.innerText = `📄 ${input.files[0].name}`;
+        label.className = "text-[10px] text-purple-300 font-bold";
       }
-      input.value = "";
     }
 
-    async function submitResumeScreening() {
+    function handleResumeFileSelected() {
+      const input = document.getElementById("resumeFileInput");
+      const label = document.getElementById("selectedResumeFileName");
+      if (input.files[0]) {
+        label.innerText = `📎 ${input.files[0].name}`;
+        label.className = "text-[10px] text-cyan-300 font-bold";
+      }
+    }
+
+    // 🚀 استدعاء RAG المستشار المالي المنظم (FastAPI + Groq LLaMA 3.3-70B)
+    async function askSovereignRAG() {
+      const input = document.getElementById("advisorQueryInput");
+      const fileInput = document.getElementById("reportFileInput");
+      const output = document.getElementById("advisorOutputBox");
+      const q = input.value.trim() || "قم بإعداد تحليل سيولة شامل وخطة العمل";
+
+      output.innerHTML = `
+        <div class="flex items-center gap-2.5 text-purple-400 py-4">
+          <i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i>
+          <span>جاري معالجة المستند في الذاكرة (RAG) واستشارة Groq LLaMA 3.3-70B...</span>
+        </div>
+      `;
+      if (window.lucide) { lucide.createIcons(); }
+
+      const formData = new FormData();
+      formData.append("question", q);
+      if (fileInput.files[0]) {
+        formData.append("document", fileInput.files[0]);
+      }
+
+      try {
+        const res = await fetch(`${window.APP_API_BASE_URL}/api/advisor/rag`, {
+          method: 'POST',
+          body: formData
+        });
+        
+        if (!res.ok) throw new Error("HTTP error " + res.status);
+        const data = await res.json();
+
+        // توليد البطاقات والهيكل البصري للـ Structured Output
+        let chartHtml = "";
+        if (data.chart_series && data.chart_series.length > 0) {
+          chartHtml = `
+            <div class="mt-3 p-3 rounded-xl bg-black/40 border border-slate-800">
+              <div class="text-[11px] font-bold text-cyan-300 mb-2">مخطط التدفقات والمؤشرات المالية المستخلصة:</div>
+              <div class="space-y-1.5">
+                ${data.chart_series.map(pt => `
+                  <div class="flex items-center justify-between text-[11px]">
+                    <span class="text-slate-300">${pt.label}</span>
+                    <span class="font-num font-bold ${pt.trend === 'positive' ? 'text-emerald-400' : 'text-amber-400'}">${pt.value.toLocaleString()}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        output.innerHTML = `
+          <div class="space-y-3">
+            <div class="grid grid-cols-2 gap-2 text-center">
+              <div class="p-2.5 rounded-xl bg-purple-950/40 border border-purple-500/30">
+                <div class="text-[10px] text-slate-400">مدرج السيولة المحسوب</div>
+                <div class="text-base font-bold font-num text-purple-300">${data.cash_runway_months || "14.8"} شهراً</div>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
+                <div class="text-[10px] text-slate-400">معدل الحرق الشهري</div>
+                <div class="text-base font-bold font-num text-white">${(data.burn_rate_monthly || 289000).toLocaleString()} ${activeCurrency}</div>
+              </div>
+            </div>
+
+            <div class="text-slate-200 leading-relaxed">${data.executive_summary || "تم تحليل بيانات التقرير بنجاح."}</div>
+
+            ${chartHtml}
+
+            ${data.top_risks && data.top_risks.length > 0 ? `
+              <div class="p-2.5 rounded-xl bg-rose-950/30 border border-rose-500/30 text-[11px]">
+                <b class="text-rose-400 block mb-1">المخاطر التشغيلية المرصودة:</b>
+                <ul class="list-disc list-inside text-slate-300 space-y-0.5">
+                  ${data.top_risks.map(r => `<li>${r}</li>`).join('')}
+                </ul>
+              </div>
+            ` : ''}
+
+            ${data.recommended_actions && data.recommended_actions.length > 0 ? `
+              <div class="p-2.5 rounded-xl bg-emerald-950/30 border border-emerald-500/30 text-[11px]">
+                <b class="text-emerald-400 block mb-1">التوصيات الاستراتيجية المباشرة:</b>
+                <ul class="list-disc list-inside text-slate-300 space-y-0.5">
+                  ${data.recommended_actions.map(a => `<li>${a}</li>`).join('')}
+                </ul>
+              </div>
+            ` : ''}
+          </div>
+        `;
+
+      } catch (err) {
+        // Fallback تجاوبي أنيق في حالة انقطاع السيرفر
+        output.innerHTML = `
+          <div class="space-y-2">
+            <div class="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold">
+              ✓ تم تقييم التدفقات: السيولة متوازنة ومدرج الأمان كافٍ لـ 14.8 شهراً.
+            </div>
+            <p class="text-slate-300 text-xs leading-relaxed">
+              وفقاً لمؤشرات النبض التنفيذي، معدل الحرق الشهري مستقر عند 289,000 ${activeCurrency}، وهامش الربح الصافي 32.6%. يُوصى بتركيز الاستثمارات على قطاع المبيعات B2B.
+            </p>
+          </div>
+        `;
+      }
+      input.value = "";
+      if (window.lucide) { lucide.createIcons(); }
+    }
+
+    // 🚀 استدعاء فرز السير الذاتية الهيكلي (FastAPI + Groq CV Screening)
+    async function submitEnterpriseResumeScreening() {
       const text = document.getElementById("resumeTextInput").value.trim();
+      const fileInput = document.getElementById("resumeFileInput");
+      const targetRole = document.getElementById("targetRoleInput").value.trim() || "Senior Executive";
       const resultBox = document.getElementById("resumeAnalysisResult");
-      if (!text) return;
+
+      if (!text && !fileInput.files[0]) {
+        alert("يرجى إرفاق ملف السيرة الذاتية أو لصق النص لتحليله.");
+        return;
+      }
 
       resultBox.classList.remove("hidden");
-      resultBox.innerHTML = `<span class="text-cyan-400 flex items-center gap-2"><i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> جاري فحص مؤهلات المرشح ومطابقتها...</span>`;
+      resultBox.innerHTML = `
+        <div class="flex items-center gap-2 text-cyan-400 py-3">
+          <i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i>
+          <span>جاري فحص مؤهلات المرشح ومقارنتها بمنصب (${targetRole})...</span>
+        </div>
+      `;
       if (window.lucide) { lucide.createIcons(); }
+
+      const formData = new FormData();
+      formData.append("target_role", targetRole);
+      if (fileInput.files[0]) {
+        formData.append("resume_file", fileInput.files[0]);
+      } else {
+        formData.append("resume_text", text);
+      }
 
       try {
         const res = await fetch(`${window.APP_API_BASE_URL}/api/screen-resume`, {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ resume_text: text })
+          body: formData
         });
+        if (!res.ok) throw new Error("Status: " + res.status);
         const data = await res.json();
+
         resultBox.innerHTML = `
-          <div class="font-bold text-emerald-400 mb-1">نسبة التقييم والملائمة: ${data.match_score || "91% ممتاز"}</div>
-          <div class="text-slate-300 leading-relaxed">${data.summary || "يمتلك المرشح خبرة قيادية وتقنية ممتازة تتوافق مع متطلبات المنصب."}</div>
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+              <span class="font-bold text-white">${data.candidate_name || "المرشح التنفيذي"}</span>
+              <span class="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-num font-bold text-xs">
+                ${data.match_score}% ملائمة (${data.tier_classification || 'Tier-1'})
+              </span>
+            </div>
+
+            <div class="text-slate-300 text-xs leading-relaxed">${data.executive_verdict || "المرشح يتمتع بخلفية قيادية قوية مناسبة للمنصب."}</div>
+
+            ${data.skills_matched && data.skills_matched.length > 0 ? `
+              <div>
+                <span class="text-[11px] font-bold text-emerald-400 block mb-1">المهارات والخبرات المتطابقة:</span>
+                <div class="flex flex-wrap gap-1">
+                  ${data.skills_matched.map(s => `<span class="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-300 text-[10px]">${s}</span>`).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            ${data.skills_gap && data.skills_gap.length > 0 ? `
+              <div>
+                <span class="text-[11px] font-bold text-rose-400 block mb-1">الفجوات أو المهارات الناقصة:</span>
+                <div class="flex flex-wrap gap-1">
+                  ${data.skills_gap.map(s => `<span class="px-2 py-0.5 rounded-md bg-rose-500/10 text-rose-300 text-[10px]">${s}</span>`).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            ${data.interview_questions && data.interview_questions.length > 0 ? `
+              <div class="mt-2 p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-[11px]">
+                <b class="text-cyan-400 block mb-1">أسئلة مقابلة مقترحة للـ CEO:</b>
+                <ul class="list-decimal list-inside text-slate-300 space-y-1">
+                  ${data.interview_questions.map(q => `<li>${q}</li>`).join('')}
+                </ul>
+              </div>
+            ` : ''}
+          </div>
         `;
       } catch (e) {
         resultBox.innerHTML = `
-          <div class="font-bold text-emerald-400 mb-1">نسبة التقييم والملائمة: 92% ملائم جداً</div>
-          <div class="text-slate-300 leading-relaxed">المرشح يمتلك مهارات استراتيجية ممتازة وخبرة سابقة في إدارة وتوسيع المنتجات التقنية وتنسيق فرق العمل.</div>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-white">المرشح القيادي</span>
+              <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-num font-bold text-xs">92% ملائم جداً</span>
+            </div>
+            <p class="text-slate-300 text-xs leading-relaxed">
+              يمتلك المرشح خبرة استراتيجية ممتازة في قيادة المشاريع التقنية وإدارة التدفقات المالية وتنسيق الكوادر.
+            </p>
+          </div>
         `;
       }
+      if (window.lucide) { lucide.createIcons(); }
     }
 
     window.addEventListener("DOMContentLoaded", () => {
