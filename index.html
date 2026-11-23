@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>CEO-PULSE SOVEREIGN v8.0 - Enterprise Edition</title>
+  <title>CEO-PULSE SOVEREIGN v8.2 - Master Edition</title>
   
   <meta name="theme-color" content="#090e1a">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -84,8 +84,8 @@
 </head>
 <body class="min-h-screen flex flex-col bg-[#090e1a] text-slate-100 overflow-x-hidden selection:bg-cyan-500 selection:text-black">
 
-  <!-- 🚨 شريط الإنذار السيادي اللحظي -->
-  <div id="remoteAlarmBanner" class="hidden fixed top-0 inset-x-0 z-50 bg-gradient-to-r from-rose-600 via-amber-600 to-rose-700 text-white px-4 py-3 shadow-2xl flex items-center justify-between border-b border-rose-400/40">
+  <!-- 🚨 شريط الإنذار السيادي اللحظي: محجوب ومخفي تماماً افتراضياً ولا يظهر إلا عند بثه بأمر المالك من اللوحة السرية -->
+  <div id="remoteAlarmBanner" class="hidden fixed top-0 inset-x-0 z-50 bg-gradient-to-r from-rose-700 via-amber-600 to-rose-700 text-white px-4 py-3 shadow-2xl flex items-center justify-between border-b border-rose-400/40">
     <div class="flex items-center gap-2 text-xs font-bold">
       <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-300 animate-bounce"></i>
       <span id="remoteAlarmMessageText" data-i18n="alarmText">⚠️ إنذار سيادي: يرجى تسوية مستحقات تجديد ترخيص المنظومة خلال 24 ساعة لتفادي تجميد الخدمة وقفل التطبيق!</span>
@@ -96,10 +96,10 @@
     </div>
   </div>
 
-  <!-- 🔒 بوابة الدخول البيومترية ورمز المرور -->
+  <!-- 🔒 بوابة الدخول البيومترية ورمز المرور (خارج التطبيق) -->
   <div id="authGatekeeper" class="fixed inset-0 z-40 bg-[#090e1a] flex flex-col items-center justify-between p-6 transition-all duration-300">
     <div class="w-full flex items-center justify-between pt-2">
-      <button onclick="toggleModal('languageModal')" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full glass-card border border-white/10 text-xs font-bold hover:border-cyan-400 transition-colors">
+      <button onclick="openLanguageModal()" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full glass-card border border-white/10 text-xs font-bold hover:border-cyan-400 transition-colors">
         <i data-lucide="globe" class="w-4 h-4 text-cyan-400"></i>
         <span id="lockLangLabel">العربية</span>
       </button>
@@ -110,7 +110,7 @@
     </div>
 
     <div class="w-full max-w-xs flex flex-col items-center my-auto">
-      <!-- شعار واسم المنظومة: النقر 4 مرات سريعة أو الضغط 2.5 ثانية يفتح لوحة المالك الخارق -->
+      <!-- زر التحكم المخفي خارج التطبيق: النقر 4 مرات سريعة أو الضغط المطول (2 ثانية) يفتح لوحة المالك الخارق وبث الإنذار -->
       <div id="appNameSecretTrigger" class="flex flex-col items-center cursor-pointer select-none mb-4 group transition-transform active:scale-95" style="touch-action: none;">
         <div class="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-2 pulse-glow group-hover:border-cyan-400 transition-colors">
           <i data-lucide="shield-check" class="w-8 h-8"></i>
@@ -118,7 +118,7 @@
         <h1 class="text-xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 font-num">
           CEO-PULSE
         </h1>
-        <span class="text-[10px] text-slate-500 uppercase tracking-widest font-num mt-0.5">SOVEREIGN ARCHITECT v8.0</span>
+        <span class="text-[10px] text-slate-500 uppercase tracking-widest font-num mt-0.5">SOVEREIGN ARCHITECT v8.2</span>
         <div class="mt-1 flex items-center gap-1 text-[9px] text-cyan-400/80 bg-cyan-950/40 px-2.5 py-0.5 rounded-full border border-cyan-500/20">
           <i data-lucide="sparkles" class="w-3 h-3 text-cyan-400"></i>
           <span data-i18n="secretHint">المس 4 مرات سريعة أو اضغط مطولاً للوحة المالك</span>
@@ -159,12 +159,12 @@
       <div id="tenantDisplayLock" class="text-xs font-semibold text-slate-400">شركة الأفق القابضة</div>
       <div class="flex items-center gap-1 text-[10px]">
         <i data-lucide="key" class="w-3 h-3 text-cyan-500/70"></i>
-        <span data-i18n="lockFooter">رمز الدخول الافتراضي: 2026 // تشفير سيادي v8.0</span>
+        <span data-i18n="lockFooter">رمز الدخول الافتراضي: 2026 // تشفير سيادي v8.2</span>
       </div>
     </div>
   </div>
 
-  <!-- 👑 لوحة المالك الخارق والتحكم عن بعد (SUPER-ADMIN) -->
+  <!-- 👑 لوحة المالك الخارق المخفية والتحكم عن بعد (تفتح حصراً بالزر المخفي خارج التطبيق) -->
   <div id="superAdminModal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4">
     <div class="w-full max-w-xl bg-[#0e1422] border border-cyan-500/40 rounded-3xl p-5 shadow-2xl overflow-y-auto max-h-[92vh]">
       <div class="flex items-center justify-between pb-3 border-b border-slate-800">
@@ -174,10 +174,10 @@
           </div>
           <div>
             <h3 class="text-sm font-bold text-white flex items-center gap-2">
-              <span data-i18n="adminHeader">لوحة المالك الخارق وإدارة التراخيص</span>
+              <span data-i18n="adminHeader">لوحة المالك الخارق وإدارة التراخيص والإنذار</span>
               <span class="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-num">MASTER SOVEREIGN</span>
             </h3>
-            <p class="text-xs text-slate-400" data-i18n="adminSub">بث إنذار 24h • قفل التطبيق وتجميد الشركات • إصدار الرخص</p>
+            <p class="text-xs text-slate-400" data-i18n="adminSub">التحكم الحصري في إرسال إنذار 24h • قفل التطبيق • إدارة رخص الشركات</p>
           </div>
         </div>
         <button onclick="toggleModal('superAdminModal')" class="p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white">
@@ -186,6 +186,27 @@
       </div>
 
       <div class="space-y-4 pt-4">
+        <!-- قسم التحكم في شريط الإنذار الحصري -->
+        <div class="p-4 rounded-2xl bg-gradient-to-r from-amber-950/40 via-rose-950/40 to-slate-900 border border-amber-500/30">
+          <h4 class="text-xs font-bold text-amber-300 mb-2 flex items-center gap-1.5">
+            <i data-lucide="radio-tower" class="w-4 h-4 text-amber-400"></i>
+            <span data-i18n="remoteAlarmTitle">التحكم عن بعد في شريط الإنذار 24 ساعة:</span>
+          </h4>
+          <p class="text-[11px] text-slate-300 mb-3" data-i18n="remoteAlarmDesc">
+            هذا الخيار خاص بك كمالك فقط. شريط الإنذار مخفي تماماً ولن يظهر داخل التطبيق إلا عندما تضغط على هذا الزر لبثه في حالة عدم السداد.
+          </p>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="triggerAlarmImmediate()" class="py-2.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="bell-ring" class="w-4 h-4"></i>
+              <span data-i18n="showAlarmBtn">إرسال وبث إنذار 24h الآن</span>
+            </button>
+            <button onclick="dismissRemoteAlarm()" class="py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors border border-slate-700">
+              <i data-lucide="bell-off" class="w-4 h-4"></i>
+              <span data-i18n="hideAlarmBtn">إلغاء وإخفاء الإنذار</span>
+            </button>
+          </div>
+        </div>
+
         <div class="p-4 rounded-2xl bg-gradient-to-r from-cyan-950/40 via-blue-950/30 to-purple-950/40 border border-cyan-500/20 flex items-center justify-between">
           <div>
             <div class="text-xs text-cyan-300 font-semibold mb-0.5" data-i18n="licensePriceTitle">تسعيرة بيع ترخيص المنظومة للشركة (مدى الحياة)</div>
@@ -200,26 +221,20 @@
         </div>
 
         <div class="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800">
-          <h4 class="text-xs font-bold text-amber-300 mb-2.5 flex items-center gap-1.5">
-            <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i>
-            <span data-i18n="liveActionTitle">التحكم الفوري في شاشة التطبيق الحالية (Live Action):</span>
+          <h4 class="text-xs font-bold text-rose-400 mb-2.5 flex items-center gap-1.5">
+            <i data-lucide="lock" class="w-4 h-4 text-rose-500"></i>
+            <span data-i18n="freezeControlTitle">قفل التطبيق وتجميد الوصول:</span>
           </h4>
-          <div class="grid grid-cols-2 gap-2">
-            <button onclick="triggerAlarmImmediate()" class="py-2.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs flex items-center justify-center gap-1.5 transition-colors">
-              <i data-lucide="bell-ring" class="w-4 h-4"></i>
-              <span data-i18n="showAlarmBtn">إظهار شريط إنذار 24h فوراً</span>
-            </button>
-            <button onclick="freezeAppImmediate()" class="py-2.5 px-3 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors">
-              <i data-lucide="lock" class="w-4 h-4"></i>
-              <span data-i18n="freezeAppBtn">قفل التطبيق وتجميده فوراً</span>
-            </button>
-          </div>
+          <button onclick="freezeAppImmediate()" class="w-full py-2.5 px-3 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors">
+            <i data-lucide="power" class="w-4 h-4"></i>
+            <span data-i18n="freezeAppBtn">قفل التطبيق وتجميده فوراً (إلغاء الدخول)</span>
+          </button>
         </div>
 
         <div>
           <h4 class="text-xs font-bold text-slate-200 mb-2.5 flex items-center gap-2">
             <i data-lucide="radio" class="w-4 h-4 text-cyan-400"></i>
-            <span data-i18n="manageTenantsTitle">إدارة رخص الشركات المسجلة وبث الإنذارات:</span>
+            <span data-i18n="manageTenantsTitle">إدارة رخص الشركات وبث الإنذارات الفردية:</span>
           </h4>
           <div class="space-y-2.5">
             <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -315,14 +330,14 @@
         </button>
       </div>
       <div class="grid grid-cols-2 gap-2 text-xs">
-        <button onclick="applyLanguage('ar')" class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-white font-bold flex justify-between items-center transition-colors"><span>العربية</span><span class="text-cyan-400 font-num">AR</span></button>
-        <button onclick="applyLanguage('en')" class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-white font-bold flex justify-between items-center transition-colors"><span>English</span><span class="text-cyan-400 font-num">EN</span></button>
-        <button onclick="applyLanguage('fr')" class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-white font-bold flex justify-between items-center transition-colors"><span>Français</span><span class="text-cyan-400 font-num">FR</span></button>
-        <button onclick="applyLanguage('es')" class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-white font-bold flex justify-between items-center transition-colors"><span>Español</span><span class="text-cyan-400 font-num">ES</span></button>
-        <button onclick="applyLanguage('de')" class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-white font-bold flex justify-between items-center transition-colors"><span>Deutsch</span><span class="text-cyan-400 font-num">DE</span></button>
-        <button onclick="applyLanguage('tr')" class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-white font-bold flex justify-between items-center transition-colors"><span>Türkçe</span><span class="text-cyan-400 font-num">TR</span></button>
-        <button onclick="applyLanguage('ru')" class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-white font-bold flex justify-between items-center transition-colors"><span>Русский</span><span class="text-cyan-400 font-num">RU</span></button>
-        <button onclick="applyLanguage('zh')" class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-white font-bold flex justify-between items-center transition-colors"><span>中文</span><span class="text-cyan-400 font-num">ZH</span></button>
+        <button onclick="applyLanguage('ar', true)" class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-white font-bold flex justify-between items-center transition-colors"><span>العربية</span><span class="text-cyan-400 font-num">AR</span></button>
+        <button onclick="applyLanguage('en', true)" class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-white font-bold flex justify-between items-center transition-colors"><span>English</span><span class="text-cyan-400 font-num">EN</span></button>
+        <button onclick="applyLanguage('fr', true)" class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-white font-bold flex justify-between items-center transition-colors"><span>Français</span><span class="text-cyan-400 font-num">FR</span></button>
+        <button onclick="applyLanguage('es', true)" class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-white font-bold flex justify-between items-center transition-colors"><span>Español</span><span class="text-cyan-400 font-num">ES</span></button>
+        <button onclick="applyLanguage('de', true)" class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-white font-bold flex justify-between items-center transition-colors"><span>Deutsch</span><span class="text-cyan-400 font-num">DE</span></button>
+        <button onclick="applyLanguage('tr', true)" class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-white font-bold flex justify-between items-center transition-colors"><span>Türkçe</span><span class="text-cyan-400 font-num">TR</span></button>
+        <button onclick="applyLanguage('ru', true)" class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-white font-bold flex justify-between items-center transition-colors"><span>Русский</span><span class="text-cyan-400 font-num">RU</span></button>
+        <button onclick="applyLanguage('zh', true)" class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-white font-bold flex justify-between items-center transition-colors"><span>中文</span><span class="text-cyan-400 font-num">ZH</span></button>
       </div>
     </div>
   </div>
@@ -353,7 +368,7 @@
     </div>
   </div>
 
-  <!-- 📱 شاشة التطبيق الرئيسية -->
+  <!-- 📱 شاشة التطبيق الرئيسية (غرفة القيادة التنفيذية) -->
   <div id="mainAppInterface" class="flex-1 flex flex-col pb-24">
     <header class="sticky top-0 z-30 glass-card border-b border-white/5 px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-2.5">
@@ -365,7 +380,7 @@
             <span data-i18n="companyName">شركة الأفق القابضة</span>
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           </div>
-          <div class="text-[10px] text-slate-400 font-num">CEO-PULSE SOVEREIGN v8.0 Enterprise</div>
+          <div class="text-[10px] text-slate-400 font-num">CEO-PULSE SOVEREIGN v8.2 Enterprise</div>
         </div>
       </div>
 
@@ -374,7 +389,7 @@
           <span id="activeCurrencyCode">SAR</span>
           <i data-lucide="chevron-down" class="w-3 h-3"></i>
         </button>
-        <button onclick="toggleModal('languageModal')" class="p-2 rounded-lg bg-slate-800/90 border border-slate-700 text-slate-300 hover:text-white">
+        <button onclick="openLanguageModal()" class="p-2 rounded-lg bg-slate-800/90 border border-slate-700 text-slate-300 hover:text-white">
           <i data-lucide="globe" class="w-4 h-4"></i>
         </button>
         <button onclick="lockApp()" class="p-2 rounded-lg bg-slate-800/90 border border-slate-700 text-rose-400 hover:text-rose-300">
@@ -480,7 +495,7 @@
         </button>
       </div>
 
-      <!-- TAB 2: المستشار AI مع ميزة رفع ملفات التقارير المالية (RAG Engine) -->
+      <!-- TAB 2: المستشار AI مع دعم رفع الملفات للتحليل (RAG) -->
       <div id="tabViewAdvisor" class="hidden space-y-4">
         <div class="glass-card rounded-3xl p-5 border border-purple-500/20">
           <div class="flex items-center justify-between mb-4">
@@ -491,14 +506,14 @@
               <div>
                 <h3 class="text-sm font-bold text-white flex items-center gap-2">
                   <span data-i18n="aiTitle">المستشار الإدراكي الذكي (Cognitive AI)</span>
-                  <span class="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-[9px] font-num">RAG v8.0</span>
+                  <span class="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-[9px] font-num">RAG v8.2</span>
                 </h3>
                 <p class="text-xs text-slate-400" data-i18n="aiSub">مربوط بنموذج Groq LLaMA 3.3-70B لتحليل تقارير الشركة</p>
               </div>
             </div>
           </div>
 
-          <!-- رفع تقرير مالي (PDF / Excel / CSV) في الذاكرة دون تخزين على القرص -->
+          <!-- إرفاق ملف التقرير المالي -->
           <div class="mb-3 p-3 rounded-2xl bg-slate-950/70 border border-slate-800">
             <div class="flex items-center justify-between">
               <label class="text-[11px] font-bold text-purple-300 flex items-center gap-1.5 cursor-pointer">
@@ -526,7 +541,7 @@
         </div>
       </div>
 
-      <!-- TAB 3: فرز الـ CV مع دعم رفع ملفات الـ PDF -->
+      <!-- TAB 3: فرز الـ CV بالذكاء الاصطناعي -->
       <div id="tabViewRecruitment" class="hidden space-y-4">
         <div class="glass-card rounded-3xl p-5 border border-cyan-500/20">
           <div class="flex items-center justify-between mb-3">
@@ -649,7 +664,7 @@
         secretHint: "المس 4 مرات سريعة أو اضغط مطولاً للوحة المالك",
         lockTitle: "بوابة الدخول التنفيذية",
         lockSub: "أدخل رمز الدخول السيادي (PIN) أو استخدم التحقق بالبصمة",
-        lockFooter: "رمز الدخول الافتراضي: 2026 // تشفير سيادي v8.0",
+        lockFooter: "رمز الدخول الافتراضي: 2026 // تشفير سيادي v8.2",
         alarmText: "⚠️ إنذار سيادي: يرجى تسوية مستحقات تجديد ترخيص المنظومة خلال 24 ساعة لتفادي تجميد الخدمة وقفل التطبيق!",
         close: "إغلاق",
         companyName: "شركة الأفق القابضة",
@@ -699,15 +714,18 @@
         navTeam: "الأقسام",
         selectLanguageTitle: "اختر لغة المنظومة // Select Language",
         currencyModalTitle: "العملة النقدية المعتمدة",
-        adminHeader: "لوحة المالك الخارق وإدارة التراخيص",
-        adminSub: "بث إنذار 24h • قفل التطبيق وتجميد الشركات • إصدار الرخص",
+        adminHeader: "لوحة المالك الخارق وإدارة التراخيص والإنذار",
+        adminSub: "التحكم الحصري في إرسال إنذار 24h • قفل التطبيق • إدارة رخص الشركات",
+        remoteAlarmTitle: "التحكم عن بعد في شريط الإنذار 24 ساعة:",
+        remoteAlarmDesc: "هذا الخيار خاص بك كمالك فقط. شريط الإنذار مخفي تماماً ولن يظهر داخل التطبيق إلا عندما تضغط على هذا الزر لبثه في حالة عدم السداد.",
         licensePriceTitle: "تسعيرة بيع ترخيص المنظومة للشركة (مدى الحياة)",
         licenseIncludes: "يشمل السيرفر، الذكاء الاصطناعي، والـ White-Label",
         registeredCompanies: "● 3 شركات مسجلة",
-        liveActionTitle: "التحكم الفوري في شاشة التطبيق الحالية (Live Action):",
-        showAlarmBtn: "إظهار شريط إنذار 24h فوراً",
-        freezeAppBtn: "قفل التطبيق وتجميده فوراً",
-        manageTenantsTitle: "إدارة رخص الشركات المسجلة وبث الإنذارات:",
+        freezeControlTitle: "قفل التطبيق وتجميد الوصول:",
+        showAlarmBtn: "إرسال وبث إنذار 24h الآن",
+        hideAlarmBtn: "إلغاء وإخفاء الإنذار",
+        freezeAppBtn: "قفل التطبيق وتجميده فوراً (إلغاء الدخول)",
+        manageTenantsTitle: "إدارة رخص الشركات وبث الإنذارات الفردية:",
         fullyPaid: "مسدد بالكامل",
         tenant1Detail: "القيمة: $15,000 • الترخيص: ساري ومفعل",
         overdue: "متأخر عن السداد",
@@ -727,7 +745,7 @@
         secretHint: "Tap 4 times fast or long-press for Master Panel",
         lockTitle: "Executive Access Gateway",
         lockSub: "Enter Sovereign PIN or use biometric authentication",
-        lockFooter: "Default PIN: 2026 // Sovereign Encryption v8.0",
+        lockFooter: "Default PIN: 2026 // Sovereign Encryption v8.2",
         alarmText: "⚠️ Sovereign Alert: Please settle enterprise license renewal within 24 hours to prevent account suspension!",
         close: "Close",
         companyName: "Horizon Holding Co.",
@@ -778,12 +796,15 @@
         selectLanguageTitle: "Select System Language",
         currencyModalTitle: "Designated Currency",
         adminHeader: "Master Sovereign & License Management",
-        adminSub: "Broadcast 24h alert • Freeze tenants • Issue licenses",
+        adminSub: "Exclusive control: 24h remote alert • Freeze app • Issue licenses",
+        remoteAlarmTitle: "Remote 24-Hour Alert Banner Control:",
+        remoteAlarmDesc: "Reserved for the Sovereign Owner. Hidden completely from normal view until you trigger it for overdue accounts.",
         licensePriceTitle: "Enterprise License Lifetime Price",
         licenseIncludes: "Includes server, cognitive AI & white-label",
         registeredCompanies: "● 3 Registered Companies",
-        liveActionTitle: "Live Screen Immediate Control:",
-        showAlarmBtn: "Show 24h Alert Now",
+        freezeControlTitle: "App Lock & Access Freezing:",
+        showAlarmBtn: "Broadcast 24h Alert Now",
+        hideAlarmBtn: "Dismiss & Hide Alert",
         freezeAppBtn: "Freeze & Lock App Now",
         manageTenantsTitle: "Manage Company Licenses & Alerts:",
         fullyPaid: "Fully Settled",
@@ -805,7 +826,7 @@
         secretHint: "Touchez 4 fois ou maintenez pour le Panneau Maître",
         lockTitle: "Portail d'Accès Exécutif",
         lockSub: "Entrez le code PIN souverain ou utilisez la biométrie",
-        lockFooter: "Code PIN par défaut: 2026 // Chiffrement Souverain v8.0",
+        lockFooter: "Code PIN par défaut: 2026 // Chiffrement Souverain v8.2",
         alarmText: "⚠️ Alerte Souveraine: Veuillez régler le renouvellement de licence sous 24h pour éviter le gel du service!",
         close: "Fermer",
         companyName: "Holding Al-Ofoq",
@@ -856,12 +877,15 @@
         selectLanguageTitle: "Sélectionnez la langue du système",
         currencyModalTitle: "Devise Officielle",
         adminHeader: "Panneau Maître & Gestion des Licences",
-        adminSub: "Alerte 24h • Geler les filiales • Émettre des licences",
+        adminSub: "Contrôle exclusif : Alerte 24h à distance • Geler l'app • Émettre des licences",
+        remoteAlarmTitle: "Contrôle du bandeau d'alerte 24h à distance :",
+        remoteAlarmDesc: "Réservé au propriétaire. Le bandeau reste invisible tant que vous ne déclenchez pas sa diffusion.",
         licensePriceTitle: "Prix de licence entreprise à vie",
         licenseIncludes: "Serveur inclus, IA cognitive et marque blanche",
         registeredCompanies: "● 3 Entreprises Enregistrées",
-        liveActionTitle: "Contrôle immédiat de l'écran en direct:",
-        showAlarmBtn: "Afficher l'alerte 24h maintenant",
+        freezeControlTitle: "Verrouillage et gel de l'application :",
+        showAlarmBtn: "Diffuser l'alerte 24h maintenant",
+        hideAlarmBtn: "Masquer et annuler l'alerte",
         freezeAppBtn: "Verrouiller et geler l'application",
         manageTenantsTitle: "Gestion des licences et alertes:",
         fullyPaid: "Intégralement Payé",
@@ -883,7 +907,7 @@
         secretHint: "Toque 4 veces o mantenga para el Panel Maestro",
         lockTitle: "Portal de Acceso Ejecutivo",
         lockSub: "Ingrese el PIN soberano o use autenticación biométrica",
-        lockFooter: "PIN por defecto: 2026 // Cifrado Soberano v8.0",
+        lockFooter: "PIN por defecto: 2026 // Cifrado Soberano v8.2",
         alarmText: "⚠️ Alerta Soberana: ¡Regularice la renovación de la licencia en 24 horas para evitar la suspensión!",
         close: "Cerrar",
         companyName: "Horizon Holding Co.",
@@ -934,12 +958,15 @@
         selectLanguageTitle: "Seleccione el idioma del sistema",
         currencyModalTitle: "Moneda Designada",
         adminHeader: "Panel Maestro y Gestión de Licencias",
-        adminSub: "Alerta 24h • Congelar clientes • Emitir licencias",
+        adminSub: "Control exclusivo: Alerta remota 24h • Bloquear app • Emitir licencias",
+        remoteAlarmTitle: "Control del banner de alerta remota de 24h:",
+        remoteAlarmDesc: "Exclusivo para el propietario. Oculto permanentemente hasta que decida emitirlo por impago.",
         licensePriceTitle: "Precio de licencia corporativa de por vida",
         licenseIncludes: "Servidor incluido, IA cognitiva y marca blanca",
         registeredCompanies: "● 3 Empresas Registradas",
-        liveActionTitle: "Control inmediato en pantalla en vivo:",
-        showAlarmBtn: "Mostrar alerta de 24h ahora",
+        freezeControlTitle: "Bloqueo y congelamiento de acceso:",
+        showAlarmBtn: "Emitir alerta de 24h ahora",
+        hideAlarmBtn: "Ocultar y cancelar alerta",
         freezeAppBtn: "Bloquear y congelar app",
         manageTenantsTitle: "Gestión de licencias y alertas:",
         fullyPaid: "Completamente Pagado",
@@ -961,7 +988,7 @@
         secretHint: "4x tippen oder halten für Master-Panel",
         lockTitle: "Exekutiv-Zugangsportal",
         lockSub: "Souveränen PIN eingeben oder Biometrie nutzen",
-        lockFooter: "Standard-PIN: 2026 // Souveräne Verschlüsselung v8.0",
+        lockFooter: "Standard-PIN: 2026 // Souveräne Verschlüsselung v8.2",
         alarmText: "⚠️ Souveräne Warnung: Bitte Lizenz innerhalb von 24 Stunden erneuern, um Sperrung zu vermeiden!",
         close: "Schließen",
         companyName: "Horizon Holding AG",
@@ -1012,12 +1039,15 @@
         selectLanguageTitle: "Systemsprache auswählen",
         currencyModalTitle: "Festgelegte Währung",
         adminHeader: "Master-Panel & Lizenzverwaltung",
-        adminSub: "24h-Alarm • Mandanten einfrieren • Lizenzen ausstellen",
+        adminSub: "Exklusive Steuerung: 24h-Alarm per Fernzugriff • App sperren • Lizenzen",
+        remoteAlarmTitle: "Fernsteuerung des 24-Stunden-Alarmbanners:",
+        remoteAlarmDesc: "Nur für den Inhaber bestimmt. Bleibt verborgen, bis Sie es manuell bei Zahlungsverzug aktivieren.",
         licensePriceTitle: "Lebenslange Enterprise-Lizenzgebühr",
         licenseIncludes: "Inklusive Server, kognitiver KI und White-Label",
         registeredCompanies: "● 3 Registrierte Unternehmen",
-        liveActionTitle: "Sofortige Live-Bildschirm-Steuerung:",
-        showAlarmBtn: "24h-Alarm jetzt anzeigen",
+        freezeControlTitle: "App-Sperre & Zugriffsstopp:",
+        showAlarmBtn: "24h-Alarm jetzt senden",
+        hideAlarmBtn: "Alarm ausblenden & aufheben",
         freezeAppBtn: "App sperren und einfrieren",
         manageTenantsTitle: "Lizenz- und Alarmverwaltung:",
         fullyPaid: "Vollständig Bezahlt",
@@ -1039,7 +1069,7 @@
         secretHint: "Yönetici Paneli için 4 kez dokunun veya basılı tutun",
         lockTitle: "Yönetici Erişim Portalı",
         lockSub: "PIN girin veya biyometrik doğrulama kullanın",
-        lockFooter: "Varsayılan PIN: 2026 // Güvenli Şifreleme v8.0",
+        lockFooter: "Varsayılan PIN: 2026 // Güvenli Şifreleme v8.2",
         alarmText: "⚠️ Egemenlik Uyarısı: Hizmet askıya alınmasını önlemek için lisansı 24 saat içinde yenileyin!",
         close: "Kapat",
         companyName: "Horizon Holding A.Ş.",
@@ -1090,12 +1120,15 @@
         selectLanguageTitle: "Sistem Dilini Seçin",
         currencyModalTitle: "Geçerli Para Birimi",
         adminHeader: "Ana Yönetici ve Lisans Yönetimi",
-        adminSub: "24 saat alarmı • Şirketleri dondur • Lisans üret",
+        adminSub: "Özel kontrol: Uzaktan 24 saat uyarısı • Uygulamayı dondur • Lisans üret",
+        remoteAlarmTitle: "Uzaktan 24 Saatlik Uyarı Bandı Kontrolü:",
+        remoteAlarmDesc: "Yalnızca sahibe özeldir. Ödeme gecikmesi durumunda siz başlatana kadar tamamen gizli kalır.",
         licensePriceTitle: "Ömür Boyu Kurumsal Lisans Ücreti",
         licenseIncludes: "Sunucu, yapay zeka ve white-label dahil",
         registeredCompanies: "● 3 Kayıtlı Şirket",
-        liveActionTitle: "Canlı Ekran Anlık Kontrol:",
-        showAlarmBtn: "24 saat alarmını göster",
+        freezeControlTitle: "Uygulamayı Kilitleme ve Dondurma:",
+        showAlarmBtn: "24 saat uyarısını şimdi yayınla",
+        hideAlarmBtn: "Uyarıyı gizle ve kaldır",
         freezeAppBtn: "Uygulamayı dondur ve kilitle",
         manageTenantsTitle: "Lisans ve Uyarı Yönetimi:",
         fullyPaid: "Tamamen Ödendi",
@@ -1117,7 +1150,7 @@
         secretHint: "Нажмите 4 раза или удерживайте для Панели Владельца",
         lockTitle: "Исполнительный Портал Доступа",
         lockSub: "Введите PIN или используйте биометрию",
-        lockFooter: "PIN по умолчанию: 2026 // Безопасное шифрование v8.0",
+        lockFooter: "PIN по умолчанию: 2026 // Безопасное шифрование v8.2",
         alarmText: "⚠️ Предупреждение: продлите лицензию в течение 24 часов во избежание блокировки!",
         close: "Закрыть",
         companyName: "Холдинг Аль-Офок",
@@ -1168,12 +1201,15 @@
         selectLanguageTitle: "Выберите язык системы",
         currencyModalTitle: "Основная валюта",
         adminHeader: "Панель Владельца и Лицензии",
-        adminSub: "Тревога 24ч • Заморозка компаний • Выпуск лицензий",
+        adminSub: "Исключительный контроль: тревога 24ч • Заморозка компаний • Выпуск лицензий",
+        remoteAlarmTitle: "Дистанционное управление баннером тревоги 24ч:",
+        remoteAlarmDesc: "Доступно только владельцу. Баннер полностью скрыт, пока вы не отправите его при просрочке платежа.",
         licensePriceTitle: "Стоимость пожизненной лицензии",
         licenseIncludes: "Включает сервер, ИИ и white-label",
         registeredCompanies: "● 3 Зарегистрированные компании",
-        liveActionTitle: "Мгновенное управление экраном:",
-        showAlarmBtn: "Показать тревогу 24ч сейчас",
+        freezeControlTitle: "Блокировка и заморозка приложения:",
+        showAlarmBtn: "Запустить тревогу 24ч сейчас",
+        hideAlarmBtn: "Скрыть и отменить тревогу",
         freezeAppBtn: "Заблокировать и заморозить",
         manageTenantsTitle: "Управление лицензиями и оповещениями:",
         fullyPaid: "Полностью Оплачено",
@@ -1195,7 +1231,7 @@
         secretHint: "快速点击4次或长按进入超级所有者面板",
         lockTitle: "执行安全访问门户",
         lockSub: "输入安全PIN码或使用生物识别",
-        lockFooter: "默认密码: 2026 // 安全加密 v8.0",
+        lockFooter: "默认密码: 2026 // 安全加密 v8.2",
         alarmText: "⚠️ 主权警报：请在24小时内结清企业授权续费，以防服务冻结！",
         close: "关闭",
         companyName: "地平线控股集团",
@@ -1246,12 +1282,15 @@
         selectLanguageTitle: "选择系统语言",
         currencyModalTitle: "法定结算货币",
         adminHeader: "超级所有者控制台与授权管理",
-        adminSub: "广播24h警报 • 冻结企业租户 • 签发企业授权",
+        adminSub: "专属主权控制：远程24h催缴警报 • 冻结系统 • 签发企业授权",
+        remoteAlarmTitle: "远程24小时催缴警报条控制：",
+        remoteAlarmDesc: "所有者专属特权。日常状态下完全隐蔽，仅在客户欠费且您主动触发时，才会全网广播显示。",
         licensePriceTitle: "企业终身买断授权价格",
         licenseIncludes: "包含云服务器、认知AI与白标自研",
         registeredCompanies: "● 3家在册企业",
-        liveActionTitle: "当前界面即时联动控制:",
-        showAlarmBtn: "即刻呈现24h欠费预警",
+        freezeControlTitle: "系统锁定与权限冻结：",
+        showAlarmBtn: "即刻广播24h催缴警报",
+        hideAlarmBtn: "撤销并隐匿警报条",
         freezeAppBtn: "即刻冻结并锁定系统",
         manageTenantsTitle: "企业授权及预警广播管理:",
         fullyPaid: "已足额支付",
@@ -1281,7 +1320,7 @@
       const labelEl = document.getElementById("lockLangLabel");
       if (labelEl) labelEl.innerText = data.langLabel;
 
-      // 1. ترجمة جميع النصوص الداخلية
+      // ترجمة جميع العناصر
       document.querySelectorAll("[data-i18n]").forEach(el => {
         const key = el.getAttribute("data-i18n");
         if (data[key]) {
@@ -1289,7 +1328,7 @@
         }
       });
 
-      // 2. ترجمة نصوص الخانات التوضيحية (Placeholders)
+      // ترجمة النصوص التوضيحية داخل الحقول
       document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
         const key = el.getAttribute("data-i18n-placeholder");
         if (data[key]) {
@@ -1297,7 +1336,7 @@
         }
       });
 
-      // 3. ترجمة القيم الافتراضية للمدخلات (Inputs default values)
+      // ترجمة قيم المدخلات الافتراضية
       document.querySelectorAll("[data-i18n-value]").forEach(el => {
         const key = el.getAttribute("data-i18n-value");
         if (data[key]) {
@@ -1312,6 +1351,14 @@
         }
       }
       if (window.lucide) { lucide.createIcons(); }
+    }
+
+    function openLanguageModal() {
+      const el = document.getElementById('languageModal');
+      if (el) {
+        el.classList.remove('hidden');
+        if (window.lucide) { lucide.createIcons(); }
+      }
     }
 
     function applyCurrency(code, mult) {
@@ -1408,6 +1455,7 @@
       if (window.lucide) { lucide.createIcons(); }
     }
 
+    // زر التحكم السري خارج التطبيق: النقر 4 مرات سريعة أو الضغط المطول (2 ثانية)
     let secretHoldTimer = null;
     let clickCounter = 0;
     let clickTimer = null;
@@ -1433,7 +1481,7 @@
       triggerEl.addEventListener("touchstart", () => {
         secretHoldTimer = setTimeout(() => {
           openSuperAdminSafe();
-        }, 2500);
+        }, 2000);
       }, { passive: true });
 
       triggerEl.addEventListener("touchend", () => clearTimeout(secretHoldTimer));
@@ -1442,12 +1490,13 @@
       triggerEl.addEventListener("mousedown", () => {
         secretHoldTimer = setTimeout(() => {
           openSuperAdminSafe();
-        }, 2500);
+        }, 2000);
       });
       triggerEl.addEventListener("mouseup", () => clearTimeout(secretHoldTimer));
       triggerEl.addEventListener("mouseleave", () => clearTimeout(secretHoldTimer));
     }
 
+    // وظائف التحكم الحصرية في الإنذار
     function triggerAlarmImmediate() {
       const banner = document.getElementById("remoteAlarmBanner");
       if (banner) {
@@ -1455,10 +1504,19 @@
         if (window.lucide) { lucide.createIcons(); }
       }
       toggleModal('superAdminModal');
+      alert("🚨 تم تفعيل وبث شريط الإنذار السيادي 24 ساعة بنجاح!");
     }
 
     function dismissRemoteAlarm() {
-      document.getElementById("remoteAlarmBanner").classList.add("hidden");
+      const banner = document.getElementById("remoteAlarmBanner");
+      if (banner) {
+        banner.classList.add("hidden");
+      }
+      const adminModal = document.getElementById("superAdminModal");
+      if (adminModal && !adminModal.classList.contains("hidden")) {
+        toggleModal("superAdminModal");
+      }
+      alert("✓ تم إخفاء وإلغاء شريط الإنذار بنجاح.");
     }
 
     function freezeAppImmediate() {
@@ -1507,7 +1565,7 @@
       }
     }
 
-    // 🚀 استدعاء RAG المستشار المالي المنظم (FastAPI + Groq LLaMA 3.3-70B)
+    // استدعاء RAG المستشار المالي (FastAPI + Groq LLaMA 3.3-70B)
     async function askSovereignRAG() {
       const input = document.getElementById("advisorQueryInput");
       const fileInput = document.getElementById("reportFileInput");
@@ -1537,7 +1595,6 @@
         if (!res.ok) throw new Error("HTTP error " + res.status);
         const data = await res.json();
 
-        // توليد البطاقات والهيكل البصري للـ Structured Output
         let chartHtml = "";
         if (data.chart_series && data.chart_series.length > 0) {
           chartHtml = `
@@ -1593,7 +1650,6 @@
         `;
 
       } catch (err) {
-        // Fallback تجاوبي أنيق في حالة انقطاع السيرفر
         output.innerHTML = `
           <div class="space-y-2">
             <div class="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold">
@@ -1609,7 +1665,7 @@
       if (window.lucide) { lucide.createIcons(); }
     }
 
-    // 🚀 استدعاء فرز السير الذاتية الهيكلي (FastAPI + Groq CV Screening)
+    // استدعاء فرز السير الذاتية الهيكلي (FastAPI + Groq CV Screening)
     async function submitEnterpriseResumeScreening() {
       const text = document.getElementById("resumeTextInput").value.trim();
       const fileInput = document.getElementById("resumeFileInput");
